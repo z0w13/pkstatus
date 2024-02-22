@@ -1,37 +1,39 @@
 import { defineStore } from 'pinia';
 import { pk } from 'boot/pkapi';
-import { ISwitch } from 'pkapi.js';
+import { Member } from 'pkapi.js';
 
 const STORE_NAME = 'fronters';
 
-export interface ExtendedSwitch extends ISwitch {
+export interface Fronters {
   allowed: boolean;
   system: string;
   lastUpdated: number;
+  members: Array<Member>
 }
 
 interface State {
-  fronters: Record<string, ExtendedSwitch>;
+  fronters: Record<string, Fronters>;
 }
 
-async function getFronters(id: string): Promise<ExtendedSwitch> {
-  const base = {
-    allowed: true,
-    system: id,
-    lastUpdated: Date.now(),
-  };
-
+async function getFronters(id: string): Promise<Fronters> {
   try {
+    const fronters = await pk.getFronters({ system: id })
+    const members = [...fronters.members?.values() || []] as Array<Member>
+
     return {
-      ...base,
-      ...(await pk.getFronters({ system: id })),
-    };
+      system: id,
+      lastUpdated: Date.now(),
+      members,
+      allowed: true,
+    }
   } catch (e) {
     console.error(e);
     return {
-      ...base,
+      system: id,
+      lastUpdated: Date.now(),
+      members: [],
       allowed: false,
-    };
+    }
   }
 }
 
@@ -40,17 +42,17 @@ export const useFrontersStore = defineStore(STORE_NAME, {
     fronters: {},
   }),
   actions: {
-    getFronters(id: string): ExtendedSwitch | null {
+    getFronters(id: string): Fronters | null {
       return this.fronters[id] || null;
     },
-    async addFronters(id: string): Promise<ExtendedSwitch> {
+    async addFronters(id: string): Promise<Fronters> {
       if (!Object.prototype.hasOwnProperty.call(this.fronters, id)) {
         this.fronters[id] = await getFronters(id);
       }
 
       return this.fronters[id];
     },
-    async updateFronters(id: string): Promise<ExtendedSwitch> {
+    async updateFronters(id: string): Promise<Fronters> {
       if (!Object.prototype.hasOwnProperty.call(this.fronters, id)) {
         return this.addFronters(id); // TODO: Handle non existant system
       }

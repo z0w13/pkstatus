@@ -18,7 +18,7 @@
         :fronter="fronter"
         :key="fronter.id"
         :show-fronter-description="showFronterDescription"
-        v-for="fronter of fronters.members.values()"
+        v-for="fronter of fronters.members"
       />
     </template>
     <template v-else>
@@ -36,12 +36,12 @@
 
 <script setup lang="ts">
 import { ExtendedSystem } from 'stores/system-store';
-import { ExtendedSwitch } from 'stores/fronters-store';
+import { Fronters } from 'stores/fronters-store';
 import AlterView from 'src/components/StatusPage/AlterView.vue';
 
 export interface Props {
   system: ExtendedSystem;
-  fronters?: ExtendedSwitch;
+  fronters?: Fronters;
 
   showUpdateTime: boolean;
   showSystemDescription: boolean;
