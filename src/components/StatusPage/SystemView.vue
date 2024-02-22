@@ -1,6 +1,6 @@
 <template>
-  <div class="col-auto" style="width: 250px">
-    <q-card flat>
+  <div class="col-auto">
+    <q-card flat :style="{width: `${cardWidth}px`}">
       <q-img ratio="1" :src="system.avatar_url">
         <div class="absolute-bottom text-subtitle2 text-center">
           {{ system.name }}
@@ -18,6 +18,7 @@
         :fronter="fronter"
         :key="fronter.id"
         :show-fronter-description="showFronterDescription"
+        :card-width="cardWidth"
         v-for="fronter of fronters.members"
       />
     </template>
@@ -30,7 +31,11 @@
     </template>
   </template>
   <div v-else class="row justify-center">
-    <q-spinner color="primary" size="3em" />
+    <div class="col-auto">
+      <q-card flat class="justify-center row" :style="{width: `${cardWidth}px`, height: `${cardWidth}px`}">
+        <q-spinner class="self-center" color="primary" width="50%" height="50%" />
+      </q-card>
+    </div>
   </div>
 </template>
 
@@ -46,6 +51,7 @@ export interface Props {
   showUpdateTime: boolean;
   showSystemDescription: boolean;
   showFronterDescription: boolean;
+  cardWidth: number;
 }
 
 defineProps<Props>();

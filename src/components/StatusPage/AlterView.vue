@@ -1,6 +1,6 @@
 <template>
-  <div class="col col-auto" style="width: 250px">
-    <q-card flat>
+  <div class="col-auto">
+    <q-card flat :style="{width: `${cardWidth}px`}">
       <q-img ratio="1" :src="fronter.avatar_url">
         <div class="absolute-bottom text-subtitle2 text-center">
           {{ fronter.display_name }}
@@ -19,7 +19,9 @@ import { Member } from 'pkapi.js';
 
 export interface Props {
   fronter: Member;
+
   showFronterDescription: boolean;
+  cardWidth: number;
 }
 
 defineProps<Props>();

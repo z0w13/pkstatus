@@ -32,6 +32,21 @@
                   <q-toggle v-model="showFronterDescription" />
                 </q-item-section>
               </q-item>
+              <q-separator />
+              <q-item>
+                <q-item-section>
+                  <q-item-label>Panel Width</q-item-label>
+                </q-item-section>
+                <q-item-section>
+                  <q-slider
+                    v-model="cardWidth"
+                    :min="100"
+                    :max="500"
+                    label
+                    :label-value="cardWidth + 'px'"
+                  />
+                </q-item-section>
+              </q-item>
             </q-expansion-item>
           </q-list>
         </div>
@@ -57,6 +72,7 @@
             :show-update-time="showUpdateTime"
             :show-system-description="showSystemDescription"
             :show-fronter-description="showFronterDescription"
+            :card-width="cardWidth"
           />
         </div>
       </template>
@@ -77,6 +93,7 @@ const frontersStore = useFrontersStore();
 const showSystemDescription = ref(false);
 const showFronterDescription = ref(false);
 const showUpdateTime = ref(false);
+const cardWidth = ref(250);
 
 async function updateSystemInfo() {
   for (const system of Object.values(systemStore.systems)) {
