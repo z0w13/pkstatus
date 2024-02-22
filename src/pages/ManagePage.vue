@@ -19,18 +19,12 @@
             :columns="columns"
             :rows="systems"
             row-key="name"
+            flat
           >
             <template v-slot:body="props">
               <q-tr :props="props">
                 <q-td>
                   <img width="24" :src="props.row.avatar_url" />
-                </q-td>
-                <q-td>
-                  <q-icon
-                    name="circle"
-                    v-if="!!props.row.color"
-                    :style="{ color: `#${props.row.color}` }"
-                  />
                 </q-td>
                 <q-td>{{ props.row.id }}</q-td>
                 <q-td>
@@ -61,7 +55,6 @@ import { useSystemStore } from 'src/stores/system-store';
 
 const columns = [
   { name: 'avatar_url', field: 'avatar_url', label: 'Icon' },
-  { name: 'color', field: 'color', label: '' },
   { name: 'id', field: 'id', label: 'ID' },
   { name: 'name', field: 'name', label: 'Name' },
   { name: 'note', field: 'note', label: 'Note' },
