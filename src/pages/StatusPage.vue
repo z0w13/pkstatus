@@ -1,17 +1,39 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="container col-10">
-      <div class="row justify-center q-pa-md">
-        <div class="col">
-          <q-toggle v-model="showUpdateTime" label="Show Update Time" />
-          <q-toggle
-            v-model="showSystemDescription"
-            label="Show System Description"
-          />
-          <q-toggle
-            v-model="showFronterDescription"
-            label="Show Fronter Description"
-          />
+      <div class="row justify-left q-pa-md">
+        <div class="col-auto">
+          <q-list bordered class="rounded-borders">
+            <q-expansion-item
+              icon="settings"
+              label="Settings"
+            >
+              <q-item>
+                <q-item-section>
+                  <q-item-label>Show Update Time</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-toggle v-model="showUpdateTime" />
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>Show System Descriptionn</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-toggle v-model="showSystemDescription" />
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>Show Fronter Descriptionn</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-toggle v-model="showFronterDescription" />
+                </q-item-section>
+              </q-item>
+            </q-expansion-item>
+          </q-list>
         </div>
       </div>
       <template
@@ -32,9 +54,9 @@
           <system-view
             :system="system"
             :fronters="frontersStore.fronters[id]"
-            :showUpdateTime="showUpdateTime"
-            :showSystemDescription="showSystemDescription"
-            :showFronterDescription="showFronterDescription"
+            :show-update-time="showUpdateTime"
+            :show-system-description="showSystemDescription"
+            :show-fronter-description="showFronterDescription"
           />
         </div>
       </template>
