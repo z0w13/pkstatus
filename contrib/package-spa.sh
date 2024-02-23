@@ -12,7 +12,11 @@ else
 fi
 
 pnpm exec quasar build -m spa
-cd "dist"
 distName="${PKG_NAME}-${PKG_VERSION}"
-mv "spa" "${distName}"
-tar -zcvf "${distName}.tar.gz" "${distName}"
+
+# Create zip files
+cd "dist"
+cp -r "spa" "${distName}"
+tar -zcf "${distName}.tar.gz" "${distName}"
+tar -zcf "${distName}-root.tar.gz" -C "${distName}" "."
+rm -rf "${distName}"
