@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { pk } from 'boot/pkapi';
-import { Member } from 'pkapi.js';
+import { APIError, Member } from 'pkapi.js';
 
 const STORE_NAME = 'fronters';
 
@@ -25,15 +25,18 @@ async function getFronters(id: string): Promise<Fronters> {
       lastUpdated: Date.now(),
       members,
       allowed: true,
-    };
+    }
   } catch (e) {
-    console.error(e);
-    return {
-      system: id,
-      lastUpdated: Date.now(),
-      members: [],
-      allowed: false,
-    };
+    if (e instanceof APIError && e.status == '403') {
+      return {
+        system: id,
+        lastUpdated: Date.now(),
+        members: [],
+        allowed: false,
+      }
+    }
+
+    throw e
   }
 }
 
