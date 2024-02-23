@@ -22,6 +22,8 @@ export interface Settings {
       iconSize: number;
     };
   };
+  systemUpdateInterval: number;
+  fronterUpdateInterval: number;
   dark: boolean;
 }
 
@@ -46,6 +48,8 @@ export const useSettingsStore = defineStore(STORE_NAME, {
         iconSize: 24,
       },
     },
+    systemUpdateInterval: 3600,
+    fronterUpdateInterval: 300,
     dark: false,
   }),
   actions: {},

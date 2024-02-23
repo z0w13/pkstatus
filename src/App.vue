@@ -32,12 +32,16 @@ async function updateSystemInfo() {
     }
   }
 
-  for (const system of systemStore.getOutdated(3600)) {
+  for (const system of systemStore.getOutdated(
+    settingsStore.systemUpdateInterval,
+  )) {
     systemStore.updateSystem(system.id);
     return; // Only update one at a time
   }
 
-  for (const fronters of frontersStore.getOutdated(300)) {
+  for (const fronters of frontersStore.getOutdated(
+    settingsStore.fronterUpdateInterval,
+  )) {
     frontersStore.updateFronters(fronters.system);
     return; // Only update one at a time
   }

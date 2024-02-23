@@ -31,6 +31,12 @@
           icon="manage_accounts"
           link="/manage"
         />
+        <essential-link
+          title="Settings"
+          caption="Global settings"
+          icon="settings"
+          link="/settings"
+        />
         <q-item>
           <q-toggle v-model="dark" label="Toggle Dark Mode" />
         </q-item>
