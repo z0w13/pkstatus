@@ -32,11 +32,7 @@
           link="/manage"
         />
         <q-item>
-          <q-toggle
-            @click="toggleDarkMode"
-            v-model="darkMode"
-            label="Toggle Dark Mode"
-          />
+          <q-toggle v-model="dark" label="Toggle Dark Mode" />
         </q-item>
       </q-list>
     </q-drawer>
@@ -50,23 +46,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
-import { useQuasar } from 'quasar';
 import { version } from '../../package.json';
+import { useSettingsStore } from 'src/stores/settings-store';
+import { storeToRefs } from 'pinia';
 
-const $q = useQuasar();
+const settings = useSettingsStore();
+
 const leftDrawerOpen = ref(false);
-const darkMode = ref(!!$q.localStorage.getItem('darkMode') || false);
+const { dark } = storeToRefs(settings);
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
-}
-
-function toggleDarkMode() {
-  $q.dark.set(darkMode.value);
-  try {
-    $q.localStorage.set('darkMode', darkMode.value);
-  } catch (e) {
-    console.error(e);
-  }
 }
 </script>
