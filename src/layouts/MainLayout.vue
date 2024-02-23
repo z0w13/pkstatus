@@ -23,7 +23,7 @@
           title="Status"
           caption="Show system statuses"
           icon="people"
-          link="/"
+          link="/status"
         />
         <essential-link
           title="Manage"
