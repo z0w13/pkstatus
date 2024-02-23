@@ -25,7 +25,7 @@ async function getFronters(id: string): Promise<Fronters> {
       lastUpdated: Date.now(),
       members,
       allowed: true,
-    }
+    };
   } catch (e) {
     if (e instanceof APIError && e.status == '403') {
       return {
@@ -33,10 +33,10 @@ async function getFronters(id: string): Promise<Fronters> {
         lastUpdated: Date.now(),
         members: [],
         allowed: false,
-      }
+      };
     }
 
-    throw e
+    throw e;
   }
 }
 

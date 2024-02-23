@@ -42,8 +42,7 @@ export const useSettingsStore = defineStore(STORE_NAME, {
     },
     dark: false,
   }),
-  actions: {
-  },
+  actions: {},
 
   persist: true,
 });
