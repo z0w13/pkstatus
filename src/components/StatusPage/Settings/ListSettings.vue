@@ -9,6 +9,14 @@
           <q-toggle v-model="settings.showUpdateTime" />
         </q-item-section>
       </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label>Show Last Switch</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <q-toggle v-model="settings.showLastSwitch" />
+        </q-item-section>
+      </q-item>
       <q-separator />
       <q-item>
         <q-item-section>

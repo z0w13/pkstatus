@@ -1,28 +1,25 @@
 <template>
-  <component :is="props.tag">
-    Last updated {{ secondsAgo }} seconds ago
-  </component>
+  {{ dayjs(time).fromNow() }}
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted, onMounted, withDefaults } from 'vue';
+import { onUnmounted, onMounted, getCurrentInstance } from 'vue';
+
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 export interface Props {
-  tag?: string;
   time: number;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  tag: 'i',
-});
-
-const secondsAgo = ref(0);
+defineProps<Props>();
 
 let updateInterval: ReturnType<typeof setInterval> | null = null;
 onMounted(() => {
   updateInterval = setInterval(() => {
-    secondsAgo.value = Math.floor((Date.now() - props.time) / 1000);
-  }, 500);
+    getCurrentInstance()?.proxy?.$forceUpdate();
+  }, 1000);
 });
 
 onUnmounted(() => {

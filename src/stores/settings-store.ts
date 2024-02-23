@@ -8,14 +8,17 @@ export interface Settings {
       showSystemDescription: boolean;
       showFronterDescription: boolean;
       showUpdateTime: boolean;
+      showLastSwitch: boolean;
       tileSize: number;
     };
     table: {
       showUpdateTime: boolean;
+      showLastSwitch: boolean;
       iconSize: number;
     };
     list: {
       showUpdateTime: boolean;
+      showLastSwitch: boolean;
       iconSize: number;
     };
   };
@@ -29,14 +32,17 @@ export const useSettingsStore = defineStore(STORE_NAME, {
         showSystemDescription: false,
         showFronterDescription: false,
         showUpdateTime: false,
+        showLastSwitch: false,
         tileSize: 250,
       },
       table: {
         showUpdateTime: false,
+        showLastSwitch: false,
         iconSize: 24,
       },
       list: {
         showUpdateTime: false,
+        showLastSwitch: false,
         iconSize: 24,
       },
     },

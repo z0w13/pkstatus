@@ -66,8 +66,15 @@
                 <q-item-section>No Access</q-item-section>
               </q-item>
               <q-item v-if="settings.showUpdateTime" :inset-level="1">
-                <q-item-section>
+                <q-item-section class="text-italic text-no-wrap">
+                  Last updated
                   <relative-time-display :time="fronters[id].lastUpdated" />
+                </q-item-section>
+              </q-item>
+              <q-item v-if="settings.showLastSwitch" :inset-level="1">
+                <q-item-section class="text-italic text-no-wrap">
+                  Last switch
+                  <relative-time-display :time="fronters[id].lastSwitch" />
                 </q-item-section>
               </q-item>
             </template>

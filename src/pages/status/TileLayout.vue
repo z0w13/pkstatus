@@ -8,8 +8,18 @@
         class="row justify-left"
         v-if="settings.showUpdateTime && fronters[id]"
       >
-        <div class="col-auto">
+        <div class="col-auto text-italic">
+          Last updated
           <relative-time-display :time="fronters[id].lastUpdated" />
+        </div>
+      </div>
+      <div
+        class="row justify-left"
+        v-if="settings.showLastSwitch && fronters[id]"
+      >
+        <div class="col-auto text-italic">
+          Last switch
+          <relative-time-display :time="fronters[id].lastSwitch" />
         </div>
       </div>
       <div class="row justify-left q-pa-md q-col-gutter-md">

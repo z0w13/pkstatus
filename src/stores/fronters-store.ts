@@ -8,6 +8,7 @@ export interface Fronters {
   allowed: boolean;
   system: string;
   lastUpdated: number;
+  lastSwitch: number;
   members: Array<Member>;
 }
 
@@ -23,6 +24,10 @@ async function getFronters(id: string): Promise<Fronters> {
     return {
       system: id,
       lastUpdated: Date.now(),
+      lastSwitch:
+        fronters.timestamp instanceof Date
+          ? fronters.timestamp.getTime()
+          : new Date(fronters.timestamp).getTime(),
       members,
       allowed: true,
     };
@@ -31,6 +36,7 @@ async function getFronters(id: string): Promise<Fronters> {
       return {
         system: id,
         lastUpdated: Date.now(),
+        lastSwitch: 0,
         members: [],
         allowed: false,
       };
