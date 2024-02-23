@@ -48,7 +48,6 @@ export interface Props {
   system: ExtendedSystem;
   fronters?: Fronters;
 
-  showUpdateTime: boolean;
   showSystemDescription: boolean;
   showFronterDescription: boolean;
   cardWidth: number;

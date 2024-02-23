@@ -16,7 +16,6 @@
         <system-view
           :system="system"
           :fronters="fronters[id]"
-          :show-update-time="settings.showUpdateTime"
           :show-system-description="settings.showSystemDescription"
           :show-fronter-description="settings.showFronterDescription"
           :card-width="settings.tileSize"
