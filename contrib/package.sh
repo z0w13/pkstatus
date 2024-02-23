@@ -70,13 +70,41 @@ function pushGhPages() {
   popd
 }
 
-rm -rf "dist/artifact"
-mkdir -p "dist/artifact"
+createRelease() {
+  releaseFlags=""
+  if [[ "${NODE_ENV:=}" != "production" ]]; then
+    releaseFlags="${releaseFlags} --prerelease"
+  fi
 
-packageSpa
-packageElectron
-pushGhPages
+  gh release create "$PKG_VERSION" "./dist/artifact/*"
+}
 
-gh release create "$PKG_VERSION" -p ./dist/artifact/*
+main() {
+  rm -rf "dist/artifact"
+  mkdir -p "dist/artifact"
 
-echo "$PKG_JSON" > package.json
+  case "${1:-}" in
+    "spa")
+      packageSpa
+      ;;
+    "electron")
+      packageElectron
+      ;;
+    "pages")
+      pushGhPages
+      ;;
+    "release")
+      createRelease
+      ;;
+    *)
+      packageSpa
+      packageElectron
+      pushGhPages
+      createRelease
+      ;;
+  esac
+
+  echo "$PKG_JSON" > package.json
+}
+
+main "$@"
