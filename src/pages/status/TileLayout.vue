@@ -30,7 +30,7 @@ import { Fronters } from 'src/stores/fronters-store';
 import { ExtendedSystem } from 'src/stores/system-store';
 import { useSettingsStore } from 'src/stores/settings-store';
 
-import SystemView from 'src/components/StatusPage/SystemView.vue';
+import SystemView from 'src/components/StatusPage/Tile/SystemView.vue';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 
 const settings = useSettingsStore().status.tile;

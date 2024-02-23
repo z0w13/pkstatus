@@ -47,7 +47,15 @@
                   </td>
                 </template>
                 <!-- No Access -->
-                <td v-else>No Access To Fronters</td>
+                <td v-else>
+                  <q-avatar
+                    color="red"
+                    icon="close"
+                    square
+                    :size="settings.iconSize + 'px'"
+                  />
+                  No Access
+                </td>
               </template>
               <!-- Loading -->
               <td v-else>

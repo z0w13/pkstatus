@@ -55,7 +55,15 @@
               </template>
               <!-- No Access -->
               <q-item v-else :inset-level="1">
-                <q-item-section>No Access To Fronters</q-item-section>
+                <q-item-section avatar>
+                  <q-avatar
+                    color="red"
+                    icon="close"
+                    square
+                    :size="settings.iconSize + 'px'"
+                  />
+                </q-item-section>
+                <q-item-section>No Access</q-item-section>
               </q-item>
               <q-item v-if="settings.showUpdateTime" :inset-level="1">
                 <q-item-section>
