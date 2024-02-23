@@ -1,6 +1,6 @@
 <template>
   <div class="col-auto">
-    <q-card flat :style="{width: `${cardWidth}px`}">
+    <q-card flat :style="{ width: `${cardWidth}px` }">
       <q-img ratio="1" :src="system.avatar_url">
         <div class="absolute-bottom text-subtitle2 text-center">
           {{ system.name }}
@@ -32,8 +32,17 @@
   </template>
   <div v-else class="row justify-center">
     <div class="col-auto">
-      <q-card flat class="justify-center row" :style="{width: `${cardWidth}px`, height: `${cardWidth}px`}">
-        <q-spinner class="self-center" color="primary" width="50%" height="50%" />
+      <q-card
+        flat
+        class="justify-center row"
+        :style="{ width: `${cardWidth}px`, height: `${cardWidth}px` }"
+      >
+        <q-spinner
+          class="self-center"
+          color="primary"
+          width="50%"
+          height="50%"
+        />
       </q-card>
     </div>
   </div>

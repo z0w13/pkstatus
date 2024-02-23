@@ -8,7 +8,7 @@ export interface Fronters {
   allowed: boolean;
   system: string;
   lastUpdated: number;
-  members: Array<Member>
+  members: Array<Member>;
 }
 
 interface State {
@@ -17,15 +17,15 @@ interface State {
 
 async function getFronters(id: string): Promise<Fronters> {
   try {
-    const fronters = await pk.getFronters({ system: id })
-    const members = [...fronters.members?.values() || []] as Array<Member>
+    const fronters = await pk.getFronters({ system: id });
+    const members = [...(fronters.members?.values() || [])] as Array<Member>;
 
     return {
       system: id,
       lastUpdated: Date.now(),
       members,
       allowed: true,
-    }
+    };
   } catch (e) {
     console.error(e);
     return {
@@ -33,7 +33,7 @@ async function getFronters(id: string): Promise<Fronters> {
       lastUpdated: Date.now(),
       members: [],
       allowed: false,
-    }
+    };
   }
 }
 

@@ -5,21 +5,21 @@ const STORE_NAME = 'settings';
 export interface Settings {
   status: {
     tile: {
-      showSystemDescription: boolean,
-      showFronterDescription: boolean,
-      showUpdateTime: boolean,
-      tileSize: number,
-    },
+      showSystemDescription: boolean;
+      showFronterDescription: boolean;
+      showUpdateTime: boolean;
+      tileSize: number;
+    };
     table: {
-      showUpdateTime: boolean,
-      iconSize: number,
-    },
+      showUpdateTime: boolean;
+      iconSize: number;
+    };
     list: {
-      showUpdateTime: boolean,
-      iconSize: number,
-    },
-  },
-  dark: boolean,
+      showUpdateTime: boolean;
+      iconSize: number;
+    };
+  };
+  dark: boolean;
 }
 
 export const useSettingsStore = defineStore(STORE_NAME, {
