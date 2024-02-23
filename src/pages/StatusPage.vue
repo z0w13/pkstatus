@@ -1,99 +1,59 @@
 <template>
-  <q-page class="row justify-evenly">
-    <div class="container col-10">
-      <div class="row justify-left q-pa-md">
-        <div class="col-auto">
-          <q-list bordered class="rounded-borders">
-            <q-expansion-item
-              icon="settings"
-              label="Settings"
-            >
-              <q-item>
-                <q-item-section>
-                  <q-item-label>Show Update Time</q-item-label>
-                </q-item-section>
-                <q-item-section side>
-                  <q-toggle v-model="showUpdateTime" />
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label>Show System Descriptionn</q-item-label>
-                </q-item-section>
-                <q-item-section side>
-                  <q-toggle v-model="showSystemDescription" />
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label>Show Fronter Descriptionn</q-item-label>
-                </q-item-section>
-                <q-item-section side>
-                  <q-toggle v-model="showFronterDescription" />
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item>
-                <q-item-section>
-                  <q-item-label>Panel Width</q-item-label>
-                </q-item-section>
-                <q-item-section>
-                  <q-slider
-                    v-model="cardWidth"
-                    :min="100"
-                    :max="500"
-                    label
-                    :label-value="cardWidth + 'px'"
-                  />
-                </q-item-section>
-              </q-item>
-            </q-expansion-item>
-          </q-list>
-        </div>
+  <q-page class="justify-evenly">
+    <div class="row">
+      <div class="col col-auto q-pa-md"></div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <router-view
+          :systems="systemStore.systems"
+          :fronters="frontersStore.fronters"
+        />
       </div>
-      <template
-        :key="id"
-        v-for="[id, system] in Object.entries(systemStore.systems)"
-      >
-        <div
-          class="row justify-left"
-          v-if="showUpdateTime && frontersStore.fronters[id]"
-        >
-          <div class="col-auto">
-            <relative-time-display
-              :time="frontersStore.fronters[id].lastUpdated"
-            />
-          </div>
-        </div>
-        <div class="row justify-left q-pa-md q-col-gutter-md">
-          <system-view
-            :system="system"
-            :fronters="frontersStore.fronters[id]"
-            :show-update-time="showUpdateTime"
-            :show-system-description="showSystemDescription"
-            :show-fronter-description="showFronterDescription"
-            :card-width="cardWidth"
-          />
-        </div>
-      </template>
     </div>
   </q-page>
+  <q-footer elevated class="bg-primary text-white">
+    <q-toolbar>
+      <q-tabs v-model="activeTab" align="left" class="bg-primary">
+        <q-route-tab
+          to="/status/table"
+          name="table"
+          color="primary"
+          icon="table_view"
+        />
+        <q-route-tab
+          to="/status/list"
+          name="list"
+          color="primary"
+          icon="view_list"
+        />
+        <q-route-tab
+          to="/status/tile"
+          name="tile"
+          color="primary"
+          icon="grid_view"
+        />
+      </q-tabs>
+      <q-space />
+      <table-settings v-if="activeTab == 'table'" />
+      <list-settings v-if="activeTab == 'list'" />
+      <tile-settings v-if="activeTab == 'tile'" />
+    </q-toolbar>
+  </q-footer>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useSystemStore } from 'src/stores/system-store';
 import { useFrontersStore } from 'src/stores/fronters-store';
-import SystemView from 'src/components/StatusPage/SystemView.vue';
-import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
+import TableSettings from 'src/components/StatusPage/Settings/TableSettings.vue';
+import ListSettings from 'src/components/StatusPage/Settings/ListSettings.vue';
+import TileSettings from 'src/components/StatusPage/Settings/TileSettings.vue';
 
 const systemStore = useSystemStore();
 const frontersStore = useFrontersStore();
 
-const showSystemDescription = ref(false);
-const showFronterDescription = ref(false);
-const showUpdateTime = ref(false);
-const cardWidth = ref(250);
+const activeTab = ref('');
 
 async function updateSystemInfo() {
   for (const system of Object.values(systemStore.systems)) {
