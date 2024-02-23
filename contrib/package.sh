@@ -76,7 +76,7 @@ createRelease() {
     releaseFlags="${releaseFlags} --prerelease"
   fi
 
-  gh release create "$PKG_VERSION" "./dist/artifact/*"
+  gh release create "$PKG_VERSION" ./dist/artifact/*
 }
 
 main() {
