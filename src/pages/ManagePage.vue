@@ -67,8 +67,9 @@ const systemStore = useSystemStore();
 const systems = computed(() => Object.values(systemStore.systems));
 
 async function onSubmit() {
-  if (newId.value.length > 0) {
-    systemStore.addSystem(newId.value);
+  const trimmedId = newId.value.trim();
+  if (trimmedId.length > 0) {
+    systemStore.addSystem(trimmedId);
     newId.value = '';
   }
 }
