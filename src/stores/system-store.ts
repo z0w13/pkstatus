@@ -33,17 +33,6 @@ export const useSystemStore = defineStore(STORE_NAME, {
       };
       return this.systems[id];
     },
-    async updateSystem(id: string): Promise<ExtendedSystem> {
-      if (!Object.prototype.hasOwnProperty.call(this.systems, id)) {
-        return this.addSystem(id); // TODO: Handle non existent system differently?
-      }
-
-      this.systems[id] = {
-        ...this.systems[id],
-        ...(await pk.getSystem({ system: id })),
-      };
-      return this.systems[id];
-    },
     deleteSystem(id: string): void {
       if (!Object.prototype.hasOwnProperty.call(this.systems, id)) {
         return; // TODO: Handle non-existent systems
