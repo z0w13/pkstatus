@@ -20,8 +20,8 @@ export const useSystemStore = defineStore(STORE_NAME, {
   actions: {
     getOutdated(timeoutSec: number): Array<ExtendedSystem> {
       return Object.values(this.systems).filter((system) => {
-        Date.now() - system.lastUpdated > timeoutSec * 1000
-      })
+        Date.now() - system.lastUpdated > timeoutSec * 1000;
+      });
     },
     getSystem(id: string): ExtendedSystem | null {
       return this.systems[id] || null;
@@ -31,7 +31,7 @@ export const useSystemStore = defineStore(STORE_NAME, {
         return this.systems[id]; // TODO: Handle duplicate systems
       }
 
-      const system = await pk.getSystem({ system: id })
+      const system = await pk.getSystem({ system: id });
       this.systems[system.id] = {
         ...system,
 
@@ -48,7 +48,7 @@ export const useSystemStore = defineStore(STORE_NAME, {
 
       this.systems[id] = {
         ...this.systems[id],
-        ...await pk.getSystem({ system: id }),
+        ...(await pk.getSystem({ system: id })),
         lastUpdated: Date.now(),
       };
 
