@@ -17,7 +17,7 @@
           <q-table
             title="Systems"
             :columns="columns"
-            :rows="systems"
+            :rows="Object.values(systemStore.systems)"
             row-key="name"
             flat
           >
@@ -37,7 +37,7 @@
                   <q-btn
                     icon="delete"
                     color="negative"
-                    @click="onDelete(props.row.id)"
+                    @click="systemStore.deleteSystem(props.row.id)"
                   />
                 </q-td>
               </q-tr>
@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useSystemStore } from 'src/stores/system-store';
 
 const columns = [
@@ -64,17 +64,11 @@ const columns = [
 const newId = ref('');
 const systemStore = useSystemStore();
 
-const systems = computed(() => Object.values(systemStore.systems));
-
 async function onSubmit() {
   const trimmedId = newId.value.trim();
   if (trimmedId.length > 0) {
     systemStore.addSystem(trimmedId);
     newId.value = '';
   }
-}
-
-async function onDelete(id: string) {
-  systemStore.deleteSystem(id);
 }
 </script>
