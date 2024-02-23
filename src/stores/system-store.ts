@@ -26,8 +26,11 @@ export const useSystemStore = defineStore(STORE_NAME, {
         return this.systems[id]; // TODO: Handle duplicate systems
       }
 
-      this.systems[id] = {
-        ...(await pk.getSystem({ system: id })),
+      const system = await pk.getSystem({ system: id })
+
+      this.systems[system.id] = {
+        ...system,
+
         note: '',
         lastUpdated: Date.now(),
       };
