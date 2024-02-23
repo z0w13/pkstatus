@@ -1,6 +1,6 @@
 {
   "name": "pkstatus",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Display PluralKit systems and their current status",
   "productName": "PKStatus",
   "author": "Zowie <git@zowie.cx>",
