@@ -4,7 +4,7 @@
       <div class="row q-pa-md">
         <div class="col">
           <q-form filled @submit="onSubmit" class="q-gutter-md">
-            <q-input filled v-model="newId" label="systemRef" />
+            <q-input filled v-model="newId" label="System ID" />
 
             <div>
               <q-btn label="Add" type="submit" color="primary" />
