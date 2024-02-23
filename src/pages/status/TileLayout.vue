@@ -28,8 +28,10 @@
 <script setup lang="ts">
 import { Fronters } from 'src/stores/fronters-store';
 import { ExtendedSystem } from 'src/stores/system-store';
-import SystemView from 'src/components/StatusPage/SystemView.vue';
 import { useSettingsStore } from 'src/stores/settings-store';
+
+import SystemView from 'src/components/StatusPage/SystemView.vue';
+import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 
 const settings = useSettingsStore().status.tile;
 
