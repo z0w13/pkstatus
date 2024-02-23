@@ -56,7 +56,7 @@ export default configure((/* ctx */) => {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      // publicPath: '/',
+      publicPath: process.env.PKSTATUS_BUILD_MODE == 'gh-pages' ? '/pkstatus' : '/',
       // analyze: true,
       // env: {},
       // rawDefine: {}

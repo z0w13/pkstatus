@@ -59,8 +59,24 @@ function packageElectron() {
   popd
 }
 
+function pushGhPages() {
+  PKSTATUS_BUILD_MODE="gh-pages" pnpm exec quasar build -m spa
+  pushd dist/spa
+  git init -b gh-pages
+  git remote add origin git@github.com:z0w13/pkstatus.git
+  git add .
+  git commit -m "Initial commit"
+  git push origin gh-pages -f
+  popd
+}
+
+rm -rf "dist/artifact"
 mkdir -p "dist/artifact"
+
 packageSpa
 packageElectron
+pushGhPages
+
+gh release create "$PKG_VERSION" -p ./dist/artifact/*
 
 echo "$PKG_JSON" > package.json
