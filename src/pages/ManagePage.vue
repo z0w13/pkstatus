@@ -24,7 +24,7 @@
             <template v-slot:body="props">
               <q-tr :props="props">
                 <q-td>
-                  <img width="24" :src="props.row.avatar_url" />
+                  <img width="24" :src="props.row.avatarUrl" />
                 </q-td>
                 <q-td>{{ props.row.id }}</q-td>
                 <q-td>
@@ -54,7 +54,7 @@ import { ref } from 'vue';
 import { useSystemStore } from 'src/stores/system-store';
 
 const columns = [
-  { name: 'avatar_url', field: 'avatar_url', label: 'Icon' },
+  { name: 'avatarUrl', field: 'avatarUrl', label: 'Icon' },
   { name: 'id', field: 'id', label: 'ID' },
   { name: 'name', field: 'name', label: 'Name' },
   { name: 'note', field: 'note', label: 'Note' },

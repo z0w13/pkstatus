@@ -8,10 +8,10 @@
               <q-item-section avatar>
                 <q-avatar
                   :size="settings.iconSize + 'px'"
-                  v-if="system.avatar_url"
+                  v-if="system.avatarUrl"
                   square
                 >
-                  <img :src="system.avatar_url" />
+                  <img :src="system.avatarUrl" />
                 </q-avatar>
                 <q-avatar
                   :size="settings.iconSize + 'px'"
@@ -94,14 +94,14 @@
 <script setup lang="ts">
 import { Fronters } from 'src/stores/fronters-store';
 import { useSettingsStore } from 'src/stores/settings-store';
-import { ExtendedSystem } from 'src/stores/system-store';
+import { System } from 'src/models/System';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 
 const settings = useSettingsStore().status.list;
 
 export interface Props {
   fronters: Record<string, Fronters>;
-  systems: Record<string, ExtendedSystem>;
+  systems: Record<string, System>;
 }
 
 defineProps<Props>();

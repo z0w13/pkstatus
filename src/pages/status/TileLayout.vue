@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { Fronters } from 'src/stores/fronters-store';
-import { ExtendedSystem } from 'src/stores/system-store';
+import { System } from 'src/models/System';
 import { useSettingsStore } from 'src/stores/settings-store';
 
 import SystemView from 'src/components/StatusPage/Tile/SystemView.vue';
@@ -47,7 +47,7 @@ const settings = useSettingsStore().status.tile;
 
 export interface Props {
   fronters: Record<string, Fronters>;
-  systems: Record<string, ExtendedSystem>;
+  systems: Record<string, System>;
 }
 
 defineProps<Props>();

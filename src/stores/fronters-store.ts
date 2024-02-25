@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import { pk } from 'boot/pkapi';
 import { APIError, Member } from 'pkapi.js';
 
+import dayjs from 'dayjs';
+
 const STORE_NAME = 'fronters';
 
 export interface Fronters {
@@ -23,11 +25,8 @@ async function getFronters(id: string): Promise<Fronters> {
 
     return {
       system: id,
-      lastUpdated: Date.now(),
-      lastSwitch:
-        fronters.timestamp instanceof Date
-          ? fronters.timestamp.getTime()
-          : new Date(fronters.timestamp).getTime(),
+      lastUpdated: dayjs().valueOf(),
+      lastSwitch: dayjs(fronters.timestamp).valueOf(),
       members,
       allowed: true,
     };
@@ -35,7 +34,7 @@ async function getFronters(id: string): Promise<Fronters> {
     if (e instanceof APIError && e.status == '403') {
       return {
         system: id,
-        lastUpdated: Date.now(),
+        lastUpdated: dayjs().valueOf(),
         lastSwitch: 0,
         members: [],
         allowed: false,

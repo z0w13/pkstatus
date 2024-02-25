@@ -13,11 +13,11 @@
             <tr :key="id" v-for="[id, system] in Object.entries(systems)">
               <td>
                 <q-avatar
-                  v-if="system.avatar_url"
+                  v-if="system.avatarUrl"
                   square
                   :size="settings.iconSize + 'px'"
                 >
-                  <img :src="system.avatar_url" />
+                  <img :src="system.avatarUrl" />
                 </q-avatar>
                 <q-avatar
                   v-else
@@ -86,7 +86,7 @@
 <script setup lang="ts">
 import { Fronters } from 'src/stores/fronters-store';
 import { useSettingsStore } from 'src/stores/settings-store';
-import { ExtendedSystem } from 'src/stores/system-store';
+import { System } from 'src/models/System';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 import { computed } from 'vue';
 
@@ -94,7 +94,7 @@ const settings = useSettingsStore().status.table;
 
 export interface Props {
   fronters: Record<string, Fronters>;
-  systems: Record<string, ExtendedSystem>;
+  systems: Record<string, System>;
 }
 
 const props = defineProps<Props>();

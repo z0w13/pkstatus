@@ -1,11 +1,14 @@
 <template>
   <div class="col-auto">
     <q-card flat :style="{ width: `${cardWidth}px` }">
-      <q-img ratio="1" :src="system.avatar_url">
+      <q-img ratio="1" :src="system.avatarUrl" v-if="system.avatarUrl">
         <div class="absolute-bottom text-subtitle2 text-center">
           {{ system.name }}
         </div>
       </q-img>
+      <div v-else class="absolute-bottom text-subtitle2 text-center">
+        {{ system.name }}
+      </div>
 
       <q-card-section v-if="showSystemDescription">
         <span v-html="system?.description?.replaceAll('\n', '<br />')" />
@@ -57,12 +60,12 @@
 </template>
 
 <script setup lang="ts">
-import { ExtendedSystem } from 'stores/system-store';
 import { Fronters } from 'stores/fronters-store';
+import { System } from 'src/models/System';
 import AlterView from 'src/components/StatusPage/Tile/AlterView.vue';
 
 export interface Props {
-  system: ExtendedSystem;
+  system: System;
   fronters?: Fronters;
 
   showSystemDescription: boolean;

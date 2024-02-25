@@ -1,58 +1,26 @@
-import { defineStore } from 'pinia';
+import { StateTree, defineStore } from 'pinia';
+import { Settings, defaultSettings } from 'src/models/Settings';
+import { LatestVersion, migrate } from 'src/models/migrations/settings';
 
 const STORE_NAME = 'settings';
 
-export interface Settings {
-  status: {
-    tile: {
-      showSystemDescription: boolean;
-      showFronterDescription: boolean;
-      showUpdateTime: boolean;
-      showLastSwitch: boolean;
-      tileSize: number;
-    };
-    table: {
-      showUpdateTime: boolean;
-      showLastSwitch: boolean;
-      iconSize: number;
-    };
-    list: {
-      showUpdateTime: boolean;
-      showLastSwitch: boolean;
-      iconSize: number;
-    };
-  };
-  systemUpdateInterval: number;
-  fronterUpdateInterval: number;
-  dark: boolean;
-}
-
 export const useSettingsStore = defineStore(STORE_NAME, {
-  state: (): Settings => ({
-    status: {
-      tile: {
-        showSystemDescription: false,
-        showFronterDescription: false,
-        showUpdateTime: false,
-        showLastSwitch: false,
-        tileSize: 250,
-      },
-      table: {
-        showUpdateTime: false,
-        showLastSwitch: false,
-        iconSize: 24,
-      },
-      list: {
-        showUpdateTime: false,
-        showLastSwitch: false,
-        iconSize: 24,
-      },
-    },
-    systemUpdateInterval: 3600,
-    fronterUpdateInterval: 300,
-    dark: false,
-  }),
+  state: (): Settings => defaultSettings(),
   actions: {},
 
-  persist: true,
+  persist: {
+    serializer: {
+      serialize: function (value: StateTree): string {
+        return JSON.stringify({
+          version: LatestVersion,
+          settings: value,
+        });
+      },
+
+      deserialize: function (value: string): Settings {
+        return Settings.parse(migrate(JSON.parse(value)).settings);
+      },
+    },
+    afterRestore: (ctx) => ctx.store.$persist(),
+  },
 });

@@ -1,16 +1,13 @@
-import { defineStore } from 'pinia';
+import { StateTree, defineStore } from 'pinia';
 import { pk } from 'boot/pkapi';
-import { ISystem } from 'pkapi.js';
+import { LatestVersion, migrate } from 'src/models/migrations/system/index';
+import { System } from 'src/models/System';
+import dayjs from 'dayjs';
 
 const STORE_NAME = 'systems';
 
-export interface ExtendedSystem extends ISystem {
-  note: string;
-  lastUpdated: number;
-}
-
 interface State {
-  systems: Record<string, ExtendedSystem>;
+  systems: Record<string, System>;
 }
 
 export const useSystemStore = defineStore(STORE_NAME, {
@@ -18,45 +15,41 @@ export const useSystemStore = defineStore(STORE_NAME, {
     systems: {},
   }),
   actions: {
-    getOutdated(timeoutSec: number): Array<ExtendedSystem> {
+    getOutdated(timeoutSec: number): Array<System> {
       return Object.values(this.systems).filter(
-        (system) => Date.now() - system.lastUpdated > timeoutSec * 1000,
+        (system) => system.updatedAt.diff() > timeoutSec * 1000,
       );
     },
-    getSystem(id: string): ExtendedSystem | null {
+    getSystem(id: string): System | null {
       return this.systems[id] || null;
     },
-    async addSystem(id: string): Promise<ExtendedSystem> {
+    async addSystem(id: string): Promise<System> {
       if (Object.prototype.hasOwnProperty.call(this.systems, id)) {
-        return this.systems[id]; // TODO: Handle duplicate systems
+        return this.systems[id];
       }
 
       const system = await pk.getSystem({ system: id });
-      this.systems[system.id] = {
-        ...system,
-
-        note: '',
-        lastUpdated: Date.now(),
-      };
+      this.systems[system.id] = System.fromPKApi(system);
       return this.systems[id];
     },
 
-    async updateSystem(id: string): Promise<ExtendedSystem> {
+    async updateSystem(id: string): Promise<System> {
       if (!this.systems[id]) {
         return this.addSystem(id); // TODO: Handle duplicate systems
       }
 
-      this.systems[id] = {
+      this.systems[id] = System.fromDict({
         ...this.systems[id],
-        ...(await pk.getSystem({ system: id })),
-        lastUpdated: Date.now(),
-      };
+        ...System.fromPKApi(await pk.getSystem({ system: id })),
+
+        updatedAt: dayjs(),
+      });
 
       return this.systems[id];
     },
 
     deleteSystem(id: string): void {
-      if (!Object.prototype.hasOwnProperty.call(this.systems, id)) {
+      if (!this.systems[id]) {
         return; // TODO: Handle non-existent systems
       }
 
@@ -64,5 +57,25 @@ export const useSystemStore = defineStore(STORE_NAME, {
     },
   },
 
-  persist: true,
+  persist: {
+    serializer: {
+      serialize: function (value: StateTree): string {
+        const systems = Object.values<System>(value.systems);
+        return JSON.stringify({
+          version: LatestVersion,
+          systems: systems.map((s) => s.toStorage()),
+        });
+      },
+
+      deserialize: function (value: string): State {
+        const parsed = migrate(JSON.parse(value));
+        return {
+          systems: Object.fromEntries(
+            parsed.systems.map((s) => [s.id, System.fromStorage(s)]),
+          ),
+        };
+      },
+    },
+    afterRestore: (ctx) => ctx.store.$persist(),
+  },
 });
