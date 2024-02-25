@@ -7,7 +7,7 @@
         </div>
       </q-img>
 
-      <q-card-section v-if="showFronterDescription">
+      <q-card-section v-if="showDescription">
         <span v-html="fronter?.description?.replaceAll('\n', '<br />')" />
       </q-card-section>
     </q-card>
@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import { Member } from 'pkapi.js';
+import { computed } from 'vue';
 
 export interface Props {
   fronter: Member;
@@ -24,5 +25,8 @@ export interface Props {
   cardWidth: number;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+const showDescription = computed(
+  () => props.showFronterDescription && !!props.fronter?.description?.length,
+);
 </script>
