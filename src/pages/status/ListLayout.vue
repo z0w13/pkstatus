@@ -74,7 +74,11 @@
               <q-item v-if="settings.showLastSwitch" :inset-level="1">
                 <q-item-section class="text-italic text-no-wrap">
                   Last switch
-                  <relative-time-display :time="fronters[id].lastSwitch" />
+                  <relative-time-display
+                    v-if="!!fronters[id].lastSwitch"
+                    :time="fronters[id].lastSwitch"
+                  />
+                  <template v-else>unknown</template>
                 </q-item-section>
               </q-item>
             </template>

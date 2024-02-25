@@ -69,7 +69,11 @@
               </td>
               <!-- Last Switch -->
               <td v-if="settings.showLastSwitch && fronters[id]">
-                <relative-time-display :time="fronters[id].lastSwitch" />
+                <relative-time-display
+                  v-if="!!fronters[id].lastSwitch"
+                  :time="fronters[id].lastSwitch"
+                />
+                <template v-else>unknown</template>
               </td>
               <!-- Last Updated -->
               <td v-if="settings.showUpdateTime && fronters[id]">

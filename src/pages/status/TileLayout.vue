@@ -19,7 +19,11 @@
       >
         <div class="col-auto text-italic">
           Last switch
-          <relative-time-display :time="fronters[id].lastSwitch" />
+          <relative-time-display
+            v-if="!!fronters[id].lastSwitch"
+            :time="fronters[id].lastSwitch"
+          />
+          <template v-else>unknown</template>
         </div>
       </div>
       <div class="row justify-left q-pa-md q-col-gutter-md">
