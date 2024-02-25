@@ -10,8 +10,8 @@
         {{ system.name }}
       </div>
 
-      <q-card-section v-if="showSystemDescription">
-        <span v-html="system?.description?.replaceAll('\n', '<br />')" />
+      <q-card-section v-if="showDescription">
+        <span v-html="system.description.replaceAll('\n', '<br />')" />
       </q-card-section>
     </q-card>
   </div>
@@ -67,6 +67,7 @@
 import { Fronters } from 'stores/fronters-store';
 import { System } from 'src/models/System';
 import AlterView from 'src/components/StatusPage/Tile/AlterView.vue';
+import { computed } from 'vue';
 
 export interface Props {
   system: System;
@@ -77,5 +78,8 @@ export interface Props {
   cardWidth: number;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+const showDescription = computed(
+  () => props.showSystemDescription && props.system.description.length > 0,
+);
 </script>
