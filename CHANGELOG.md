@@ -1,3 +1,29 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [0.1.0-dev](https://github.com/z0w13/pkstatus/compare/v0.0.8...v0.1.0-dev) (2024-02-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* implement system for data migrations
+
+### Features
+
+* implement system for data migrations ([e09e28e](https://github.com/z0w13/pkstatus/commit/e09e28e7c9f92066aca34268179fd5e2fa75f43b))
+* **ui:** rework last switch/last update ui ([802c266](https://github.com/z0w13/pkstatus/commit/802c26664dbc42ce9f334d0e2c27319b8aeb4642))
+
+
+### Bug Fixes
+
+* system data not being refreshed ([4776997](https://github.com/z0w13/pkstatus/commit/47769970b0f022fcbcce527dc1a5b1505b42f2f4))
+* **ui:** hide empty alter descriptions in tile view ([6c0e068](https://github.com/z0w13/pkstatus/commit/6c0e068c7e09fe24f06c9d26b7d5e10b1839c887))
+* **ui:** hide empty system descriptions in tile view ([8df3676](https://github.com/z0w13/pkstatus/commit/8df3676438b4597afd5cec3905f39712995430b8))
+* **ui:** indent fronters in tile view ([8f86e87](https://github.com/z0w13/pkstatus/commit/8f86e8758ebd9cacfafe97ec6ca91dc9e2d07696))
+* **ui:** show unknown when we can't access last switch ([fb15f4f](https://github.com/z0w13/pkstatus/commit/fb15f4f5d42e3fce3275024ad3f8a3efbb26aaaf))
+* **ui:** tile settings, descriptionn -> description ([dcb5ae4](https://github.com/z0w13/pkstatus/commit/dcb5ae4da09d165d9323756d894b1c82908bff97))
+
 ## [0.0.8](https://github.com/z0w13/pkstatus/compare/v0.0.7...v0.0.8) (2024-02-23)
 
 
@@ -55,6 +81,3 @@
 * **ui:** multiple views for the status page, and made settings persist ([117cbfb](https://github.com/z0w13/pkstatus/commit/117cbfb9ef5a1a0ac8ff67bf7c8ce7504d383dba))
 * **ui:** remove color dot from system list ([6c1430a](https://github.com/z0w13/pkstatus/commit/6c1430af8a053a49dde11156350f67fc45ddd9b9))
 * **ui:** rework settings UI ([80092c2](https://github.com/z0w13/pkstatus/commit/80092c2387096ea38b6f4608bc8cd63c80d8259d))
-
-
-
