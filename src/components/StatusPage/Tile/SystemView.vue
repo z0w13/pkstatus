@@ -15,46 +15,50 @@
       </q-card-section>
     </q-card>
   </div>
-  <template v-if="fronters">
-    <template v-if="fronters.allowed">
-      <alter-view
-        :fronter="fronter"
-        :key="fronter.id"
-        :show-fronter-description="showFronterDescription"
-        :card-width="cardWidth"
-        v-for="fronter of fronters.members"
-      />
-    </template>
-    <template v-else>
-      <div class="col-auto">
-        <q-card
-          flat
-          :style="{ width: `${cardWidth}px`, height: `${cardWidth}px` }"
-        >
-          <q-img ratio="1">
-            <q-icon :size="cardWidth + 'px'" color="red" name="cancel" />
-            <div class="absolute-bottom text-subtitle2 text-center">
-              No Access
-            </div>
-          </q-img>
-        </q-card>
+  <div class="col">
+    <div class="row q-col-gutter-md">
+      <template v-if="fronters">
+        <template v-if="fronters.allowed">
+          <alter-view
+            :fronter="fronter"
+            :key="fronter.id"
+            :show-fronter-description="showFronterDescription"
+            :card-width="cardWidth"
+            v-for="fronter of fronters.members"
+          />
+        </template>
+        <template v-else>
+          <div class="col-auto">
+            <q-card
+              flat
+              :style="{ width: `${cardWidth}px`, height: `${cardWidth}px` }"
+            >
+              <q-img ratio="1">
+                <q-icon :size="cardWidth + 'px'" color="red" name="cancel" />
+                <div class="absolute-bottom text-subtitle2 text-center">
+                  No Access
+                </div>
+              </q-img>
+            </q-card>
+          </div>
+        </template>
+      </template>
+      <div v-else class="row justify-center">
+        <div class="col-auto">
+          <q-card
+            flat
+            class="justify-center row"
+            :style="{ width: `${cardWidth}px`, height: `${cardWidth}px` }"
+          >
+            <q-spinner
+              class="self-center"
+              color="primary"
+              width="50%"
+              height="50%"
+            />
+          </q-card>
+        </div>
       </div>
-    </template>
-  </template>
-  <div v-else class="row justify-center">
-    <div class="col-auto">
-      <q-card
-        flat
-        class="justify-center row"
-        :style="{ width: `${cardWidth}px`, height: `${cardWidth}px` }"
-      >
-        <q-spinner
-          class="self-center"
-          color="primary"
-          width="50%"
-          height="50%"
-        />
-      </q-card>
     </div>
   </div>
 </template>
