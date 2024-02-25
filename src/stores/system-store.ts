@@ -17,7 +17,7 @@ export const useSystemStore = defineStore(STORE_NAME, {
   actions: {
     getOutdated(timeoutSec: number): Array<System> {
       return Object.values(this.systems).filter(
-        (system) => system.updatedAt.diff() > timeoutSec * 1000,
+        (system) => Math.abs(system.updatedAt.diff()) > timeoutSec * 1000,
       );
     },
     getSystem(id: string): System | null {
