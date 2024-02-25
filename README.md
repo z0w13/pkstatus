@@ -1,43 +1,40 @@
-# PKStatus (pkstatus)
+# PKStatus
 
 Display PluralKit systems and their current status
+
+## App Screenshots
+
+![A screenshot of the status page](/contrib/img/screenshot1.png?raw=true)
 
 ## Install the dependencies
 
 ```bash
-yarn
-# or
-npm install
+pnpm install
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 
 ```bash
-quasar dev
+pnpm run dev
 ```
 
 ### Lint the files
 
 ```bash
-yarn lint
-# or
-npm run lint
+pnpm run lint
 ```
 
 ### Format the files
 
 ```bash
-yarn format
-# or
-npm run format
+pnpm run format
 ```
 
 ### Build the app for production
 
 ```bash
-quasar build
+# single-page application (webapp)
+pnpm exec quasar build
+# electron (desktop app)
+pnpm exec quasar build -m electron -T [win|linux|mac]
 ```
-
-### Customize the configuration
-
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
