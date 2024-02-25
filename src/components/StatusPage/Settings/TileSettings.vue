@@ -19,7 +19,7 @@
       </q-item>
       <q-item>
         <q-item-section>
-          <q-item-label>Show System Descriptionn</q-item-label>
+          <q-item-label>Show System Description</q-item-label>
         </q-item-section>
         <q-item-section side>
           <q-toggle v-model="settings.showSystemDescription" />
@@ -27,7 +27,7 @@
       </q-item>
       <q-item>
         <q-item-section>
-          <q-item-label>Show Fronter Descriptionn</q-item-label>
+          <q-item-label>Show Fronter Description</q-item-label>
         </q-item-section>
         <q-item-section side>
           <q-toggle v-model="settings.showFronterDescription" />
