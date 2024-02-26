@@ -19,7 +19,7 @@
           to="/status/table"
           name="table"
           color="primary"
-          icon="table_view"
+          icon="table_chart"
         />
         <q-route-tab
           to="/status/list"
