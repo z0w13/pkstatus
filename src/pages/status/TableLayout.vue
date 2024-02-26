@@ -27,6 +27,9 @@
                   :size="settings.iconSize + 'px'"
                 />
                 {{ system.name }}
+                <q-tooltip v-if="system.description.length > 0">
+                  <span v-html="system.description.replaceAll('\n', '<br />')" />
+                </q-tooltip>
               </td>
               <template v-if="fronters[id]">
                 <template v-if="fronters[id].allowed">
@@ -46,6 +49,9 @@
                       :size="settings.iconSize + 'px'"
                     />
                     {{ fronter.display_name || fronter.name }}
+                  <q-tooltip v-if="fronter?.description?.length || 0 > 0">
+                    <span v-html="fronter?.description?.replaceAll('\n', '<br />')" />
+                  </q-tooltip>
                   </td>
                   <td
                     v-if="maxFront - fronters[id].members.length > 0"

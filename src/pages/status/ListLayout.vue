@@ -24,6 +24,9 @@
               <q-item-section>
                 {{ system.name }}
               </q-item-section>
+              <q-tooltip v-if="system.description.length > 0">
+                <span v-html="system.description.replaceAll('\n', '<br />')" />
+              </q-tooltip>
             </q-item>
             <template v-if="fronters[id]">
               <template v-if="fronters[id].allowed">
@@ -51,6 +54,9 @@
                   <q-item-section>
                     {{ fronter.display_name || fronter.name }}
                   </q-item-section>
+                  <q-tooltip v-if="fronter?.description?.length || 0 > 0">
+                    <span v-html="fronter?.description?.replaceAll('\n', '<br />')" />
+                  </q-tooltip>
                 </q-item>
               </template>
               <!-- No Access -->
