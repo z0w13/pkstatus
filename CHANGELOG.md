@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/z0w13/pkstatus/compare/v0.1.0-dev...v0.1.0) (2024-02-26)
+
+
+### Features
+
+* **ui:** show tooltips with system/fronter description in list/table view ([4088501](https://github.com/z0w13/pkstatus/commit/4088501c69097df3ec5d3329d6de098189908bcd))
+
+
+### Bug Fixes
+
+* **ui:** clearer (subjectively) icon for table view ([7e9d8bc](https://github.com/z0w13/pkstatus/commit/7e9d8bcdb34e446a2cb245a98cd0a8ce00eb235e))
+
 ## [0.1.0-dev](https://github.com/z0w13/pkstatus/compare/v0.0.8...v0.1.0-dev) (2024-02-25)
 
 
