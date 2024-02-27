@@ -41,7 +41,15 @@
                       square
                       :size="settings.iconSize + 'px'"
                     >
-                      <img :src="fronter.avatarUrl" />
+                      <q-img :ratio="1" :src="fronter.avatarUrl">
+                        <template v-slot:error>
+                          <q-icon
+                            :size="`${settings.iconSize}px`"
+                            color="grey"
+                            name="broken_image"
+                          />
+                        </template>
+                      </q-img>
                     </q-avatar>
                     <q-avatar
                       v-else

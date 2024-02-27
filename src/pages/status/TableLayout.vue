@@ -17,14 +17,23 @@
                   square
                   :size="settings.iconSize + 'px'"
                 >
-                  <img :src="system.avatarUrl" />
+                  <q-img :ratio="1" :src="system.avatarUrl">
+                    <template v-slot:error>
+                      <q-icon
+                        :size="`${settings.iconSize}px`"
+                        class="absolute-center"
+                        color="grey"
+                        name="broken_image"
+                      />
+                    </template>
+                  </q-img>
                 </q-avatar>
                 <q-avatar
                   v-else
                   square
                   color="primary"
-                  icon="people"
-                  :size="settings.iconSize + 'px'"
+                  icon="groups"
+                  :size="`${settings.iconSize}px`"
                 />
                 {{ system.name }}
                 <q-tooltip v-if="system.description">
@@ -39,7 +48,16 @@
                       square
                       :size="settings.iconSize + 'px'"
                     >
-                      <img :src="fronter.avatarUrl" />
+                      <q-img :ratio="1" :src="fronter.avatarUrl">
+                        <template v-slot:error>
+                          <q-icon
+                            :size="`${settings.iconSize}px`"
+                            class="absolute-center"
+                            color="grey"
+                            name="broken_image"
+                          />
+                        </template>
+                      </q-img>
                     </q-avatar>
                     <q-avatar
                       v-else
