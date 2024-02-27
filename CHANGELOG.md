@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/z0w13/pkstatus/compare/v0.1.0...v0.1.1) (2024-02-27)
+
+
+### Features
+
+* **build:** extra automation for release creation ([3fcd754](https://github.com/z0w13/pkstatus/commit/3fcd754348b68161b34903da0af79bb815538c84))
+* **ui:** rework how different status views align on the page ([b38216c](https://github.com/z0w13/pkstatus/commit/b38216c4b3e92c8f96c54ef30f0a1edc13519bc8))
+
+
+### Bug Fixes
+
+* **ui:** also render filler cells in table view without fronter access ([77f76a4](https://github.com/z0w13/pkstatus/commit/77f76a4adf4fb91a758bcd561752f14656db0b08))
+* **ui:** fix relative time display (for last switch/last updated) ([b50783a](https://github.com/z0w13/pkstatus/commit/b50783ae84f24bfcbbab814c48c32ee0f7c64125))
+* **ui:** handle missing or unset avatars in table/list layout ([198369c](https://github.com/z0w13/pkstatus/commit/198369c696de673818d7d6560d835ac7bd73e94c))
+
 ## [0.1.0](https://github.com/z0w13/pkstatus/compare/v0.1.0-dev...v0.1.0) (2024-02-26)
 
 
