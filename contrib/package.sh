@@ -2,19 +2,21 @@
 set -euo pipefail
 test -n "${DEBUG:-}" && set -x
 
-PKG_NAME="$(jq -r ".name" package.json)"
-PRODUCT_NAME="$(jq -r ".productName" package.json)"
-BASE_VERSION="$(jq -r ".version" package.json)"
+function setPackagingVars() {
+  PKG_NAME="$(jq -r ".name" package.json)"
+  PRODUCT_NAME="$(jq -r ".productName" package.json)"
+  BASE_VERSION="$(jq -r ".version" package.json)"
 
-if [[ "${NODE_ENV:=}" == "production" ]]; then
-  PKG_VERSION="${BASE_VERSION}"
-else
-  PKG_VERSION="${BASE_VERSION%%-*}-dev+$(git rev-parse --short HEAD)"
-fi
+  if [[ "${NODE_ENV:=}" == "production" ]]; then
+    PKG_VERSION="${BASE_VERSION}"
+  else
+    PKG_VERSION="${BASE_VERSION%%-*}-dev+$(git rev-parse --short HEAD)"
+  fi
 
-# Override version for packaging
-PKG_JSON="$(cat package.json)"
-echo "$PKG_JSON"| jq ".version |= \"${PKG_VERSION}\"" > package.json
+  # Override version for packaging
+  PKG_JSON="$(cat package.json)"
+  echo "$PKG_JSON"| jq ".version |= \"${PKG_VERSION}\"" > package.json
+}
 
 function packageSpa() {
   distName="${PKG_NAME}-${PKG_VERSION}"
@@ -70,13 +72,27 @@ function pushGhPages() {
   popd
 }
 
+bumpRelease() {
+  local releaseFlags=""
+  if [[ "${NODE_ENV:=}" != "production" ]]; then
+    releaseFlags="${releaseFlags} --prerelease dev"
+  fi
+
+  pnpm run release -- $releaseFlags
+}
+
 createRelease() {
-  releaseFlags=""
+  local releaseFlags=""
   if [[ "${NODE_ENV:=}" != "production" ]]; then
     releaseFlags="${releaseFlags} --prerelease"
   fi
 
-  gh release create "$PKG_VERSION" ./dist/artifact/*
+  pnpm exec conventional-changelog --release-count 1 \
+    | gh release create \
+      --notes-file - \
+      $releaseFlags \
+      "$PKG_VERSION" \
+      ./dist/artifact/*
 }
 
 main() {
@@ -85,18 +101,24 @@ main() {
 
   case "${1:-}" in
     "spa")
+      setPackagingVars
       packageSpa
       ;;
     "electron")
+      setPackagingVars
       packageElectron
       ;;
     "pages")
+      setPackagingVars
       pushGhPages
       ;;
     "release")
+      setPackagingVars
       createRelease
       ;;
     *)
+      bumpRelease
+      setPackagingVars
       packageSpa
       packageElectron
       pushGhPages
