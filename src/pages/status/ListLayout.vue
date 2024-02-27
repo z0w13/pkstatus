@@ -37,11 +37,11 @@
                 >
                   <q-item-section avatar>
                     <q-avatar
-                      v-if="fronter.avatar_url"
+                      v-if="fronter.avatarUrl"
                       square
                       :size="settings.iconSize + 'px'"
                     >
-                      <img :src="fronter.avatar_url" />
+                      <img :src="fronter.avatarUrl" />
                     </q-avatar>
                     <q-avatar
                       v-else
@@ -52,7 +52,7 @@
                     />
                   </q-item-section>
                   <q-item-section>
-                    {{ fronter.display_name || fronter.name }}
+                    {{ fronter.displayName || fronter.name }}
                   </q-item-section>
                   <q-tooltip v-if="fronter?.description?.length || 0 > 0">
                     <span v-html="fronter?.description?.replaceAll('\n', '<br />')" />
@@ -74,13 +74,17 @@
               <q-item v-if="settings.showUpdateTime" :inset-level="1">
                 <q-item-section class="text-italic text-no-wrap">
                   Last updated
-                  <relative-time-display :time="fronters[id].lastUpdated" />
+                  <relative-time-display
+                    :time="fronters[id].lastUpdated.valueOf()"
+                  />
                 </q-item-section>
               </q-item>
               <q-item v-if="settings.showLastSwitch" :inset-level="1">
                 <q-item-section class="text-italic text-no-wrap">
                   Last switch
-                  <relative-time-display :time="fronters[id].lastSwitch" />
+                  <relative-time-display
+                    :time="fronters[id].lastSwitch?.valueOf()"
+                  />
                 </q-item-section>
               </q-item>
             </template>

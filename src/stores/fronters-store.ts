@@ -1,16 +1,17 @@
 import { defineStore } from 'pinia';
 import { pk } from 'boot/pkapi';
-import { APIError, Member } from 'pkapi.js';
+import { APIError, Member as ApiMember } from 'pkapi.js';
 
 import dayjs from 'dayjs';
+import { Member } from 'src/models/Member';
 
 const STORE_NAME = 'fronters';
 
 export interface Fronters {
   allowed: boolean;
   system: string;
-  lastUpdated: number;
-  lastSwitch: number;
+  lastUpdated: dayjs.Dayjs;
+  lastSwitch: dayjs.Dayjs | null;
   members: Array<Member>;
 }
 
@@ -21,21 +22,21 @@ interface State {
 async function getFronters(id: string): Promise<Fronters> {
   try {
     const fronters = await pk.getFronters({ system: id });
-    const members = [...(fronters.members?.values() || [])] as Array<Member>;
+    const members = [...(fronters.members?.values() || [])] as Array<ApiMember>;
 
     return {
       system: id,
-      lastUpdated: dayjs().valueOf(),
-      lastSwitch: dayjs(fronters.timestamp).valueOf(),
-      members,
+      lastUpdated: dayjs(),
+      lastSwitch: dayjs(fronters.timestamp),
+      members: members.map((m) => Member.fromPKApi(m)),
       allowed: true,
     };
   } catch (e) {
     if (e instanceof APIError && e.status == '403') {
       return {
         system: id,
-        lastUpdated: dayjs().valueOf(),
-        lastSwitch: 0,
+        lastUpdated: dayjs(),
+        lastSwitch: null,
         members: [],
         allowed: false,
       };
@@ -55,7 +56,8 @@ export const useFrontersStore = defineStore(STORE_NAME, {
     },
     getOutdated(timeoutSec: number): Array<Fronters> {
       return Object.values(this.fronters).filter(
-        (fronter) => Date.now() - fronter.lastUpdated > timeoutSec * 1000,
+        (fronter) =>
+          Date.now() - fronter.lastUpdated.valueOf() > timeoutSec * 1000,
       );
     },
     async addFronters(id: string): Promise<Fronters> {

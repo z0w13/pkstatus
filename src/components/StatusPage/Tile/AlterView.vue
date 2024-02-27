@@ -1,9 +1,9 @@
 <template>
   <div class="col-auto">
     <q-card flat :style="{ width: `${cardWidth}px` }">
-      <q-img ratio="1" :src="fronter.avatar_url">
+      <q-img ratio="1" :src="fronter.avatarUrl || undefined">
         <div class="absolute-bottom text-subtitle2 text-center">
-          {{ fronter.display_name || fronter.name }}
+          {{ fronter.displayName || fronter.name }}
         </div>
       </q-img>
 
@@ -15,8 +15,8 @@
 </template>
 
 <script setup lang="ts">
-import { Member } from 'pkapi.js';
 import { computed } from 'vue';
+import { Member } from 'src/models/Member';
 
 export interface Props {
   fronter: Member;

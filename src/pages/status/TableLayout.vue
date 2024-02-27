@@ -35,11 +35,11 @@
                 <template v-if="fronters[id].allowed">
                   <td :key="fronter.id" v-for="fronter of fronters[id].members">
                     <q-avatar
-                      v-if="fronter.avatar_url"
+                      v-if="fronter.avatarUrl"
                       square
                       :size="settings.iconSize + 'px'"
                     >
-                      <img :src="fronter.avatar_url" />
+                      <img :src="fronter.avatarUrl" />
                     </q-avatar>
                     <q-avatar
                       v-else
@@ -48,7 +48,7 @@
                       square
                       :size="settings.iconSize + 'px'"
                     />
-                    {{ fronter.display_name || fronter.name }}
+                    {{ fronter.displayName || fronter.name }}
                   <q-tooltip v-if="fronter?.description?.length || 0 > 0">
                     <span v-html="fronter?.description?.replaceAll('\n', '<br />')" />
                   </q-tooltip>
@@ -75,11 +75,15 @@
               </td>
               <!-- Last Switch -->
               <td v-if="settings.showLastSwitch && fronters[id]">
-                <relative-time-display :time="fronters[id].lastSwitch" />
+                <relative-time-display
+                  :time="fronters[id].lastSwitch?.valueOf()"
+                />
               </td>
               <!-- Last Updated -->
               <td v-if="settings.showUpdateTime && fronters[id]">
-                <relative-time-display :time="fronters[id].lastUpdated" />
+                <relative-time-display
+                  :time="fronters[id].lastUpdated.valueOf()"
+                />
               </td>
             </tr>
           </tbody>
