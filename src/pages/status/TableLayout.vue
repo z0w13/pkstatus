@@ -78,15 +78,18 @@
                   ></td>
                 </template>
                 <!-- No Access -->
-                <td v-else>
-                  <q-avatar
-                    color="red"
-                    icon="close"
-                    square
-                    :size="settings.iconSize + 'px'"
-                  />
-                  No Access
-                </td>
+                <template v-else>
+                  <td>
+                    <q-avatar
+                      color="red"
+                      icon="close"
+                      square
+                      :size="settings.iconSize + 'px'"
+                    />
+                    No Access
+                  </td>
+                  <td v-if="maxFront > 1" :colspan="maxFront - 1"></td>
+                </template>
               </template>
               <!-- Loading -->
               <td v-else>
