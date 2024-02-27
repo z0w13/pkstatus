@@ -9,11 +9,11 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
-const props = defineProps<{ time: number | null | undefined }>();
+const props = defineProps<{ time: dayjs.Dayjs | null | undefined }>();
 const fromNow = ref();
 
 function updateFromNow() {
-  fromNow.value = !!props.time ? dayjs(props.time).fromNow() : 'unknown';
+  fromNow.value = !!props.time ? props.time.fromNow() : 'unknown';
 }
 
 let updateInterval: ReturnType<typeof setInterval> | null = null;

@@ -18,7 +18,7 @@
           <q-item-section>
             <q-item-label> Last updated </q-item-label>
             <q-item-label caption>
-              <relative-time-display :time="fronters.lastUpdated.valueOf()" />
+              <relative-time-display :time="fronters.lastUpdated" />
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -30,7 +30,7 @@
           <q-item-section>
             <q-item-label> Last switch </q-item-label>
             <q-item-label caption>
-              <relative-time-display :time="fronters.lastSwitch?.valueOf()" />
+              <relative-time-display :time="fronters.lastSwitch" />
             </q-item-label>
           </q-item-section>
         </q-item>
