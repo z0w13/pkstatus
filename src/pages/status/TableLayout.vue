@@ -49,9 +49,10 @@
                       :size="settings.iconSize + 'px'"
                     />
                     {{ fronter.displayName || fronter.name }}
-                  <q-tooltip v-if="fronter.description">
-                    <pre class="description">{{ fronter.description }}</pre>
-                  </q-tooltip>
+
+                    <q-tooltip v-if="fronter.description">
+                      <pre class="description">{{ fronter.description }}</pre>
+                    </q-tooltip>
                   </td>
                   <td
                     v-if="maxFront - fronters[id].members.length > 0"
@@ -90,11 +91,13 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { Fronters } from 'src/stores/fronters-store';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { System } from 'src/models/System';
+
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
-import { computed } from 'vue';
 
 const settings = useSettingsStore().status.table;
 
