@@ -39,7 +39,7 @@
       <q-separator v-if="showDescription && showStats" />
 
       <q-card-section v-if="showDescription">
-        <span v-html="system.description.replaceAll('\n', '<br />')" />
+        <pre class="description">{{ system.description }}</pre>
       </q-card-section>
     </q-card>
   </div>

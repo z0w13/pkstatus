@@ -7,15 +7,14 @@
         </div>
       </q-img>
 
-      <q-card-section v-if="showDescription">
-        <span v-html="fronter?.description?.replaceAll('\n', '<br />')" />
+      <q-card-section v-if="showFronterDescription && fronter.description">
+        <pre class="description">{{ fronter.description }}</pre>
       </q-card-section>
     </q-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Member } from 'src/models/Member';
 
 export interface Props {
@@ -26,7 +25,4 @@ export interface Props {
 }
 
 const props = defineProps<Props>();
-const showDescription = computed(
-  () => props.showFronterDescription && !!props.fronter?.description?.length,
-);
 </script>
