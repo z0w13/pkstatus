@@ -1,25 +1,25 @@
 <template>
-  {{ dayjs(time).fromNow() }}
+  {{ fromNow }}
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, onMounted, getCurrentInstance } from 'vue';
+import { onUnmounted, onMounted, ref } from 'vue';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
-export interface Props {
-  time: number;
-}
+const props = defineProps<{ time: number | null | undefined }>();
+const fromNow = ref();
 
-defineProps<Props>();
+function updateFromNow() {
+  fromNow.value = !!props.time ? dayjs(props.time).fromNow() : 'unknown';
+}
 
 let updateInterval: ReturnType<typeof setInterval> | null = null;
 onMounted(() => {
-  updateInterval = setInterval(() => {
-    getCurrentInstance()?.proxy?.$forceUpdate();
-  }, 1000);
+  updateFromNow();
+  updateInterval = setInterval(updateFromNow, 1000);
 });
 
 onUnmounted(() => {

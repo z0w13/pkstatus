@@ -34,7 +34,6 @@
                 v-if="!!fronters.lastSwitch"
                 :time="fronters.lastSwitch"
               />
-              <template v-else>unknown</template>
             </q-item-label>
           </q-item-section>
         </q-item>
