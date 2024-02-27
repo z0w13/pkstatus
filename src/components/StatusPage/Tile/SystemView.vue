@@ -77,7 +77,7 @@
           </q-card>
         </div>
       </template>
-      <div v-else class="row justify-center">
+      <div v-else class="row">
         <div class="col-auto">
           <q-card
             flat

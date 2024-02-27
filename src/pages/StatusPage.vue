@@ -1,18 +1,11 @@
 <template>
-  <q-page class="justify-evenly">
-    <div class="row">
-      <div class="col col-auto q-pa-md"></div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <router-view
-          :systems="systemStore.systems"
-          :fronters="frontersStore.fronters"
-        />
-      </div>
-    </div>
+  <q-page class="justify-evenly row items-stretch">
+    <router-view
+      :systems="systemStore.systems"
+      :fronters="frontersStore.fronters"
+    />
   </q-page>
-  <q-footer elevated class="bg-primary text-white">
+  <q-footer>
     <q-toolbar>
       <q-tabs v-model="activeTab" align="left" class="bg-primary">
         <q-route-tab
