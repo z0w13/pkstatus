@@ -15,6 +15,9 @@
     "test:unit": "vitest",
     "test:unit:ci": "vitest run"
   },
+  "lint-staged": {
+    "src/**/*": "prettier --list-different"
+  },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
     "axios": "^1.2.1",
@@ -46,6 +49,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-vue": "^9.0.0",
     "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.0.3",
     "typescript": "^5.2.2",
     "vite-plugin-checker": "^0.6.4",
