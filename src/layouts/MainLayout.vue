@@ -17,8 +17,13 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
+    <q-drawer
+      class="row column justify-between"
+      v-model="leftDrawerOpen"
+      show-if-above
+      bordered
+    >
+      <q-list class="col-auto">
         <essential-link
           title="Status"
           caption="Show system statuses"
@@ -47,6 +52,8 @@
             <q-item-label caption>Project Page</q-item-label>
           </q-item-section>
         </q-item>
+      </q-list>
+      <q-list class="col-auto">
         <q-item tag="label">
           <q-item-section>
             <q-item-label>Dark Mode</q-item-label>
