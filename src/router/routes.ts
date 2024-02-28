@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
+import { useSettingsStore } from 'src/stores/settings-store';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -10,7 +11,14 @@ const routes: RouteRecordRaw[] = [
         path: '/status',
         component: () => import('pages/StatusPage.vue'),
         children: [
-          { path: '/status', redirect: '/status/tile' },
+          {
+            path: '/status',
+            redirect: () => {
+              return {
+                path: `/status/${useSettingsStore().status.lastLayout}`,
+              };
+            },
+          },
           {
             path: '/status/tile',
             component: () => import('pages/status/TileLayout.vue'),

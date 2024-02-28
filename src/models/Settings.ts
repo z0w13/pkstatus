@@ -32,6 +32,7 @@ export const Settings = z.object({
           iconSize: z.number().default(24),
         })
         .default({}),
+      lastLayout: z.enum(['table', 'list', 'tile']).default('tile'),
     })
     .default({}),
   systemUpdateInterval: z.number().default(3600),
