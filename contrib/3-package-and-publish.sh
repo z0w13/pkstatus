@@ -59,18 +59,6 @@ packageElectronLinux() {
   popd
 }
 
-pushGithubPages() {
-  PKSTATUS_BUILD_MODE="gh-pages" pnpm exec quasar build -m spa
-
-  pushd dist/spa
-  git init -b gh-pages
-  git remote add origin git@github.com:z0w13/pkstatus.git
-  git add .
-  git commit -m "Initial commit"
-  git push origin gh-pages -f
-  popd
-}
-
 createRelease() {
   local pkgVersion="$1"
 
@@ -122,7 +110,8 @@ main() {
   packageElectronWindows "$productName" "$pkgVersion"
   packageElectronLinux "$pkgName" "$productName" "$pkgVersion"
   createRelease "$pkgVersion"
-  pushGithubPages
+
+  contrib/push-github-pages.sh
 }
 
 trap onExit EXIT
