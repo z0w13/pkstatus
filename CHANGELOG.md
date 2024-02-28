@@ -1,5 +1,13 @@
 
-## [0.1.2](https://github.com/z0w13/pkstatus/compare/v0.1.1...v0.1.2) (2024-02-28)
+## [0.1.3](https://github.com/z0w13/pkstatus/compare/v0.1.2...v0.1.3) (2024-02-28)
+
+
+### Features
+
+* **status/tile:** left align tiles
+* **status/table:** make fronter column take up the full-width of the table
+
+## [0.1.2](https://github.com/z0w13/pkstatus/compare/v0.1.1...v0.1.2) (2024-02-27)
 
 
 ### Bug Fixes
