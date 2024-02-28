@@ -1,5 +1,5 @@
 <template>
-  <div class="col-auto justify-center">
+  <div class="col-12">
     <template :key="id" v-for="[id, system] in Object.entries(systems)">
       <div class="row justify-left q-pa-md q-col-gutter-md">
         <system-view
