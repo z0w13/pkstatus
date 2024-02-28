@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.5](https://github.com/z0w13/pkstatus/compare/v0.1.4...v0.1.5) (????-??-??)
+
+
+### Features
+
+* **status:** remember status layout
+* **sidebar:** move dark mode toggle to bottom of sidebar
+* **sidebar:** add link to project page
+
 ## [0.1.4](https://github.com/z0w13/pkstatus/compare/v0.1.3...v0.1.4) (2024-02-28)
 
 
