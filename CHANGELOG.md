@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.6](https://github.com/z0w13/pkstatus/compare/v0.1.5...v0.1.6) (2024-02-28)
+
+
+### Bug Fixes
+
+* **api/fronters:** Handle bug in PKAPI that causes an error when a system has no registered switches
+
 ## [0.1.5](https://github.com/z0w13/pkstatus/compare/v0.1.4...v0.1.5) (2024-02-28)
 
 
