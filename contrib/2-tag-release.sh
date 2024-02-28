@@ -10,7 +10,7 @@ main() {
 
   git add "CHANGELOG.md" "package.json"
   git commit -m "chore(release): release v${version}"
-  git tag "v${version}"
+  git tag -a -m "release v${version}" "v${version}"
 
   git push origin main --follow-tags
 }
