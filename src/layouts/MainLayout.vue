@@ -37,8 +37,27 @@
           icon="settings"
           link="/settings"
         />
-        <q-item>
-          <q-toggle v-model="dark" label="Toggle Dark Mode" />
+        <q-item clickable href="https://github.com/z0w13/pkstatus">
+          <q-item-section avatar>
+            <q-icon name="open_in_new" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>GitHub</q-item-label>
+            <q-item-label caption>Project Page</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item tag="label">
+          <q-item-section>
+            <q-item-label>Dark Mode</q-item-label>
+          </q-item-section>
+          <q-item-section avatar>
+            <q-toggle
+              v-model="dark"
+              checked-icon="dark_mode"
+              unchecked-icon="light_mode"
+            />
+          </q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
