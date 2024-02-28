@@ -1,5 +1,5 @@
 <template>
-  <q-page class="justify-evenly row items-stretch">
+  <q-page>
     <router-view
       :systems="systemStore.systems"
       :fronters="frontersStore.fronters"

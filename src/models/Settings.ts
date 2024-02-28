@@ -14,6 +14,12 @@ export const Settings = z.object({
         .default({}),
       table: z
         .object({
+          verticalPosition: z
+            .enum(['start', 'center', 'end'])
+            .default('center'),
+          horizontalPosition: z
+            .enum(['start', 'center', 'end'])
+            .default('center'),
           showUpdateTime: z.boolean().default(false),
           showLastSwitch: z.boolean().default(false),
           iconSize: z.number().default(24),

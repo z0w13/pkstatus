@@ -3,6 +3,38 @@
     <q-list bordered class="rounded-borders">
       <q-item>
         <q-item-section>
+          <q-item-label overline class="q-mb-xs"
+            >Vertical Position</q-item-label
+          >
+          <q-btn-toggle
+            color="grey-9"
+            v-model="settings.verticalPosition"
+            :options="[
+              { label: 'Top', value: 'start' },
+              { label: 'Middle', value: 'center' },
+              { label: 'Bottom', value: 'end' },
+            ]"
+          />
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline class="q-mb-xs"
+            >Horizontal Position</q-item-label
+          >
+          <q-btn-toggle
+            color="grey-9"
+            v-model="settings.horizontalPosition"
+            :options="[
+              { label: 'Left', value: 'start' },
+              { label: 'Center', value: 'center' },
+              { label: 'Right', value: 'end' },
+            ]"
+          />
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
           <q-item-label>Show Update Time</q-item-label>
         </q-item-section>
         <q-item-section side>
