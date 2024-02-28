@@ -32,13 +32,26 @@ async function getFronters(id: string): Promise<Fronters> {
       allowed: true,
     };
   } catch (e) {
+    const emptyFronters = {
+      system: id,
+      lastUpdated: dayjs(),
+      lastSwitch: null,
+      members: [],
+    };
+
     if (e instanceof APIError && e.status == '403') {
+      // System has denied access to fronters, return default/empty data
       return {
-        system: id,
-        lastUpdated: dayjs(),
-        lastSwitch: null,
-        members: [],
+        ...emptyFronters,
         allowed: false,
+      };
+    } else if (e instanceof TypeError) {
+      // No switches have been registered, but pkapi.js doesn't handle this
+      // return default/empty status, we're catching all TypeErrors
+      // which is a bit broad but it'll do for now
+      return {
+        ...emptyFronters,
+        allowed: true,
       };
     }
 
