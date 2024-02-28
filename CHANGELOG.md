@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.5](https://github.com/z0w13/pkstatus/compare/v0.1.4...v0.1.5) (????-??-??)
+## [0.1.5](https://github.com/z0w13/pkstatus/compare/v0.1.4...v0.1.5) (2024-02-28)
 
 
 ### Features
