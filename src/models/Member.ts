@@ -93,7 +93,7 @@ export class Member implements IMember {
       ...member,
 
       name: member.name || '',
-      displayName: nonEmptyStringOrNull(member.color),
+      displayName: nonEmptyStringOrNull(member.display_name),
       color: nonEmptyStringOrNull(member.color),
       birthday: member.birthday ? dayjs(member.birthday) : null,
       pronouns: nonEmptyStringOrNull(member.pronouns),
