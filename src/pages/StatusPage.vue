@@ -1,9 +1,6 @@
 <template>
   <q-page>
-    <router-view
-      :systems="systemStore.systems"
-      :fronters="frontersStore.fronters"
-    />
+    <router-view :systems="systems" :fronters="fronters" />
   </q-page>
   <q-footer>
     <q-toolbar>
@@ -44,8 +41,7 @@ import TileSettings from 'src/components/StatusPage/Settings/TileSettings.vue';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { storeToRefs } from 'pinia';
 
-const systemStore = useSystemStore();
-const frontersStore = useFrontersStore();
-
+const { systems } = storeToRefs(useSystemStore());
+const { fronters } = storeToRefs(useFrontersStore());
 const { status } = storeToRefs(useSettingsStore());
 </script>
