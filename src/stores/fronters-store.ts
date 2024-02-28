@@ -32,14 +32,24 @@ async function getFronters(id: string): Promise<Fronters> {
       allowed: true,
     };
   } catch (e) {
+    const emptyFronters = {
+      system: id,
+      lastUpdated: dayjs(),
+      lastSwitch: null,
+      members: [],
+      allowed: false,
+    };
+
     if (e instanceof APIError && e.status == '403') {
-      return {
-        system: id,
-        lastUpdated: dayjs(),
-        lastSwitch: null,
-        members: [],
-        allowed: false,
-      };
+      // System has denied access to fronters, return default/empty data
+      return emptyFronters;
+    } else if (
+      e instanceof TypeError &&
+      e.message.includes('resp.data.members asdf is undefined')
+    ) {
+      // No switches have been registered, but pkapi.js doesn't handle this
+      // return default/empty status
+      return emptyFronters;
     }
 
     throw e;
