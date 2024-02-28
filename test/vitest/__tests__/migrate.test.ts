@@ -74,9 +74,9 @@ const systemsV0 = {
 
 describe('Test migration system', function () {
   it('Migrates systems successfully', function () {
-    z.array(SerializedSystem).parse(migrateSystems(systemsV0).systems);
+    z.array(SerializedSystem.strict()).parse(migrateSystems(systemsV0).systems);
   });
   it('Migrates settings successfully', function () {
-    Settings.parse(migrateSettings(settingsV0).settings);
+    Settings.strict().parse(migrateSettings(settingsV0).settings);
   });
 });
