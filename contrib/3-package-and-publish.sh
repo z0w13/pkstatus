@@ -71,7 +71,7 @@ createRelease() {
     | gh release create \
       --notes-file - \
       "${releaseFlags[@]}" \
-      "$pkgVersion" \
+      "v${pkgVersion}" \
       ./dist/artifact/*
 }
 
