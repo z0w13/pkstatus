@@ -3,7 +3,7 @@
     <q-markup-table flat>
       <thead>
         <th>System</th>
-        <th :colspan="maxFront">Fronters</th>
+        <th :colspan="maxFront + 1" style="width: 100%">Fronters</th>
         <th v-if="settings.showLastSwitch">Last Switch</th>
         <th v-if="settings.showUpdateTime">Last Update</th>
       </thead>
@@ -40,7 +40,7 @@
           </td>
           <template v-if="fronters[id]">
             <template v-if="fronters[id].allowed">
-              <td :key="fronter.id" v-for="fronter of fronters[id].members">
+              <td style="width: 1%;" :key="fronter.id" v-for="fronter of fronters[id].members">
                 <q-avatar
                   v-if="fronter.avatarUrl"
                   square
@@ -93,6 +93,8 @@
           <td v-else>
             <q-linear-progress query />
           </td>
+          <!-- Spacer -->
+          <td />
           <!-- Last Switch -->
           <td v-if="settings.showLastSwitch && fronters[id]">
             <relative-time-display :time="fronters[id].lastSwitch" />
