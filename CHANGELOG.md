@@ -1,7 +1,5 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
 ## [0.1.1](https://github.com/z0w13/pkstatus/compare/v0.1.0...v0.1.1) (2024-02-27)
 
 
@@ -20,30 +18,21 @@ All notable changes to this project will be documented in this file. See [standa
 ## [0.1.0](https://github.com/z0w13/pkstatus/compare/v0.1.0-dev...v0.1.0) (2024-02-26)
 
 
+### ⚠ BREAKING CHANGES
+
+* implement system for data migrations
+
+
 ### Features
 
+* implement system for data migrations ([e09e28e](https://github.com/z0w13/pkstatus/commit/e09e28e7c9f92066aca34268179fd5e2fa75f43b))
+* **ui:** rework last switch/last update ui ([802c266](https://github.com/z0w13/pkstatus/commit/802c26664dbc42ce9f334d0e2c27319b8aeb4642))
 * **ui:** show tooltips with system/fronter description in list/table view ([4088501](https://github.com/z0w13/pkstatus/commit/4088501c69097df3ec5d3329d6de098189908bcd))
 
 
 ### Bug Fixes
 
 * **ui:** clearer (subjectively) icon for table view ([7e9d8bc](https://github.com/z0w13/pkstatus/commit/7e9d8bcdb34e446a2cb245a98cd0a8ce00eb235e))
-
-## [0.1.0-dev](https://github.com/z0w13/pkstatus/compare/v0.0.8...v0.1.0-dev) (2024-02-25)
-
-
-### ⚠ BREAKING CHANGES
-
-* implement system for data migrations
-
-### Features
-
-* implement system for data migrations ([e09e28e](https://github.com/z0w13/pkstatus/commit/e09e28e7c9f92066aca34268179fd5e2fa75f43b))
-* **ui:** rework last switch/last update ui ([802c266](https://github.com/z0w13/pkstatus/commit/802c26664dbc42ce9f334d0e2c27319b8aeb4642))
-
-
-### Bug Fixes
-
 * system data not being refreshed ([4776997](https://github.com/z0w13/pkstatus/commit/47769970b0f022fcbcce527dc1a5b1505b42f2f4))
 * **ui:** hide empty alter descriptions in tile view ([6c0e068](https://github.com/z0w13/pkstatus/commit/6c0e068c7e09fe24f06c9d26b7d5e10b1839c887))
 * **ui:** hide empty system descriptions in tile view ([8df3676](https://github.com/z0w13/pkstatus/commit/8df3676438b4597afd5cec3905f39712995430b8))
