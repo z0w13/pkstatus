@@ -33,7 +33,14 @@ const routes: RouteRecordRaw[] = [
           },
         ],
       },
-      { path: '/manage', component: () => import('pages/ManagePage.vue') },
+      {
+        path: '/manage',
+        component: () => import('pages/Manage/ManagePage.vue'),
+      },
+      {
+        path: '/manage/add',
+        component: () => import('pages/Manage/AddPage.vue'),
+      },
       { path: '/settings', component: () => import('pages/SettingsPage.vue') },
     ],
   },

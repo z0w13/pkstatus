@@ -3,17 +3,6 @@
     <div>
       <div class="row q-pa-md">
         <div class="col">
-          <q-form filled @submit="onSubmit" class="q-gutter-md">
-            <q-input filled v-model="newId" label="System ID" />
-
-            <div>
-              <q-btn label="Add" type="submit" color="primary" />
-            </div>
-          </q-form>
-        </div>
-      </div>
-      <div class="row q-pa-md">
-        <div class="col">
           <q-table
             title="Systems"
             :columns="columns"
@@ -46,11 +35,13 @@
         </div>
       </div>
     </div>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab icon="add" color="primary" to="/manage/add" />
+    </q-page-sticky>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useSystemStore } from 'src/stores/system-store';
 
 const columns = [
@@ -61,14 +52,5 @@ const columns = [
   { name: 'buttons', field: '', label: '' },
 ];
 
-const newId = ref('');
 const systemStore = useSystemStore();
-
-async function onSubmit() {
-  const trimmedId = newId.value.trim();
-  if (trimmedId.length > 0) {
-    systemStore.addSystem(trimmedId);
-    newId.value = '';
-  }
-}
 </script>
