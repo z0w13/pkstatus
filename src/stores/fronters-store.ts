@@ -80,7 +80,7 @@ export const useFrontersStore = defineStore(STORE_NAME, {
     },
     async updateFronters(id: string): Promise<Fronters> {
       if (!Object.prototype.hasOwnProperty.call(this.fronters, id)) {
-        return this.addFronters(id); // TODO: Handle non existant system
+        return this.addFronters(id); // TODO: Handle non existent system
       }
 
       this.fronters[id] = {
