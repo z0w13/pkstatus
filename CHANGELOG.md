@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.1.7](https://github.com/z0w13/pkstatus/compare/v0.1.6...v0.1.7) (2024-02-29)
+
+
+### Features
+
+* **status/list:** Added icon that shows system/alter description on hover
+* **status/list:** Improved display of last switch/update
+* **status/list:** Added toggle for square avatars
+* **status/table:** Collapse fronters to a list on mobile
+* **settings/systems:** Added separate page for adding systems with preview
+* **settings/systems:** Systems list is now mobile-friendly
+* **settings/general:** Reworked interval settings to use dropdowns instead
+
+
+### Bug Fixes
+
+* **sidebar:** Project page now correctly opens in new window
+* **api/fronters:** Handle systems without switches correctly
+
 ## [0.1.6](https://github.com/z0w13/pkstatus/compare/v0.1.5...v0.1.6) (2024-02-28)
 
 
