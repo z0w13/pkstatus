@@ -24,7 +24,7 @@
     "dayjs": "^1.11.10",
     "pinia": "^2.0.11",
     "pinia-plugin-persistedstate": "^3.2.1",
-    "pkapi.js": "^6.2.0",
+    "pkapi.js": "^6.2.1",
     "quasar": "^2.6.0",
     "vue": "^3.4.18",
     "vue-router": "^4.0.12",

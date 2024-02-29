@@ -20,10 +20,23 @@ interface State {
 }
 
 async function getFronters(id: string): Promise<Fronters> {
+  const emptyFronters = {
+    system: id,
+    lastUpdated: dayjs(),
+    lastSwitch: null,
+    members: [],
+  };
+
   try {
     const fronters = await pk.getFronters({ system: id });
+    // Fronters being undefined means a switch has never been registered
+    if (!fronters) {
+      return {
+        ...emptyFronters,
+        allowed: true,
+      };
+    }
     const members = [...(fronters.members?.values() || [])] as Array<ApiMember>;
-
     return {
       system: id,
       lastUpdated: dayjs(),
@@ -32,26 +45,11 @@ async function getFronters(id: string): Promise<Fronters> {
       allowed: true,
     };
   } catch (e) {
-    const emptyFronters = {
-      system: id,
-      lastUpdated: dayjs(),
-      lastSwitch: null,
-      members: [],
-    };
-
     if (e instanceof APIError && e.status == '403') {
       // System has denied access to fronters, return default/empty data
       return {
         ...emptyFronters,
         allowed: false,
-      };
-    } else if (e instanceof TypeError) {
-      // No switches have been registered, but pkapi.js doesn't handle this
-      // return default/empty status, we're catching all TypeErrors
-      // which is a bit broad but it'll do for now
-      return {
-        ...emptyFronters,
-        allowed: true,
       };
     }
 
