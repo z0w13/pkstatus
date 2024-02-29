@@ -42,7 +42,11 @@
           icon="settings"
           link="/settings"
         />
-        <q-item clickable href="https://github.com/z0w13/pkstatus">
+        <q-item
+          clickable
+          target="_blank"
+          href="https://github.com/z0w13/pkstatus"
+        >
           <q-item-section avatar>
             <q-icon name="open_in_new" />
           </q-item-section>
