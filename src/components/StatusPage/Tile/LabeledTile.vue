@@ -38,7 +38,7 @@ withDefaults(
     img: string | null;
     label: string;
     size: number;
-    fallbackIcon: string;
+    fallbackIcon?: string;
   }>(),
   {
     fallbackIcon: 'person',
