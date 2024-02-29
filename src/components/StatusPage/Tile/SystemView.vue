@@ -4,7 +4,7 @@
       <labeled-tile
         :img="system.avatarUrl"
         :label="system.name"
-        :size="cardWidth"
+        :size="`${cardWidth}px`"
         fallback-icon="groups"
       >
         <q-card-section v-if="fronters && showStats">
@@ -53,7 +53,7 @@
             <labeled-tile
               :img="fronter.avatarUrl"
               :label="fronter.displayName || fronter.name"
-              :size="cardWidth"
+              :size="`${cardWidth}px`"
             >
               <q-card-section
                 v-if="fronter.description && showFronterDescription"
