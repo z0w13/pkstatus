@@ -1,14 +1,7 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="col col-sm-6 col-md-4">
-      <q-card-section class="q-py-md">
-        <div class="row items-center no-wrap">
-          <div class="col-auto q-mr-sm">
-            <q-icon name="settings" size="24px" />
-          </div>
-          <div class="col text-subtitle1">Settings</div>
-        </div>
-      </q-card-section>
+      <page-title icon="settings" text="Settings" />
       <q-list class="bg-lighten">
         <q-item>
           <q-item-section>
@@ -51,6 +44,8 @@
 import { storeToRefs } from 'pinia';
 import { useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings-store';
+
+import PageTitle from 'src/components/PageTitle.vue';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();

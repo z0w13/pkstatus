@@ -1,9 +1,9 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="col col-md-auto">
+      <page-title icon="people" text="Systems" />
       <q-table
         :grid="$q.screen.lt.sm"
-        title="Systems"
         :columns="columns"
         :rows="Object.values(systemStore.systems)"
         row-key="name"
@@ -75,6 +75,8 @@
 <script setup lang="ts">
 import { QTableProps, useQuasar } from 'quasar';
 import { useSystemStore } from 'src/stores/system-store';
+
+import PageTitle from 'src/components/PageTitle.vue';
 
 const $q = useQuasar();
 const systemStore = useSystemStore();

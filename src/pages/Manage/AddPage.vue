@@ -1,15 +1,8 @@
 <template>
   <q-page class="row justify-evenly">
     <q-form class="col col-sm-6 col-md-4" filled @submit="onSubmit">
-      <q-card-section class="q-pb-none q-pt-md">
-        <div class="row items-center no-wrap">
-          <div class="col-auto q-mr-sm">
-            <q-btn to="/manage" dense icon="arrow_back" />
-          </div>
-          <div class="col text-subtitle1">Add System</div>
-        </div>
-      </q-card-section>
-      <q-card-section>
+      <page-title icon="group_add" text="Add System" />
+      <q-card-section class="q-pt-none">
         <q-input
           filled
           label="System or Discord ID *"
@@ -30,6 +23,15 @@
         />
       </q-card-section>
 
+      <q-page-sticky position="bottom-left" :offset="[18, 18]">
+        <q-btn
+          fab
+          class="self-end"
+          icon="arrow_back"
+          color="primary"
+          to="/manage"
+        />
+      </q-page-sticky>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           fab
@@ -52,7 +54,9 @@ import { ref, watch } from 'vue';
 import { useSystemStore } from 'src/stores/system-store';
 import { nonEmptyStringOrNull } from 'src/util';
 import { useRouter } from 'vue-router';
+
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
+import PageTitle from 'src/components/PageTitle.vue';
 
 const $q = useQuasar();
 const router = useRouter();
