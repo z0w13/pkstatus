@@ -1,32 +1,43 @@
 <template>
-  <div class="row justify-center">
-    <div class="col-auto">
+  <div class="row justify-center" style="min-height: inherit">
+    <div class="col-auto q-mt-lg">
       <q-list>
         <template :key="id" v-for="[id, system] in Object.entries(systems)">
           <q-item>
             <q-item-section avatar>
-              <q-avatar
+              <initial-fallback-avatar
+                :name="system.name"
+                :url="system.avatarUrl"
                 :size="settings.iconSize + 'px'"
-                v-if="system.avatarUrl"
-                color="grey-10"
-                square
-              >
-                <img :src="system.avatarUrl" />
-              </q-avatar>
-              <q-avatar
-                :size="settings.iconSize + 'px'"
-                v-else
-                color="primary"
-                icon="people"
-                square
+                :square="settings.squareIcons"
               />
             </q-item-section>
             <q-item-section>
-              {{ system.name }}
+              <q-item-label>
+                {{ system.name }}
+                <q-icon name="info" v-if="system.description">
+                  <q-tooltip>
+                    <pre class="description">{{ system.description }}</pre>
+                  </q-tooltip>
+                </q-icon>
+              </q-item-label>
+              <q-item-label
+                caption
+                v-if="fronters[id] && settings.showUpdateTime"
+              >
+                <q-icon left name="update" aria-hidden="true" />
+                <span class="sr-only">Last updated</span>
+                <relative-time-display :time="fronters[id].lastUpdated" />
+              </q-item-label>
+              <q-item-label
+                caption
+                v-if="fronters[id] && settings.showLastSwitch"
+              >
+                <q-icon left name="swap_horiz" aria-hidden="true" />
+                <span class="sr-only">Last switch</span>
+                <relative-time-display :time="fronters[id].lastSwitch" />
+              </q-item-label>
             </q-item-section>
-            <q-tooltip v-if="system.description">
-              <pre class="description">{{ system.description }}</pre>
-            </q-tooltip>
           </q-item>
           <template v-if="fronters[id]">
             <template v-if="fronters[id].allowed">
@@ -36,69 +47,44 @@
                 :inset-level="1"
               >
                 <q-item-section avatar>
-                  <q-avatar
-                    color="grey-10"
-                    v-if="fronter.avatarUrl"
-                    square
+                  <initial-fallback-avatar
+                    :name="fronter.displayName || fronter.name"
+                    :url="fronter.avatarUrl"
                     :size="settings.iconSize + 'px'"
-                  >
-                    <q-img :ratio="1" :src="fronter.avatarUrl">
-                      <template v-slot:error>
-                        <q-icon
-                          :size="`${settings.iconSize}px`"
-                          class="bg-grey"
-                          color="white"
-                          name="broken_image"
-                        />
-                      </template>
-                    </q-img>
-                  </q-avatar>
-                  <q-avatar
-                    v-else
-                    color="primary"
-                    icon="person"
-                    square
-                    :size="settings.iconSize + 'px'"
+                    :square="settings.squareIcons"
                   />
                 </q-item-section>
-                <q-item-section>
-                  {{ fronter.displayName || fronter.name }}
+                <q-item-section no-wrap>
+                  <q-item-label>
+                    {{ fronter.displayName || fronter.name }}
+                    <q-icon name="info" v-if="fronter.description">
+                      <q-tooltip>
+                        <pre class="description">{{ fronter.description }}</pre>
+                      </q-tooltip>
+                    </q-icon>
+                  </q-item-label>
                 </q-item-section>
-                <q-tooltip v-if="fronter.description">
-                  <pre class="description">{{ fronter.description }}</pre>
-                </q-tooltip>
               </q-item>
             </template>
             <!-- No Access -->
             <q-item v-else :inset-level="1">
               <q-item-section avatar>
                 <q-avatar
+                  :square="settings.squareIcons"
                   color="red"
                   icon="close"
-                  square
                   :size="settings.iconSize + 'px'"
                 />
               </q-item-section>
               <q-item-section>No Access</q-item-section>
             </q-item>
-            <q-item v-if="settings.showUpdateTime" :inset-level="1">
-              <q-item-section class="text-italic text-no-wrap">
-                Last updated
-                <relative-time-display :time="fronters[id].lastUpdated" />
-              </q-item-section>
-            </q-item>
-            <q-item v-if="settings.showLastSwitch" :inset-level="1">
-              <q-item-section class="text-italic text-no-wrap">
-                Last switch
-                <relative-time-display :time="fronters[id].lastSwitch" />
-              </q-item-section>
-            </q-item>
           </template>
           <!-- Loading -->
-          <q-item v-else>
-            <q-item-section>
-              <q-linear-progress query />
+          <q-item v-else :inset-level="1">
+            <q-item-section avatar>
+              <q-spinner :size="settings.iconSize + 'px'" />
             </q-item-section>
+            <q-item-section>Loading...</q-item-section>
           </q-item>
         </template>
       </q-list>
@@ -111,6 +97,7 @@ import { Fronters } from 'src/stores/fronters-store';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { System } from 'src/models/System';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
+import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 
 const settings = useSettingsStore().status.list;
 
