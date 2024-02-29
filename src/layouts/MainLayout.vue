@@ -24,24 +24,43 @@
       bordered
     >
       <q-list class="col-auto">
-        <essential-link
-          title="Status"
-          caption="Show system statuses"
-          icon="people"
-          link="/status"
-        />
-        <essential-link
-          title="Manage"
-          caption="Manage tracked systems"
-          icon="manage_accounts"
-          link="/manage"
-        />
-        <essential-link
-          title="Settings"
-          caption="Global settings"
-          icon="settings"
-          link="/settings"
-        />
+        <q-item-label header>Pages</q-item-label>
+        <q-item clickable to="/status">
+          <q-item-section avatar>
+            <q-icon name="people" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Status</q-item-label>
+            <q-item-label caption>Show system statuses</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-separator spaced />
+        <q-item-label header>Settings</q-item-label>
+        <q-item clickable to="/manage">
+          <q-item-section avatar>
+            <q-icon name="manage_accounts" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Systems</q-item-label>
+            <q-item-label caption>Manage tracked systems</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable to="/settings">
+          <q-item-section avatar>
+            <q-icon name="settings" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>General</q-item-label>
+            <q-item-label caption>Other Settings</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-separator spaced />
+        <q-item-label header>Other</q-item-label>
         <q-item
           clickable
           target="_blank"
@@ -53,11 +72,12 @@
 
           <q-item-section>
             <q-item-label>GitHub</q-item-label>
-            <q-item-label caption>Project Page</q-item-label>
+            <q-item-label caption>Project page</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
       <q-list class="col-auto">
+        <q-separator spaced />
         <q-item tag="label">
           <q-item-section>
             <q-item-label>Dark Mode</q-item-label>
@@ -81,7 +101,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
 import { version } from '../../package.json';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { storeToRefs } from 'pinia';
