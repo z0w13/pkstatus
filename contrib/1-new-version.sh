@@ -15,7 +15,7 @@ generateChangelog() {
   changelogPost="$(tail -n+3 CHANGELOG.md)"
 
   {
-    echo "$changelogPre" > CHANGELOG.md
+    echo "$changelogPre"
     echo -e "\n## [${newVersion}](${GITHUB_REPO}/compare/v${currentVersion}...v${newVersion}) (${currentDate})"
     echo -e "\n\n### Features\n\nTODO"
     echo -e "\n\n### Bug Fixes\n\nTODO\n"
