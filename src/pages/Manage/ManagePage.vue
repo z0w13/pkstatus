@@ -1,39 +1,70 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <div>
-      <div class="row q-pa-md">
-        <div class="col">
-          <q-table
-            title="Systems"
-            :columns="columns"
-            :rows="Object.values(systemStore.systems)"
-            row-key="name"
-            flat
-          >
-            <template v-slot:body="props">
-              <q-tr :props="props">
-                <q-td>
-                  <img width="24" :src="props.row.avatarUrl" />
-                </q-td>
-                <q-td>{{ props.row.id }}</q-td>
-                <q-td>
-                  {{ props.row.name }}
-                </q-td>
-                <q-td>
-                  {{ props.row.note }}
-                </q-td>
-                <q-td>
-                  <q-btn
-                    icon="delete"
-                    color="negative"
-                    @click="systemStore.deleteSystem(props.row.id)"
-                  />
-                </q-td>
-              </q-tr>
-            </template>
-          </q-table>
-        </div>
-      </div>
+  <q-page class="row justify-evenly">
+    <div class="col col-md-auto">
+      <q-table
+        :grid="$q.screen.lt.sm"
+        title="Systems"
+        :columns="columns"
+        :rows="Object.values(systemStore.systems)"
+        row-key="name"
+        class="bg-lighten"
+        :card-container-class="{
+          column: true,
+          'q-mx-md': true,
+          'q-list': true,
+          'q-list--separator': false,
+          'q-list--bordered': false,
+          'q-list--dark': $q.dark.isActive,
+        }"
+        flat
+      >
+        <template v-slot:body-cell-avatar="props">
+          <q-td :props="props">
+            <img width="24" :src="props.value" />
+          </q-td>
+        </template>
+        <template v-slot:body-cell-buttons="props">
+          <q-td :props="props">
+            <q-btn-group unelevated>
+              <q-btn
+                dense
+                icon="delete"
+                color="negative"
+                @click="deleteSystem(props.row.id)"
+              />
+            </q-btn-group>
+          </q-td>
+        </template>
+
+        <!-- Grid Layout -->
+        <template v-slot:item="props">
+          <q-item class="q-pa-sm">
+            <q-item-section avatar>
+              <q-avatar :color="props.row.avatarUrl ? '' : 'primary'">
+                <img v-if="props.row.avatarUrl" :src="props.row.avatarUrl" />
+                <template v-else>
+                  {{
+                    (props.row.displayName || props.row.name).substring(0, 1)
+                  }}
+                </template>
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ props.row.name }}</q-item-label>
+              <q-item-label caption>{{ props.row.id }}</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-btn
+                flat
+                dense
+                icon="delete"
+                color="negative"
+                @click="deleteSystem(props.row.id)"
+              />
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-table>
     </div>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab icon="add" color="primary" to="/manage/add" />
@@ -42,15 +73,28 @@
 </template>
 
 <script setup lang="ts">
+import { QTableProps, useQuasar } from 'quasar';
 import { useSystemStore } from 'src/stores/system-store';
 
-const columns = [
-  { name: 'avatarUrl', field: 'avatarUrl', label: 'Icon' },
-  { name: 'id', field: 'id', label: 'ID' },
-  { name: 'name', field: 'name', label: 'Name' },
-  { name: 'note', field: 'note', label: 'Note' },
+const $q = useQuasar();
+const systemStore = useSystemStore();
+
+const columns: QTableProps['columns'] = [
+  { name: 'avatar', field: 'avatarUrl', label: 'Icon', align: 'left' },
+  { name: 'id', field: 'id', label: 'ID', align: 'left' },
+  { name: 'name', field: 'name', label: 'Name', align: 'left' },
+  {
+    name: 'note',
+    field: 'note',
+    label: 'Note',
+    align: 'left',
+    headerStyle: 'width: 100%',
+  },
   { name: 'buttons', field: '', label: '' },
 ];
 
-const systemStore = useSystemStore();
+function deleteSystem(id: string) {
+  systemStore.deleteSystem(id);
+  $q.notify('System Deleted');
+}
 </script>
