@@ -19,6 +19,7 @@
           :label="newSys.name || ''"
           :caption="newSys.pronouns"
           :img="nonEmptyStringOrNull(newSys.avatar_url)"
+          :fallback-icon="matGroups"
           size="100%"
         />
       </q-card-section>
@@ -54,6 +55,7 @@ import { ref, watch } from 'vue';
 import { useSystemStore } from 'src/stores/system-store';
 import { nonEmptyStringOrNull } from 'src/util';
 import { useRouter } from 'vue-router';
+import { matGroups } from '@quasar/extras/material-icons';
 
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
 import PageTitle from 'src/components/PageTitle.vue';

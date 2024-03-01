@@ -5,7 +5,7 @@
         :img="system.avatarUrl"
         :label="system.name"
         :size="`${cardWidth}px`"
-        fallback-icon="groups"
+        :fallback-icon="matGroups"
       >
         <q-card-section v-if="fronters && showStats">
           <q-item v-if="showUpdateTime">
@@ -103,6 +103,7 @@ import { System } from 'src/models/System';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
 import { computed } from 'vue';
+import { matGroups } from '@quasar/extras/material-icons';
 
 export interface Props {
   system: System;

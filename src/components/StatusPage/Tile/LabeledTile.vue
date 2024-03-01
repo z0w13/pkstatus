@@ -8,9 +8,13 @@
       <template v-slot:error>
         <q-icon
           :size="size"
+          :style="{
+            width: size,
+            height: size,
+          }"
           class="absolute-center"
           color="grey"
-          name="broken_image"
+          :name="matBrokenImage"
         />
         <div class="absolute-bottom text-center">
           <div class="text-subtitle1">{{ label }}</div>
@@ -21,7 +25,11 @@
     <q-img v-else ratio="1">
       <q-icon
         :size="size"
-        style="transform: translate(-50%, -50%) scale(75%)"
+        :style="{
+          transform: 'translate(-50%, -50%) scale(75%)',
+          width: size,
+          height: size,
+        }"
         class="absolute-center"
         color="grey"
         :name="fallbackIcon"
@@ -37,6 +45,8 @@
 </template>
 
 <script setup lang="ts">
+import { matPerson, matBrokenImage } from '@quasar/extras/material-icons';
+
 withDefaults(
   defineProps<{
     img: string | null;
@@ -46,7 +56,7 @@ withDefaults(
     fallbackIcon?: string;
   }>(),
   {
-    fallbackIcon: 'person',
+    fallbackIcon: matPerson,
   },
 );
 </script>
