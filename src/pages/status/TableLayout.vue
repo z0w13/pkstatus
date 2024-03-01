@@ -32,6 +32,9 @@
                 :label="system.getName({ stripPronouns: true })"
                 :caption="system.getPronouns()"
                 square
+                @click="
+                  !!system.description && useMobileUi && dialog.show(system)
+                "
               />
             </td>
             <template v-if="fronters[id]">
@@ -45,6 +48,7 @@
                     :tooltip="fronter.description"
                     :label="fronter.getName({ stripPronouns: true })"
                     :caption="fronter.getPronouns()"
+                    @click="!!fronter.description && dialog.show(fronter)"
                     class="q-mb-sm"
                     square
                   />
@@ -59,7 +63,7 @@
                     <table-entity
                       :img="fronter.avatarUrl"
                       :size="settings.iconSize + 'px'"
-                      :tooltip="fronter.description"
+                      :tooltip="$q.screen.gt.md ? system.description : null"
                       :label="fronter.getName({ stripPronouns: true })"
                       :caption="fronter.getPronouns()"
                       square
@@ -107,15 +111,18 @@
       </q-markup-table>
     </div>
   </div>
+
+  <description-dialog ref="dialog" />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 import { Fronters } from 'src/stores/fronters-store';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { System } from 'src/models/System';
 
+import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 import TableEntity from 'src/pages/status/Table/TableEntity.vue';
 import { useQuasar } from 'quasar';
@@ -124,6 +131,7 @@ const $q = useQuasar();
 
 const settings = useSettingsStore().status.table;
 const useMobileUi = computed(() => $q.screen.lt.sm);
+const dialog = ref();
 
 export interface Props {
   fronters: Record<string, Fronters>;

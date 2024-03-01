@@ -15,8 +15,12 @@
             <q-item-section>
               <q-item-label>
                 {{ system.name }}
-                <q-icon name="info" v-if="system.description">
-                  <q-tooltip>
+                <q-icon
+                  name="info"
+                  v-if="system.description"
+                  @click="$q.screen.gt.md || dialog.show(system)"
+                >
+                  <q-tooltip v-if="$q.screen.gt.md">
                     <pre class="description">{{ system.description }}</pre>
                   </q-tooltip>
                 </q-icon>
@@ -60,8 +64,12 @@
                 <q-item-section no-wrap>
                   <q-item-label>
                     {{ fronter.getName({ stripPronouns: true }) }}
-                    <q-icon name="info" v-if="fronter.description">
-                      <q-tooltip>
+                    <q-icon
+                      name="info"
+                      v-if="fronter.description"
+                      @click="$q.screen.gt.md || dialog.show(fronter)"
+                    >
+                      <q-tooltip v-if="$q.screen.gt.md">
                         <pre class="description">{{ fronter.description }}</pre>
                       </q-tooltip>
                     </q-icon>
@@ -96,6 +104,7 @@
       </q-list>
     </div>
   </div>
+  <description-dialog ref="dialog" />
 </template>
 
 <script setup lang="ts">
@@ -104,8 +113,14 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import { System } from 'src/models/System';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
+import { ref } from 'vue';
+import { useQuasar } from 'quasar';
+import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 
+const $q = useQuasar();
 const settings = useSettingsStore().status.list;
+
+const dialog = ref();
 
 export interface Props {
   fronters: Record<string, Fronters>;

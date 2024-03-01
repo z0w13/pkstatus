@@ -1,31 +1,37 @@
 <template>
-  <q-item dense class="q-pa-none">
-    <q-item-section avatar class="col-auto q-pr-sm">
-      <initial-fallback-avatar
-        v-if="!icon"
-        :name="label"
-        :url="img"
-        :size="size"
-        :square="square"
-        :color="color"
-      />
-      <q-avatar
-        v-else
-        :color="color"
-        :icon="icon"
-        :size="size"
-        :square="square"
-      />
-    </q-item-section>
-    <q-item-section class="col-auto">
-      <q-item-label>{{ label }}</q-item-label>
-      <q-item-label caption v-if="caption">{{ caption }}</q-item-label>
+  <div>
+    <q-item dense class="q-pa-none">
+      <q-item-section avatar class="col-auto q-pr-sm">
+        <initial-fallback-avatar
+          v-if="!icon"
+          :name="label"
+          :url="img"
+          :size="size"
+          :square="square"
+          :color="color"
+        />
+        <q-avatar
+          v-else
+          :color="color"
+          :icon="icon"
+          :size="size"
+          :square="square"
+        />
+      </q-item-section>
+      <q-item-section class="col-auto">
+        <q-item-label>
+          {{ label }}
 
-      <q-tooltip v-if="tooltip">
-        <pre class="description">{{ tooltip }}</pre>
-      </q-tooltip>
-    </q-item-section>
-  </q-item>
+          <q-icon name="info" v-if="tooltip">
+            <q-tooltip v-if="tooltip && $q.screen.gt.sm">
+              <pre class="description">{{ tooltip }}</pre>
+            </q-tooltip>
+          </q-icon>
+        </q-item-label>
+        <q-item-label caption v-if="caption">{{ caption }}</q-item-label>
+      </q-item-section>
+    </q-item>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -40,10 +46,11 @@ withDefaults(
     color?: string;
     img?: string | null;
     size: string;
-    square: boolean;
+    square?: boolean;
   }>(),
   {
     color: 'primary',
+    square: false,
   },
 );
 </script>
