@@ -85,7 +85,7 @@
               </template>
             </template>
             <!-- Loading -->
-            <td v-else valign="top">
+            <td v-else valign="middle">
               <q-linear-progress query />
             </td>
             <!-- Spacer -->
