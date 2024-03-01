@@ -5,3 +5,8 @@ export function nonEmptyStringOrNull(input: unknown): string | null {
 
   return null;
 }
+
+const PronounRegex = new RegExp('(\\w+)\\/(\\w+)');
+export function containsPronouns(input: string): boolean {
+  return PronounRegex.test(input);
+}
