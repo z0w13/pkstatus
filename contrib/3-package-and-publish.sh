@@ -83,27 +83,17 @@ clean() {
 onExit() {
   cd "$REPO_ROOT"
 
-  # Clean artifacts
   clean
-
-  # Reset package.json
-  git checkout package.json
+  resetVersion
 }
 
 main() {
-  local baseVersion pkgVersion pkgName productName
+  local pkgVersion pkgName productName
 
-  baseVersion="$(getVersion)"
   pkgName="$(jq -r ".name" package.json)"
   productName="$(jq -r ".productName" package.json)"
 
-  # Override version for packaging
-  if [[ "${NODE_ENV:=}" != "production" ]]; then
-    pkgVersion="${baseVersion}-dev+$(git rev-parse --short HEAD)"
-  else
-    pkgVersion="${baseVersion}"
-  fi
-  setVersion "$pkgVersion"
+  setVersion "$(generateVersion)"
 
   # Package and push release
   packageSinglePageApp "$pkgName" "$pkgVersion"

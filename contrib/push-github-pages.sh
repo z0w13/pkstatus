@@ -4,7 +4,13 @@ test -n "${DEBUG:-}" && set -x
 
 . contrib/shared.sh
 
+onExit() {
+  resetVersion
+}
+
 main() {
+  setVersion "$(generateVersion)"
+
   PKSTATUS_BUILD_MODE="gh-pages" pnpm exec quasar build -m pwa
 
   pushd dist/pwa
@@ -16,4 +22,5 @@ main() {
   popd
 }
 
+trap onExit EXIT
 main "$@"
