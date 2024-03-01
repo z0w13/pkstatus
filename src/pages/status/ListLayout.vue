@@ -21,11 +21,14 @@
                   </q-tooltip>
                 </q-icon>
               </q-item-label>
+              <q-item-label v-if="system.getPronouns()" caption>
+                {{ system.getPronouns() }}
+              </q-item-label>
               <q-item-label
                 caption
                 v-if="fronters[id] && settings.showUpdateTime"
               >
-                <q-icon left name="update" aria-hidden="true" />
+                <q-icon class="q-mr-xs" name="update" aria-hidden="true" />
                 <span class="sr-only">Last updated</span>
                 <relative-time-display :time="fronters[id].lastUpdated" />
               </q-item-label>
@@ -33,7 +36,7 @@
                 caption
                 v-if="fronters[id] && settings.showLastSwitch"
               >
-                <q-icon left name="swap_horiz" aria-hidden="true" />
+                <q-icon class="q-mr-xs" name="swap_horiz" aria-hidden="true" />
                 <span class="sr-only">Last switch</span>
                 <relative-time-display :time="fronters[id].lastSwitch" />
               </q-item-label>
@@ -48,7 +51,7 @@
               >
                 <q-item-section avatar>
                   <initial-fallback-avatar
-                    :name="fronter.displayName || fronter.name"
+                    :name="fronter.getName()"
                     :url="fronter.avatarUrl"
                     :size="settings.iconSize + 'px'"
                     :square="settings.squareIcons"
@@ -56,12 +59,15 @@
                 </q-item-section>
                 <q-item-section no-wrap>
                   <q-item-label>
-                    {{ fronter.displayName || fronter.name }}
+                    {{ fronter.getName({ stripPronouns: true }) }}
                     <q-icon name="info" v-if="fronter.description">
                       <q-tooltip>
                         <pre class="description">{{ fronter.description }}</pre>
                       </q-tooltip>
                     </q-icon>
+                  </q-item-label>
+                  <q-item-label caption>
+                    {{ fronter.getPronouns() }}
                   </q-item-label>
                 </q-item-section>
               </q-item>

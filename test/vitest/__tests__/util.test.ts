@@ -1,4 +1,9 @@
-import { nonEmptyStringOrNull, containsPronouns } from 'src/util';
+import {
+  nonEmptyStringOrNull,
+  containsPronouns,
+  getPronouns,
+  stripPronouns,
+} from 'src/util';
 import { describe, expect, it, test } from 'vitest';
 
 describe('Test nonEmptyStringOrNull', function () {
@@ -33,5 +38,35 @@ describe('containsPronouns', function () {
       'Vivamus a sapien at diam aliquet eleifend.',
       'Nulla venenatis enim sit amet justo congue, vel rhoncus leo sagittis.',
     ])("'%s' == false", (input) => expect(containsPronouns(input)).toBe(false));
+  });
+});
+
+describe('getPronouns', function () {
+  it('returns null without pronouns in the text', function () {
+    expect(getPronouns('Example Name')).toBeNull();
+  });
+
+  describe('extracts pronouns from the text', function () {
+    it.each([
+      { input: 'Foo (She/Her)', expected: 'She/Her' },
+      { input: 'Bar [He/They]', expected: 'He/They' },
+      { input: 'Baz {They/It}', expected: 'They/It' },
+      { input: 'Qux Fae/Faer', expected: 'Fae/Faer' },
+    ])('$input -> $expected', ({ input, expected }) =>
+      expect(getPronouns(input)).toBe(expected),
+    );
+  });
+});
+describe('stripPronouns', function () {
+  describe('it returns the string without pronouns', function () {
+    it.each([
+      { input: 'Foo (She/Her)', expected: 'Foo' },
+      { input: 'Bar [He/They]', expected: 'Bar' },
+      { input: 'Baz {They/It}', expected: 'Baz' },
+      { input: 'Qux Fae/Faer', expected: 'Qux' },
+      { input: 'Quux', expected: 'Quux' },
+    ])('$input -> $expected', ({ input, expected }) =>
+      expect(stripPronouns(input)).toBe(expected),
+    );
   });
 });

@@ -3,7 +3,8 @@
     <q-card flat :style="{ width: `${cardWidth}px` }">
       <labeled-tile
         :img="system.avatarUrl"
-        :label="system.name"
+        :label="system.getName({ stripPronouns: true })"
+        :caption="system.getPronouns()"
         :size="`${cardWidth}px`"
         :fallback-icon="matGroups"
       >
@@ -55,7 +56,8 @@
           >
             <labeled-tile
               :img="fronter.avatarUrl"
-              :label="fronter.displayName || fronter.name"
+              :label="fronter.getName({ stripPronouns: true })"
+              :caption="fronter.getPronouns()"
               :size="`${cardWidth}px`"
             >
               <q-card-section

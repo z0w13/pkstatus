@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { ISystem as ApiSystem } from 'pkapi.js';
 import { z } from 'zod';
+import * as util from 'src/util';
 
 export const SerializedSystem = z.object({
   id: z.string(),
@@ -54,6 +55,30 @@ export class System implements ISystem {
     public createdAt: dayjs.Dayjs,
     public updatedAt: dayjs.Dayjs,
   ) {}
+
+  getName({
+    stripPronouns = false,
+    appendPronouns = false,
+  }: {
+    stripPronouns?: boolean;
+    appendPronouns?: boolean;
+  } = {}): string {
+    if (stripPronouns) {
+      return util.stripPronouns(this.name);
+    }
+
+    if (appendPronouns && (util.containsPronouns(this.name) || this.pronouns)) {
+      return util.containsPronouns(this.name)
+        ? this.name
+        : `${this.name} (${this.pronouns})`;
+    }
+
+    return this.name;
+  }
+
+  getPronouns(): string | null {
+    return this.pronouns || util.getPronouns(this.name);
+  }
 
   static fromDict(values: ISystem): System {
     return new System(

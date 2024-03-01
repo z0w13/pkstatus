@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { IMember as ApiMember } from 'pkapi.js';
 
-import { nonEmptyStringOrNull } from 'src/util';
 import { ProxyTag } from 'src/models/ProxyTag';
+import * as util from 'src/util';
 
 interface IMember {
   id: string;
@@ -59,6 +59,30 @@ export class Member implements IMember {
     public updatedAt: dayjs.Dayjs,
   ) {}
 
+  getName({
+    stripPronouns = false,
+    appendPronouns = false,
+  }: {
+    stripPronouns?: boolean;
+    appendPronouns?: boolean;
+  } = {}): string {
+    const name = this.displayName || this.name;
+
+    if (stripPronouns) {
+      return util.stripPronouns(name);
+    }
+
+    if (appendPronouns) {
+      return util.containsPronouns(name) ? name : `${name} (${this.pronouns})`;
+    }
+
+    return name;
+  }
+
+  getPronouns(): string | null {
+    return this.pronouns || util.getPronouns(this.name);
+  }
+
   static fromDict(values: IMember): Member {
     return new Member(
       values.id,
@@ -93,15 +117,15 @@ export class Member implements IMember {
       ...member,
 
       name: member.name || '',
-      displayName: nonEmptyStringOrNull(member.display_name),
-      color: nonEmptyStringOrNull(member.color),
+      displayName: util.nonEmptyStringOrNull(member.display_name),
+      color: util.nonEmptyStringOrNull(member.color),
       birthday: member.birthday ? dayjs(member.birthday) : null,
-      pronouns: nonEmptyStringOrNull(member.pronouns),
-      description: nonEmptyStringOrNull(member.description),
+      pronouns: util.nonEmptyStringOrNull(member.pronouns),
+      description: util.nonEmptyStringOrNull(member.description),
 
-      avatarUrl: nonEmptyStringOrNull(member.avatar_url),
-      webhookAvatarUrl: nonEmptyStringOrNull(member.webhook_avatar_url),
-      bannerUrl: nonEmptyStringOrNull(member.banner),
+      avatarUrl: util.nonEmptyStringOrNull(member.avatar_url),
+      webhookAvatarUrl: util.nonEmptyStringOrNull(member.webhook_avatar_url),
+      bannerUrl: util.nonEmptyStringOrNull(member.banner),
 
       proxyTags: (member.proxy_tags || []).map((t) => ProxyTag.fromPKApi(t)),
       keepProxy: member.keep_proxy || null,

@@ -22,27 +22,30 @@
           <tr
             :key="id"
             v-for="[id, system] in Object.entries(systems)"
-            :style="`line-height: ${settings.iconSize * 1.1}px`"
+            :style="`line-height: ${settings.iconSize}px`"
           >
             <td valign="top">
               <table-entity
                 :img="system.avatarUrl"
                 :size="settings.iconSize + 'px'"
                 :tooltip="system.description"
-                :text="system.name"
+                :label="system.getName({ stripPronouns: true })"
+                :caption="system.getPronouns()"
                 square
               />
             </td>
             <template v-if="fronters[id]">
               <template v-if="fronters[id].allowed">
-                <td v-if="useMobileUi" valign="top">
+                <td v-if="useMobileUi" valign="top" style="padding-bottom: 0">
                   <table-entity
                     v-for="fronter of fronters[id].members"
                     :key="fronter.id"
                     :img="fronter.avatarUrl"
                     :size="settings.iconSize + 'px'"
                     :tooltip="fronter.description"
-                    :text="fronter.displayName || fronter.name"
+                    :label="fronter.getName({ stripPronouns: true })"
+                    :caption="fronter.getPronouns()"
+                    class="q-mb-sm"
                     square
                   />
                 </td>
@@ -57,7 +60,8 @@
                       :img="fronter.avatarUrl"
                       :size="settings.iconSize + 'px'"
                       :tooltip="fronter.description"
-                      :text="fronter.displayName || fronter.name"
+                      :label="fronter.getName({ stripPronouns: true })"
+                      :caption="fronter.getPronouns()"
                       square
                     />
                   </td>
@@ -71,7 +75,7 @@
               <template v-else>
                 <td>
                   <table-entity
-                    text="No Access"
+                    label="No Access"
                     :size="settings.iconSize + 'px'"
                     icon="close"
                     color="red"
