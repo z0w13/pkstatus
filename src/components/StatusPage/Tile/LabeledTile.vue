@@ -17,7 +17,7 @@
           :name="matBrokenImage"
         />
         <div class="absolute-bottom text-center">
-          <div class="text-subtitle1">{{ label }}</div>
+          <div class="text-subtitle2">{{ label }}</div>
           <div class="text-caption" v-if="caption">{{ caption }}</div>
         </div>
       </template>
@@ -35,7 +35,7 @@
         :name="fallbackIcon"
       />
       <div class="absolute-bottom text-center">
-        <div class="text-subtitle1">{{ label }}</div>
+        <div class="text-subtitle2">{{ label }}</div>
         <div class="text-caption" v-if="caption">{{ caption }}</div>
       </div>
     </q-img>
