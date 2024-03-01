@@ -1,8 +1,18 @@
 <template>
-  <q-avatar :size="size" :color="url ? '' : color">
-    <q-img :ratio="1" v-if="url" :src="url">
+  <q-avatar :size="size" :color="bgColor">
+    <q-img :ratio="1" v-if="url" :src="url" @load="onLoad" @error="onError">
       <template v-slot:error>
-        <q-icon class="bg-grey" color="white" name="broken_image" />
+        <q-icon
+          :size="size"
+          :style="{
+            transform: 'translate(-50%, -50%) scale(60%)',
+            width: size,
+            height: size,
+          }"
+          class="absolute-center"
+          color="white"
+          :name="matBrokenImage"
+        />
       </template>
     </q-img>
     <template v-else>
@@ -12,7 +22,10 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
+import { matBrokenImage } from '@quasar/extras/material-icons';
+import { toRef } from 'vue';
+
+const props = withDefaults(
   defineProps<{
     url?: string | null;
     color?: string;
@@ -23,4 +36,13 @@ withDefaults(
     color: 'primary',
   },
 );
+
+const bgColor = toRef(props.color);
+
+function onLoad() {
+  bgColor.value = '';
+}
+function onError() {
+  bgColor.value = 'grey';
+}
 </script>
