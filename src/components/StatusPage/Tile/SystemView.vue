@@ -7,9 +7,12 @@
         :size="`${cardWidth}px`"
         :fallback-icon="matGroups"
       >
-        <q-card-section v-if="fronters && showStats">
+        <q-card-section
+          v-if="fronters && showStats"
+          :class="{ 'q-px-none': cardWidth < 220 }"
+        >
           <q-item v-if="showUpdateTime">
-            <q-item-section avatar>
+            <q-item-section avatar v-if="cardWidth > 180">
               <q-icon name="update" />
             </q-item-section>
             <q-item-section>
@@ -21,7 +24,7 @@
           </q-item>
 
           <q-item v-if="showLastSwitch">
-            <q-item-section avatar>
+            <q-item-section avatar v-if="cardWidth > 180">
               <q-icon name="swap_horiz" />
             </q-item-section>
             <q-item-section>
