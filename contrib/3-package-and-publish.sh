@@ -91,9 +91,10 @@ main() {
   local pkgVersion pkgName productName
 
   pkgName="$(jq -r ".name" package.json)"
+  pkgVersion="$(generateVersion)"
   productName="$(jq -r ".productName" package.json)"
 
-  setVersion "$(generateVersion)"
+  setVersion "$pkgVersion"
 
   # Package and push release
   packageSinglePageApp "$pkgName" "$pkgVersion"
