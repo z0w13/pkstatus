@@ -21,7 +21,7 @@
       {{ text }}
 
       <q-tooltip v-if="tooltip">
-        <pre class="description">tooltip</pre>
+        <pre class="description">{{ tooltip }}</pre>
       </q-tooltip>
     </q-item-section>
   </q-item>
