@@ -20,7 +20,11 @@
       >
         <template v-slot:body-cell-avatar="props">
           <q-td :props="props">
-            <img width="24" :src="props.value" />
+            <initial-fallback-avatar
+              :url="props.value"
+              :name="props.row.name"
+              size="24px"
+            />
           </q-td>
         </template>
         <template v-slot:body-cell-buttons="props">
@@ -77,6 +81,7 @@ import { QTableProps, useQuasar } from 'quasar';
 import { useSystemStore } from 'src/stores/system-store';
 
 import PageTitle from 'src/components/PageTitle.vue';
+import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 
 const $q = useQuasar();
 const systemStore = useSystemStore();
