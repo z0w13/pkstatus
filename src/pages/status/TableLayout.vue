@@ -91,12 +91,12 @@
             <!-- Spacer -->
             <td v-if="!useMobileUi" />
             <!-- Last Switch -->
-            <td v-if="settings.showLastSwitch && fronters[id]" valign="top">
-              <relative-time-display :time="fronters[id].lastSwitch" />
+            <td v-if="settings.showLastSwitch" valign="top">
+              <relative-time-display :time="fronters[id]?.lastSwitch" />
             </td>
             <!-- Last Updated -->
-            <td v-if="settings.showUpdateTime && fronters[id]" valign="top">
-              <relative-time-display :time="fronters[id].lastUpdated" />
+            <td v-if="settings.showUpdateTime" valign="top">
+              <relative-time-display :time="fronters[id]?.lastUpdated" />
             </td>
           </tr>
         </tbody>
