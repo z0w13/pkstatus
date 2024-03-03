@@ -12,18 +12,18 @@
 
 ### Features
 
-**status:** Scrollable descriptions for systems/alters on mobile
-**status:** Show pronouns on systems/alters
-**status/tile:** Improved UI with smaller tile sizes
-**manage:** Better avatar handling
+* **status:** Scrollable descriptions for systems/alters on mobile
+* **status:** Show pronouns on systems/alters
+* **status/tile:** Improved UI with smaller tile sizes
+* **manage:** Better avatar handling
 
 
 ### Bug Fixes
 
-**ui:** Fix fallback icons
-**ui:** Fix icon for broken images
-**ui:** Fix inconsistent text size on tiles
-**status/table:** Fix tooltip display
+* **ui:** Fix fallback icons
+* **ui:** Fix icon for broken images
+* **ui:** Fix inconsistent text size on tiles
+* **status/table:** Fix tooltip display
 
 ## [0.1.7](https://github.com/z0w13/pkstatus/compare/v0.1.6...v0.1.7) (2024-02-29)
 
