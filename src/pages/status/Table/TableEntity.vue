@@ -23,7 +23,7 @@
           {{ label }}
 
           <q-icon name="info" v-if="tooltip">
-            <q-tooltip v-if="tooltip && $q.screen.gt.sm">
+            <q-tooltip v-if="tooltip && $q.screen.gt.xs">
               <pre class="description">{{ tooltip }}</pre>
             </q-tooltip>
           </q-icon>

@@ -63,7 +63,7 @@
                     <table-entity
                       :img="fronter.avatarUrl"
                       :size="settings.iconSize + 'px'"
-                      :tooltip="$q.screen.gt.md ? system.description : null"
+                      :tooltip="fronter.description"
                       :label="fronter.getName({ stripPronouns: true })"
                       :caption="fronter.getPronouns()"
                       square
