@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.9](https://github.com/z0w13/pkstatus/compare/v0.1.8...v0.1.9) (2024-03-03)
+
+
+### Bug Fixes
+
+* **status/table:** Fix system description showing for alters on desktop
+
 ## [0.1.8](https://github.com/z0w13/pkstatus/compare/v0.1.7...v0.1.8) (2024-03-01)
 
 
