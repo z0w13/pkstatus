@@ -59,28 +59,17 @@ export class Member implements IMember {
     public updatedAt: dayjs.Dayjs,
   ) {}
 
-  getName({
-    stripPronouns = false,
-    appendPronouns = false,
-  }: {
-    stripPronouns?: boolean;
-    appendPronouns?: boolean;
-  } = {}): string {
+  getName(stripPronouns = false): string {
     const name = this.displayName || this.name;
-
-    if (stripPronouns) {
-      return util.stripPronouns(name, '|');
-    }
-
-    if (appendPronouns) {
-      return util.containsPronouns(name) ? name : `${name} (${this.pronouns})`;
-    }
-
-    return name;
+    return stripPronouns ? util.stripPronouns(name, '|') : name;
   }
 
-  getPronouns(): string | null {
-    return this.pronouns || util.getPronouns(this.name);
+  getPronouns(nameFallback = false): string | null {
+    if (!this.pronouns) {
+      return nameFallback ? util.getPronouns(this.name) : null;
+    }
+
+    return this.pronouns;
   }
 
   static fromDict(values: IMember): Member {

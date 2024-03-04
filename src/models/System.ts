@@ -56,28 +56,16 @@ export class System implements ISystem {
     public updatedAt: dayjs.Dayjs,
   ) {}
 
-  getName({
-    stripPronouns = false,
-    appendPronouns = false,
-  }: {
-    stripPronouns?: boolean;
-    appendPronouns?: boolean;
-  } = {}): string {
-    if (stripPronouns) {
-      return util.stripPronouns(this.name, '|');
-    }
-
-    if (appendPronouns && (util.containsPronouns(this.name) || this.pronouns)) {
-      return util.containsPronouns(this.name)
-        ? this.name
-        : `${this.name} (${this.pronouns})`;
-    }
-
-    return this.name;
+  getName(stripPronouns = false): string {
+    return stripPronouns ? util.stripPronouns(this.name, '|') : this.name;
   }
 
-  getPronouns(): string | null {
-    return this.pronouns || util.getPronouns(this.name);
+  getPronouns(nameFallback = false): string | null {
+    if (!this.pronouns) {
+      return nameFallback ? util.getPronouns(this.name) : null;
+    }
+
+    return this.pronouns;
   }
 
   static fromDict(values: ISystem): System {

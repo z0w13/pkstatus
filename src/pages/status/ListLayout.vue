@@ -6,7 +6,7 @@
           <q-item>
             <q-item-section avatar>
               <initial-fallback-avatar
-                :name="system.getName({ stripPronouns: detectPronouns })"
+                :name="system.getName(detectPronouns)"
                 :url="system.avatarUrl"
                 :size="settings.iconSize + 'px'"
                 :square="settings.squareIcons"
@@ -14,7 +14,7 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>
-                {{ system.getName({ stripPronouns: detectPronouns }) }}
+                {{ system.getName(detectPronouns) }}
                 <q-icon
                   name="info"
                   v-if="system.description"
@@ -25,11 +25,8 @@
                   </q-tooltip>
                 </q-icon>
               </q-item-label>
-              <q-item-label
-                v-if="detectPronouns ? system.getPronouns() : system.pronouns"
-                caption
-              >
-                {{ detectPronouns ? system.getPronouns() : system.pronouns }}
+              <q-item-label v-if="system.getPronouns(detectPronouns)" caption>
+                {{ system.getPronouns(detectPronouns) }}
               </q-item-label>
               <q-item-label
                 caption
@@ -58,7 +55,7 @@
               >
                 <q-item-section avatar>
                   <initial-fallback-avatar
-                    :name="fronter.getName({ stripPronouns: detectPronouns })"
+                    :name="fronter.getName(detectPronouns)"
                     :url="fronter.avatarUrl"
                     :size="settings.iconSize + 'px'"
                     :square="settings.squareIcons"
@@ -66,7 +63,7 @@
                 </q-item-section>
                 <q-item-section no-wrap>
                   <q-item-label>
-                    {{ fronter.getName({ stripPronouns: detectPronouns }) }}
+                    {{ fronter.getName(detectPronouns) }}
                     <q-icon
                       name="info"
                       v-if="fronter.description"
@@ -79,13 +76,9 @@
                   </q-item-label>
                   <q-item-label
                     caption
-                    v-if="
-                      detectPronouns ? fronter.getPronouns() : fronter.pronouns
-                    "
+                    v-if="fronter.getPronouns(detectPronouns)"
                   >
-                    {{
-                      detectPronouns ? fronter.getPronouns() : fronter.pronouns
-                    }}
+                    {{ fronter.getPronouns(detectPronouns) }}
                   </q-item-label>
                 </q-item-section>
               </q-item>

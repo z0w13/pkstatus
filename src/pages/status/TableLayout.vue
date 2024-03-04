@@ -29,10 +29,8 @@
                 :img="system.avatarUrl"
                 :size="settings.iconSize + 'px'"
                 :tooltip="system.description"
-                :label="system.getName({ stripPronouns: detectPronouns })"
-                :caption="
-                  detectPronouns ? system.getPronouns() : system.pronouns
-                "
+                :label="system.getName(detectPronouns)"
+                :caption="system.getPronouns(detectPronouns)"
                 square
                 @click="
                   !!system.description && useMobileUi && dialog.show(system)
@@ -48,14 +46,8 @@
                     :img="fronter.avatarUrl"
                     :size="settings.iconSize + 'px'"
                     :tooltip="fronter.description"
-                    :label="
-                      fronter.getName({
-                        stripPronouns: detectPronouns,
-                      })
-                    "
-                    :caption="
-                      detectPronouns ? fronter.getPronouns() : fronter.pronouns
-                    "
+                    :label="fronter.getName(detectPronouns)"
+                    :caption="fronter.getPronouns(detectPronouns)"
                     @click="!!fronter.description && dialog.show(fronter)"
                     class="q-mb-sm"
                     square
@@ -72,16 +64,8 @@
                       :img="fronter.avatarUrl"
                       :size="settings.iconSize + 'px'"
                       :tooltip="fronter.description"
-                      :label="
-                        fronter.getName({
-                          stripPronouns: detectPronouns,
-                        })
-                      "
-                      :caption="
-                        detectPronouns
-                          ? fronter.getPronouns()
-                          : fronter.pronouns
-                      "
+                      :label="fronter.getName(detectPronouns)"
+                      :caption="fronter.getPronouns(detectPronouns)"
                       square
                     />
                   </td>
