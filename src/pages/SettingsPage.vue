@@ -3,6 +3,21 @@
     <div class="col col-sm-6 col-md-4">
       <page-title icon="settings" text="Settings" />
       <q-list class="bg-lighten">
+        <q-item-label header>Display Settings</q-item-label>
+        <q-item tag="label">
+          <q-item-section>
+            <q-item-label>Detect Pronouns</q-item-label>
+            <q-item-label caption
+              >Detect pronouns in system and member names and remove them, also
+              shows them in the pronoun field if no pronouns are set
+            </q-item-label>
+          </q-item-section>
+          <q-item-section avatar>
+            <q-toggle v-model="detectPronouns" />
+          </q-item-section>
+        </q-item>
+        <q-separator spaced />
+        <q-item-label header>Update Settings</q-item-label>
         <q-item>
           <q-item-section>
             <q-select
@@ -49,7 +64,7 @@ import PageTitle from 'src/components/PageTitle.vue';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
-const { systemUpdateInterval, fronterUpdateInterval } =
+const { systemUpdateInterval, fronterUpdateInterval, detectPronouns } =
   storeToRefs(settingsStore);
 
 function onChange() {

@@ -38,6 +38,7 @@ export const Settings = z.object({
     .default({}),
   systemUpdateInterval: z.number().default(3600),
   fronterUpdateInterval: z.number().default(300),
+  detectPronouns: z.boolean().default(true),
   dark: z.boolean().default(false),
 });
 export type Settings = z.infer<typeof Settings>;

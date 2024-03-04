@@ -29,8 +29,10 @@
                 :img="system.avatarUrl"
                 :size="settings.iconSize + 'px'"
                 :tooltip="system.description"
-                :label="system.getName({ stripPronouns: true })"
-                :caption="system.getPronouns()"
+                :label="system.getName({ stripPronouns: detectPronouns })"
+                :caption="
+                  detectPronouns ? system.getPronouns() : system.pronouns
+                "
                 square
                 @click="
                   !!system.description && useMobileUi && dialog.show(system)
@@ -46,8 +48,14 @@
                     :img="fronter.avatarUrl"
                     :size="settings.iconSize + 'px'"
                     :tooltip="fronter.description"
-                    :label="fronter.getName({ stripPronouns: true })"
-                    :caption="fronter.getPronouns()"
+                    :label="
+                      fronter.getName({
+                        stripPronouns: detectPronouns,
+                      })
+                    "
+                    :caption="
+                      detectPronouns ? fronter.getPronouns() : fronter.pronouns
+                    "
                     @click="!!fronter.description && dialog.show(fronter)"
                     class="q-mb-sm"
                     square
@@ -64,8 +72,16 @@
                       :img="fronter.avatarUrl"
                       :size="settings.iconSize + 'px'"
                       :tooltip="fronter.description"
-                      :label="fronter.getName({ stripPronouns: true })"
-                      :caption="fronter.getPronouns()"
+                      :label="
+                        fronter.getName({
+                          stripPronouns: detectPronouns,
+                        })
+                      "
+                      :caption="
+                        detectPronouns
+                          ? fronter.getPronouns()
+                          : fronter.pronouns
+                      "
                       square
                     />
                   </td>
@@ -121,15 +137,19 @@ import { computed, ref } from 'vue';
 import { Fronters } from 'src/stores/fronters-store';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { System } from 'src/models/System';
+import { useQuasar } from 'quasar';
+import { storeToRefs } from 'pinia';
 
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 import TableEntity from 'src/pages/status/Table/TableEntity.vue';
-import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
 
-const settings = useSettingsStore().status.table;
+const settingsStore = useSettingsStore();
+const { detectPronouns } = storeToRefs(settingsStore);
+const settings = settingsStore.status.table;
+
 const useMobileUi = computed(() => $q.screen.lt.sm);
 const dialog = ref();
 

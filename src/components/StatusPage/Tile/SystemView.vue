@@ -3,8 +3,8 @@
     <q-card flat :style="{ width: `${cardWidth}px` }">
       <labeled-tile
         :img="system.avatarUrl"
-        :label="system.getName({ stripPronouns: true })"
-        :caption="system.getPronouns()"
+        :label="system.getName({ stripPronouns: detectPronouns })"
+        :caption="detectPronouns ? system.getPronouns() : system.pronouns"
         :size="`${cardWidth}px`"
         :fallback-icon="matGroups"
       >
@@ -56,8 +56,10 @@
           >
             <labeled-tile
               :img="fronter.avatarUrl"
-              :label="fronter.getName({ stripPronouns: true })"
-              :caption="fronter.getPronouns()"
+              :label="fronter.getName({ stripPronouns: detectPronouns })"
+              :caption="
+                detectPronouns ? fronter.getPronouns() : fronter.pronouns
+              "
               :size="`${cardWidth}px`"
             >
               <q-card-section
@@ -114,6 +116,7 @@ export interface Props {
   system: System;
   fronters?: Fronters;
 
+  detectPronouns: boolean;
   showLastSwitch: boolean;
   showUpdateTime: boolean;
   showSystemDescription: boolean;

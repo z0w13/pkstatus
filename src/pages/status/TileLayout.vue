@@ -5,6 +5,7 @@
         <system-view
           :system="system"
           :fronters="fronters[id]"
+          :detect-pronouns="detectPronouns"
           :show-system-description="settings.showSystemDescription"
           :show-fronter-description="settings.showFronterDescription"
           :show-update-time="settings.showUpdateTime"
@@ -20,10 +21,13 @@
 import { Fronters } from 'src/stores/fronters-store';
 import { System } from 'src/models/System';
 import { useSettingsStore } from 'src/stores/settings-store';
+import { storeToRefs } from 'pinia';
 
 import SystemView from 'src/components/StatusPage/Tile/SystemView.vue';
 
-const settings = useSettingsStore().status.tile;
+const settingsStore = useSettingsStore();
+const { detectPronouns } = storeToRefs(settingsStore);
+const settings = settingsStore.status.tile;
 
 export interface Props {
   fronters: Record<string, Fronters>;

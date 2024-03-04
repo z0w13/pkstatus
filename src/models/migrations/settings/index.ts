@@ -1,18 +1,20 @@
 import { migrateLegacyToV1 } from './0001';
 import { migrateV1ToV2 } from './0002';
 import { migrateV2ToV3 } from './0003';
+import { migrateV3ToV4 } from './0004';
+import { migrateV4ToV5, SettingsV5 } from './0005';
 import { getVersion } from 'src/models/migrations/util';
-import { SettingsV4, migrateV3ToV4 } from './0004';
 
 const Migrations = [
   migrateLegacyToV1,
   migrateV1ToV2,
   migrateV2ToV3,
   migrateV3ToV4,
+  migrateV4ToV5,
 ];
 export const LatestVersion = Migrations.length;
 
-export function migrate(data: unknown): SettingsV4 {
+export function migrate(data: unknown): SettingsV5 {
   const version = getVersion(data);
   const toApply = Migrations.slice(version);
 
@@ -21,5 +23,5 @@ export function migrate(data: unknown): SettingsV4 {
     curData = apply(curData);
   }
 
-  return SettingsV4.parse(curData);
+  return SettingsV5.parse(curData);
 }

@@ -6,7 +6,7 @@
           <q-item>
             <q-item-section avatar>
               <initial-fallback-avatar
-                :name="system.name"
+                :name="system.getName({ stripPronouns: detectPronouns })"
                 :url="system.avatarUrl"
                 :size="settings.iconSize + 'px'"
                 :square="settings.squareIcons"
@@ -14,7 +14,7 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>
-                {{ system.name }}
+                {{ system.getName({ stripPronouns: detectPronouns }) }}
                 <q-icon
                   name="info"
                   v-if="system.description"
@@ -25,8 +25,11 @@
                   </q-tooltip>
                 </q-icon>
               </q-item-label>
-              <q-item-label v-if="system.getPronouns()" caption>
-                {{ system.getPronouns() }}
+              <q-item-label
+                v-if="detectPronouns ? system.getPronouns() : system.pronouns"
+                caption
+              >
+                {{ detectPronouns ? system.getPronouns() : system.pronouns }}
               </q-item-label>
               <q-item-label
                 caption
@@ -55,7 +58,7 @@
               >
                 <q-item-section avatar>
                   <initial-fallback-avatar
-                    :name="fronter.getName()"
+                    :name="fronter.getName({ stripPronouns: detectPronouns })"
                     :url="fronter.avatarUrl"
                     :size="settings.iconSize + 'px'"
                     :square="settings.squareIcons"
@@ -63,7 +66,7 @@
                 </q-item-section>
                 <q-item-section no-wrap>
                   <q-item-label>
-                    {{ fronter.getName({ stripPronouns: true }) }}
+                    {{ fronter.getName({ stripPronouns: detectPronouns }) }}
                     <q-icon
                       name="info"
                       v-if="fronter.description"
@@ -74,8 +77,15 @@
                       </q-tooltip>
                     </q-icon>
                   </q-item-label>
-                  <q-item-label caption>
-                    {{ fronter.getPronouns() }}
+                  <q-item-label
+                    caption
+                    v-if="
+                      detectPronouns ? fronter.getPronouns() : fronter.pronouns
+                    "
+                  >
+                    {{
+                      detectPronouns ? fronter.getPronouns() : fronter.pronouns
+                    }}
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -116,9 +126,12 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
+import { storeToRefs } from 'pinia';
 
 const $q = useQuasar();
-const settings = useSettingsStore().status.list;
+const settingsStore = useSettingsStore();
+const { detectPronouns } = storeToRefs(settingsStore);
+const settings = settingsStore.status.list;
 
 const dialog = ref();
 
