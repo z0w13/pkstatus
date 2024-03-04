@@ -35,6 +35,7 @@
     "@commitlint/config-conventional": "^18.6.0",
     "@commitlint/types": "^18.6.0",
     "@quasar/app-vite": "^2.0.0-beta.1",
+    "@quasar/icongenie": "^4.0.0",
     "@quasar/quasar-app-extension-testing-unit-vitest": "^0.4.0",
     "@types/node": "^20.5.9",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
