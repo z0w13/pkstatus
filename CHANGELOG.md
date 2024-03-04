@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.1.10](https://github.com/z0w13/pkstatus/compare/v0.1.9...v0.1.10) (2024-03-04)
+
+
+### Features
+
+* **ui:** Improve display of names with pronouns removed
+* **ui:** Add toggle for extracting pronouns from names
+
 ## [0.1.9](https://github.com/z0w13/pkstatus/compare/v0.1.8...v0.1.9) (2024-03-03)
 
 
