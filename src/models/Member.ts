@@ -69,7 +69,7 @@ export class Member implements IMember {
     const name = this.displayName || this.name;
 
     if (stripPronouns) {
-      return util.stripPronouns(name);
+      return util.stripPronouns(name, '|');
     }
 
     if (appendPronouns) {

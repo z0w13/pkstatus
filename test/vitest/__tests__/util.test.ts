@@ -23,12 +23,11 @@ describe('Test nonEmptyStringOrNull', function () {
 });
 
 describe('containsPronouns', function () {
-  describe('it returns true if text contains pronouns', function () {
-    it.each([
-      'She/her are my pronouns',
-      'Hello my pronouns are he/him',
-      "This is xyz, their pronouns are she/them and they're non-binary",
-    ])("'%s' == true", (input) => expect(containsPronouns(input)).toBe(true));
+  describe('it returns true if name contains pronouns', function () {
+    it.each(['Somebody (Once/Told) Me', 'Xyz (She/Them)'])(
+      "'%s' == true",
+      (input) => expect(containsPronouns(input)).toBe(true),
+    );
   });
 
   describe('it returns false if text contains no pronouns', function () {
@@ -51,7 +50,6 @@ describe('getPronouns', function () {
       { input: 'Foo (She/Her)', expected: 'She/Her' },
       { input: 'Bar [He/They]', expected: 'He/They' },
       { input: 'Baz {They/It}', expected: 'They/It' },
-      { input: 'Qux Fae/Faer', expected: 'Fae/Faer' },
     ])('$input -> $expected', ({ input, expected }) =>
       expect(getPronouns(input)).toBe(expected),
     );
@@ -63,10 +61,18 @@ describe('stripPronouns', function () {
       { input: 'Foo (She/Her)', expected: 'Foo' },
       { input: 'Bar [He/They]', expected: 'Bar' },
       { input: 'Baz {They/It}', expected: 'Baz' },
-      { input: 'Qux Fae/Faer', expected: 'Qux' },
       { input: 'Quux', expected: 'Quux' },
     ])('$input -> $expected', ({ input, expected }) =>
       expect(stripPronouns(input)).toBe(expected),
     );
+  });
+  it('only strips pronouns wrapped in parentheses or brackets', function () {
+    expect(stripPronouns('Foo She/Her')).toBe('Foo She/Her');
+  });
+  it('replaces the pronouns with a delmiter when specified', function () {
+    expect(stripPronouns('Foo (She/Her) Bar', '|')).toBe('Foo | Bar');
+  });
+  it('strips delimiters at the end of a string', function () {
+    expect(stripPronouns('Foo (She/Her)', '|')).toBe('Foo');
   });
 });

@@ -64,7 +64,7 @@ export class System implements ISystem {
     appendPronouns?: boolean;
   } = {}): string {
     if (stripPronouns) {
-      return util.stripPronouns(this.name);
+      return util.stripPronouns(this.name, '|');
     }
 
     if (appendPronouns && (util.containsPronouns(this.name) || this.pronouns)) {
