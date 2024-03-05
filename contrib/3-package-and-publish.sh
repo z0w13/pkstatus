@@ -5,6 +5,8 @@ test -n "${DEBUG:-}" && set -x
 . contrib/shared.sh
 
 packageSinglePageApp() {
+  autosetNodeEnv
+
   local pkgName="$1"
   local pkgVersion="$2"
 

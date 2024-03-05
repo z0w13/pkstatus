@@ -32,3 +32,20 @@ generateVersion() {
     getVersion
   fi
 }
+
+autosetNodeEnv() {
+  if [[ -n "$NODE_ENV" ]]; then
+    return
+  fi
+
+  if revisionHasTag HEAD; then
+    export NODE_ENV=production
+  else
+    export NODE_ENV=development
+  fi
+}
+
+revisionHasTag() {
+  local rev="${1:-HEAD}"
+  test -n "$(git tag --points-at "$rev")"
+}

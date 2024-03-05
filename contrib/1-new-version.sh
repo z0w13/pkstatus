@@ -24,9 +24,12 @@ generateChangelog() {
 }
 
 main() {
+  autosetNodeEnv
+
   if [[ "$#" -lt 1 ]]; then
     echo "Usage: $0 <new-version>"
     exit 1
+
   fi
 
   local currentDate

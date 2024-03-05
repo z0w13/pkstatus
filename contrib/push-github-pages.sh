@@ -9,6 +9,8 @@ onExit() {
 }
 
 main() {
+  autosetNodeEnv
+
   setVersion "$(generateVersion)"
 
   PKSTATUS_BUILD_MODE="gh-pages" pnpm exec quasar build -m pwa

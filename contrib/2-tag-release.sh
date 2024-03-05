@@ -5,6 +5,8 @@ test -n "${DEBUG:-}" && set -x
 . contrib/shared.sh
 
 main() {
+  autosetNodeEnv
+
   local version
   version="$(getVersion)"
 
