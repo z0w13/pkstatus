@@ -1,0 +1,8 @@
+{
+  "appId": "ee.zowi.pkstatus",
+  "appName": "PKStatus",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

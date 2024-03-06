@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PKStatus</string>
+    <string name="title_activity_main">PKStatus</string>
+    <string name="package_name">ee.zowi.pkstatus</string>
+    <string name="custom_url_scheme">ee.zowi.pkstatus</string>
+</resources>
