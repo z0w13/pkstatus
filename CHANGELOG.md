@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.12](https://github.com/z0w13/pkstatus/compare/v0.1.11...v0.1.12) (2024-03-07)
+
+
+### Features
+
+
+### Bug Fixes
+
 ## [0.1.11](https://github.com/z0w13/pkstatus/compare/v0.1.10...v0.1.11) (2024-03-04)
 
 
