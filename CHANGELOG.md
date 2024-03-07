@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/z0w13/pkstatus/compare/v0.1.11...v0.2.0) (2024-03-07)
+
+
+### Features
+
+* **android:** We now have an Android version :)
+
 ## [0.1.11](https://github.com/z0w13/pkstatus/compare/v0.1.10...v0.1.11) (2024-03-04)
 
 
