@@ -303,7 +303,7 @@ program
     });
     console.info('Pushing to GitHub pages...');
     withDir(path.join(ROOT_DIR, 'dist/pwa'), async () => {
-      await run(['git', 'init', '--branch', 'gh-pages'], true);
+      await run(['git', 'init', '--initial-branch', 'gh-pages'], true);
       await run(['git', 'remote', 'add', 'origin', GIT_URL], true);
       await run(['git', 'add', '.'], true);
       await run(['git', 'commit', '-m', `Generated v${version}`], true);
