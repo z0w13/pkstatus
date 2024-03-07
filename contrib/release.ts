@@ -11,13 +11,13 @@ const GIT_URL = 'git@github.com:z0w13/pkstatus.git';
 const COMPARE_URL = `${GITHUB_URL}/compare`;
 const PKG_NAME = 'pkstatus';
 
-function withDir<T extends (...args: any) => any>(
+async function withDir<T extends (...args: any) => any>(
   dir: string,
   inner: T,
 ): ReturnType<T> {
   const origDir = process.cwd();
   process.chdir(dir);
-  const retVal = inner();
+  const retVal = await inner();
   process.chdir(origDir);
   return retVal;
 }
