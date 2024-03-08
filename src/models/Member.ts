@@ -66,7 +66,7 @@ export class Member implements IMember {
 
   getPronouns(nameFallback = false): string | null {
     if (!this.pronouns) {
-      return nameFallback ? util.getPronouns(this.name) : null;
+      return nameFallback ? util.getPronouns(this.getName()) : null;
     }
 
     return this.pronouns;
