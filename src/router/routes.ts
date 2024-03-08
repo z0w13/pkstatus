@@ -33,6 +33,7 @@ const routes: RouteRecordRaw[] = [
           },
         ],
       },
+      { path: '/switch', component: () => import('pages/SwitchPage.vue') },
       {
         path: '/manage',
         children: [

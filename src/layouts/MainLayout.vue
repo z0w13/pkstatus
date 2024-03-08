@@ -35,6 +35,16 @@
             <q-item-label caption>Show system statuses</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable to="/switch">
+          <q-item-section avatar>
+            <q-icon name="swap_horiz" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Switch</q-item-label>
+            <q-item-label caption>Register a switch</q-item-label>
+          </q-item-section>
+        </q-item>
 
         <q-separator spaced />
         <q-item-label header>Settings</q-item-label>

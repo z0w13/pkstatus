@@ -27,3 +27,11 @@ export function stripPronouns(input: string, delimiter = ''): string {
 
   return replaced;
 }
+
+export function caseInsensitiveIncludes(a: string, b: string): boolean {
+  return a.toLowerCase().includes(b.toLowerCase());
+}
+
+export function notEmpty<T>(value: T | null | undefined): value is T {
+  return value !== null && value !== undefined;
+}
