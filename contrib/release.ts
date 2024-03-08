@@ -14,7 +14,7 @@ const PKG_NAME = 'pkstatus';
 async function withDir<T extends (...args: any) => any>(
   dir: string,
   inner: T,
-): ReturnType<T> {
+): Promise<ReturnType<T>> {
   const origDir = process.cwd();
   process.chdir(dir);
   const retVal = await inner();
