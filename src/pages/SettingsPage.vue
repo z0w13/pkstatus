@@ -13,7 +13,7 @@
             </q-item-label>
           </q-item-section>
           <q-item-section avatar>
-            <q-toggle v-model="detectPronouns" />
+            <q-toggle v-model="detectPronouns" @update:model-value="onChange" />
           </q-item-section>
         </q-item>
         <q-separator spaced />
@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useQuasar } from 'quasar';
+import { debounce, useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings-store';
 
 import PageTitle from 'src/components/PageTitle.vue';
@@ -67,9 +67,9 @@ const settingsStore = useSettingsStore();
 const { systemUpdateInterval, fronterUpdateInterval, detectPronouns } =
   storeToRefs(settingsStore);
 
-function onChange() {
+const onChange = debounce(() => {
   $q.notify('Settings Updated');
-}
+}, 500);
 
 const options = [
   { label: '10 Seconds', value: 10 },
