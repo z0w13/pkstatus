@@ -1,9 +1,9 @@
 import { boot } from 'quasar/wrappers';
-import PKAPI from 'pkapi.js';
+import PluralKitApi from 'src/lib/PluralKitApi';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    $pk: PKAPI;
+    $pk: PluralKitApi;
   }
 }
 
@@ -13,7 +13,7 @@ declare module '@vue/runtime-core' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const pk = new PKAPI();
+const pk = new PluralKitApi();
 
 export default boot(({ app }) => {
   app.config.globalProperties.$pk = pk;

@@ -11,6 +11,9 @@ dependencies:
   axios:
     specifier: ^1.2.1
     version: 1.6.7
+  bottleneck:
+    specifier: ^2.19.5
+    version: 2.19.5
   dayjs:
     specifier: ^1.11.10
     version: 1.11.10
@@ -4139,6 +4142,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /bottleneck@2.19.5:
+    resolution: {integrity: sha512-VHiNCbI1lKdl44tGrhNfU3lup0Tj/ZBMJB5/2ZbNXRCPuRCO7ed2mgcK4r17y+KB2EfuYuRaVlwNbAeaWGSpbw==}
+    dev: false
 
   /boxen@7.1.1:
     resolution: {integrity: sha512-2hCgjEmP8YLWQ130n2FerGv7rYpfBmnmp9Uy2Le1vge6X3gZIfSmEzP5QTDElFxcvVcXlEn8Aq6MU/PZygIOog==}

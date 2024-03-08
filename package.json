@@ -22,6 +22,7 @@
   "dependencies": {
     "@quasar/extras": "^1.16.4",
     "axios": "^1.2.1",
+    "bottleneck": "^2.19.5",
     "dayjs": "^1.11.10",
     "pinia": "^2.0.11",
     "pinia-plugin-persistedstate": "^3.2.1",
