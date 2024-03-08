@@ -1,3 +1,4 @@
+import { version } from '../../package.json';
 import { boot } from 'quasar/wrappers';
 import PluralKitApi from 'src/lib/PluralKitApi';
 
@@ -17,6 +18,7 @@ const pk = new PluralKitApi();
 
 export default boot(({ app }) => {
   app.config.globalProperties.$pk = pk;
+  pk.user_agent = `PKStatus/v${version} https://github.com/z0w13/pkstatus`;
 });
 
 export { pk };
