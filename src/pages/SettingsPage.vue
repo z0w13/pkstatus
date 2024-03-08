@@ -3,6 +3,24 @@
     <div class="col col-sm-6 col-md-4">
       <page-title icon="settings" text="Settings" />
       <q-list class="bg-lighten">
+        <q-item-label header>General Settings</q-item-label>
+        <q-item>
+          <q-item-section>
+            <q-item-label>PluralKit Token</q-item-label>
+            <q-item-label caption>
+              (optional) PluralKit token, only needed for the switching UI
+            </q-item-label>
+            <q-input
+              type="password"
+              label="Token"
+              bottom-slots
+              v-model="token"
+              @update:model-value="onChange"
+            >
+            </q-input>
+          </q-item-section>
+        </q-item>
+        <q-separator spaced />
         <q-item-label header>Display Settings</q-item-label>
         <q-item tag="label">
           <q-item-section>
@@ -64,7 +82,7 @@ import PageTitle from 'src/components/PageTitle.vue';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
-const { systemUpdateInterval, fronterUpdateInterval, detectPronouns } =
+const { systemUpdateInterval, fronterUpdateInterval, detectPronouns, token } =
   storeToRefs(settingsStore);
 
 const onChange = debounce(() => {

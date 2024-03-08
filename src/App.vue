@@ -9,6 +9,7 @@ import { onMounted, onUnmounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useFrontersStore } from './stores/fronters-store';
 import { useSystemStore } from './stores/system-store';
+import { pk } from './boot/pkapi';
 
 const $q = useQuasar();
 
@@ -16,12 +17,14 @@ const settingsStore = useSettingsStore();
 const systemStore = useSystemStore();
 const frontersStore = useFrontersStore();
 
-const { dark } = storeToRefs(settingsStore);
+const { dark, token } = storeToRefs(settingsStore);
 
 // Watch for changes to dark mode and update the UI
 watch(dark, (newVal) => $q.dark.set(newVal), {
   immediate: true,
 });
+
+watch(token, (newVal) => (pk.token = newVal || undefined), { immediate: true });
 
 // Data update logic
 async function updateSystemInfo() {
