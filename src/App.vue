@@ -9,6 +9,8 @@ import { onMounted, onUnmounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useFrontersStore } from './stores/fronters-store';
 import { useSystemStore } from './stores/system-store';
+import { APIError } from 'pkapi.js';
+import dayjs from 'dayjs';
 
 const $q = useQuasar();
 
@@ -26,24 +28,63 @@ watch(dark, (newVal) => $q.dark.set(newVal), {
 // Data update logic
 async function updateSystemInfo() {
   for (const system of Object.values(systemStore.systems)) {
-    if (!frontersStore.fronters[system.id]) {
-      frontersStore.addFronters(system.id);
-      return; // Only update one at a time
+    try {
+      if (!frontersStore.fronters[system.id]) {
+        return await frontersStore.addFronters(system.id);
+      }
+    } catch (e) {
+      if (!(e instanceof APIError)) {
+        throw e;
+      }
+
+      return $q.notify({
+        type: 'negative',
+        message: `Error updating fronters for '${system.name}'`,
+        caption: `${e.status}: ${e.message} (${e.code})`,
+      });
     }
   }
 
   for (const system of systemStore.getOutdated(
     settingsStore.systemUpdateInterval,
   )) {
-    systemStore.updateSystem(system.id);
-    return; // Only update one at a time
+    try {
+      return await systemStore.updateSystem(system.id);
+    } catch (e) {
+      if (!(e instanceof APIError)) {
+        throw e;
+      }
+
+      if (e.status == '404') {
+        systemStore.systems[system.id].updatedAt = dayjs();
+      }
+      return $q.notify({
+        type: 'negative',
+        message: `Error updating '${system.name}'`,
+        caption: `${e.status}: ${e.message} (${e.code})`,
+      });
+    }
   }
 
   for (const fronters of frontersStore.getOutdated(
     settingsStore.fronterUpdateInterval,
   )) {
-    frontersStore.updateFronters(fronters.system);
-    return; // Only update one at a time
+    try {
+      return await frontersStore.updateFronters(fronters.system);
+    } catch (e) {
+      if (!(e instanceof APIError)) {
+        throw e;
+      }
+
+      if (e.status == '404') {
+        frontersStore.fronters[fronters.system].lastUpdated = dayjs();
+      }
+      return $q.notify({
+        type: 'negative',
+        message: `Error updating fronters for '${systemStore.getSystem(fronters.system)?.name || fronters.system}'`,
+        caption: `${e.status}: ${e.message} (${e.code})`,
+      });
+    }
   }
 }
 

@@ -19,13 +19,17 @@ interface State {
   fronters: Record<string, Fronters>;
 }
 
-async function getFronters(id: string): Promise<Fronters> {
-  const emptyFronters = {
+function getEmptyFront(id: string): Omit<Fronters, 'allowed'> {
+  return {
     system: id,
     lastUpdated: dayjs(),
     lastSwitch: null,
     members: [],
   };
+}
+
+async function getFronters(id: string): Promise<Fronters> {
+  const emptyFronters = getEmptyFront(id);
 
   try {
     const fronters = await pk.getFronters({ system: id });
@@ -73,7 +77,17 @@ export const useFrontersStore = defineStore(STORE_NAME, {
     },
     async addFronters(id: string): Promise<Fronters> {
       if (!Object.prototype.hasOwnProperty.call(this.fronters, id)) {
-        this.fronters[id] = await getFronters(id);
+        try {
+          this.fronters[id] = await getFronters(id);
+        } catch (e) {
+          if (e instanceof APIError && e.status == '404') {
+            this.fronters[id] = {
+              ...getEmptyFront(id),
+              lastUpdated: dayjs(0),
+              allowed: true,
+            };
+          }
+        }
       }
 
       return this.fronters[id];
