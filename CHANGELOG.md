@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/z0w13/pkstatus/compare/v0.2.0...v0.2.1) (2024-03-11)
+
+
+### Bug Fixes
+* **ui:** give better feedback when options are saved
+* **api:** more robustly handle calling the PluralKit API
+
 ## [0.2.0](https://github.com/z0w13/pkstatus/compare/v0.1.11...v0.2.0) (2024-03-07)
 
 
