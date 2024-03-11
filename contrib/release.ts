@@ -5,12 +5,15 @@ import { spawn as baseSpawn, spawnSync } from 'node:child_process';
 import process from 'node:process';
 import path from 'node:path';
 import tmp, { withFile } from 'tmp-promise';
+import assert from 'node:assert';
 
 const GITHUB_URL = 'https://github.com/z0w13/pkstatus';
 const GIT_URL = 'git@github.com:z0w13/pkstatus.git';
 const COMPARE_URL = `${GITHUB_URL}/compare`;
 const PKG_NAME = 'pkstatus';
 const ROOT_DIR = path.dirname(__dirname);
+
+const BUMP_VERSION = ['package.json', 'src-capacitor/package.json'];
 
 async function withDir<T>(dir: string, inner: () => T) {
   const origDir = process.cwd();
@@ -45,12 +48,20 @@ async function getOutput(args: Array<string>): Promise<string> {
   });
 }
 
-function getPkgJson() {
-  return JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+function getPkgJson(filename = 'package.json') {
+  return JSON.parse(fs.readFileSync(filename, 'utf-8'));
 }
 
-function getVersion() {
+function getVersion(): string {
+  const pkgJson = getPkgJson();
+  assert(typeof pkgJson.version === 'string');
   return getPkgJson().version;
+}
+
+function setVersion(filename: string, version: string): void {
+  const json = getPkgJson(filename);
+  json.version = version;
+  fs.writeFileSync(filename, JSON.stringify(json, null, 2));
 }
 
 function createOrGetOutDir(version: string): string {
@@ -218,15 +229,12 @@ program
   .command('new')
   .description('Prepare a release')
   .option('-n, --dry-run', "Don't make any changes to files")
-  .addOption(new Option('--major').conflicts(['minor', 'dev', 'version']))
-  .addOption(new Option('--minor').conflicts(['major', 'dev', 'version']))
-  .addOption(new Option('--dev').conflicts(['major', 'minor', 'version']))
-  .addOption(
-    new Option('--version <version>').conflicts(['major', 'dev', 'minor']),
-  )
+  .addOption(new Option('--major').conflicts(['minor', 'version']))
+  .addOption(new Option('--minor').conflicts(['major', 'version']))
+  .addOption(new Option('--version <version>').conflicts(['major', 'minor']))
+  .option('--dev')
   .action(async ({ dryRun, major, minor, version, dev }) => {
-    const pkgJson = getPkgJson();
-    const currVersion = pkgJson.version;
+    const currVersion = getVersion();
 
     // Bump version
     let newVersion: string | null;
@@ -236,13 +244,6 @@ program
       newVersion = semver.inc(currVersion, 'major');
     } else if (minor) {
       newVersion = semver.inc(currVersion, 'minor');
-    } else if (dev) {
-      newVersion = `${currVersion}-dev${await getOutput([
-        'git',
-        'rev-list',
-        '--count',
-        'HEAD',
-      ])}+sha.${await getOutput(['git', 'rev-parse', '--short', 'HEAD'])}`;
     } else {
       newVersion = semver.inc(currVersion, 'patch');
     }
@@ -251,13 +252,23 @@ program
       throw new Error("Couldn't bump version");
     }
 
+    if (dev) {
+      newVersion += `-dev${await getOutput([
+        'git',
+        'rev-list',
+        '--count',
+        'HEAD',
+      ])}+sha.${await getOutput(['git', 'rev-parse', '--short', 'HEAD'])}`;
+    }
+
     console.info(`Bumping version from ${currVersion} to ${newVersion}`);
 
     // Write new version to package.json
-    pkgJson.version = newVersion;
     if (!dryRun) {
-      fs.writeFileSync('package.json', JSON.stringify(pkgJson, null, 2));
+      // TODO: Remove `newVersion &&` as soon as we can upgrade to Typescript 5.4
+      BUMP_VERSION.forEach((f) => newVersion && setVersion(f, newVersion));
     }
+
     console.info(
       'Wrote new version to package.json' + (dryRun ? ' (skipped)' : ''),
     );
@@ -300,7 +311,7 @@ program
   .action(async () => {
     const version = getVersion();
 
-    await run(['git', 'add', 'CHANGELOG.md', 'package.json']);
+    await run(['git', 'add', 'CHANGELOG.md', ...BUMP_VERSION]);
     await run(['git', 'commit', '-m', `chore(release): release v${version}`]);
     await run(['git', 'tag', '-am', `release v${version}`, `v${version}`]);
   });
