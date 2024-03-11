@@ -26,7 +26,7 @@ interface IMember {
   messageCount: number | null;
 
   createdAt: dayjs.Dayjs;
-  lastMessageAt: dayjs.Dayjs;
+  lastMessageAt: dayjs.Dayjs | null;
 
   updatedAt: dayjs.Dayjs;
 }
@@ -54,7 +54,7 @@ export class Member implements IMember {
     public messageCount: number | null,
 
     public createdAt: dayjs.Dayjs,
-    public lastMessageAt: dayjs.Dayjs,
+    public lastMessageAt: dayjs.Dayjs | null,
 
     public updatedAt: dayjs.Dayjs,
   ) {}
@@ -123,7 +123,9 @@ export class Member implements IMember {
       messageCount: member.message_count || null,
 
       createdAt: dayjs(member.created),
-      lastMessageAt: dayjs(member.last_message_timestamp),
+      lastMessageAt: member.last_message_timestamp
+        ? dayjs(member.last_message_timestamp)
+        : null,
 
       updatedAt: dayjs(),
     });
