@@ -104,7 +104,7 @@ watch(newId, () => {
 
 async function onSubmit() {
   try {
-    await systemStore.addSystem(newId.value);
+    await systemStore.add(newId.value);
   } catch (e) {
     if (is404(e)) {
       errorMessage.value = `Couldn't find system ${newId.value}`;

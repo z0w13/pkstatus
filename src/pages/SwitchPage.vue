@@ -280,7 +280,7 @@ onMounted(async () => {
         .localeCompare(b.getName(detectPronouns.value)),
     );
 
-  const lastSwitch = await frontersStore.addFronters(systemId);
+  const lastSwitch = await frontersStore.add(systemId);
 
   // If there's no members we can't populate with previous data
   if (lastSwitch.members.length > 0) {

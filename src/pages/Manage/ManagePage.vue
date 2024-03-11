@@ -101,7 +101,7 @@ const columns: QTableProps['columns'] = [
 ];
 
 function deleteSystem(id: string) {
-  systemStore.deleteSystem(id);
+  systemStore.delete(id);
   $q.notify('System Deleted');
 }
 </script>

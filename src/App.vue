@@ -30,7 +30,7 @@ async function updateSystemInfo() {
   for (const system of Object.values(systemStore.systems)) {
     try {
       if (!frontersStore.fronters[system.id]) {
-        return await frontersStore.addFronters(system.id);
+        return await frontersStore.add(system.id);
       }
     } catch (e) {
       if (!(e instanceof APIError)) {
@@ -49,7 +49,7 @@ async function updateSystemInfo() {
     settingsStore.systemUpdateInterval,
   )) {
     try {
-      return await systemStore.updateSystem(system.id);
+      return await systemStore.update(system.id);
     } catch (e) {
       if (!(e instanceof APIError)) {
         throw e;
@@ -70,7 +70,7 @@ async function updateSystemInfo() {
     settingsStore.fronterUpdateInterval,
   )) {
     try {
-      return await frontersStore.updateFronters(fronters.system);
+      return await frontersStore.update(fronters.system);
     } catch (e) {
       if (!(e instanceof APIError)) {
         throw e;
@@ -81,7 +81,7 @@ async function updateSystemInfo() {
       }
       return $q.notify({
         type: 'negative',
-        message: `Error updating fronters for '${systemStore.getSystem(fronters.system)?.name || fronters.system}'`,
+        message: `Error updating fronters for '${systemStore.find(fronters.system)?.name || fronters.system}'`,
         caption: `${e.status}: ${e.message} (${e.code})`,
       });
     }

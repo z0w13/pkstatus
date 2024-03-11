@@ -66,7 +66,7 @@ export const useFrontersStore = defineStore(STORE_NAME, {
     fronters: {},
   }),
   actions: {
-    getFronters(id: string): Fronters | null {
+    find(id: string): Fronters | null {
       return this.fronters[id] || null;
     },
     getOutdated(timeoutSec: number): Array<Fronters> {
@@ -75,7 +75,7 @@ export const useFrontersStore = defineStore(STORE_NAME, {
           Date.now() - fronter.lastUpdated.valueOf() > timeoutSec * 1000,
       );
     },
-    async addFronters(id: string): Promise<Fronters> {
+    async add(id: string): Promise<Fronters> {
       if (!Object.prototype.hasOwnProperty.call(this.fronters, id)) {
         try {
           this.fronters[id] = await getFronters(id);
@@ -92,9 +92,9 @@ export const useFrontersStore = defineStore(STORE_NAME, {
 
       return this.fronters[id];
     },
-    async updateFronters(id: string): Promise<Fronters> {
+    async update(id: string): Promise<Fronters> {
       if (!Object.prototype.hasOwnProperty.call(this.fronters, id)) {
-        return this.addFronters(id); // TODO: Handle non existent system
+        return this.add(id); // TODO: Handle non existent system
       }
 
       this.fronters[id] = {
@@ -103,7 +103,7 @@ export const useFrontersStore = defineStore(STORE_NAME, {
       };
       return this.fronters[id];
     },
-    deleteFronters(id: string): void {
+    delete(id: string): void {
       if (!Object.prototype.hasOwnProperty.call(this.fronters, id)) {
         return; // TODO: Handle non-existent fronters
       }

@@ -20,10 +20,10 @@ export const useSystemStore = defineStore(STORE_NAME, {
         (system) => Math.abs(system.updatedAt.diff()) > timeoutSec * 1000,
       );
     },
-    getSystem(id: string): System | null {
+    find(id: string): System | null {
       return this.systems[id] || null;
     },
-    async addSystem(id: string): Promise<System> {
+    async add(id: string): Promise<System> {
       if (Object.prototype.hasOwnProperty.call(this.systems, id)) {
         return this.systems[id];
       }
@@ -33,9 +33,9 @@ export const useSystemStore = defineStore(STORE_NAME, {
       return this.systems[id];
     },
 
-    async updateSystem(id: string): Promise<System> {
+    async update(id: string): Promise<System> {
       if (!this.systems[id]) {
-        return this.addSystem(id); // TODO: Handle duplicate systems
+        return this.add(id); // TODO: Handle duplicate systems
       }
 
       this.systems[id] = System.fromDict({
@@ -48,7 +48,7 @@ export const useSystemStore = defineStore(STORE_NAME, {
       return this.systems[id];
     },
 
-    deleteSystem(id: string): void {
+    delete(id: string): void {
       if (!this.systems[id]) {
         return; // TODO: Handle non-existent systems
       }
