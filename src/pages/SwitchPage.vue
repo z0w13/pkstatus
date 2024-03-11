@@ -272,9 +272,13 @@ onMounted(async () => {
     system: systemId,
     token: token.value,
   });
-  members.value = Array.from(apiMembers.values()).map((m) =>
-    Member.fromPKApi(m),
-  );
+  members.value = Array.from(apiMembers.values())
+    .map((m) => Member.fromPKApi(m))
+    .sort((a, b) =>
+      a
+        .getName(detectPronouns.value)
+        .localeCompare(b.getName(detectPronouns.value)),
+    );
 
   const lastSwitch = await frontersStore.addFronters(systemId);
 
