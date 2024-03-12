@@ -19,6 +19,10 @@ export default class PluralKitApi extends PKAPI {
     this.requestQueues = new Map<string, HandleReturn>();
   }
 
+  protected queueKey(method: string, route: string, token?: string): string {
+    return token ? `${method} | ${route} | ${token}` : `${method} | ${route}`;
+  }
+
   async handle(
     path: { method: string; route: string },
     options?: {
@@ -27,11 +31,15 @@ export default class PluralKitApi extends PKAPI {
       body?: any;
     },
   ): ReturnType<PKAPI['handle']> {
-    // Don't create new responses if we're already waiting for one
-    const key = `${path.method}-${path.route}-${options?.token}`;
-    const promise = this.requestQueues.get(key);
-    if (promise) {
-      return promise;
+    const key = this.queueKey(path.method, path.route, options?.token);
+
+    // Only deduplicate get requests
+    if (path.method == 'GET') {
+      // Don't create new responses if we're already waiting for one
+      const promise = this.requestQueues.get(key);
+      if (promise) {
+        return promise;
+      }
     }
 
     const prom = new Promise<Awaited<HandleReturn>>(async (resolve, reject) => {
@@ -42,7 +50,6 @@ export default class PluralKitApi extends PKAPI {
           });
 
           // API didn't throw an error, so promise is resolved, remove it
-          this.requestQueues.delete(key);
           break;
         } catch (e) {
           // 429 Too Many Requests
@@ -56,8 +63,11 @@ export default class PluralKitApi extends PKAPI {
       }
     });
 
-    // Store the promise for the current request and return it
-    this.requestQueues.set(key, prom);
+    if (path.method == 'GET') {
+      // Make sure to delete promise from cache when it resolves
+      this.requestQueues.set(key, prom);
+      prom.finally(() => this.requestQueues.delete(key));
+    }
     return prom;
   }
 }
