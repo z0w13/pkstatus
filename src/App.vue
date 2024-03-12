@@ -89,7 +89,7 @@ async function updateSystemInfo() {
 }
 
 let updateInterval: ReturnType<typeof setInterval> | null = null;
-onMounted(() => {
+onMounted(async () => {
   updateSystemInfo();
   updateInterval = setInterval(updateSystemInfo, 1000);
 });

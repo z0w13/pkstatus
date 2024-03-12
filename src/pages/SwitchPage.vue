@@ -76,7 +76,7 @@
           <div
             class="col-md-3 col-4"
             :key="member.id"
-            v-for="member of filteredMembers"
+            v-for="member of filteredMembers.slice(0, 25)"
           >
             <labeled-tile
               style="
@@ -272,6 +272,7 @@ onMounted(async () => {
     system: systemId,
     token: token.value,
   });
+
   members.value = Array.from(apiMembers.values())
     .map((m) => Member.fromPKApi(m))
     .sort((a, b) =>

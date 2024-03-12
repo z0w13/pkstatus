@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
 import { pk } from 'boot/pkapi';
+import { db } from 'boot/db';
 import { APIError, Member as ApiMember } from 'pkapi.js';
 
 import dayjs from 'dayjs';
 import { Member } from 'src/models/Member';
+import { toRaw } from 'vue';
 
 const STORE_NAME = 'fronters';
 
@@ -45,7 +47,7 @@ async function getFronters(id: string): Promise<Fronters> {
       system: id,
       lastUpdated: dayjs(),
       lastSwitch: dayjs(fronters.timestamp),
-      members: members.map((m) => Member.fromPKApi(m)),
+      members: members.map((m) => Member.fromPKApi({ ...m, system: id })),
       allowed: true,
     };
   } catch (e) {
@@ -90,6 +92,7 @@ export const useFrontersStore = defineStore(STORE_NAME, {
         }
       }
 
+      await db.members.bulkPut(toRaw(this.fronters[id].members));
       return this.fronters[id];
     },
     async update(id: string): Promise<Fronters> {

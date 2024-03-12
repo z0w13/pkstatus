@@ -3,6 +3,7 @@ import { pk } from 'boot/pkapi';
 import { LatestVersion, migrate } from 'src/models/migrations/system/index';
 import { System } from 'src/models/System';
 import dayjs from 'dayjs';
+import { db } from 'src/boot/db';
 
 const STORE_NAME = 'systems';
 
@@ -30,6 +31,7 @@ export const useSystemStore = defineStore(STORE_NAME, {
 
       const system = await pk.getSystem({ system: id });
       this.systems[system.id] = System.fromPKApi(system);
+      await db.systems.put(this.systems[id]);
       return this.systems[id];
     },
 

@@ -1,40 +1,44 @@
 import dayjs from 'dayjs';
 import { IMember as ApiMember } from 'pkapi.js';
 
-import { ProxyTag } from 'src/models/ProxyTag';
+import { IProxyTag, ProxyTag } from 'src/models/ProxyTag';
 import * as util from 'src/util';
+import { z } from 'zod';
+import * as zt from 'src/zodtypes';
 
-interface IMember {
-  id: string;
-  uuid: string;
+export const IMember = z.object({
+  id: z.string(),
+  uuid: z.string(),
+  system: z.string(),
 
-  name: string;
-  displayName: string | null;
-  color: string | null;
-  birthday: dayjs.Dayjs | null;
-  pronouns: string | null;
-  description: string | null;
+  name: z.string(),
+  displayName: z.string().nullable(),
+  color: z.string().nullable(),
+  birthday: zt.dayjs().nullable(),
+  pronouns: z.string().nullable(),
+  description: z.string().nullable(),
 
-  avatarUrl: string | null;
-  bannerUrl: string | null;
-  webhookAvatarUrl: string | null;
+  avatarUrl: z.string().nullable(),
+  bannerUrl: z.string().nullable(),
+  webhookAvatarUrl: z.string().nullable(),
 
-  proxyTags: Array<ProxyTag>;
-  keepProxy: boolean | null;
-  tts: boolean | null;
-  autoproxyEnabled: boolean | null;
-  messageCount: number | null;
+  proxyTags: z.array(IProxyTag).nullable(),
+  keepProxy: z.boolean().nullable(),
+  tts: z.boolean().nullable(),
+  autoproxyEnabled: z.boolean().nullable(),
+  messageCount: z.number().nullable(),
 
-  createdAt: dayjs.Dayjs;
-  lastMessageAt: dayjs.Dayjs | null;
-
-  updatedAt: dayjs.Dayjs;
-}
+  createdAt: zt.dayjs(),
+  lastMessageAt: zt.dayjs().nullable(),
+  updatedAt: zt.dayjs(),
+});
+export type IMember = z.infer<typeof IMember>;
 
 export class Member implements IMember {
   constructor(
     public id: string,
     public uuid: string,
+    public system: string,
 
     public name: string,
     public displayName: string | null,
@@ -76,6 +80,7 @@ export class Member implements IMember {
     return new Member(
       values.id,
       values.uuid,
+      values.system,
 
       values.name,
       values.displayName,
@@ -88,7 +93,7 @@ export class Member implements IMember {
       values.bannerUrl,
       values.webhookAvatarUrl,
 
-      values.proxyTags,
+      (values.proxyTags || []).map((t) => new ProxyTag(t.prefix, t.suffix)),
       values.keepProxy,
       values.tts,
       values.autoproxyEnabled,

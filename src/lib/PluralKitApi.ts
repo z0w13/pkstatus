@@ -12,7 +12,7 @@ export default class PluralKitApi extends PKAPI {
     super(data);
 
     this.limiter = new Bottleneck({
-      minTime: 1000,
+      minTime: 500,
       maxConcurrent: 1,
     });
 
@@ -28,7 +28,7 @@ export default class PluralKitApi extends PKAPI {
     },
   ): ReturnType<PKAPI['handle']> {
     // Don't create new responses if we're already waiting for one
-    const key = `${path.method}-${path.route}-${options?.token}`;
+    const key = JSON.stringify({ path, options });
     const promise = this.requestQueues.get(key);
     if (promise) {
       return promise;
