@@ -27,6 +27,10 @@
             <td>Pronouns</td>
             <td>{{ member.getPronouns(detectPronouns) }}</td>
           </tr>
+          <tr>
+            <td>System</td>
+            <td>{{ system.getName(detectPronouns) }}</td>
+          </tr>
           <tr v-if="member.messageCount">
             <td>Messages Sent</td>
             <td>{{ member.messageCount.toLocaleString() }}</td>
@@ -87,8 +91,13 @@ const settings = useSettingsStore();
 const { detectPronouns } = storeToRefs(settings);
 
 withDefaults(
-  defineProps<{ member: Member; system?: System; details: boolean }>(),
-  { details: true },
+  defineProps<{
+    member: Member;
+    system: System;
+    details: boolean;
+    popup: boolean;
+  }>(),
+  { details: true, popup: false },
 );
 </script>
 

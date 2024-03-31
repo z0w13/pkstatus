@@ -73,9 +73,13 @@ import { useSettingsStore } from 'src/stores/settings-store';
 const settings = useSettingsStore();
 const { detectPronouns } = storeToRefs(settings);
 
-withDefaults(defineProps<{ system: System; details: boolean }>(), {
-  details: true,
-});
+withDefaults(
+  defineProps<{ system: System; details: boolean; popup: boolean }>(),
+  {
+    details: true,
+    popup: false,
+  },
+);
 </script>
 
 <style scoped lang="css">

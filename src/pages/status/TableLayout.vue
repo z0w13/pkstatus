@@ -46,7 +46,7 @@
                     :tooltip="member.description"
                     :label="member.getName(detectPronouns)"
                     :caption="member.getPronouns(detectPronouns)"
-                    @click="dialog.show({ member })"
+                    @click="dialog.show({ member, system })"
                     class="q-mb-sm"
                     square
                   />
@@ -64,7 +64,7 @@
                       :tooltip="member.description"
                       :label="member.getName(detectPronouns)"
                       :caption="member.getPronouns(detectPronouns)"
-                      @click="dialog.show({ member })"
+                      @click="dialog.show({ member, system })"
                       square
                     />
                   </td>

@@ -41,7 +41,7 @@
             <template v-if="fronters[id].allowed">
               <q-item
                 clickable
-                @click="dialog.show({ member })"
+                @click="dialog.show({ member, system })"
                 :key="member.id"
                 v-for="member of fronters[id].members"
                 :inset-level="1"

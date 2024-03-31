@@ -1,7 +1,12 @@
 <template>
   <q-dialog v-model="visible">
-    <system-card v-if="system" :system="system" />
-    <member-card v-if="member" :member="member" />
+    <system-card v-if="system && !member" :system="system" :popup="true" />
+    <member-card
+      v-if="member && system"
+      :member="member"
+      :system="system"
+      :popup="true"
+    />
   </q-dialog>
 </template>
 

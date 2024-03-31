@@ -9,7 +9,7 @@
             :key="member.id"
             v-for="member of fronters.members"
             clickable
-            @click="dialog.show({ member })"
+            @click="dialog.show({ member, system })"
           >
             <q-item-section avatar>
               <initial-fallback-avatar
@@ -40,7 +40,7 @@
             :key="member.id"
             v-for="member of members"
             clickable
-            @click="dialog.show({ member })"
+            @click="dialog.show({ member, system })"
           >
             <q-item-section avatar>
               <initial-fallback-avatar
