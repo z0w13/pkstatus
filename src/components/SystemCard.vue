@@ -20,7 +20,14 @@
       v-if="system.bannerUrl"
       style="max-width: 540px"
     />
-    <q-card-section v-if="details">
+    <q-card-actions v-if="popup" class="bg-primary">
+      <q-btn
+        flat
+        label="View Full System"
+        :to="`/lookup/system/${system.id}`"
+      />
+    </q-card-actions>
+    <q-card-section class="q-pt-none" v-if="details">
       <q-markup-table flat separator="horizontal" style="overflow: hidden">
         <tbody>
           <tr>
