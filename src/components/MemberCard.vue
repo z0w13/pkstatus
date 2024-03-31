@@ -16,6 +16,9 @@
       </div>
     </q-card-section>
     <img :src="member.bannerUrl" v-if="member.bannerUrl" width="100%" />
+    <q-card-actions v-if="popup" class="bg-primary">
+      <q-btn flat label="View System" :to="`/lookup/system/${system.id}`" />
+    </q-card-actions>
     <q-card-section v-if="details">
       <q-markup-table flat separator="horizontal" style="overflow: hidden">
         <tbody>
@@ -65,13 +68,6 @@
     </q-card-section>
     <q-card-section v-if="!!member.description?.length">
       <pre class="description">{{ member.description }}</pre>
-    </q-card-section>
-    <q-card-section class="row" v-if="system">
-      <q-btn
-        label="Go To System"
-        color="primary"
-        :to="`/lookup/system/${system.id}`"
-      />
     </q-card-section>
   </q-card>
 </template>
