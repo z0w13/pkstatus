@@ -1,5 +1,5 @@
 <template>
-  <q-avatar :size="size" :color="bgColor">
+  <q-avatar :size="size" :color="bgColor" class="text-white">
     <q-img :ratio="1" v-if="url" :src="url" @load="onLoad" @error="onError">
       <template v-slot:error>
         <q-icon
