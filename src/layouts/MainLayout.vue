@@ -45,6 +45,16 @@
             <q-item-label caption>Register a switch</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable to="/lookup">
+          <q-item-section avatar>
+            <q-icon name="search" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Lookup</q-item-label>
+            <q-item-label caption>Look up a system or alter</q-item-label>
+          </q-item-section>
+        </q-item>
 
         <q-separator spaced />
         <q-item-label header>Settings</q-item-label>

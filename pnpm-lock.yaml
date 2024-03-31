@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@lumenpink/vue3-fitty':
+    specifier: ^0.1.4
+    version: 0.1.4(typescript@5.3.3)
   '@quasar/extras':
     specifier: ^1.16.4
     version: 1.16.9
@@ -2583,6 +2586,18 @@ packages:
       call-bind: 1.0.7
     dev: true
 
+  /@lumenpink/vue3-fitty@0.1.4(typescript@5.3.3):
+    resolution: {integrity: sha512-v/lh8Y2RCCvnt4EQzaxQmc5BYG+HAe5QWh7v3BKRrXjtwNo46QEZk8zJ6CXTF9OAzsLunDfWuACHnA8OnGGE3Q==}
+    dependencies:
+      '@types/webpack-env': 1.18.4
+      core-js: 3.36.1
+      fitty: 2.4.2
+      uuid: 9.0.1
+      vue: 3.4.19(typescript@5.3.3)
+    transitivePeerDependencies:
+      - typescript
+    dev: false
+
   /@malept/cross-spawn-promise@1.1.1:
     resolution: {integrity: sha512-RTBGWL5FWQcg9orDOCcp4LvItNzUPcyEU9bwaeJX0rJ1IQxzucC48Y0/sQLp/g6t99IQgAlGIaesJS+gTn7tVQ==}
     engines: {node: '>= 10'}
@@ -3277,6 +3292,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@types/webpack-env@1.18.4:
+    resolution: {integrity: sha512-I6e+9+HtWADAWeeJWDFQtdk4EVSAbj6Rtz4q8fJ7mSr1M0jzlFcs8/HZ+Xb5SHzVm1dxH7aUiI+A8kA8Gcrm0A==}
+    dev: false
 
   /@types/yauzl@2.10.3:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
@@ -4902,6 +4921,11 @@ packages:
       browserslist: 4.23.0
     dev: true
 
+  /core-js@3.36.1:
+    resolution: {integrity: sha512-BTvUrwxVBezj5SZ3f10ImnX2oRByMxql3EimVqMysepbC9EeMUOpLwdy6Eoili2x6E4kf+ZUB5k/+Jv55alPfA==}
+    requiresBuild: true
+    dev: false
+
   /core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
     requiresBuild: true
@@ -6273,6 +6297,10 @@ packages:
     dependencies:
       semver-regex: 2.0.0
     dev: true
+
+  /fitty@2.4.2:
+    resolution: {integrity: sha512-GNhWgImK4+wEkgEZjBkQMyu5NLSmmryg/CaRP7zYby+TWzCrUou6BHL+iqbjKzJRXMyzuJkH+LBB1+lh4oO77g==}
+    dev: false
 
   /flat-cache@3.2.0:
     resolution: {integrity: sha512-CYcENa+FtcUKLmhhqyctpclsq7QF38pKjZHsGNiSQF5r4FtoKDWabFDl3hzaEQMvT1LHEysw5twgLvpYYb4vbw==}
@@ -10994,6 +11022,11 @@ packages:
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
     hasBin: true
     dev: true
+
+  /uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+    hasBin: true
+    dev: false
 
   /valid-url@1.0.9:
     resolution: {integrity: sha512-QQDsV8OnSf5Uc30CKSwG9lnhMPe6exHtTXLRYX8uMwKENy640pU+2BgBL0LRbDh/eYRahNCS7aewCx0wf3NYVA==}

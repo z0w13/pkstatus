@@ -69,6 +69,9 @@ export const useFrontersStore = defineStore(STORE_NAME, {
     find(id: string): Fronters | null {
       return this.fronters[id] || null;
     },
+    async findOrFetch(id: string): Promise<Fronters> {
+      return this.find(id) || (await this.add(id));
+    },
     getOutdated(timeoutSec: number): Array<Fronters> {
       return Object.values(this.fronters).filter(
         (fronter) =>

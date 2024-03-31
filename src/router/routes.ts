@@ -35,6 +35,20 @@ const routes: RouteRecordRaw[] = [
       },
       { path: '/switch', component: () => import('pages/SwitchPage.vue') },
       {
+        path: '/lookup',
+        component: () => import('pages/Lookup/IndexPage.vue'),
+        children: [
+          {
+            path: '/lookup/system/:id',
+            component: () => import('pages/Lookup/SystemPage.vue'),
+          },
+          {
+            path: '/lookup/member/:id',
+            component: () => import('pages/Lookup/MemberPage.vue'),
+          },
+        ],
+      },
+      {
         path: '/manage',
         children: [
           {

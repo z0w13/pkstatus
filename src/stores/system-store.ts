@@ -20,6 +20,9 @@ export const useSystemStore = defineStore(STORE_NAME, {
         (system) => Math.abs(system.updatedAt.diff()) > timeoutSec * 1000,
       );
     },
+    async findOrFetch(id: string): Promise<System> {
+      return this.systems[id] || (await this.add(id));
+    },
     find(id: string): System | null {
       return this.systems[id] || null;
     },
