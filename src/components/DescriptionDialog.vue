@@ -1,24 +1,7 @@
 <template>
   <q-dialog v-model="visible">
-    <q-card>
-      <q-card-section class="row" style="line-height: 48px">
-        <initial-fallback-avatar
-          :name="obj?.getName() || ''"
-          :url="obj?.avatarUrl"
-          class="q-mr-md"
-          size="40px"
-        />
-        <div class="text-h4">
-          {{ obj?.getName() }}
-        </div>
-        <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
-      </q-card-section>
-      <q-separator />
-      <q-card-section>
-        <pre class="description">{{ obj?.description }}</pre>
-      </q-card-section>
-    </q-card>
+    <system-card v-if="system" :system="system" />
+    <member-card v-if="member" :member="member" />
   </q-dialog>
 </template>
 
@@ -27,14 +10,18 @@ import { Member } from 'src/models/Member';
 import { System } from 'src/models/System';
 import { ref } from 'vue';
 
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
+import MemberCard from 'src/components/MemberCard.vue';
+import SystemCard from 'src/components/SystemCard.vue';
 
 const visible = ref(false);
-const obj = ref<System | Member>();
+const member = ref<Member | null>(null);
+const system = ref<System | null>(null);
 
-function show(newObj: System | Member) {
+function show(opts: { system?: System; member?: Member }) {
+  member.value = opts.member || null;
+  system.value = opts.system || null;
+
   visible.value = true;
-  obj.value = newObj;
 }
 
 defineExpose({

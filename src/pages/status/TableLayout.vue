@@ -31,24 +31,22 @@
                 :tooltip="system.description"
                 :label="system.getName(detectPronouns)"
                 :caption="system.getPronouns(detectPronouns)"
+                @click="dialog.show({ system })"
                 square
-                @click="
-                  !!system.description && useMobileUi && dialog.show(system)
-                "
               />
             </td>
             <template v-if="fronters[id]">
               <template v-if="fronters[id].allowed">
                 <td v-if="useMobileUi" valign="top" style="padding-bottom: 0">
                   <table-entity
-                    v-for="fronter of fronters[id].members"
-                    :key="fronter.id"
-                    :img="fronter.avatarUrl"
+                    v-for="member of fronters[id].members"
+                    :key="member.id"
+                    :img="member.avatarUrl"
                     :size="settings.iconSize + 'px'"
-                    :tooltip="fronter.description"
-                    :label="fronter.getName(detectPronouns)"
-                    :caption="fronter.getPronouns(detectPronouns)"
-                    @click="!!fronter.description && dialog.show(fronter)"
+                    :tooltip="member.description"
+                    :label="member.getName(detectPronouns)"
+                    :caption="member.getPronouns(detectPronouns)"
+                    @click="dialog.show({ member })"
                     class="q-mb-sm"
                     square
                   />
@@ -57,15 +55,16 @@
                   <td
                     valign="top"
                     style="width: 1%"
-                    :key="fronter.id"
-                    v-for="fronter of fronters[id].members"
+                    :key="member.id"
+                    v-for="member of fronters[id].members"
                   >
                     <table-entity
-                      :img="fronter.avatarUrl"
+                      :img="member.avatarUrl"
                       :size="settings.iconSize + 'px'"
-                      :tooltip="fronter.description"
-                      :label="fronter.getName(detectPronouns)"
-                      :caption="fronter.getPronouns(detectPronouns)"
+                      :tooltip="member.description"
+                      :label="member.getName(detectPronouns)"
+                      :caption="member.getPronouns(detectPronouns)"
+                      @click="dialog.show({ member })"
                       square
                     />
                   </td>

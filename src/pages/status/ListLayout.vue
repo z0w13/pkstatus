@@ -3,7 +3,7 @@
     <div class="col-auto q-mt-lg">
       <q-list>
         <template :key="id" v-for="[id, system] in Object.entries(systems)">
-          <q-item>
+          <q-item clickable @click="dialog.show({ system })">
             <q-item-section avatar>
               <initial-fallback-avatar
                 :name="system.getName(detectPronouns)"
@@ -15,15 +15,6 @@
             <q-item-section>
               <q-item-label>
                 {{ system.getName(detectPronouns) }}
-                <q-icon
-                  name="info"
-                  v-if="system.description"
-                  @click="$q.screen.gt.md || dialog.show(system)"
-                >
-                  <q-tooltip v-if="$q.screen.gt.md">
-                    <pre class="description">{{ system.description }}</pre>
-                  </q-tooltip>
-                </q-icon>
               </q-item-label>
               <q-item-label v-if="system.getPronouns(detectPronouns)" caption>
                 {{ system.getPronouns(detectPronouns) }}
@@ -49,36 +40,29 @@
           <template v-if="fronters[id]">
             <template v-if="fronters[id].allowed">
               <q-item
-                :key="fronter.id"
-                v-for="fronter of fronters[id].members"
+                clickable
+                @click="dialog.show({ member })"
+                :key="member.id"
+                v-for="member of fronters[id].members"
                 :inset-level="1"
               >
                 <q-item-section avatar>
                   <initial-fallback-avatar
-                    :name="fronter.getName(detectPronouns)"
-                    :url="fronter.avatarUrl"
+                    :name="member.getName(detectPronouns)"
+                    :url="member.avatarUrl"
                     :size="settings.iconSize + 'px'"
                     :square="settings.squareIcons"
                   />
                 </q-item-section>
                 <q-item-section no-wrap>
                   <q-item-label>
-                    {{ fronter.getName(detectPronouns) }}
-                    <q-icon
-                      name="info"
-                      v-if="fronter.description"
-                      @click="$q.screen.gt.md || dialog.show(fronter)"
-                    >
-                      <q-tooltip v-if="$q.screen.gt.md">
-                        <pre class="description">{{ fronter.description }}</pre>
-                      </q-tooltip>
-                    </q-icon>
+                    {{ member.getName(detectPronouns) }}
                   </q-item-label>
                   <q-item-label
                     caption
-                    v-if="fronter.getPronouns(detectPronouns)"
+                    v-if="member.getPronouns(detectPronouns)"
                   >
-                    {{ fronter.getPronouns(detectPronouns) }}
+                    {{ member.getPronouns(detectPronouns) }}
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -111,17 +95,17 @@
 </template>
 
 <script setup lang="ts">
-import { Fronters } from 'src/stores/fronters-store';
-import { useSettingsStore } from 'src/stores/settings-store';
-import { System } from 'src/models/System';
-import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import { ref } from 'vue';
-import { useQuasar } from 'quasar';
-import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import { storeToRefs } from 'pinia';
 
-const $q = useQuasar();
+import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
+import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
+import DescriptionDialog from 'src/components/DescriptionDialog.vue';
+
+import { System } from 'src/models/System';
+import { Fronters } from 'src/stores/fronters-store';
+import { useSettingsStore } from 'src/stores/settings-store';
+
 const settingsStore = useSettingsStore();
 const { detectPronouns } = storeToRefs(settingsStore);
 const settings = settingsStore.status.list;
