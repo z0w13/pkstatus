@@ -23,9 +23,9 @@
             <td>ID</td>
             <td>{{ member.id }}</td>
           </tr>
-          <tr v-if="member.pronouns">
+          <tr v-if="member.getPronouns(detectPronouns)">
             <td>Pronouns</td>
-            <td>{{ member.pronouns }}</td>
+            <td>{{ member.getPronouns(detectPronouns) }}</td>
           </tr>
           <tr v-if="member.messageCount">
             <td>Messages Sent</td>

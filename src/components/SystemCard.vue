@@ -35,9 +35,9 @@
             <td>Tag</td>
             <td>{{ system.tag }}</td>
           </tr>
-          <tr v-if="system.pronouns">
+          <tr v-if="system.getPronouns(detectPronouns)">
             <td>Pronouns</td>
-            <td>{{ system.pronouns }}</td>
+            <td>{{ system.getPronouns(detectPronouns) }}</td>
           </tr>
           <tr v-if="system.color">
             <td>Color</td>
