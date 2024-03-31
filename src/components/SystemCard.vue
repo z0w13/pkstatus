@@ -15,11 +15,7 @@
         </fitty>
       </div>
     </q-card-section>
-    <img
-      :src="system.bannerUrl"
-      v-if="system.bannerUrl"
-      style="max-width: 540px"
-    />
+    <img :src="system.bannerUrl" v-if="system.bannerUrl" />
     <q-card-actions v-if="popup" class="bg-primary">
       <q-btn
         flat

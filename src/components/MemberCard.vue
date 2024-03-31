@@ -15,7 +15,7 @@
         </fitty>
       </div>
     </q-card-section>
-    <img :src="member.bannerUrl" v-if="member.bannerUrl" width="100%" />
+    <img :src="member.bannerUrl" v-if="member.bannerUrl" />
     <q-card-actions v-if="popup" class="bg-primary">
       <q-btn flat label="View System" :to="`/lookup/system/${system.id}`" />
     </q-card-actions>
