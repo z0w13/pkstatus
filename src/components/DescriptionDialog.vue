@@ -1,10 +1,16 @@
 <template>
   <q-dialog v-model="visible">
-    <system-card v-if="system && !member" :system="system" :popup="true" />
+    <system-card
+      v-if="system && !member"
+      :system="system"
+      :details="showCardDetails"
+      :popup="true"
+    />
     <member-card
       v-if="member && system"
       :member="member"
       :system="system"
+      :details="showCardDetails"
       :popup="true"
     />
   </q-dialog>
@@ -17,6 +23,10 @@ import { ref } from 'vue';
 
 import MemberCard from 'src/components/MemberCard.vue';
 import SystemCard from 'src/components/SystemCard.vue';
+import { storeToRefs } from 'pinia';
+import { useSettingsStore } from 'src/stores/settings-store';
+
+const { showCardDetails } = storeToRefs(useSettingsStore());
 
 const visible = ref(false);
 const member = ref<Member | null>(null);

@@ -34,6 +34,21 @@
             <q-toggle v-model="detectPronouns" @update:model-value="onChange" />
           </q-item-section>
         </q-item>
+        <q-item tag="label">
+          <q-item-section>
+            <q-item-label>Show Card Details</q-item-label>
+            <q-item-label caption>
+              Show the table with system/member details on the popup info cards,
+              or only name and description if disabled
+            </q-item-label>
+          </q-item-section>
+          <q-item-section avatar>
+            <q-toggle
+              v-model="showCardDetails"
+              @update:model-value="onChange"
+            />
+          </q-item-section>
+        </q-item>
         <q-separator spaced />
         <q-item-label header>Update Settings</q-item-label>
         <q-item>
@@ -82,8 +97,13 @@ import PageTitle from 'src/components/PageTitle.vue';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
-const { systemUpdateInterval, fronterUpdateInterval, detectPronouns, token } =
-  storeToRefs(settingsStore);
+const {
+  detectPronouns,
+  fronterUpdateInterval,
+  showCardDetails,
+  systemUpdateInterval,
+  token,
+} = storeToRefs(settingsStore);
 
 const onChange = debounce(() => {
   $q.notify('Settings Updated');
