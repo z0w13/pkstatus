@@ -22,16 +22,16 @@
                 filled
                 v-model="searchValue"
                 :label="`Enter ${searchType} ID`"
-              >
-                <template v-slot:after>
-                  <q-btn
-                    round
-                    :disabled="searchValue.length < 5"
-                    color="primary"
-                    icon="search"
-                  />
-                </template>
-              </q-input>
+              />
+            </div>
+            <div class="col-auto q-ml-md self-center">
+              <q-btn
+                round
+                :disabled="searchValue.length < 5"
+                color="primary"
+                icon="search"
+                type="submit"
+              />
             </div>
           </div>
         </form>
