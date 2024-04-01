@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1](https://github.com/z0w13/pkstatus/compare/v0.4.0...v0.4.1) (2024-04-01)
+
+
+### Bug Fixes
+
+**lookup:** fix search button not working
+**lookup/system:** handle private fronter/member lists
+
 ## [0.4.0](https://github.com/z0w13/pkstatus/compare/v0.4.0-dev165+sha.175282bb...v0.4.0) (2024-04-01)
 
 
