@@ -365,7 +365,7 @@ program
 
     // 2. Create draft release
     console.info(`Creating release v${version}...`);
-    withFile(async ({ path }) => {
+    await withFile(async ({ path }) => {
       fs.writeFileSync(path, getLatestChangelog());
       await run([
         'gh',
