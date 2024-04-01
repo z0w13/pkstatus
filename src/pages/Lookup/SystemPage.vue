@@ -3,7 +3,11 @@
     <system-card :system="system" flat />
     <div class="row q-mt-lg bg-lighten">
       <q-list class="col">
-        <q-item-label header>Fronters</q-item-label>
+        <q-item-label header>
+          <span v-if="!fronters || fronters.allowed">Fronters</span>
+          <span v-else>Fronter List Private</span>
+        </q-item-label>
+
         <template v-if="fronters?.allowed">
           <q-item
             :key="member.id"
@@ -27,18 +31,25 @@
             </q-item-section>
           </q-item>
         </template>
-        <q-item v-else>
+        <q-item v-else-if="!fronters">
           <q-linear-progress indeterminate />
         </q-item>
       </q-list>
     </div>
     <div class="row q-mt-lg bg-lighten">
       <q-list class="col">
-        <q-item-label header>Members</q-item-label>
-        <template v-if="members">
+        <q-item-label header>
+          <span v-if="members.allowed">Members</span>
+          <span v-else>Member List Private</span>
+        </q-item-label>
+
+        <q-item v-if="members.loading">
+          <q-linear-progress indeterminate />
+        </q-item>
+        <template v-else-if="members.allowed">
           <q-item
             :key="member.id"
-            v-for="member of members"
+            v-for="member of members.list"
             clickable
             @click="dialog.show({ member, system })"
           >
@@ -58,9 +69,6 @@
             </q-item-section>
           </q-item>
         </template>
-        <q-item v-else>
-          <q-linear-progress indeterminate />
-        </q-item>
       </q-list>
     </div>
   </template>
@@ -83,6 +91,7 @@ import { System } from 'src/models/System';
 import { Fronters, useFrontersStore } from 'src/stores/fronters-store';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { useSystemStore } from 'src/stores/system-store';
+import { APIError } from 'pkapi.js';
 
 const route = useRoute();
 const settingsStore = useSettingsStore();
@@ -92,7 +101,15 @@ const { detectPronouns } = storeToRefs(settingsStore);
 
 const system = ref<System | null>(null);
 const fronters = ref<Fronters | null>(null);
-const members = ref<Array<Member> | null>(null);
+const members = ref<{
+  loading: boolean;
+  allowed: boolean;
+  list: Array<Member>;
+}>({
+  loading: true,
+  allowed: true,
+  list: [],
+});
 
 const dialog = ref();
 
@@ -105,19 +122,34 @@ watch(
 
     system.value = null;
     fronters.value = null;
-    members.value = null;
+    members.value.loading = true;
+    members.value.list = [];
 
     system.value = await systemStore.findOrFetch(newId);
     fronters.value = await frontersStore.findOrFetch(newId);
-    members.value = Array.from(
-      (await pk.getMembers({ system: newId })).values(),
-    )
-      .map((m) => Member.fromPKApi(m))
-      .sort((a, b) =>
-        a
-          .getName(detectPronouns.value)
-          .localeCompare(b.getName(detectPronouns.value)),
-      );
+    try {
+      members.value.list = Array.from(
+        (await pk.getMembers({ system: newId })).values(),
+      )
+        .map((m) => Member.fromPKApi(m))
+        .sort((a, b) =>
+          a
+            .getName(detectPronouns.value)
+            .localeCompare(b.getName(detectPronouns.value)),
+        );
+      members.value.loading = false;
+      members.value.allowed = true;
+    } catch (e) {
+      if (e instanceof APIError && e.status == '403') {
+        members.value = {
+          loading: false,
+          allowed: false,
+          list: [],
+        };
+      } else {
+        throw e;
+      }
+    }
   },
   { immediate: true },
 );
