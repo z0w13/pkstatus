@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.4.0](https://github.com/z0w13/pkstatus/compare/v0.4.0-dev165+sha.175282bb...v0.4.0) (2024-04-01)
+
+
+### Features
+
+* **ui:** added system and member lookup
+* **status/table:** add toggle to force mobile UI
+* **cards:** add button to view system
+* **card/member:** show system member belongs to
+
+### Bug Fixes
+
+* **ui:** ensure initials on fallback avatars are always white
+
 ## [0.3.1](https://github.com/z0w13/pkstatus/compare/v0.3.0...v0.3.1) (2024-03-12)
 
 
