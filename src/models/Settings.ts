@@ -22,6 +22,7 @@ export const Settings = z.object({
             .default('center'),
           showUpdateTime: z.boolean().default(false),
           showLastSwitch: z.boolean().default(false),
+          forceMobileUi: z.boolean().default(false),
           iconSize: z.number().default(24),
         })
         .default({}),

@@ -35,6 +35,14 @@
       </q-item>
       <q-item>
         <q-item-section>
+          <q-item-label>Force Mobile UI</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <q-toggle v-model="settings.forceMobileUi" />
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
           <q-item-label>Show Update Time</q-item-label>
         </q-item-section>
         <q-item-section side>

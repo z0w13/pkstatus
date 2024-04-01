@@ -133,7 +133,7 @@ const settingsStore = useSettingsStore();
 const { detectPronouns } = storeToRefs(settingsStore);
 const settings = settingsStore.status.table;
 
-const useMobileUi = computed(() => $q.screen.lt.sm);
+const useMobileUi = computed(() => $q.screen.lt.sm || settings.forceMobileUi);
 const dialog = ref();
 
 export interface Props {
