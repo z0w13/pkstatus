@@ -90,8 +90,8 @@ withDefaults(
   defineProps<{
     member: Member;
     system: System;
-    details: boolean;
-    popup: boolean;
+    details?: boolean;
+    popup?: boolean;
   }>(),
   { details: true, popup: false },
 );
