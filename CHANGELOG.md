@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.2](https://github.com/z0w13/pkstatus/compare/v0.4.1...v0.4.2) (2024-04-05)
+
+
+### Bug Fixes
+
+* **lookup:** don't accidentally track systems after looking them up
+* **lookup:** show errors when we can't find or are not allowed to view a system/member
+
 ## [0.4.1](https://github.com/z0w13/pkstatus/compare/v0.4.0...v0.4.1) (2024-04-01)
 
 
