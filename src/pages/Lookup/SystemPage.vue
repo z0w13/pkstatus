@@ -72,7 +72,18 @@
       </q-list>
     </div>
   </template>
-  <q-linear-progress indeterminate v-else />
+  <q-linear-progress indeterminate v-else-if="status == 'loading'" />
+  <div
+    class="row q-mt-lg q-pa-md bg-lighten q-pa-md"
+    v-else-if="status == 'forbidden'"
+  >
+    <q-icon name="cross" />
+    Not Allowed To View System
+  </div>
+  <div class="row q-mt-lg q-pa-md bg-lighten" v-else-if="status == 'notfound'">
+    <q-icon name="error" />
+    System Not Found
+  </div>
   <description-dialog ref="dialog" />
 </template>
 
@@ -97,6 +108,7 @@ const route = useRoute();
 const settingsStore = useSettingsStore();
 const { detectPronouns } = storeToRefs(settingsStore);
 
+const status = ref<'loading' | 'forbidden' | 'notfound'>('loading');
 const system = ref<System | null>(null);
 const fronters = ref<Fronters | null>(null);
 const members = ref<{
@@ -123,7 +135,21 @@ watch(
     members.value.loading = true;
     members.value.list = [];
 
-    system.value = await getSystem(newId);
+    try {
+      system.value = await getSystem(newId);
+    } catch (e) {
+      if (e instanceof APIError) {
+        if (e.status == '404') {
+          // Not Found
+          status.value = 'notfound';
+        } else if (e.status == '403') {
+          // Forbidden
+          status.value = 'forbidden';
+        }
+      }
+      return;
+    }
+
     fronters.value = await getFronters(newId);
 
     try {
