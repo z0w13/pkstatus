@@ -28,7 +28,7 @@ function getEmptyFront(id: string): Omit<Fronters, 'allowed'> {
   };
 }
 
-async function getFronters(id: string): Promise<Fronters> {
+export async function getFronters(id: string): Promise<Fronters> {
   const emptyFronters = getEmptyFront(id);
 
   try {

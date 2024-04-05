@@ -81,22 +81,20 @@ import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { pk } from 'src/boot/pkapi';
+import { APIError } from 'pkapi.js';
+
+import { Member } from 'src/models/Member';
+import { System } from 'src/models/System';
+import { Fronters, getFronters } from 'src/stores/fronters-store';
+import { useSettingsStore } from 'src/stores/settings-store';
+import { getSystem } from 'src/stores/system-store';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import SystemCard from 'src/components/SystemCard.vue';
 
-import { Member } from 'src/models/Member';
-import { System } from 'src/models/System';
-import { Fronters, useFrontersStore } from 'src/stores/fronters-store';
-import { useSettingsStore } from 'src/stores/settings-store';
-import { useSystemStore } from 'src/stores/system-store';
-import { APIError } from 'pkapi.js';
-
 const route = useRoute();
 const settingsStore = useSettingsStore();
-const systemStore = useSystemStore();
-const frontersStore = useFrontersStore();
 const { detectPronouns } = storeToRefs(settingsStore);
 
 const system = ref<System | null>(null);
@@ -125,8 +123,9 @@ watch(
     members.value.loading = true;
     members.value.list = [];
 
-    system.value = await systemStore.findOrFetch(newId);
-    fronters.value = await frontersStore.findOrFetch(newId);
+    system.value = await getSystem(newId);
+    fronters.value = await getFronters(newId);
+
     try {
       members.value.list = Array.from(
         (await pk.getMembers({ system: newId })).values(),

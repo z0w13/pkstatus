@@ -8,15 +8,15 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-
 import { pk } from 'src/boot/pkapi';
+
 import { System } from 'src/models/System';
 import { Member } from 'src/models/Member';
-import { useSystemStore } from 'src/stores/system-store';
+import { getSystem } from 'src/stores/system-store';
+
 import MemberCard from 'src/components/MemberCard.vue';
 
 const route = useRoute();
-const systemStore = useSystemStore();
 
 const member = ref<Member | null>(null);
 const system = ref<System | null>(null);
@@ -35,7 +35,7 @@ watch(
     });
 
     member.value = Member.fromPKApi(pkMember);
-    system.value = await systemStore.findOrFetch(pkMember.system);
+    system.value = await getSystem(pkMember.system);
   },
   { immediate: true },
 );

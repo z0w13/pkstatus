@@ -10,6 +10,10 @@ interface State {
   systems: Record<string, System>;
 }
 
+export async function getSystem(system: string): Promise<System> {
+  return System.fromPKApi(await pk.getSystem({ system }));
+}
+
 export const useSystemStore = defineStore(STORE_NAME, {
   state: (): State => ({
     systems: {},
@@ -31,8 +35,8 @@ export const useSystemStore = defineStore(STORE_NAME, {
         return this.systems[id];
       }
 
-      const system = await pk.getSystem({ system: id });
-      this.systems[system.id] = System.fromPKApi(system);
+      const system = await getSystem(id);
+      this.systems[system.id] = system;
       return this.systems[id];
     },
 
