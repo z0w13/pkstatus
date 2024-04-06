@@ -5,6 +5,7 @@
       <q-card-section class="q-pt-none">
         <q-input
           filled
+          autofocus
           label="System or Discord ID *"
           v-model="newId"
           :loading="isLoading"
