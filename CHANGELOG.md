@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.4.3](https://github.com/z0w13/pkstatus/compare/v0.4.2...v0.4.3) (2024-04-06)
+
+
+### Features
+
+* **ui:** force light/dark mode by appending #dark or #light to url
+* **status/table:** Option to show/hide avatars
+* **status/table:** Option to switch between square/circle avatars
+* **settings:** Give feedback when setting PluralKit token
+
+### Bug Fixes
+
+* **switch:** don't show loading graphic when token isn't set
+* **lookup:** auto focus the id input
+* **manage/add:** auto focus the id input
+
+
+
 ## [0.4.2](https://github.com/z0w13/pkstatus/compare/v0.4.1...v0.4.2) (2024-04-05)
 
 
