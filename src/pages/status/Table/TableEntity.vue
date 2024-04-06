@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-item dense class="q-pa-none">
-      <q-item-section avatar class="col-auto q-pr-sm">
+      <q-item-section avatar v-if="showIcon" class="col-auto q-pr-sm">
         <initial-fallback-avatar
           v-if="!icon"
           :name="label"
@@ -34,6 +34,7 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 
 withDefaults(
   defineProps<{
+    showIcon?: boolean;
     tooltip?: string | null;
     label: string;
     caption?: string | null;
@@ -44,6 +45,7 @@ withDefaults(
     square?: boolean;
   }>(),
   {
+    showIcon: true,
     color: 'primary',
     square: false,
   },
