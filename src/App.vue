@@ -20,6 +20,15 @@ const frontersStore = useFrontersStore();
 
 const { dark } = storeToRefs(settingsStore);
 
+switch (window.location.hash.split('#').at(-1)) {
+  case 'dark':
+    dark.value = true;
+    break;
+  case 'light':
+    dark.value = false;
+    break;
+}
+
 // Watch for changes to dark mode and update the UI
 watch(dark, (newVal) => $q.dark.set(newVal), {
   immediate: true,
