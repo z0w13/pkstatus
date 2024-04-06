@@ -14,9 +14,20 @@
               type="password"
               label="Token"
               bottom-slots
-              v-model="token"
-              @update:model-value="onChange"
+              clearable
+              :loading="tokenChecking"
+              :error="tokenError"
+              error-message="Invalid Token"
+              v-model.trim="newToken"
+              @update:model-value="onTokenChange"
             >
+              <template v-slot:prepend>
+                <initial-fallback-avatar
+                  v-if="tokenSystem"
+                  :url="tokenSystem.avatarUrl"
+                  :name="tokenSystem.getName(detectPronouns)"
+                />
+              </template>
             </q-input>
           </q-item-section>
         </q-item>
@@ -89,10 +100,16 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
+import { APIError } from 'pkapi.js';
 import { debounce, useQuasar } from 'quasar';
+import { pk } from 'src/boot/pkapi';
+import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+
+import { System } from 'src/models/System';
 import { useSettingsStore } from 'src/stores/settings-store';
 
+import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import PageTitle from 'src/components/PageTitle.vue';
 
 const $q = useQuasar();
@@ -104,6 +121,46 @@ const {
   systemUpdateInterval,
   token,
 } = storeToRefs(settingsStore);
+
+const newToken = ref(token.value);
+const tokenChecking = ref(false);
+const tokenError = ref(false);
+const tokenSystem = ref<System | null>(null);
+
+function onTokenChange() {
+  tokenChecking.value = true;
+  tokenSystem.value = null;
+  tokenError.value = false;
+
+  checkToken();
+}
+
+const checkToken = debounce(async () => {
+  if (!newToken.value) {
+    tokenChecking.value = false;
+    return $q.notify({ type: 'positive', message: 'Token Cleared' });
+  }
+
+  try {
+    tokenChecking.value = true;
+    tokenSystem.value = System.fromPKApi(
+      await pk.getSystem({ token: newToken.value || undefined }),
+    );
+
+    $q.notify({
+      type: 'positive',
+      message: `Token Updated: ${tokenSystem.value.getName(detectPronouns.value)}`,
+    });
+    token.value = newToken.value;
+  } catch (e) {
+    if (e instanceof APIError && e.status == '401') {
+      tokenError.value = true;
+      newToken.value = null;
+    }
+  }
+
+  tokenChecking.value = false;
+}, 500);
 
 const onChange = debounce(() => {
   $q.notify('Settings Updated');
