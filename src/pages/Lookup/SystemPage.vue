@@ -103,6 +103,7 @@ import { getSystem } from 'src/stores/system-store';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import SystemCard from 'src/components/Card/SystemCard.vue';
+import { getNameSort } from 'src/util';
 
 const route = useRoute();
 const settingsStore = useSettingsStore();
@@ -157,11 +158,8 @@ watch(
         (await pk.getMembers({ system: newId })).values(),
       )
         .map((m) => Member.fromPKApi(m))
-        .sort((a, b) =>
-          a
-            .getName(detectPronouns.value)
-            .localeCompare(b.getName(detectPronouns.value)),
-        );
+        .sort(getNameSort(detectPronouns.value));
+
       members.value.loading = false;
       members.value.allowed = true;
     } catch (e) {

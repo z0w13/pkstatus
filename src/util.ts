@@ -35,3 +35,15 @@ export function caseInsensitiveIncludes(a: string, b: string): boolean {
 export function notEmpty<T>(value: T | null | undefined): value is T {
   return value !== null && value !== undefined;
 }
+
+interface GetName {
+  getName(stripPronouns: boolean): string;
+}
+export function getNameSort(stripPronouns: boolean) {
+  return function (a: GetName, b: GetName): number {
+    return a
+      .getName(stripPronouns)
+      .toLocaleLowerCase()
+      .localeCompare(b.getName(stripPronouns).toLocaleLowerCase());
+  };
+}

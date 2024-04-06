@@ -119,7 +119,7 @@ import { storeToRefs } from 'pinia';
 
 import { useSettingsStore } from 'src/stores/settings-store';
 import { Member } from 'src/models/Member';
-import { caseInsensitiveIncludes, notEmpty } from 'src/util';
+import { caseInsensitiveIncludes, getNameSort, notEmpty } from 'src/util';
 
 import PageTitle from 'src/components/PageTitle.vue';
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
@@ -274,11 +274,7 @@ onMounted(async () => {
   });
   members.value = Array.from(apiMembers.values())
     .map((m) => Member.fromPKApi(m))
-    .sort((a, b) =>
-      a
-        .getName(detectPronouns.value)
-        .localeCompare(b.getName(detectPronouns.value)),
-    );
+    .sort(getNameSort(detectPronouns.value));
 
   const lastSwitch = await frontersStore.add(systemId);
 
