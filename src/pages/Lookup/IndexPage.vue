@@ -20,8 +20,9 @@
             <div class="col">
               <q-input
                 filled
-                autofocus
+                ref="searchInput"
                 v-model="searchValue"
+                :autofocus="route.name == 'lookup'"
                 :label="`Enter ${searchType} ID`"
               />
             </div>
@@ -48,13 +49,23 @@
 
 <script setup lang="ts">
 import PageTitle from 'src/components/PageTitle.vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 
 const searchType = ref('system');
 const searchValue = ref('');
+const searchInput = ref();
+
+onMounted(() => {
+  watch(
+    () => route.name,
+    (routeName) => routeName == 'lookup' && searchInput.value.focus(),
+    { immediate: true },
+  );
+});
 
 async function lookup() {
   router.push({ path: `/lookup/${searchType.value}/${searchValue.value}` });

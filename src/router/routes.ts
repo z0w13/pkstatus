@@ -36,6 +36,7 @@ const routes: RouteRecordRaw[] = [
       { path: '/switch', component: () => import('pages/SwitchPage.vue') },
       {
         path: '/lookup',
+        name: 'lookup',
         component: () => import('pages/Lookup/IndexPage.vue'),
         children: [
           {
