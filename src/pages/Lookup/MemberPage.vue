@@ -26,7 +26,7 @@ import { System } from 'src/models/System';
 import { Member } from 'src/models/Member';
 import { getSystem } from 'src/stores/system-store';
 
-import MemberCard from 'src/components/MemberCard.vue';
+import MemberCard from 'src/components/Card/MemberCard.vue';
 import { APIError } from 'pkapi.js';
 
 const route = useRoute();

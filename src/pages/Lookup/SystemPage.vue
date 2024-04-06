@@ -102,7 +102,7 @@ import { getSystem } from 'src/stores/system-store';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
-import SystemCard from 'src/components/SystemCard.vue';
+import SystemCard from 'src/components/Card/SystemCard.vue';
 
 const route = useRoute();
 const settingsStore = useSettingsStore();

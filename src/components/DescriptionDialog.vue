@@ -21,8 +21,8 @@ import { Member } from 'src/models/Member';
 import { System } from 'src/models/System';
 import { ref } from 'vue';
 
-import MemberCard from 'src/components/MemberCard.vue';
-import SystemCard from 'src/components/SystemCard.vue';
+import MemberCard from 'src/components/Card/MemberCard.vue';
+import SystemCard from 'src/components/Card/SystemCard.vue';
 import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
 
