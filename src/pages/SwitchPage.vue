@@ -17,7 +17,7 @@
           />
         </template>
       </q-banner>
-      <div class="bg-lighten q-pa-lg">
+      <div v-else class="bg-lighten q-pa-lg">
         <div class="row q-col-gutter-md q-mb-md" style="height: 64px">
           <template v-if="loading && false">
             <div class="col-auto self-center">
@@ -97,19 +97,19 @@
             <q-skeleton type="rect" style="aspect-ratio: 1/1" />
           </div>
         </div>
+        <q-page-sticky position="bottom-right" :offset="[18, 18]">
+          <q-btn
+            fab
+            class="self-end"
+            icon="swap_horiz"
+            color="primary"
+            :disabled="loading"
+            :loading="loading"
+            @click="doSwitch"
+          />
+        </q-page-sticky>
       </div>
     </div>
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn
-        fab
-        class="self-end"
-        icon="swap_horiz"
-        color="primary"
-        :disabled="loading"
-        :loading="loading"
-        @click="doSwitch"
-      />
-    </q-page-sticky>
   </q-page>
 </template>
 
@@ -258,10 +258,7 @@ function memberById(id: string): Member | null {
 
 onMounted(async () => {
   if (!token.value) {
-    return $q.notify({
-      type: 'negative',
-      message: 'PluralKit API Token is missing',
-    });
+    return;
   }
 
   // Get system ID
