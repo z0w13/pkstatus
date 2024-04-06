@@ -20,6 +20,7 @@
             <div class="col">
               <q-input
                 filled
+                autofocus
                 v-model="searchValue"
                 :label="`Enter ${searchType} ID`"
               />
