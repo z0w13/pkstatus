@@ -32,7 +32,7 @@
                 :label="system.getName(detectPronouns)"
                 :caption="system.getPronouns(detectPronouns)"
                 @click="dialog.show({ system })"
-                square
+                :square="settings.squareIcons"
               />
             </td>
             <template v-if="fronters[id]">
@@ -48,7 +48,7 @@
                     :caption="member.getPronouns(detectPronouns)"
                     @click="dialog.show({ member, system })"
                     class="q-mb-sm"
-                    square
+                    :square="settings.squareIcons"
                   />
                 </td>
                 <template v-else>
@@ -65,7 +65,7 @@
                       :label="member.getName(detectPronouns)"
                       :caption="member.getPronouns(detectPronouns)"
                       @click="dialog.show({ member, system })"
-                      square
+                      :square="settings.squareIcons"
                     />
                   </td>
                   <td
@@ -82,7 +82,7 @@
                     :size="settings.iconSize + 'px'"
                     icon="close"
                     color="red"
-                    square
+                    :square="settings.squareIcons"
                   />
                 </td>
                 <td

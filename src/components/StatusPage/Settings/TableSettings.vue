@@ -33,6 +33,15 @@
           />
         </q-item-section>
       </q-item>
+      <q-separator class="q-mt-sm" />
+      <q-item>
+        <q-item-section>
+          <q-item-label>Square Icons</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <q-toggle v-model="settings.squareIcons" />
+        </q-item-section>
+      </q-item>
       <q-item>
         <q-item-section>
           <q-item-label>Force Mobile UI</q-item-label>
