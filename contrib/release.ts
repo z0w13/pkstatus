@@ -81,15 +81,26 @@ function getLatestChangelog() {
     .trim();
 }
 
+function isDev(version: string): boolean {
+  return version.includes('-dev');
+}
+function devFlag(version: string): Array<string> {
+  return isDev(version) ? ['--debug'] : [];
+}
+
 async function pushGithubPages(version: string) {
   console.info('Building GitHub pages build...');
-  await spawn('pnpm', ['exec', 'quasar', 'build', '--mode', 'pwa'], {
-    env: {
-      ...process.env,
-      PKSTATUS_BUILD_MODE: 'gh-pages',
+  await spawn(
+    'pnpm',
+    ['exec', 'quasar', 'build', '--mode', 'pwa', ...devFlag(version)],
+    {
+      env: {
+        ...process.env,
+        PKSTATUS_BUILD_MODE: 'gh-pages',
+      },
+      stdio: 'inherit',
     },
-    stdio: 'inherit',
-  });
+  );
   console.info('Pushing to GitHub pages...');
   withDir(path.join(ROOT_DIR, 'dist/pwa'), async () => {
     await run(['git', 'init', '--initial-branch', 'gh-pages'], true);
@@ -105,7 +116,15 @@ async function buildSpa() {
   const outDir = createOrGetOutDir(version);
 
   console.info('Building SPA...');
-  await run(['pnpm', 'exec', 'quasar', 'build', '--mode', 'spa']);
+  await run([
+    'pnpm',
+    'exec',
+    'quasar',
+    'build',
+    '--mode',
+    'spa',
+    ...devFlag(version),
+  ]);
   // 1a. Create SPA with subdir
   await run([
     'tar',
@@ -142,6 +161,7 @@ async function buildElectronWin() {
     'electron',
     '--target',
     'win',
+    ...devFlag(version),
   ]);
   fs.copyFileSync(
     `${ROOT_DIR}/dist/electron/Packaged/PKStatus Setup ${version.split('+')[0]}.exe`,
@@ -163,6 +183,7 @@ async function buildElectronNix() {
     'electron',
     '--target',
     'linux',
+    ...devFlag(version),
   ]);
   fs.copyFileSync(
     `${ROOT_DIR}/dist/electron/Packaged/PKStatus-${version.split('+')[0]}.AppImage`,
@@ -188,19 +209,21 @@ async function buildAndroidPackage(keystore: string) {
     'capacitor',
     '--target',
     'android',
+    ...devFlag(version),
   ]);
+
   // 4a. zipalign
   console.info('ZIP Aligning APK...');
+  const apkPath =
+    'dist/capacitor/android/apk/' +
+    (isDev(version)
+      ? '/debug/app-debug.apk'
+      : 'release/app-release-unsigned.apk');
   await run(
-    [
-      'zipalign',
-      '-vp',
-      '4',
-      'dist/capacitor/android/apk/release/app-release-unsigned.apk',
-      'dist/capacitor/android/apk/release/app-release-unsigned-aligned.apk',
-    ],
+    ['zipalign', '-vp', '4', apkPath, apkPath.replace('.apk', '-aligned.apk')],
     true,
   );
+
   // 4b. sign
   console.info('Signing APK...');
   await run(
@@ -210,7 +233,7 @@ async function buildAndroidPackage(keystore: string) {
       '--ks',
       keystore,
       '--in',
-      'dist/capacitor/android/apk/release/app-release-unsigned-aligned.apk',
+      apkPath.replace('.apk', '-aligned.apk'),
       '--out',
       `${outDir}/android-pkstatus-v${version}.apk`,
     ],
