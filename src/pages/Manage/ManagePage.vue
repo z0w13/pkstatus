@@ -49,7 +49,7 @@
         </template>
 
         <!-- Grid Layout -->
-        <template v-slot:item="props">
+        <template #item="props">
           <q-item class="q-pa-sm">
             <q-item-section avatar>
               <q-avatar :color="props.row.avatarUrl ? '' : 'primary'">

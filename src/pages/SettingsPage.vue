@@ -21,7 +21,7 @@
               v-model.trim="newToken"
               @update:model-value="onTokenChange"
             >
-              <template v-slot:prepend>
+              <template #prepend>
                 <initial-fallback-avatar
                   v-if="tokenSystem"
                   :url="tokenSystem.avatarUrl"
@@ -72,7 +72,7 @@
               map-options
               @update:model-value="onChange"
             >
-              <template v-slot:prepend>
+              <template #prepend>
                 <q-icon name="schedule" />
               </template>
             </q-select>
@@ -88,7 +88,7 @@
               map-options
               @update:model-value="onChange"
             >
-              <template v-slot:prepend>
+              <template #prepend>
                 <q-icon name="schedule" />
               </template>
             </q-select>

@@ -8,7 +8,7 @@
         <div class="text-subtitle2">{{ label }}</div>
         <div class="text-caption" v-if="caption">{{ caption }}</div>
       </div>
-      <template v-slot:error>
+      <template #error>
         <q-icon
           :size="size"
           :style="{

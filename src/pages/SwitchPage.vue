@@ -4,11 +4,11 @@
       <page-title icon="swap_horiz" text="Register Switch" />
 
       <q-banner v-if="!token" class="text-white bg-red">
-        <template v-slot:avatar>
+        <template #avatar>
           <q-icon name="warning" color="white" />
         </template>
         You need to set your PluralKit token to use this feature
-        <template v-slot:action>
+        <template #action>
           <q-btn
             to="/settings"
             flat
@@ -52,7 +52,7 @@
               :options="options"
               label="Primary Fronter"
             >
-              <template v-slot:append v-if="primaryFronter">
+              <template #append v-if="primaryFronter">
                 <initial-fallback-avatar
                   :url="primaryFronter.avatarUrl"
                   :name="primaryFronter.getName(detectPronouns)"
