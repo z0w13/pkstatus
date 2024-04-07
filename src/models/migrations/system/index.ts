@@ -1,10 +1,11 @@
-import { SystemsV1, migrateLegacyToV1 } from './0001';
 import { getVersion } from 'src/models/migrations/util';
+import { migrateLegacyToV1 } from './0001';
+import { migrateV1ToV2, SystemsV2 } from './0002';
 
-const Migrations = [migrateLegacyToV1];
+const Migrations = [migrateLegacyToV1, migrateV1ToV2];
 export const LatestVersion = Migrations.length;
 
-export function migrate(data: unknown): SystemsV1 {
+export function migrate(data: unknown): SystemsV2 {
   const version = getVersion(data);
   const toApply = Migrations.slice(version);
 
@@ -13,5 +14,5 @@ export function migrate(data: unknown): SystemsV1 {
     curData = apply(curData);
   }
 
-  return SystemsV1.parse(curData);
+  return SystemsV2.parse(curData);
 }

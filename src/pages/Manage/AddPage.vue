@@ -19,7 +19,7 @@
         <labeled-tile
           :label="newSys.name || ''"
           :caption="newSys.pronouns"
-          :img="nonEmptyStringOrNull(newSys.avatar_url)"
+          :img="newSys.avatarUrl"
           :fallback-icon="matGroups"
           size="100%"
         />
@@ -49,24 +49,26 @@
 </template>
 
 <script setup lang="ts">
-import { APIError, ISystem } from 'pkapi.js';
-import { pk } from 'boot/pkapi';
+import { useRouter } from 'vue-router';
 import { debounce, useQuasar } from 'quasar';
 import { ref, watch } from 'vue';
-import { useSystemStore } from 'src/stores/system-store';
-import { nonEmptyStringOrNull } from 'src/util';
-import { useRouter } from 'vue-router';
-import { matGroups } from '@quasar/extras/material-icons';
+import { APIError } from 'pkapi.js';
 
+import { useSystemStore } from 'src/stores/system-store';
+import { useCacheStore } from 'src/stores/cache-store';
+import { System } from 'src/models/System';
+
+import { matGroups } from '@quasar/extras/material-icons';
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
 import PageTitle from 'src/components/PageTitle.vue';
 
 const $q = useQuasar();
 const router = useRouter();
 const systemStore = useSystemStore();
+const { pluralKit } = useCacheStore();
 
 const newId = ref('');
-const newSys = ref<ISystem | null>(null);
+const newSys = ref<System | null>(null);
 const errorMessage = ref('');
 const isLoading = ref(false);
 
@@ -77,7 +79,7 @@ function is404(e: unknown): boolean {
 const onChange = debounce(async function (id: string) {
   const system = id.trim();
   try {
-    newSys.value = await pk.getSystem({ system });
+    newSys.value = await pluralKit.getSystem(system);
   } catch (e) {
     if (is404(e)) {
       errorMessage.value = `Couldn't find system ${system}`;

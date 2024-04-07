@@ -20,16 +20,17 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { pk } from 'src/boot/pkapi';
 
 import { System } from 'src/models/System';
 import { Member } from 'src/models/Member';
-import { getSystem } from 'src/stores/system-store';
 
 import MemberCard from 'src/components/Card/MemberCard.vue';
 import { APIError } from 'pkapi.js';
+import { useCacheStore } from 'src/stores/cache-store';
 
 const route = useRoute();
+
+const { pluralKit } = useCacheStore();
 
 const status = ref<'loading' | 'forbidden' | 'notfound'>('loading');
 const member = ref<Member | null>(null);
@@ -45,11 +46,8 @@ watch(
     member.value = null;
 
     try {
-      const pkMember = await pk.getMember({
-        member: newId,
-      });
-      member.value = Member.fromPKApi(pkMember);
-      system.value = await getSystem(pkMember.system);
+      member.value = await pluralKit.getMember(newId);
+      system.value = await pluralKit.getSystem(member.value.system);
     } catch (e) {
       if (e instanceof APIError) {
         if (e.status == '404') {

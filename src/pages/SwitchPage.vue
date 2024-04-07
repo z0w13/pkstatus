@@ -116,22 +116,22 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useQuasar } from 'quasar';
+import { APIError } from 'pkapi.js';
+import { pk } from 'src/boot/pkapi';
 
-import { useSettingsStore } from 'src/stores/settings-store';
-import { Member } from 'src/models/Member';
 import { caseInsensitiveIncludes, getNameSort, notEmpty } from 'src/util';
+import { useSettingsStore } from 'src/stores/settings-store';
+import { useCacheStore } from 'src/stores/cache-store';
+import { Member } from 'src/models/Member';
 
 import PageTitle from 'src/components/PageTitle.vue';
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
-import { pk } from 'src/boot/pkapi';
-import { useQuasar } from 'quasar';
-import { useFrontersStore } from 'src/stores/fronters-store';
-import { APIError } from 'pkapi.js';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
-const frontersStore = useFrontersStore();
+const { pluralKit } = useCacheStore();
 const { detectPronouns, token } = storeToRefs(settingsStore);
 
 const loading = ref(true);
@@ -261,19 +261,15 @@ onMounted(async () => {
     return;
   }
 
-  // Get system ID
-  const systemId = (await pk.getSystem({ token: token.value })).id;
+  // Get system
+  const system = await pluralKit.getSystemForToken(token.value);
 
   // Load members/fronters
-  const apiMembers = await pk.getMembers({
-    system: systemId,
-    token: token.value,
-  });
-  members.value = Array.from(apiMembers.values())
-    .map((m) => Member.fromPKApi(m))
-    .sort(getNameSort(detectPronouns.value));
+  members.value = (await pluralKit.getMembers(system.id)).toSorted(
+    getNameSort(detectPronouns.value),
+  );
 
-  const lastSwitch = await frontersStore.add(systemId);
+  const lastSwitch = await pluralKit.getFronters(system.id);
 
   // If there's no members we can't populate with previous data
   if (lastSwitch.members.length > 0) {

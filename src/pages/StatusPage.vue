@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <router-view :systems="systems" :fronters="fronters" />
+    <router-view :ids="ids" :systems="systems" :fronters="fronters" />
   </q-page>
   <q-footer>
     <q-toolbar>
@@ -33,15 +33,20 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+
 import { useSystemStore } from 'src/stores/system-store';
-import { useFrontersStore } from 'src/stores/fronters-store';
+import { useSettingsStore } from 'src/stores/settings-store';
+import { useCacheStore } from 'src/stores/cache-store';
+
 import TableSettings from 'src/components/StatusPage/Settings/TableSettings.vue';
 import ListSettings from 'src/components/StatusPage/Settings/ListSettings.vue';
 import TileSettings from 'src/components/StatusPage/Settings/TileSettings.vue';
-import { useSettingsStore } from 'src/stores/settings-store';
-import { storeToRefs } from 'pinia';
 
-const { systems } = storeToRefs(useSystemStore());
-const { fronters } = storeToRefs(useFrontersStore());
+const { fronterCache, systemCache } = useCacheStore();
+
 const { status } = storeToRefs(useSettingsStore());
+const { ids } = storeToRefs(useSystemStore());
+const fronters = fronterCache.objects;
+const systems = systemCache.objects;
 </script>

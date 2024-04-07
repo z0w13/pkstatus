@@ -21,20 +21,23 @@
         <tbody>
           <tr
             :key="id"
-            v-for="[id, system] in Object.entries(systems)"
+            v-for="id in ids"
             :style="`line-height: ${settings.iconSize}px`"
           >
-            <td valign="top">
+            <td valign="top" v-if="systems[id]">
               <table-entity
-                :img="system.avatarUrl"
+                :img="systems[id].avatarUrl"
                 :size="settings.iconSize + 'px'"
-                :tooltip="system.description"
-                :label="system.getName(detectPronouns)"
-                :caption="system.getPronouns(detectPronouns)"
-                @click="dialog.show({ system })"
+                :tooltip="systems[id].description"
+                :label="systems[id].getName(detectPronouns)"
+                :caption="systems[id].getPronouns(detectPronouns)"
+                @click="dialog.show({ system: systems[id] })"
                 :square="settings.squareIcons"
                 :show-icon="settings.showIcons"
               />
+            </td>
+            <td valign="middle" v-else>
+              <q-linear-progress query />
             </td>
             <template v-if="fronters[id]">
               <template v-if="fronters[id].allowed">
@@ -47,7 +50,7 @@
                     :tooltip="member.description"
                     :label="member.getName(detectPronouns)"
                     :caption="member.getPronouns(detectPronouns)"
-                    @click="dialog.show({ member, system })"
+                    @click="dialog.show({ member, system: systems[id] })"
                     class="q-mb-sm"
                     :square="settings.squareIcons"
                     :show-icon="settings.showIcons"
@@ -66,14 +69,14 @@
                       :tooltip="member.description"
                       :label="member.getName(detectPronouns)"
                       :caption="member.getPronouns(detectPronouns)"
-                      @click="dialog.show({ member, system })"
+                      @click="dialog.show({ member, system: systems[id] })"
                       :square="settings.squareIcons"
                       :show-icon="settings.showIcons"
                     />
                   </td>
                   <td
-                    v-if="maxFront - fronters[id].members.length > 0"
-                    :colspan="maxFront - fronters[id].members.length"
+                    v-if="maxFront - (fronters[id].members.length || 0) > 0"
+                    :colspan="maxFront - (fronters[id].members.length || 0)"
                   ></td>
                 </template>
               </template>
@@ -102,11 +105,11 @@
             <td v-if="!useMobileUi" />
             <!-- Last Switch -->
             <td v-if="settings.showLastSwitch" valign="top">
-              <relative-time-display :time="fronters[id]?.lastSwitch" />
+              <relative-time-display :time="fronters[id].lastSwitch" />
             </td>
             <!-- Last Updated -->
             <td v-if="settings.showUpdateTime" valign="top">
-              <relative-time-display :time="fronters[id]?.lastUpdated" />
+              <relative-time-display :time="fronters[id].lastUpdated" />
             </td>
           </tr>
         </tbody>
@@ -120,7 +123,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-import { Fronters } from 'src/stores/fronters-store';
+import { Fronters } from 'src/models/Fronters';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { System } from 'src/models/System';
 import { useQuasar } from 'quasar';
@@ -129,17 +132,20 @@ import { storeToRefs } from 'pinia';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 import TableEntity from 'src/pages/status/Table/TableEntity.vue';
+import { useCacheStore } from 'src/stores/cache-store';
 
 const $q = useQuasar();
 
 const settingsStore = useSettingsStore();
 const { detectPronouns } = storeToRefs(settingsStore);
 const settings = settingsStore.status.table;
+const { fronterCache } = useCacheStore();
 
 const useMobileUi = computed(() => $q.screen.lt.sm || settings.forceMobileUi);
 const dialog = ref();
 
 export interface Props {
+  ids: Array<string>;
   fronters: Record<string, Fronters>;
   systems: Record<string, System>;
 }
@@ -147,6 +153,8 @@ export interface Props {
 const props = defineProps<Props>();
 
 const maxFront = computed(() =>
-  Math.max(...Object.values(props.fronters).map((f) => f.members.length)),
+  Math.max(
+    ...fronterCache.getMultiCached(props.ids).map((f) => f.members.length),
+  ),
 );
 </script>

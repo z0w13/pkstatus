@@ -5,7 +5,7 @@
       <q-table
         :grid="$q.screen.lt.sm"
         :columns="columns"
-        :rows="Object.values(systemStore.systems)"
+        :rows="tableData"
         row-key="name"
         class="bg-lighten"
         :card-container-class="{
@@ -18,16 +18,24 @@
         }"
         flat
       >
-        <template v-slot:body-cell-avatar="props">
+        <template #body-cell-avatar="props">
           <q-td :props="props">
             <initial-fallback-avatar
+              v-if="props.value !== undefined"
               :url="props.value"
               :name="props.row.name"
               size="24px"
             />
+            <q-skeleton type="circle" v-else size="24px" />
           </q-td>
         </template>
-        <template v-slot:body-cell-buttons="props">
+        <template #body-cell-name="props">
+          <q-td :props="props">
+            <template v-if="props.value">{{ props.value }}</template>
+            <q-skeleton type="rect" v-else />
+          </q-td>
+        </template>
+        <template #body-cell-buttons="props">
           <q-td :props="props">
             <q-btn-group unelevated>
               <q-btn
@@ -77,14 +85,18 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { QTableProps, useQuasar } from 'quasar';
+
 import { useSystemStore } from 'src/stores/system-store';
+import { useCacheStore } from 'src/stores/cache-store';
 
 import PageTitle from 'src/components/PageTitle.vue';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 
 const $q = useQuasar();
 const systemStore = useSystemStore();
+const { systemCache } = useCacheStore();
 
 const columns: QTableProps['columns'] = [
   { name: 'avatar', field: 'avatarUrl', label: 'Icon', align: 'left' },
@@ -99,6 +111,10 @@ const columns: QTableProps['columns'] = [
   },
   { name: 'buttons', field: '', label: '' },
 ];
+
+const tableData = computed(() =>
+  systemStore.ids.map((id) => systemCache.objects[id] || { id }),
+);
 
 function deleteSystem(id: string) {
   systemStore.delete(id);

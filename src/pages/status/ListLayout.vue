@@ -2,22 +2,29 @@
   <div class="row justify-center" style="min-height: inherit">
     <div class="col-auto q-mt-lg">
       <q-list>
-        <template :key="id" v-for="[id, system] in Object.entries(systems)">
-          <q-item clickable @click="dialog.show({ system })">
+        <template :key="id" v-for="id of ids">
+          <q-item
+            v-if="systems[id]"
+            clickable
+            @click="dialog.show({ system: systems[id] })"
+          >
             <q-item-section avatar>
               <initial-fallback-avatar
-                :name="system.getName(detectPronouns)"
-                :url="system.avatarUrl"
+                :name="systems[id].getName(detectPronouns)"
+                :url="systems[id].avatarUrl"
                 :size="settings.iconSize + 'px'"
                 :square="settings.squareIcons"
               />
             </q-item-section>
             <q-item-section>
               <q-item-label>
-                {{ system.getName(detectPronouns) }}
+                {{ systems[id].getName(detectPronouns) }}
               </q-item-label>
-              <q-item-label v-if="system.getPronouns(detectPronouns)" caption>
-                {{ system.getPronouns(detectPronouns) }}
+              <q-item-label
+                v-if="systems[id].getPronouns(detectPronouns)"
+                caption
+              >
+                {{ systems[id].getPronouns(detectPronouns) }}
               </q-item-label>
               <q-item-label
                 caption
@@ -37,11 +44,17 @@
               </q-item-label>
             </q-item-section>
           </q-item>
+          <q-item v-else>
+            <q-item-section avatar>
+              <q-spinner :size="settings.iconSize + 'px'" />
+            </q-item-section>
+            <q-item-section>Loading...</q-item-section>
+          </q-item>
           <template v-if="fronters[id]">
             <template v-if="fronters[id].allowed">
               <q-item
                 clickable
-                @click="dialog.show({ member, system })"
+                @click="dialog.show({ member, system: systems[id] })"
                 :key="member.id"
                 v-for="member of fronters[id].members"
                 :inset-level="1"
@@ -103,7 +116,7 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 
 import { System } from 'src/models/System';
-import { Fronters } from 'src/stores/fronters-store';
+import { Fronters } from 'src/models/Fronters';
 import { useSettingsStore } from 'src/stores/settings-store';
 
 const settingsStore = useSettingsStore();
@@ -113,6 +126,7 @@ const settings = settingsStore.status.list;
 const dialog = ref();
 
 export interface Props {
+  ids: Array<string>;
   fronters: Record<string, Fronters>;
   systems: Record<string, System>;
 }

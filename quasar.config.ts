@@ -56,7 +56,8 @@ export default configure((/* ctx */) => {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: process.env.PKSTATUS_BUILD_MODE == 'gh-pages' ? '/pkstatus' : '/',
+      publicPath:
+        process.env.PKSTATUS_BUILD_MODE == 'gh-pages' ? '/pkstatus' : '/',
       // analyze: true,
       // env: {},
       // rawDefine: {}
@@ -68,9 +69,7 @@ export default configure((/* ctx */) => {
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
-      vitePlugins: [
-        [ 'vite-plugin-checker', { vueTsc: true } ]
-      ]
+      vitePlugins: [['vite-plugin-checker', { vueTsc: true }]],
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer

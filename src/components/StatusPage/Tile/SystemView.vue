@@ -1,5 +1,5 @@
 <template>
-  <div class="col-auto">
+  <div class="col-auto" v-if="system">
     <q-card flat :style="{ width: `${cardWidth}px` }">
       <labeled-tile
         :img="system.avatarUrl"
@@ -43,6 +43,15 @@
           <pre class="description">{{ system.description }}</pre>
         </q-card-section>
       </labeled-tile>
+    </q-card>
+  </div>
+  <div class="col-auto" v-else>
+    <q-card
+      flat
+      class="justify-center row"
+      :style="{ width: `${cardWidth}px`, height: `${cardWidth}px` }"
+    >
+      <q-spinner class="self-center" color="primary" width="50%" height="50%" />
     </q-card>
   </div>
   <div class="col">
@@ -103,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { Fronters } from 'stores/fronters-store';
+import { Fronters } from 'src/models/Fronters';
 import { System } from 'src/models/System';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
@@ -111,7 +120,7 @@ import { computed } from 'vue';
 import { matGroups } from '@quasar/extras/material-icons';
 
 export interface Props {
-  system: System;
+  system?: System;
   fronters?: Fronters;
 
   detectPronouns: boolean;
@@ -125,6 +134,6 @@ export interface Props {
 const props = defineProps<Props>();
 const showStats = computed(() => props.showLastSwitch || props.showUpdateTime);
 const showDescription = computed(
-  () => props.showSystemDescription && props.system.description,
+  () => props.showSystemDescription && props.system?.description,
 );
 </script>

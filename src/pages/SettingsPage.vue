@@ -102,7 +102,6 @@
 <script setup lang="ts">
 import { APIError } from 'pkapi.js';
 import { debounce, useQuasar } from 'quasar';
-import { pk } from 'src/boot/pkapi';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
@@ -111,8 +110,10 @@ import { useSettingsStore } from 'src/stores/settings-store';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import PageTitle from 'src/components/PageTitle.vue';
+import { useCacheStore } from 'src/stores/cache-store';
 
 const $q = useQuasar();
+const { pluralKit } = useCacheStore();
 const settingsStore = useSettingsStore();
 const {
   detectPronouns,
@@ -143,9 +144,7 @@ const checkToken = debounce(async () => {
 
   try {
     tokenChecking.value = true;
-    tokenSystem.value = System.fromPKApi(
-      await pk.getSystem({ token: newToken.value || undefined }),
-    );
+    tokenSystem.value = await pluralKit.getSystemForToken(newToken.value);
 
     $q.notify({
       type: 'positive',

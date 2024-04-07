@@ -1,12 +1,42 @@
 import dayjs from 'dayjs';
+import { z } from 'zod';
 import { IMember as ApiMember } from 'pkapi.js';
 
-import { ProxyTag } from 'src/models/ProxyTag';
+import { IProxyTag, ProxyTag } from 'src/models/ProxyTag';
 import * as util from 'src/util';
 
-interface IMember {
+export const SerializedMember = z.object({
+  id: z.string(),
+  uuid: z.string(),
+  system: z.string(),
+
+  name: z.string(),
+  displayName: z.string().nullable(),
+  color: z.string().nullable(),
+  birthday: z.string().datetime().nullable(),
+  pronouns: z.string().nullable(),
+  description: z.string().nullable(),
+
+  avatarUrl: z.string().nullable(),
+  bannerUrl: z.string().nullable(),
+  webhookAvatarUrl: z.string().nullable(),
+
+  proxyTags: z.array(IProxyTag),
+  keepProxy: z.boolean().nullable(),
+  tts: z.boolean().nullable(),
+  autoproxyEnabled: z.boolean().nullable(),
+  messageCount: z.number().nullable(),
+
+  createdAt: z.string().datetime(),
+  lastMessageAt: z.string().datetime().nullable(),
+  updatedAt: z.string().datetime(),
+});
+export type SerializedMember = z.infer<typeof SerializedMember>;
+
+export interface IMember {
   id: string;
   uuid: string;
+  system: string;
 
   name: string;
   displayName: string | null;
@@ -35,6 +65,7 @@ export class Member implements IMember {
   constructor(
     public id: string,
     public uuid: string,
+    public system: string,
 
     public name: string,
     public displayName: string | null,
@@ -57,7 +88,11 @@ export class Member implements IMember {
     public lastMessageAt: dayjs.Dayjs | null,
 
     public updatedAt: dayjs.Dayjs,
-  ) {}
+  ) {
+    if (!system) {
+      throw new Error('Well shit no system');
+    }
+  }
 
   getName(stripPronouns = false): string {
     const name = this.displayName || this.name;
@@ -76,6 +111,7 @@ export class Member implements IMember {
     return new Member(
       values.id,
       values.uuid,
+      values.system,
 
       values.name,
       values.displayName,
@@ -128,6 +164,32 @@ export class Member implements IMember {
         : null,
 
       updatedAt: dayjs(),
+    });
+  }
+
+  toStorage(): SerializedMember {
+    return {
+      ...this,
+
+      birthday: this.birthday?.toJSON() || null,
+
+      createdAt: this.createdAt.toJSON(),
+      lastMessageAt: this.lastMessageAt?.toJSON() || null,
+
+      updatedAt: this.updatedAt.toJSON(),
+    };
+  }
+
+  static fromStorage(serialized: SerializedMember): Member {
+    return Member.fromDict({
+      ...serialized,
+
+      birthday: util.dayjsNull(serialized.birthday),
+
+      createdAt: dayjs(serialized.createdAt),
+      lastMessageAt: util.dayjsNull(serialized.lastMessageAt),
+
+      updatedAt: dayjs(serialized.updatedAt),
     });
   }
 }

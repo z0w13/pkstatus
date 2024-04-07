@@ -1,9 +1,15 @@
+import dayjs from 'dayjs';
+
 export function nonEmptyStringOrNull(input: unknown): string | null {
   if (typeof input === 'string') {
     return input.trim().length > 0 ? input.trim() : null;
   }
 
   return null;
+}
+
+export function dayjsNull(input: string | null): dayjs.Dayjs | null {
+  return input !== null ? dayjs(input) : null;
 }
 
 const PronounRegex = new RegExp(

@@ -91,22 +91,22 @@
 import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { pk } from 'src/boot/pkapi';
 import { APIError } from 'pkapi.js';
 
 import { Member } from 'src/models/Member';
 import { System } from 'src/models/System';
-import { Fronters, getFronters } from 'src/stores/fronters-store';
+import { Fronters } from 'src/models/Fronters';
 import { useSettingsStore } from 'src/stores/settings-store';
-import { getSystem } from 'src/stores/system-store';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import SystemCard from 'src/components/Card/SystemCard.vue';
 import { getNameSort } from 'src/util';
+import { useCacheStore } from 'src/stores/cache-store';
 
 const route = useRoute();
 const settingsStore = useSettingsStore();
+const { pluralKit } = useCacheStore();
 const { detectPronouns } = storeToRefs(settingsStore);
 
 const status = ref<'loading' | 'forbidden' | 'notfound'>('loading');
@@ -137,7 +137,7 @@ watch(
     members.value.list = [];
 
     try {
-      system.value = await getSystem(newId);
+      system.value = await pluralKit.getSystem(newId);
     } catch (e) {
       if (e instanceof APIError) {
         if (e.status == '404') {
@@ -151,14 +151,12 @@ watch(
       return;
     }
 
-    fronters.value = await getFronters(newId);
+    fronters.value = await pluralKit.getFronters(newId);
 
     try {
-      members.value.list = Array.from(
-        (await pk.getMembers({ system: newId })).values(),
-      )
-        .map((m) => Member.fromPKApi(m))
-        .sort(getNameSort(detectPronouns.value));
+      members.value.list = (await pluralKit.getMembers(newId)).sort(
+        getNameSort(detectPronouns.value),
+      );
 
       members.value.loading = false;
       members.value.allowed = true;

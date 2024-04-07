@@ -1,9 +1,11 @@
+import { z } from 'zod';
 import { ProxyTag as ApiProxyTag } from 'pkapi.js/dist/esm/structures/member';
 
-export interface IProxyTag {
-  prefix: string | null;
-  suffix: string | null;
-}
+export const IProxyTag = z.object({
+  prefix: z.string().nullable(),
+  suffix: z.string().nullable(),
+});
+export type IProxyTag = z.infer<typeof IProxyTag>;
 
 export class ProxyTag implements IProxyTag {
   constructor(
