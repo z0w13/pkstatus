@@ -37,7 +37,7 @@
               />
             </td>
             <td v-else valign="middle">
-              <q-linear-progress query />
+              <q-spinner-dots size="24px" />
             </td>
             <template v-if="fronters[id]">
               <template v-if="fronters[id].allowed">
@@ -99,7 +99,7 @@
             </template>
             <!-- Loading -->
             <td v-else valign="middle">
-              <q-linear-progress query />
+              <q-spinner-dots size="24px" />
             </td>
             <!-- Spacer -->
             <td v-if="!useMobileUi" />
