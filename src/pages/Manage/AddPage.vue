@@ -7,7 +7,7 @@
           filled
           autofocus
           label="System or Discord ID *"
-          v-model="newId"
+          v-model.trim="newId"
           :loading="isLoading"
           bottom-slots
           :error="!!errorMessage"
@@ -77,12 +77,11 @@ function is404(e: unknown): boolean {
 }
 
 const onChange = debounce(async function (id: string) {
-  const system = id.trim();
   try {
-    newSys.value = await pluralKit.getSystem(system);
+    newSys.value = await pluralKit.getSystem(id);
   } catch (e) {
     if (is404(e)) {
-      errorMessage.value = `Couldn't find system ${system}`;
+      errorMessage.value = `Couldn't find system ${id}`;
       return;
     }
   } finally {
@@ -94,7 +93,7 @@ watch(newId, () => {
   newSys.value = null;
   errorMessage.value = '';
 
-  if (newId.value.trim() == '') {
+  if (newId.value == '') {
     onChange.cancel();
     isLoading.value = false;
 
