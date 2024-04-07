@@ -105,11 +105,17 @@
             <td v-if="!useMobileUi" />
             <!-- Last Switch -->
             <td v-if="settings.showLastSwitch" valign="top">
-              <relative-time-display :time="fronters[id].lastSwitch" />
+              <relative-time-display
+                v-if="fronters[id]"
+                :time="fronters[id]?.lastSwitch"
+              />
             </td>
             <!-- Last Updated -->
             <td v-if="settings.showUpdateTime" valign="top">
-              <relative-time-display :time="fronters[id].lastUpdated" />
+              <relative-time-display
+                v-if="fronters[id]"
+                :time="fronters[id]?.lastUpdated"
+              />
             </td>
           </tr>
         </tbody>
