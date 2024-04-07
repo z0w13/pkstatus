@@ -296,11 +296,6 @@ program
       'Wrote new version to package.json' + (dryRun ? ' (skipped)' : ''),
     );
 
-    // Don't update changelog on dev
-    if (dev) {
-      return;
-    }
-
     // Generate changelog template
     const changelog = fs.readFileSync('CHANGELOG.md', 'utf-8').split('\n');
     const currDate = new Date().toISOString().split('T')[0];
