@@ -1,6 +1,6 @@
 <template>
   <q-avatar :size="size" :color="bgColor" class="text-white">
-    <q-img :ratio="1" v-if="url" :src="url" @load="onLoad" @error="onError">
+    <q-img v-if="url" :ratio="1" :src="url" @load="onLoad" @error="onError">
       <template #error>
         <q-icon
           :size="size"
@@ -33,7 +33,9 @@ const props = withDefaults(
     size?: string;
   }>(),
   {
+    url: null,
     color: 'primary',
+    size: undefined,
   },
 );
 

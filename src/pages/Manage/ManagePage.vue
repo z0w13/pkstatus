@@ -26,13 +26,13 @@
               :name="props.row.name"
               size="24px"
             />
-            <q-skeleton type="circle" v-else size="24px" />
+            <q-skeleton v-else type="circle" size="24px" />
           </q-td>
         </template>
         <template #body-cell-name="props">
           <q-td :props="props">
             <template v-if="props.value">{{ props.value }}</template>
-            <q-skeleton type="rect" v-else />
+            <q-skeleton v-else type="rect" />
           </q-td>
         </template>
         <template #body-cell-buttons="props">

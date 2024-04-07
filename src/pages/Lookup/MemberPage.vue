@@ -2,16 +2,16 @@
   <template v-if="member && system">
     <member-card :member="member" :system="system" flat />
   </template>
-  <q-linear-progress indeterminate v-else-if="status == 'loading'" />
+  <q-linear-progress v-else-if="status == 'loading'" indeterminate />
   <div
-    class="row q-mt-lg q-pa-md bg-lighten q-pa-md"
     v-else-if="status == 'forbidden'"
+    class="row q-mt-lg q-pa-md bg-lighten q-pa-md"
   >
     Not Allowed To View Member
   </div>
   <div
-    class="row q-mt-lg q-pa-md bg-lighten q-pa-md"
     v-else-if="status == 'notfound'"
+    class="row q-mt-lg q-pa-md bg-lighten q-pa-md"
   >
     Member Not Found
   </div>

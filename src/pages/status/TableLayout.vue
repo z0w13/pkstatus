@@ -20,23 +20,23 @@
         </thead>
         <tbody>
           <tr
-            :key="id"
             v-for="id in ids"
+            :key="id"
             :style="`line-height: ${settings.iconSize}px`"
           >
-            <td valign="top" v-if="systems[id]">
+            <td v-if="systems[id]" valign="top">
               <table-entity
                 :img="systems[id].avatarUrl"
                 :size="settings.iconSize + 'px'"
                 :tooltip="systems[id].description"
                 :label="systems[id].getName(detectPronouns)"
                 :caption="systems[id].getPronouns(detectPronouns)"
-                @click="dialog.show({ system: systems[id] })"
                 :square="settings.squareIcons"
                 :show-icon="settings.showIcons"
+                @click="dialog.show({ system: systems[id] })"
               />
             </td>
-            <td valign="middle" v-else>
+            <td v-else valign="middle">
               <q-linear-progress query />
             </td>
             <template v-if="fronters[id]">
@@ -50,18 +50,18 @@
                     :tooltip="member.description"
                     :label="member.getName(detectPronouns)"
                     :caption="member.getPronouns(detectPronouns)"
-                    @click="dialog.show({ member, system: systems[id] })"
                     class="q-mb-sm"
                     :square="settings.squareIcons"
                     :show-icon="settings.showIcons"
+                    @click="dialog.show({ member, system: systems[id] })"
                   />
                 </td>
                 <template v-else>
                   <td
+                    v-for="member of fronters[id].members"
+                    :key="member.id"
                     valign="top"
                     style="width: 1%"
-                    :key="member.id"
-                    v-for="member of fronters[id].members"
                   >
                     <table-entity
                       :img="member.avatarUrl"
@@ -69,9 +69,9 @@
                       :tooltip="member.description"
                       :label="member.getName(detectPronouns)"
                       :caption="member.getPronouns(detectPronouns)"
-                      @click="dialog.show({ member, system: systems[id] })"
                       :square="settings.squareIcons"
                       :show-icon="settings.showIcons"
+                      @click="dialog.show({ member, system: systems[id] })"
                     />
                   </td>
                   <td

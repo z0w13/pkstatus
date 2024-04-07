@@ -6,7 +6,7 @@
         :style="!!caption ? 'padding-top: 6px; padding-bottom: 6px' : ''"
       >
         <div class="text-subtitle2">{{ label }}</div>
-        <div class="text-caption" v-if="caption">{{ caption }}</div>
+        <div v-if="caption" class="text-caption">{{ caption }}</div>
       </div>
       <template #error>
         <q-icon
@@ -24,7 +24,7 @@
           :style="!!caption ? 'padding-top: 6px; padding-bottom: 6px' : ''"
         >
           <div class="text-subtitle2">{{ label }}</div>
-          <div class="text-caption" v-if="caption">{{ caption }}</div>
+          <div v-if="caption" class="text-caption">{{ caption }}</div>
         </div>
       </template>
     </q-img>
@@ -45,7 +45,7 @@
         :style="!!caption ? 'padding-top: 6px; padding-bottom: 6px' : ''"
       >
         <div class="text-subtitle2">{{ label }}</div>
-        <div class="text-caption" v-if="caption">{{ caption }}</div>
+        <div v-if="caption" class="text-caption">{{ caption }}</div>
       </div>
     </q-img>
 
@@ -65,6 +65,8 @@ withDefaults(
     fallbackIcon?: string;
   }>(),
   {
+    img: null,
+    caption: null,
     fallbackIcon: matPerson,
   },
 );

@@ -15,7 +15,7 @@
         </fitty>
       </div>
     </q-card-section>
-    <img :src="system.bannerUrl" v-if="system.bannerUrl" />
+    <img v-if="system.bannerUrl" :src="system.bannerUrl" />
     <q-card-actions v-if="popup" class="bg-primary">
       <q-btn
         flat
@@ -23,7 +23,7 @@
         :to="`/lookup/system/${system.id}`"
       />
     </q-card-actions>
-    <q-card-section class="q-pt-none" v-if="details">
+    <q-card-section v-if="details" class="q-pt-none">
       <q-markup-table flat separator="horizontal" style="overflow: hidden">
         <tbody>
           <tr>

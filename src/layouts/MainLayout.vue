@@ -18,8 +18,8 @@
     </q-header>
 
     <q-drawer
-      class="row column justify-between"
       v-model="leftDrawerOpen"
+      class="row column justify-between"
       show-if-above
       bordered
     >

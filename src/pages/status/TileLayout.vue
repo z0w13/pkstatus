@@ -1,6 +1,6 @@
 <template>
   <div class="col-12">
-    <template :key="id" v-for="id of ids">
+    <template v-for="id of ids" :key="id">
       <div class="row justify-left q-pa-md q-col-gutter-md">
         <system-view
           :system="systems[id]"

@@ -4,10 +4,10 @@
       <page-title icon="group_add" text="Add System" />
       <q-card-section class="q-pt-none">
         <q-input
+          v-model.trim="newId"
           filled
           autofocus
           label="System or Discord ID *"
-          v-model.trim="newId"
           :loading="isLoading"
           bottom-slots
           :error="!!errorMessage"

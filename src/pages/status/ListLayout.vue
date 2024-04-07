@@ -2,7 +2,7 @@
   <div class="row justify-center" style="min-height: inherit">
     <div class="col-auto q-mt-lg">
       <q-list>
-        <template :key="id" v-for="id of ids">
+        <template v-for="id of ids" :key="id">
           <q-item
             v-if="systems[id]"
             clickable
@@ -27,16 +27,16 @@
                 {{ systems[id].getPronouns(detectPronouns) }}
               </q-item-label>
               <q-item-label
-                caption
                 v-if="fronters[id] && settings.showUpdateTime"
+                caption
               >
                 <q-icon class="q-mr-xs" name="update" aria-hidden="true" />
                 <span class="sr-only">Last updated</span>
                 <relative-time-display :time="fronters[id].lastUpdated" />
               </q-item-label>
               <q-item-label
-                caption
                 v-if="fronters[id] && settings.showLastSwitch"
+                caption
               >
                 <q-icon class="q-mr-xs" name="swap_horiz" aria-hidden="true" />
                 <span class="sr-only">Last switch</span>
@@ -53,11 +53,11 @@
           <template v-if="fronters[id]">
             <template v-if="fronters[id].allowed">
               <q-item
-                clickable
-                @click="dialog.show({ member, system: systems[id] })"
-                :key="member.id"
                 v-for="member of fronters[id].members"
+                :key="member.id"
+                clickable
                 :inset-level="1"
+                @click="dialog.show({ member, system: systems[id] })"
               >
                 <q-item-section avatar>
                   <initial-fallback-avatar
@@ -72,8 +72,8 @@
                     {{ member.getName(detectPronouns) }}
                   </q-item-label>
                   <q-item-label
-                    caption
                     v-if="member.getPronouns(detectPronouns)"
+                    caption
                   >
                     {{ member.getPronouns(detectPronouns) }}
                   </q-item-label>

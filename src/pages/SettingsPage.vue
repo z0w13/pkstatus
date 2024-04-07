@@ -11,6 +11,7 @@
               (optional) PluralKit token, only needed for the switching UI
             </q-item-label>
             <q-input
+              v-model.trim="newToken"
               type="password"
               label="Token"
               bottom-slots
@@ -18,7 +19,6 @@
               :loading="tokenChecking"
               :error="tokenError"
               error-message="Invalid Token"
-              v-model.trim="newToken"
               @update:model-value="onTokenChange"
             >
               <template #prepend>
@@ -65,8 +65,8 @@
         <q-item>
           <q-item-section>
             <q-select
-              label="System Update Interval"
               v-model="systemUpdateInterval"
+              label="System Update Interval"
               :options="options"
               emit-value
               map-options
@@ -81,8 +81,8 @@
         <q-item>
           <q-item-section>
             <q-select
-              label="Fronter Update Interval"
               v-model="fronterUpdateInterval"
+              label="Fronter Update Interval"
               :options="options"
               emit-value
               map-options

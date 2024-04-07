@@ -10,8 +10,8 @@
 
         <template v-if="fronters?.allowed">
           <q-item
-            :key="member.id"
             v-for="member of fronters.members"
+            :key="member.id"
             clickable
             @click="dialog.show({ member, system })"
           >
@@ -25,7 +25,7 @@
               <q-item-label>
                 {{ member.getName(detectPronouns) }}
               </q-item-label>
-              <q-item-label caption v-if="member.getPronouns(detectPronouns)">
+              <q-item-label v-if="member.getPronouns(detectPronouns)" caption>
                 {{ member.getPronouns(detectPronouns) }}
               </q-item-label>
             </q-item-section>
@@ -48,8 +48,8 @@
         </q-item>
         <template v-else-if="members.allowed">
           <q-item
-            :key="member.id"
             v-for="member of members.list"
+            :key="member.id"
             clickable
             @click="dialog.show({ member, system })"
           >
@@ -63,7 +63,7 @@
               <q-item-label>
                 {{ member.getName(detectPronouns) }}
               </q-item-label>
-              <q-item-label caption v-if="member.getPronouns(detectPronouns)">
+              <q-item-label v-if="member.getPronouns(detectPronouns)" caption>
                 {{ member.getPronouns(detectPronouns) }}
               </q-item-label>
             </q-item-section>
@@ -72,15 +72,15 @@
       </q-list>
     </div>
   </template>
-  <q-linear-progress indeterminate v-else-if="status == 'loading'" />
+  <q-linear-progress v-else-if="status == 'loading'" indeterminate />
   <div
-    class="row q-mt-lg q-pa-md bg-lighten q-pa-md"
     v-else-if="status == 'forbidden'"
+    class="row q-mt-lg q-pa-md bg-lighten q-pa-md"
   >
     <q-icon name="cross" />
     Not Allowed To View System
   </div>
-  <div class="row q-mt-lg q-pa-md bg-lighten" v-else-if="status == 'notfound'">
+  <div v-else-if="status == 'notfound'" class="row q-mt-lg q-pa-md bg-lighten">
     <q-icon name="error" />
     System Not Found
   </div>

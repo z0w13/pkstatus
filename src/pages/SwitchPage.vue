@@ -31,11 +31,11 @@
             <div class="col-auto self-center">Selected Fronters:</div>
             <div class="col relative-position">
               <initial-fallback-avatar
-                :style="`left: ${(fronters.length - idx - 1) * 25 + 5}px; position: absolute; box-shadow: 0 0 2px 2px black`"
+                v-for="[idx, fronter] in fronters.entries()"
                 :key="fronter.id"
+                :style="`left: ${(fronters.length - idx - 1) * 25 + 5}px; position: absolute; box-shadow: 0 0 2px 2px black`"
                 :url="fronter.avatarUrl"
                 :name="fronter.getName(detectPronouns)"
-                v-for="[idx, fronter] in fronters.entries()"
               />
             </div>
           </template>
@@ -45,14 +45,14 @@
           <div class="col-sm-6 col-12">
             <q-select
               v-if="!!members.length"
-              bottom-slots
               v-model="primaryFronterId"
+              bottom-slots
               emit-value
               map-options
               :options="options"
               label="Primary Fronter"
             >
-              <template #append v-if="primaryFronter">
+              <template v-if="primaryFronter" #append>
                 <initial-fallback-avatar
                   :url="primaryFronter.avatarUrl"
                   :name="primaryFronter.getName(detectPronouns)"
@@ -64,19 +64,19 @@
           <div class="col-sm-6 col-12">
             <q-input
               v-if="!!members.length"
-              bottom-slots
               v-model="searchText"
+              bottom-slots
               label="Search"
             />
             <q-skeleton v-else class="QInput" height="48px" />
           </div>
         </div>
 
-        <div class="row q-col-gutter-md" v-if="!!filteredMembers.length">
+        <div v-if="!!filteredMembers.length" class="row q-col-gutter-md">
           <div
-            class="col-md-3 col-4"
-            :key="member.id"
             v-for="member of filteredMembers"
+            :key="member.id"
+            class="col-md-3 col-4"
           >
             <labeled-tile
               style="
@@ -87,13 +87,13 @@
               :label="member.getName(detectPronouns)"
               :caption="member.getPronouns(detectPronouns)"
               :flat="!selected.includes(member.id)"
-              @click="toggleMember(member.id)"
               size="100%"
+              @click="toggleMember(member.id)"
             />
           </div>
         </div>
-        <div class="row q-col-gutter-md q-mt-md" v-else>
-          <div class="col-md-3 col-4" :key="idx" v-for="idx of 6">
+        <div v-else class="row q-col-gutter-md q-mt-md">
+          <div v-for="idx of 6" :key="idx" class="col-md-3 col-4">
             <q-skeleton type="rect" style="aspect-ratio: 1/1" />
           </div>
         </div>

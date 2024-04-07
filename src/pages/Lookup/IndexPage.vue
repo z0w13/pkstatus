@@ -19,9 +19,9 @@
           <div class="row q-ma-sm">
             <div class="col">
               <q-input
-                filled
                 ref="searchInput"
                 v-model="searchValue"
+                filled
                 :autofocus="route.name == 'lookup'"
                 :label="`Enter ${searchType} ID`"
               />

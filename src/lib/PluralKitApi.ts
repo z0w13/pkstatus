@@ -42,7 +42,9 @@ export default class PluralKitApi extends PKAPI {
       }
     }
 
+    // eslint-disable-next-line no-async-promise-executor
     const prom = new Promise<Awaited<HandleReturn>>(async (resolve, reject) => {
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         try {
           await this.limiter.schedule(async () => {

@@ -13,7 +13,7 @@ const props = defineProps<{ time: dayjs.Dayjs | null | undefined }>();
 const fromNow = ref();
 
 function updateFromNow() {
-  fromNow.value = !!props.time ? props.time.fromNow() : 'unknown';
+  fromNow.value = props.time ? props.time.fromNow() : 'unknown';
 }
 
 let updateInterval: ReturnType<typeof setInterval> | null = null;

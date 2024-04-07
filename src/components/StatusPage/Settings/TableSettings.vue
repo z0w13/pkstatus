@@ -7,8 +7,8 @@
             >Vertical Position</q-item-label
           >
           <q-btn-toggle
-            color="grey-9"
             v-model="settings.verticalPosition"
+            color="grey-9"
             :options="[
               { label: 'Top', value: 'start' },
               { label: 'Middle', value: 'center' },
@@ -23,8 +23,8 @@
             >Horizontal Position</q-item-label
           >
           <q-btn-toggle
-            color="grey-9"
             v-model="settings.horizontalPosition"
+            color="grey-9"
             :options="[
               { label: 'Left', value: 'start' },
               { label: 'Center', value: 'center' },

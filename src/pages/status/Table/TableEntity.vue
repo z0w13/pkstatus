@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-item dense class="q-pa-none">
-      <q-item-section avatar v-if="showIcon" class="col-auto q-pr-sm">
+      <q-item-section v-if="showIcon" avatar class="col-auto q-pr-sm">
         <initial-fallback-avatar
           v-if="!icon"
           :name="label"
@@ -21,9 +21,9 @@
       <q-item-section class="col-auto">
         <q-item-label>
           {{ label }}
-          <q-icon name="info" v-if="tooltip" />
+          <q-icon v-if="tooltip" name="info" />
         </q-item-label>
-        <q-item-label caption v-if="caption">{{ caption }}</q-item-label>
+        <q-item-label v-if="caption" caption>{{ caption }}</q-item-label>
       </q-item-section>
     </q-item>
   </div>
@@ -46,7 +46,11 @@ withDefaults(
   }>(),
   {
     showIcon: true,
+    tooltip: null,
+    caption: null,
+    icon: null,
     color: 'primary',
+    img: null,
     square: false,
   },
 );

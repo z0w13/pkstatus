@@ -1,5 +1,5 @@
 <template>
-  <div class="col-auto" v-if="system">
+  <div v-if="system" class="col-auto">
     <q-card flat :style="{ width: `${cardWidth}px` }">
       <labeled-tile
         :img="system.avatarUrl"
@@ -13,7 +13,7 @@
           :class="{ 'q-px-none': cardWidth < 220 }"
         >
           <q-item v-if="showUpdateTime">
-            <q-item-section avatar v-if="cardWidth > 180">
+            <q-item-section v-if="cardWidth > 180" avatar>
               <q-icon name="update" />
             </q-item-section>
             <q-item-section>
@@ -25,7 +25,7 @@
           </q-item>
 
           <q-item v-if="showLastSwitch">
-            <q-item-section avatar v-if="cardWidth > 180">
+            <q-item-section v-if="cardWidth > 180" avatar>
               <q-icon name="swap_horiz" />
             </q-item-section>
             <q-item-section>
@@ -45,7 +45,7 @@
       </labeled-tile>
     </q-card>
   </div>
-  <div class="col-auto" v-else>
+  <div v-else class="col-auto">
     <q-card
       flat
       class="justify-center row"
@@ -59,9 +59,9 @@
       <template v-if="fronters">
         <template v-if="fronters.allowed">
           <div
-            class="col-auto"
-            :key="fronter.id"
             v-for="fronter of fronters.members"
+            :key="fronter.id"
+            class="col-auto"
           >
             <labeled-tile
               :img="fronter.avatarUrl"
