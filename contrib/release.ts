@@ -411,7 +411,14 @@ program
     // 5. Publish the release draft
     console.info(`Publishing release v${version}...`);
     await run(
-      ['gh', 'release', 'edit', `v${version}`, '--draft=false', '--latest'],
+      [
+        'gh',
+        'release',
+        'edit',
+        `v${version}`,
+        '--draft=false',
+        isDev(version) ? '--prerelease' : '--latest',
+      ],
       true,
     );
   });
