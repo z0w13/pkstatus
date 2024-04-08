@@ -444,6 +444,14 @@ program
   });
 
 program
+  .command('gh-pages')
+  .description('Push to GitHub pages')
+  .action(async () => {
+    const version = getVersion();
+    await pushGithubPages(version);
+  });
+
+program
   .command('clean')
   .description('Clean temp files')
   .action(() => {
