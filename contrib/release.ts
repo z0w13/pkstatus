@@ -390,8 +390,16 @@ program
     const outDir = path.join(ROOT_DIR, `dist/_artifacts/v${version}`);
 
     // 1. Push branch and tags
-    console.info('Pushing main branch and tags...');
-    await run(['git', 'push', 'origin', 'main', '--follow-tags']);
+    console.info(
+      `Pushing ${isDev(version) ? 'dev' : 'main'} branch and tags...`,
+    );
+    await run([
+      'git',
+      'push',
+      'origin',
+      isDev(version) ? 'dev' : 'main',
+      '--follow-tags',
+    ]);
 
     // 2. Create draft release
     console.info(`Creating release v${version}...`);
