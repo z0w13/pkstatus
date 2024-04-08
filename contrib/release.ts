@@ -104,7 +104,7 @@ async function pushGithubPages(version: string) {
     },
   );
   console.info('Pushing to GitHub pages...');
-  withDir(path.join(ROOT_DIR, 'dist/pwa'), async () => {
+  await withDir(path.join(ROOT_DIR, 'dist/pwa'), async () => {
     await run(['git', 'init', '--initial-branch', 'gh-pages'], true);
     await run(['git', 'remote', 'add', 'prod-pages', GIT_PROD_URL], true);
     await run(['git', 'remote', 'add', 'dev-pages', GIT_DEV_URL], true);
