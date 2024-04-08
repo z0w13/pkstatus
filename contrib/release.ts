@@ -98,7 +98,7 @@ async function pushGithubPages(version: string) {
     {
       env: {
         ...process.env,
-        PKSTATUS_BUILD_MODE: 'gh-pages',
+        PKSTATUS_SPA_PREFIX: isDev(version) ? '/pkstatus-dev' : '/pkstatus',
       },
       stdio: 'inherit',
     },
