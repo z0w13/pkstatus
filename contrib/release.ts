@@ -5,10 +5,12 @@ import { spawn as baseSpawn, spawnSync } from 'node:child_process';
 import process from 'node:process';
 import path from 'node:path';
 import tmp, { withFile } from 'tmp-promise';
+import chalk from 'chalk';
 import assert from 'node:assert';
 
 const GITHUB_URL = 'https://github.com/z0w13/pkstatus';
-const GIT_URL = 'git@github.com:z0w13/pkstatus.git';
+const GIT_PROD_URL = 'git@github.com:z0w13/pkstatus.git';
+const GIT_DEV_URL = 'git@github.com:z0w13/pkstatus-dev.git';
 const COMPARE_URL = `${GITHUB_URL}/compare`;
 const PKG_NAME = 'pkstatus';
 const ROOT_DIR = path.dirname(__dirname);
@@ -104,10 +106,20 @@ async function pushGithubPages(version: string) {
   console.info('Pushing to GitHub pages...');
   withDir(path.join(ROOT_DIR, 'dist/pwa'), async () => {
     await run(['git', 'init', '--initial-branch', 'gh-pages'], true);
-    await run(['git', 'remote', 'add', 'origin', GIT_URL], true);
+    await run(['git', 'remote', 'add', 'prod-pages', GIT_PROD_URL], true);
+    await run(['git', 'remote', 'add', 'dev-pages', GIT_DEV_URL], true);
     await run(['git', 'add', '.'], true);
     await run(['git', 'commit', '-m', `Generated v${version}`], true);
-    await run(['git', 'push', 'origin', 'gh-pages', '--force'], true);
+    await run(
+      [
+        'git',
+        'push',
+        isDev(version) ? 'dev-pages' : 'prod-pages',
+        'gh-pages',
+        '--force',
+      ],
+      true,
+    );
   });
 }
 
@@ -435,6 +447,72 @@ program
   .command('get-changelog')
   .description('Print changelog for latest version')
   .action(() => console.log(getLatestChangelog()));
+
+function checkItem(
+  check: boolean,
+  checkMessage: string,
+  successMessage: string,
+  failMessage: string,
+): boolean {
+  const colorFunc = check ? chalk.green : chalk.red;
+  const logFunc = check ? console.info : console.error;
+
+  logFunc(
+    colorFunc(
+      `[${check ? '✓' : '✘'}] ${checkMessage} ${check ? successMessage : failMessage}`,
+    ),
+  );
+
+  return check;
+}
+async function check(): Promise<boolean> {
+  console.info('Checking prereqs...');
+  let pass = true;
+
+  // Check for gh binary
+  pass =
+    pass &&
+    checkItem(
+      (await run(['which', 'gh'])) !== 1,
+      "'gh' binary",
+      'installed',
+      "missing, can't create releases",
+    );
+  // Check for misc binaries
+  pass =
+    pass &&
+    checkItem(
+      (await run(['which', 'tar'])) !== 1,
+      "'tar' binary",
+      'installed',
+      "missing, can't package releases",
+    );
+  // Check for android binaries
+  pass =
+    pass &&
+    checkItem(
+      (await run(['which', 'zipalign'])) !== 1,
+      "'zipalign' binary",
+      'installed',
+      "missing, can't create android releases",
+    );
+  pass =
+    pass &&
+    checkItem(
+      (await run(['which', 'apksigner'])) !== 1,
+      "'apksigner' binary",
+      'installed',
+      "missing, can't create android releases",
+    );
+
+  return pass;
+}
+
+program.hook('preAction', async (ctx) => {
+  if (!(await check())) {
+    process.exit(1);
+  }
+});
 
 tmp.setGracefulCleanup();
 process.chdir(ROOT_DIR);
