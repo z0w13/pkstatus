@@ -2,20 +2,37 @@ import { reactive } from 'vue';
 import dayjs from 'dayjs';
 
 import { notEmpty } from 'src/util';
+import { z } from 'zod';
 
 interface HasId {
   id: string;
 }
 
-class CacheInfo {
-  public readonly createdAt: dayjs.Dayjs;
+export const SerializedCacheInfo = z.object({
+  ttl: z.number(),
+  createdAt: z.string().datetime(),
+});
+export type SerializedCacheInfo = z.infer<typeof SerializedCacheInfo>;
 
-  constructor(public ttl: number) {
-    this.createdAt = dayjs();
-  }
+export class CacheInfo {
+  constructor(
+    public ttl: number,
+    public createdAt: dayjs.Dayjs = dayjs(),
+  ) {}
 
   public expired(): boolean {
     return dayjs().diff(this.createdAt, 'seconds') > this.ttl;
+  }
+
+  public toStorage(): SerializedCacheInfo {
+    return {
+      ...this,
+      createdAt: this.createdAt.toJSON(),
+    };
+  }
+
+  static fromStorage(serialized: SerializedCacheInfo): CacheInfo {
+    return new CacheInfo(serialized.ttl, dayjs(serialized.createdAt));
   }
 }
 
@@ -77,6 +94,11 @@ export default abstract class BaseCache<T extends HasId> {
     return await Promise.all(ids.map((id) => this.get(id)));
   }
 
+  public setCached(info: CacheInfo, object: T) {
+    this.cacheInfo[object.id] = info;
+    this.objects[object.id] = object;
+  }
+
   public getCached(id: string): T | undefined {
     return this.objects[id];
   }
@@ -100,6 +122,17 @@ export default abstract class BaseCache<T extends HasId> {
       throw new Error(`THIS SHOULDN'T HAPPEN, No CacheInfo for ${id}`);
     }
     return res;
+  }
+
+  public persist(
+    filterFunc: (val: T) => boolean,
+  ): Array<{ info: CacheInfo; obj: T }> {
+    return Object.values(this.objects)
+      .filter(filterFunc)
+      .map((obj) => ({
+        info: this.cacheInfo[obj.id],
+        obj: obj,
+      }));
   }
 
   protected abstract refresh(id: string): Promise<T>;
