@@ -2,7 +2,7 @@ import { StateTree, defineStore } from 'pinia';
 
 import { LatestVersion, migrate } from 'src/models/migrations/system/index';
 import { System } from 'src/models/System';
-import { useCacheStore } from 'src/stores/cache-store';
+import { useServices } from 'src/lib/Services';
 
 const STORE_NAME = 'systems';
 
@@ -19,26 +19,26 @@ export const useSystemStore = defineStore(STORE_NAME, {
   },
   actions: {
     getExpired(): Array<System> {
-      const { systemCache } = useCacheStore();
+      const { systemCache } = useServices();
       return systemCache.getExpired().filter((s) => this.systems[s.id]);
     },
     async get(id: string): Promise<System> {
       return await this.add(id);
     },
     async getAll(): Promise<Array<System>> {
-      const { systemCache } = useCacheStore();
+      const { systemCache } = useServices();
       return await systemCache.getMulti(this.ids);
     },
 
     async add(id: string): Promise<System> {
-      const { systemCache } = useCacheStore();
+      const { systemCache } = useServices();
       const system = systemCache.get(id);
 
       this.systems[id] = true;
       return system;
     },
     async update(id: string): Promise<System> {
-      const { systemCache } = useCacheStore();
+      const { systemCache } = useServices();
       return await systemCache.fetch(id);
     },
     delete(id: string): void {

@@ -14,12 +14,13 @@ import { System, SerializedSystem } from './models/System';
 import { Fronters, SerializedFronters } from './models/Fronters';
 import { Member, SerializedMember } from './models/Member';
 import { z } from 'zod';
+import { useServices } from 'src/lib/Services';
 
 const $q = useQuasar();
 
 const settingsStore = useSettingsStore();
 const systemStore = useSystemStore();
-const { fronterCache, systemCache } = useCacheStore();
+const { fronterCache, systemCache, memberCache } = useServices();
 
 const { dark, systemUpdateInterval, fronterUpdateInterval } =
   storeToRefs(settingsStore);

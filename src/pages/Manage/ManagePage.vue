@@ -89,14 +89,14 @@ import { computed } from 'vue';
 import { QTableProps, useQuasar } from 'quasar';
 
 import { useSystemStore } from 'src/stores/system-store';
-import { useCacheStore } from 'src/stores/cache-store';
+import { useServices } from 'src/lib/Services';
 
 import PageTitle from 'src/components/PageTitle.vue';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 
 const $q = useQuasar();
 const systemStore = useSystemStore();
-const { systemCache } = useCacheStore();
+const { systemCache } = useServices();
 
 const columns: QTableProps['columns'] = [
   { name: 'avatar', field: 'avatarUrl', label: 'Icon', align: 'left' },

@@ -102,11 +102,11 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import SystemCard from 'src/components/Card/SystemCard.vue';
 import { getNameSort } from 'src/util';
-import { useCacheStore } from 'src/stores/cache-store';
+import { useServices } from 'src/lib/Services';
 
 const route = useRoute();
 const settingsStore = useSettingsStore();
-const { pluralKit } = useCacheStore();
+const { pluralKit } = useServices();
 const { detectPronouns } = storeToRefs(settingsStore);
 
 const status = ref<'loading' | 'forbidden' | 'notfound'>('loading');

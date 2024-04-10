@@ -122,7 +122,7 @@ import { pk } from 'src/boot/pkapi';
 
 import { caseInsensitiveIncludes, getNameSort, notEmpty } from 'src/util';
 import { useSettingsStore } from 'src/stores/settings-store';
-import { useCacheStore } from 'src/stores/cache-store';
+import { useServices } from 'src/lib/Services';
 import { Member } from 'src/models/Member';
 
 import PageTitle from 'src/components/PageTitle.vue';
@@ -131,7 +131,7 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
-const { pluralKit } = useCacheStore();
+const { pluralKit } = useServices();
 const { detectPronouns, token } = storeToRefs(settingsStore);
 
 const loading = ref(true);

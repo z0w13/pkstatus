@@ -110,10 +110,10 @@ import { useSettingsStore } from 'src/stores/settings-store';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import PageTitle from 'src/components/PageTitle.vue';
-import { useCacheStore } from 'src/stores/cache-store';
+import { useServices } from 'src/lib/Services';
 
 const $q = useQuasar();
-const { pluralKit } = useCacheStore();
+const { pluralKit } = useServices();
 const settingsStore = useSettingsStore();
 const {
   detectPronouns,

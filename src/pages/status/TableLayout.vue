@@ -138,14 +138,14 @@ import { storeToRefs } from 'pinia';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 import TableEntity from 'src/pages/status/Table/TableEntity.vue';
-import { useCacheStore } from 'src/stores/cache-store';
+import { useServices } from 'src/lib/Services';
 
 const $q = useQuasar();
 
 const settingsStore = useSettingsStore();
 const { detectPronouns } = storeToRefs(settingsStore);
 const settings = settingsStore.status.table;
-const { fronterCache } = useCacheStore();
+const { fronterCache } = useServices();
 
 const useMobileUi = computed(() => $q.screen.lt.sm || settings.forceMobileUi);
 const dialog = ref();

@@ -55,7 +55,7 @@ import { ref, watch } from 'vue';
 import { APIError } from 'pkapi.js';
 
 import { useSystemStore } from 'src/stores/system-store';
-import { useCacheStore } from 'src/stores/cache-store';
+import { useServices } from 'src/lib/Services';
 import { System } from 'src/models/System';
 
 import { matGroups } from '@quasar/extras/material-icons';
@@ -65,7 +65,7 @@ import PageTitle from 'src/components/PageTitle.vue';
 const $q = useQuasar();
 const router = useRouter();
 const systemStore = useSystemStore();
-const { pluralKit } = useCacheStore();
+const { pluralKit } = useServices();
 
 const newId = ref('');
 const newSys = ref<System | null>(null);

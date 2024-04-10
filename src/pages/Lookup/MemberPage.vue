@@ -26,11 +26,11 @@ import { Member } from 'src/models/Member';
 
 import MemberCard from 'src/components/Card/MemberCard.vue';
 import { APIError } from 'pkapi.js';
-import { useCacheStore } from 'src/stores/cache-store';
+import { useServices } from 'src/lib/Services';
 
 const route = useRoute();
 
-const { pluralKit } = useCacheStore();
+const { pluralKit } = useServices();
 
 const status = ref<'loading' | 'forbidden' | 'notfound'>('loading');
 const member = ref<Member | null>(null);

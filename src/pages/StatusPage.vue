@@ -37,13 +37,13 @@ import { storeToRefs } from 'pinia';
 
 import { useSystemStore } from 'src/stores/system-store';
 import { useSettingsStore } from 'src/stores/settings-store';
-import { useCacheStore } from 'src/stores/cache-store';
+import { useServices } from 'src/lib/Services';
 
 import TableSettings from 'src/components/StatusPage/Settings/TableSettings.vue';
 import ListSettings from 'src/components/StatusPage/Settings/ListSettings.vue';
 import TileSettings from 'src/components/StatusPage/Settings/TileSettings.vue';
 
-const { fronterCache, systemCache } = useCacheStore();
+const { fronterCache, systemCache } = useServices();
 
 const { status } = storeToRefs(useSettingsStore());
 const { ids } = storeToRefs(useSystemStore());
