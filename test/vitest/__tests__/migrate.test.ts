@@ -1,7 +1,6 @@
 import { describe, it } from 'vitest';
 import { migrate as migrateSystems } from 'src/models/migrations/system/index';
 import { migrate as migrateSettings } from 'src/models/migrations/settings/index';
-import { SerializedSystem } from 'src/models/System';
 import { Settings } from 'src/models/Settings';
 import { z } from 'zod';
 
