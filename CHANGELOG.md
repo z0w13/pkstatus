@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.2](https://github.com/z0w13/pkstatus/compare/v0.5.1...v0.5.2) (2024-04-11)
+
+
+### Bug Fixes
+* **card/member:** don't show last message as 54 years ago if alter never sent a message
+* **manage/add:** adding systems by discord id or uuid works again
+* **switcher:** private system members show up again now
+* **desktop:** project page opens in default browser now
+
 ## [0.5.1](https://github.com/z0w13/pkstatus/compare/v0.5.0...v0.5.1) (2024-04-10)
 
 
