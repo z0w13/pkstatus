@@ -12,6 +12,10 @@ export function dayjsNull(input: string | null): dayjs.Dayjs | null {
   return input !== null ? dayjs(input) : null;
 }
 
+export function isEpochDate(date: Date | dayjs.Dayjs): boolean {
+  return date.valueOf() === 0;
+}
+
 const PronounRegex = new RegExp(
   '[\\{\\[\\(\\<](?<pronouns>\\w+\\/\\w+)[\\>\\)\\}\\]]',
 );

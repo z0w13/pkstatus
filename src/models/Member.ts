@@ -159,9 +159,13 @@ export class Member implements IMember {
       messageCount: member.message_count || null,
 
       createdAt: dayjs(member.created),
-      lastMessageAt: member.last_message_timestamp
-        ? dayjs(member.last_message_timestamp)
-        : null,
+      // Need to check for the epoch timestamp because PKAPI.js incorrectly returns
+      // new Date(null) when the last_message_timestamp is null
+      lastMessageAt:
+        member.last_message_timestamp &&
+        !util.isEpochDate(member.last_message_timestamp)
+          ? dayjs(member.last_message_timestamp)
+          : null,
 
       updatedAt: dayjs(),
     });
