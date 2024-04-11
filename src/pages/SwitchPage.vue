@@ -265,11 +265,11 @@ onMounted(async () => {
   const system = await pluralKit.getSystemForToken(token.value);
 
   // Load members/fronters
-  members.value = (await pluralKit.getMembers(system.id)).toSorted(
+  members.value = (await pluralKit.getMembers(system.id, token.value)).toSorted(
     getNameSort(detectPronouns.value),
   );
 
-  const lastSwitch = await pluralKit.getFronters(system.id);
+  const lastSwitch = await pluralKit.getFronters(system.id, token.value);
 
   // If there's no members we can't populate with previous data
   if (lastSwitch.members.length > 0) {

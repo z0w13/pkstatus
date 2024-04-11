@@ -24,7 +24,16 @@ export default class PluralKitWrapper {
     return await this.systemCache.get(id);
   }
 
-  public async getMembers(system: string): Promise<Array<Member>> {
+  public async getMembers(
+    system: string,
+    token?: string,
+  ): Promise<Array<Member>> {
+    if (token) {
+      const memberIds = (await this.systemMemberCache.fetchToken(system, token))
+        .members;
+      return await this.memberCache.getMulti(memberIds);
+    }
+
     const memberIds = (await this.systemMemberCache.get(system)).members;
     return await this.memberCache.getMulti(memberIds);
   }
@@ -33,7 +42,11 @@ export default class PluralKitWrapper {
     return await this.memberCache.get(id);
   }
 
-  public async getFronters(system: string): Promise<Fronters> {
+  public async getFronters(system: string, token?: string): Promise<Fronters> {
+    if (token) {
+      return await this.fronterCache.fetchToken(system, token);
+    }
+
     return await this.fronterCache.get(system);
   }
 }

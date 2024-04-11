@@ -20,6 +20,17 @@ export default class SystemMemberCache extends BaseCache<SystemMembers> {
     this.memberCache = memberCache;
   }
 
+  async fetchToken(system: string, token: string): Promise<SystemMembers> {
+    const members = [...(await pk.getMembers({ token, system })).values()].map(
+      (m) => this.memberCache.set(Member.fromPKApi({ ...m, system })),
+    );
+
+    return new SystemMembers(
+      system,
+      members.map((m) => m.id),
+    );
+  }
+
   protected async refresh(system: string): Promise<SystemMembers> {
     const members = [...(await pk.getMembers({ system })).values()].map((m) =>
       this.memberCache.set(Member.fromPKApi({ ...m, system })),

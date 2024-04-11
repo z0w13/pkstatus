@@ -8,9 +8,9 @@ export default class MemberCache extends BaseCache<Member> {
     return Member.fromPKApi(await pk.getMember({ member: id }));
   }
 
-  async getForSystem(system: string): Promise<Array<Member>> {
-    const members = [...(await pk.getMembers({ system })).values()].map((m) =>
-      Member.fromPKApi(m),
+  async getForSystem(system: string, token?: string): Promise<Array<Member>> {
+    const members = [...(await pk.getMembers({ system, token })).values()].map(
+      (m) => Member.fromPKApi(m),
     );
     members.forEach((m) => this.set(m));
     return members;
