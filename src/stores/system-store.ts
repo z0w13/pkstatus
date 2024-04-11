@@ -32,9 +32,9 @@ export const useSystemStore = defineStore(STORE_NAME, {
 
     async add(id: string): Promise<System> {
       const { systemCache } = useServices();
-      const system = systemCache.get(id);
+      const system = await systemCache.get(id);
 
-      this.systems[id] = true;
+      this.systems[system.id] = true;
       return system;
     },
     async update(id: string): Promise<System> {
