@@ -81,11 +81,7 @@
 
         <q-separator spaced />
         <q-item-label header>Other</q-item-label>
-        <q-item
-          clickable
-          target="_blank"
-          href="https://github.com/z0w13/pkstatus"
-        >
+        <q-item clickable @click="openProjectPage">
           <q-item-section avatar>
             <q-icon name="open_in_new" />
           </q-item-section>
@@ -121,16 +117,27 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { version } from '../../package.json';
+import { homepage, version } from '../../package.json';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { storeToRefs } from 'pinia';
+import { useQuasar } from 'quasar';
 
 const settings = useSettingsStore();
+const $q = useQuasar();
 
 const leftDrawerOpen = ref(false);
 const { dark } = storeToRefs(settings);
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
+}
+
+function openProjectPage() {
+  if ($q.platform.is.electron) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ((window as any).PKStatusApi as any).openProjectPage();
+  } else {
+    open(homepage, '_blank');
+  }
 }
 </script>

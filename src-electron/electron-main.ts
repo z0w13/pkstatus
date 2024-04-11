@@ -1,7 +1,8 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'path';
 import os from 'os';
 import { fileURLToPath } from 'url';
+import { homepage } from '../package.json';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -65,4 +66,8 @@ app.on('activate', () => {
   if (mainWindow === undefined) {
     createWindow();
   }
+});
+
+ipcMain.handle('PKStatusApi:openProjectPage', () => {
+  shell.openExternal(homepage);
 });

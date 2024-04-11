@@ -27,3 +27,11 @@
  *   }
  * }
  */
+
+import { contextBridge, ipcRenderer } from 'electron';
+
+contextBridge.exposeInMainWorld('PKStatusApi', {
+  openProjectPage() {
+    ipcRenderer.invoke('PKStatusApi:openProjectPage');
+  },
+});
