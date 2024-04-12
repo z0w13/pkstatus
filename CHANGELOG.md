@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/z0w13/pkstatus/compare/v0.6.2...v0.6.3) (2024-04-12)
+
+
+### Bug Fixes
+
+* **ui/update**: showed an outdated changelog
+
 ## [0.6.2](https://github.com/z0w13/pkstatus/compare/v0.6.1...v0.6.2) (2024-04-12)
 
 
