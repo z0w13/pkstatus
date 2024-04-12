@@ -4,7 +4,7 @@
     style="min-height: inherit"
   >
     <div :class="['col', 'col-lg-auto', `self-${settings.verticalPosition}`]">
-      <q-markup-table flat>
+      <q-markup-table :flat="$q.dark.isActive">
         <thead>
           <tr :style="`line-height: ${settings.iconSize * 1.1}px`">
             <th>System</th>
