@@ -1,4 +1,13 @@
 import dayjs from 'dayjs';
+import { version } from '../package.json';
+
+export function isDev(): boolean {
+  return (process.env.DEV as unknown as boolean) || version.includes('-dev');
+}
+export function getVersion(): string {
+  const append = isDev() && !version.includes('-dev') ? '-dev' : '';
+  return 'v' + version + append;
+}
 
 export function nonEmptyStringOrNull(input: unknown): string | null {
   if (typeof input === 'string') {

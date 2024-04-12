@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>
-      <q-toolbar>
+      <q-toolbar :class="{ 'bg-deep-orange': isDev() }">
         <q-btn
           flat
           dense
@@ -13,7 +13,10 @@
 
         <q-toolbar-title> PKStatus </q-toolbar-title>
 
-        <div>v{{ version }}</div>
+        <div>
+          <q-icon name="warning" />
+          {{ version }}
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -117,16 +120,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { homepage, version } from '../../package.json';
+import { homepage } from '../../package.json';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { storeToRefs } from 'pinia';
 import { useQuasar } from 'quasar';
+import { getVersion, isDev } from 'src/util';
 
 const settings = useSettingsStore();
 const $q = useQuasar();
 
 const leftDrawerOpen = ref(false);
 const { dark } = storeToRefs(settings);
+const version = getVersion();
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
