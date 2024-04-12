@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.1](https://github.com/z0w13/pkstatus/compare/v0.6.0...v0.6.1) (2024-04-12)
+
+
+### Bug Fixes
+
+* **ui:** don't show warning icon if we're not running a dev version
+* **ui:** fix certain ui styling only working in dark mode
+
 ## [0.6.0](https://github.com/z0w13/pkstatus/compare/v0.5.2...v0.6.0) (2024-04-12)
 
 
