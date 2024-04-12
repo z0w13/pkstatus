@@ -14,7 +14,7 @@
         <q-toolbar-title> PKStatus </q-toolbar-title>
 
         <div>
-          <q-icon name="warning" />
+          <q-icon v-if="isDev()" name="warning" />
           {{ version }}
         </div>
       </q-toolbar>
