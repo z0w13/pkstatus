@@ -130,8 +130,7 @@ onMounted(() => {
   if (
     !updateCheckerInterval &&
     // Don't even check for updates if this is a web-based version
-    !$q.platform.is.desktop &&
-    !$q.platform.is.mobile
+    ($q.platform.is.electron || $q.platform.is.capacitor)
   ) {
     updateChecker();
     updateCheckerInterval = setInterval(updateChecker, 60 * 60 * 1000);
