@@ -4,7 +4,7 @@
       <page-title icon="settings" text="Settings" />
       <q-list class="bg-lighten">
         <q-item-label header>General Settings</q-item-label>
-        <q-item>
+        <q-item tag="label">
           <q-item-section>
             <q-item-label>PluralKit Token</q-item-label>
             <q-item-label caption>
@@ -29,6 +29,18 @@
                 />
               </template>
             </q-input>
+          </q-item-section>
+        </q-item>
+        <q-item tag="label">
+          <q-item-section>
+            <q-item-label>Check for Updates</q-item-label>
+            <q-item-label caption>
+              Periodically check GitHub to see if there's a new version of
+              PKStatus available
+            </q-item-label>
+          </q-item-section>
+          <q-item-section avatar>
+            <q-toggle v-model="checkUpdates" @update:model-value="onChange" />
           </q-item-section>
         </q-item>
         <q-separator spaced />
@@ -120,6 +132,7 @@ const {
   fronterUpdateInterval,
   showCardDetails,
   systemUpdateInterval,
+  checkUpdates,
   token,
 } = storeToRefs(settingsStore);
 

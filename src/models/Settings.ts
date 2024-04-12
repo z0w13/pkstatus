@@ -43,6 +43,8 @@ export const Settings = z.object({
   fronterUpdateInterval: z.number().default(300),
   detectPronouns: z.boolean().default(true),
   showCardDetails: z.boolean().default(true),
+  checkUpdates: z.boolean().default(true),
+  ignoreVersion: z.string().nullable().default(null),
   token: z.string().nullable().default(null),
   dark: z.boolean().default(false),
 });

@@ -34,4 +34,7 @@ contextBridge.exposeInMainWorld('PKStatusApi', {
   openProjectPage() {
     ipcRenderer.invoke('PKStatusApi:openProjectPage');
   },
+  openUrl(url: string) {
+    ipcRenderer.invoke('PKStatusApi:openUrl', url);
+  },
 });

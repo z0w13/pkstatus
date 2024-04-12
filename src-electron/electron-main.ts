@@ -71,3 +71,11 @@ app.on('activate', () => {
 ipcMain.handle('PKStatusApi:openProjectPage', () => {
   shell.openExternal(homepage);
 });
+ipcMain.handle('PKStatusApi:openUrl', (_, url: string) => {
+  const urlObj = new URL(url);
+  if (!['http:', 'https:'].includes(urlObj.protocol)) {
+    return;
+  }
+
+  shell.openExternal(url);
+});

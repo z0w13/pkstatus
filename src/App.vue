@@ -1,16 +1,17 @@
 <template>
-  <router-view />
+  <router-view :new-version="newVersion" />
 </template>
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
 import { useSettingsStore } from './stores/settings-store';
-import { onMounted, onUnmounted, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSystemStore } from './stores/system-store';
 import { APIError } from 'pkapi.js';
 import { useServices } from 'src/lib/Services';
 import { CachePersister } from './lib/CachePersister';
+import { UpdateInfo, checkForUpdate } from './lib/check-update';
 
 const $q = useQuasar();
 
@@ -18,8 +19,9 @@ const settingsStore = useSettingsStore();
 const systemStore = useSystemStore();
 const { fronterCache, systemCache, memberCache } = useServices();
 const persister = new CachePersister(systemCache, memberCache, fronterCache);
+const newVersion = ref<UpdateInfo | null>(null);
 
-const { dark, systemUpdateInterval, fronterUpdateInterval } =
+const { dark, systemUpdateInterval, fronterUpdateInterval, ignoreVersion } =
   storeToRefs(settingsStore);
 
 switch (window.location.hash.split('#').at(-1)) {
@@ -107,17 +109,44 @@ async function updateSystemInfo() {
   }
 }
 
+async function updateChecker() {
+  const update = await checkForUpdate();
+  if (update && update.version == ignoreVersion.value) {
+    return;
+  }
+
+  newVersion.value = update;
+}
+
 let updateInterval: ReturnType<typeof setInterval> | null = null;
+let updateCheckerInterval: ReturnType<typeof setInterval> | null = null;
 onMounted(() => {
   persister.restore();
-  updateSystemInfo();
-  updateInterval = setInterval(updateSystemInfo, 1000);
+  if (!updateInterval) {
+    updateSystemInfo();
+    updateInterval = setInterval(updateSystemInfo, 1000);
+  }
+
+  if (
+    !updateCheckerInterval &&
+    // Don't even check for updates if this is a web-based version
+    !$q.platform.is.desktop &&
+    !$q.platform.is.mobile
+  ) {
+    updateChecker();
+    updateCheckerInterval = setInterval(updateChecker, 60 * 60 * 1000);
+  }
 });
 
 onUnmounted(() => {
   if (updateInterval) {
     clearInterval(updateInterval);
     updateInterval = null;
+  }
+
+  if (updateCheckerInterval) {
+    clearInterval(updateCheckerInterval);
+    updateCheckerInterval = null;
   }
 });
 </script>
