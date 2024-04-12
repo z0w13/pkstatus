@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/z0w13/pkstatus/compare/v0.5.2...v0.6.0) (2024-04-12)
+
+
+### Features
+* **ui:** added update notifications
+* **ui:** turn top bar orange and show a warning icon when running a dev version
+
 ## [0.5.2](https://github.com/z0w13/pkstatus/compare/v0.5.1...v0.5.2) (2024-04-11)
 
 
