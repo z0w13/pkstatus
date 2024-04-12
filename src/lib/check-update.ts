@@ -49,7 +49,7 @@ export async function checkForUpdate(): Promise<UpdateInfo | null> {
           version: newVer,
           changelog: (
             await axios.get(
-              'https://raw.githubusercontent.com/z0w13/pkstatus/v0.5.2/CHANGELOG.md',
+              `https://raw.githubusercontent.com/z0w13/pkstatus/${newVer}/CHANGELOG.md`,
             )
           ).data
             .replaceAll(/\[(.*)\]\(.*?\)/g, '$1')
