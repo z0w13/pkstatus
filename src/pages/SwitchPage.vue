@@ -19,7 +19,7 @@
       </q-banner>
       <div v-else class="bg-lighten q-pa-lg">
         <div class="row q-col-gutter-md q-mb-md" style="height: 64px">
-          <template v-if="loading && false">
+          <template v-if="loading">
             <div class="col-auto self-center">
               <q-skeleton type="rect" width="121px" height="21px" />
             </div>
@@ -44,7 +44,7 @@
         <div class="row q-col-gutter-md">
           <div class="col-sm-6 col-12">
             <q-select
-              v-if="!!members.length"
+              v-if="!loading"
               v-model="primaryFronterId"
               bottom-slots
               emit-value
@@ -63,7 +63,7 @@
           </div>
           <div class="col-sm-6 col-12">
             <q-input
-              v-if="!!members.length"
+              v-if="!loading"
               v-model="searchText"
               bottom-slots
               label="Search"
@@ -72,7 +72,7 @@
           </div>
         </div>
 
-        <div v-if="!!filteredMembers.length" class="row q-col-gutter-md">
+        <div v-if="!loading" class="row q-col-gutter-md">
           <div
             v-for="member of filteredMembers"
             :key="member.id"
