@@ -125,7 +125,7 @@ import PageTitle from 'src/components/PageTitle.vue';
 import { useServices } from 'src/lib/Services';
 
 const $q = useQuasar();
-const { pluralKit } = useServices();
+const { systemCache } = useServices();
 const settingsStore = useSettingsStore();
 const {
   detectPronouns,
@@ -157,7 +157,7 @@ const checkToken = debounce(async () => {
 
   try {
     tokenChecking.value = true;
-    tokenSystem.value = await pluralKit.getSystemForToken(newToken.value);
+    tokenSystem.value = await systemCache.fetchToken(newToken.value);
 
     $q.notify({
       type: 'positive',

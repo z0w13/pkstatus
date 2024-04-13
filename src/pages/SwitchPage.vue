@@ -257,19 +257,22 @@ function memberById(id: string): Member | null {
 }
 
 onMounted(async () => {
-  if (!token.value) {
+  // Get system
+  const system = await pluralKit.getOwnSystem();
+  if (!system) {
+    $q.notify({
+      type: 'negative',
+      message: `Couldn't retrieve own system for some reason`,
+    });
     return;
   }
 
-  // Get system
-  const system = await pluralKit.getSystemForToken(token.value);
-
   // Load members/fronters
-  members.value = (await pluralKit.getMembers(system.id, token.value)).toSorted(
+  members.value = (await pluralKit.getMembers(system.id)).toSorted(
     getNameSort(detectPronouns.value),
   );
 
-  const lastSwitch = await pluralKit.getFronters(system.id, token.value);
+  const lastSwitch = await pluralKit.getFronters(system.id);
 
   // If there's no members we can't populate with previous data
   if (lastSwitch.members.length > 0) {

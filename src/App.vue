@@ -17,12 +17,17 @@ const $q = useQuasar();
 
 const settingsStore = useSettingsStore();
 const systemStore = useSystemStore();
-const { fronterCache, systemCache, memberCache } = useServices();
+const { fronterCache, systemCache, memberCache, pluralKit } = useServices();
 const persister = new CachePersister(systemCache, memberCache, fronterCache);
 const newVersion = ref<UpdateInfo | null>(null);
 
-const { dark, systemUpdateInterval, fronterUpdateInterval, ignoreVersion } =
-  storeToRefs(settingsStore);
+const {
+  dark,
+  systemUpdateInterval,
+  fronterUpdateInterval,
+  ignoreVersion,
+  token,
+} = storeToRefs(settingsStore);
 
 switch (window.location.hash.split('#').at(-1)) {
   case 'dark':
@@ -41,6 +46,9 @@ watch(fronterUpdateInterval, (newVal) => fronterCache.setTtl(newVal), {
   immediate: true,
 });
 watch(systemUpdateInterval, (newVal) => systemCache.setTtl(newVal), {
+  immediate: true,
+});
+watch(token, (newVal) => pluralKit.setToken(newVal), {
   immediate: true,
 });
 
