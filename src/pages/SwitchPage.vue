@@ -132,7 +132,7 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
-const { pluralKit } = useServices();
+const { pluralKit, memberCache } = useServices();
 const { detectPronouns, token } = storeToRefs(settingsStore);
 
 const loading = ref(true);
@@ -144,23 +144,20 @@ const members = ref<Array<Member>>([]);
 
 // Computed
 const primaryFronter = computed(() =>
-  members.value.find((m) => m.id == primaryFronterId.value),
+  memberCache.getCached(primaryFronterId.value),
 );
 
 // To display list of (selected) fronters
 // reversed so the main fronter shows on top
 const fronters = computed(() =>
-  [...selected.value.values()]
-    .map((id) => memberById(id))
-    .filter(notEmpty)
-    .toReversed(),
+  memberCache.getMultiCached(selected.value.toReversed()),
 );
 
 // Options for the main fronter dropdown
 const options = computed(() =>
-  [...selected.value.values()].map((value) => ({
-    value,
-    label: memberById(value)?.getName(detectPronouns.value),
+  memberCache.getMultiCached(selected.value).map((m) => ({
+    value: m.id,
+    label: m.getName(detectPronouns.value),
   })),
 );
 
@@ -235,27 +232,23 @@ function showSuccessMessage(newFronters: Array<string>): void {
     });
   } else if (newFronters.length == 1) {
     const name =
-      memberById(newFronters[0])?.getName(detectPronouns.value) ?? 'Unknown';
+      memberCache.getCached(newFronters[0])?.getName(detectPronouns.value) ??
+      'Unknown';
 
     $q.notify({
       type: 'positive',
       message: `Switch registered. Current fronter is now ${name}.`,
     });
   } else {
-    const names = newFronters.map(
-      (m) => memberById(m)?.getName(detectPronouns.value) ?? m,
-    );
+    const names = memberCache
+      .getMultiCached(newFronters)
+      .map((m) => m.getName(detectPronouns.value));
 
     $q.notify({
       type: 'positive',
       message: `Switch registered. Current fronters are now ${names.join(', ')}.`,
     });
   }
-}
-
-// Utility
-function memberById(id: string): Member | null {
-  return members.value.find((m) => m.id == id) || null;
 }
 
 onMounted(async () => {
