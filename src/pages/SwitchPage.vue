@@ -31,6 +31,7 @@
             <div class="col-auto self-center">Selected Fronters:</div>
             <div class="col relative-position">
               <initial-fallback-avatar
+                @click="toggleMember(fronter.id)"
                 v-for="[idx, fronter] in fronters.entries()"
                 :key="fronter.id"
                 :style="`left: ${(fronters.length - idx - 1) * 25 + 5}px; position: absolute; box-shadow: 0 0 2px 2px black`"
