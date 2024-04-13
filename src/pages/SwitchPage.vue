@@ -104,8 +104,8 @@
             class="self-end"
             icon="swap_horiz"
             color="primary"
-            :disabled="loading"
-            :loading="loading"
+            :disabled="loading || switching"
+            :loading="loading || switching"
             @click="doSwitch"
           />
         </q-page-sticky>
@@ -136,6 +136,7 @@ const { pluralKit } = useServices();
 const { detectPronouns, token } = storeToRefs(settingsStore);
 
 const loading = ref(true);
+const switching = ref(false);
 const searchText = ref('');
 const primaryFronterId = ref('');
 const selected = ref<Array<string>>([]);
@@ -201,7 +202,7 @@ watch(primaryFronterId, (val) => {
 });
 
 async function doSwitch() {
-  loading.value = true;
+  switching.value = true;
   if (!token.value) {
     return;
   }
@@ -221,9 +222,9 @@ async function doSwitch() {
       type: 'negative',
       message: `${e.status}: ${e.message} (${e.code})`,
     });
-  } finally {
-    loading.value = false;
   }
+
+  switching.value = false;
 }
 
 function showSuccessMessage(newFronters: Array<string>): void {
@@ -258,6 +259,8 @@ function memberById(id: string): Member | null {
 }
 
 onMounted(async () => {
+  loading.value = true;
+
   // Get system
   const system = await pluralKit.getOwnSystem();
   if (!system) {
