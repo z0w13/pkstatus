@@ -1,8 +1,9 @@
 import { reactive } from 'vue';
 import dayjs from 'dayjs';
+import { z } from 'zod';
 
 import { notEmpty } from 'src/util';
-import { z } from 'zod';
+import PluralKitApi from 'src/lib/PluralKitApi';
 
 interface HasId {
   id: string;
@@ -40,7 +41,10 @@ export default abstract class BaseCache<T extends HasId> {
   public objects: Record<string, T>;
   public cacheInfo: Record<string, CacheInfo>;
 
-  constructor(public ttl: number = 300) {
+  constructor(
+    protected pk: PluralKitApi,
+    public ttl: number = 300,
+  ) {
     this.objects = reactive(Object.create(null));
     this.cacheInfo = Object.create(null);
   }

@@ -67,4 +67,12 @@ export class Fronters {
       lastSwitch: dayjsNull(serialized.lastSwitch),
     });
   }
+
+  static empty(system: string) {
+    return new Fronters(system, true);
+  }
+
+  static private(system: string) {
+    return new Fronters(system, false);
+  }
 }

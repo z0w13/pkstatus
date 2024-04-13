@@ -42,9 +42,9 @@ export default class PluralKitWrapper {
     return await this.memberCache.get(id);
   }
 
-  public async getFronters(system: string, token?: string): Promise<Fronters> {
-    if (token) {
-      return await this.fronterCache.fetchToken(system, token);
+  public async getFronters(system: string): Promise<Fronters> {
+    if (this.isOwnSystem(system) && this.fronterCache.expired(system)) {
+      return await this.fronterCache.fetchToken(system, this.authInfo.token!);
     }
 
     return await this.fronterCache.get(system);

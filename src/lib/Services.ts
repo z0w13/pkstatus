@@ -3,7 +3,7 @@ import MemberCache from 'src/stores/cache/MemberCache';
 import FronterCache from 'src/stores/cache/FronterCache';
 import SystemMemberCache from 'src/stores/cache/SystemMemberCache';
 import PluralKitWrapper from 'src/lib/PluralKitWrapper';
-import { pk } from 'src/boot/pkapi';
+import PluralKitApi from './PluralKitApi';
 
 class ServiceStore {
   private static instance: ServiceStore;
@@ -15,10 +15,11 @@ class ServiceStore {
   public pluralKit: PluralKitWrapper;
 
   private constructor() {
-    this.systemCache = new SystemCache();
-    this.memberCache = new MemberCache();
-    this.systemMemberCache = new SystemMemberCache(this.memberCache);
-    this.fronterCache = new FronterCache(this.memberCache);
+    const pk = new PluralKitApi();
+    this.systemCache = new SystemCache(pk);
+    this.memberCache = new MemberCache(pk);
+    this.systemMemberCache = new SystemMemberCache(this.memberCache, pk);
+    this.fronterCache = new FronterCache(this.memberCache, pk);
     this.pluralKit = new PluralKitWrapper(
       pk,
       this.systemCache,
