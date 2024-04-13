@@ -31,7 +31,7 @@
             </q-input>
           </q-item-section>
         </q-item>
-        <q-item tag="label">
+        <q-item tag="label" v-if="shouldCheckForUpdates($q)">
           <q-item-section>
             <q-item-label>Check for Updates</q-item-label>
             <q-item-label caption>
@@ -123,6 +123,7 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import PageTitle from 'src/components/PageTitle.vue';
 import { useServices } from 'src/lib/Services';
+import { shouldCheckForUpdates } from 'src/lib/check-update';
 
 const $q = useQuasar();
 const { systemCache } = useServices();

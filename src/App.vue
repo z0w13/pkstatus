@@ -11,7 +11,11 @@ import { useSystemStore } from './stores/system-store';
 import { APIError } from 'pkapi.js';
 import { useServices } from 'src/lib/Services';
 import { CachePersister } from './lib/CachePersister';
-import { UpdateInfo, checkForUpdate } from './lib/check-update';
+import {
+  UpdateInfo,
+  checkForUpdate,
+  shouldCheckForUpdates,
+} from './lib/check-update';
 
 const $q = useQuasar();
 
@@ -138,7 +142,7 @@ onMounted(() => {
   if (
     !updateCheckerInterval &&
     // Don't even check for updates if this is a web-based version
-    ($q.platform.is.electron || $q.platform.is.capacitor)
+    shouldCheckForUpdates($q)
   ) {
     updateChecker();
     updateCheckerInterval = setInterval(updateChecker, 60 * 60 * 1000);

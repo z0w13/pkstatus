@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { z } from 'zod';
 import { getVersion, isDev } from 'src/util';
+import { Platform, QVueGlobals } from 'quasar';
 
 const UpdateAsset = z.object({
   name: z.string(),
@@ -73,4 +74,8 @@ export async function checkForUpdate(): Promise<UpdateInfo | null> {
   }
 
   return null;
+}
+
+export function shouldCheckForUpdates($q: QVueGlobals): boolean {
+  return !!$q.platform.is.electron || !!$q.platform.is.capacitor;
 }
