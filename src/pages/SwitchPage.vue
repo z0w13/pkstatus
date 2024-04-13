@@ -77,7 +77,7 @@
           <div
             v-for="member of filteredMembers"
             :key="member.id"
-            class="col-md-3 col-4"
+            class="col-xl-2 col-md-3 col-4"
           >
             <labeled-tile
               style="
@@ -94,7 +94,7 @@
           </div>
         </div>
         <div v-else class="row q-col-gutter-md q-mt-md">
-          <div v-for="idx of 6" :key="idx" class="col-md-3 col-4">
+          <div v-for="idx of 6" :key="idx" class="col-xl-2 col-md-3 col-4">
             <q-skeleton type="rect" style="aspect-ratio: 1/1" />
           </div>
         </div>
