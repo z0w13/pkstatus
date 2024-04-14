@@ -5,6 +5,9 @@
         <q-icon :name="icon" size="24px" />
       </div>
       <div class="col text-subtitle1">{{ text }}</div>
+      <div class="col-auto">
+        <slot name="after" />
+      </div>
     </div>
   </q-card-section>
 </template>
