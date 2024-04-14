@@ -1,7 +1,16 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="col">
-      <page-title icon="bug_report" text="Troubleshooting Page" />
+      <page-title icon="bug_report" text="Troubleshooting Page">
+        <template #after>
+          <q-btn
+            aria-label="Copy Info To Clipboard"
+            flat
+            icon="content_copy"
+            @click="copyInfoToClipboard"
+          />
+        </template>
+      </page-title>
 
       <div class="row justify-center">
         <div class="col q-mx-lg">
@@ -12,12 +21,6 @@
       <div class="row justify-center">
         <div class="col q-mx-lg">
           <h3 class="q-my-md">Application Logs</h3>
-          <q-btn
-            color="primary"
-            label="Copy Logs To Clipboard"
-            icon="content_copy"
-            @click="copyInfoToClipboard"
-          />
           <pre class="bg-lighten q-pa-md">{{ logText }}</pre>
         </div>
       </div>
