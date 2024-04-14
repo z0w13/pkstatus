@@ -1,9 +1,10 @@
 <template>
-  <router-view :new-version="newVersion" />
+  <router-view v-if="!loading" :new-version="newVersion" />
+  <q-linear-progress v-else query />
 </template>
 
 <script setup lang="ts">
-import { QNotifyCreateOptions, useQuasar } from 'quasar';
+import { useQuasar } from 'quasar';
 import { useSettingsStore } from './stores/settings-store';
 import { getCurrentInstance, onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
@@ -17,14 +18,17 @@ import {
   shouldCheckForUpdates,
 } from './lib/check-update';
 import { useLogStore } from './stores/log-store';
+import { useRouter } from 'vue-router';
 
 const $q = useQuasar();
 
+const loading = ref(true);
 const settingsStore = useSettingsStore();
 const systemStore = useSystemStore();
 const { fronterCache, systemCache, memberCache, pluralKit } = useServices();
 const persister = new CachePersister(systemCache, memberCache, fronterCache);
 const newVersion = ref<UpdateInfo | null>(null);
+const router = useRouter();
 
 const {
   dark,
@@ -99,9 +103,30 @@ watch(fronterUpdateInterval, (newVal) => fronterCache.setTtl(newVal), {
 watch(systemUpdateInterval, (newVal) => systemCache.setTtl(newVal), {
   immediate: true,
 });
-watch(token, (newVal) => pluralKit.setToken(newVal), {
-  immediate: true,
-});
+watch(
+  token,
+  async (newVal) => {
+    try {
+      await pluralKit.setToken(newVal);
+      loading.value = false;
+    } catch (e) {
+      if (e instanceof APIError && e.status == '401') {
+        $q.notify({
+          type: 'negative',
+          message: 'PluralKit API Token Is Incorrect',
+          caption: 'Please update or clear your token',
+        });
+        await router.push('/settings');
+        loading.value = false;
+      } else {
+        throw e;
+      }
+    }
+  },
+  {
+    immediate: true,
+  },
+);
 
 // Data update logic
 async function updateSystemInfo() {
