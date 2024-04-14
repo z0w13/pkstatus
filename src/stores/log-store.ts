@@ -1,4 +1,4 @@
-import { StateTree, defineStore } from 'pinia';
+import { defineStore } from 'pinia';
 
 const STORE_NAME = 'log';
 
@@ -18,20 +18,5 @@ export const useLogStore = defineStore(STORE_NAME, {
       this.lines.push({ time: new Date().valueOf(), message });
     },
   },
-  persist: {
-    serializer: {
-      serialize: function (value: StateTree): string {
-        return JSON.stringify({
-          lines: value.lines,
-        });
-      },
-
-      deserialize: function (value: string): State {
-        return {
-          lines: JSON.parse(value).lines,
-        };
-      },
-    },
-    afterRestore: (ctx) => ctx.store.$persist(),
-  },
+  persist: true,
 });
