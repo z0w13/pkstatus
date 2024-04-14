@@ -3,9 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar';
+import { QNotifyCreateOptions, useQuasar } from 'quasar';
 import { useSettingsStore } from './stores/settings-store';
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { getCurrentInstance, onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSystemStore } from './stores/system-store';
 import { APIError } from 'pkapi.js';
@@ -16,6 +16,7 @@ import {
   checkForUpdate,
   shouldCheckForUpdates,
 } from './lib/check-update';
+import { useLogStore } from './stores/log-store';
 
 const $q = useQuasar();
 
@@ -33,6 +34,52 @@ const {
   token,
 } = storeToRefs(settingsStore);
 
+function handleError(err: unknown): void {
+  if (err instanceof APIError) {
+    useLogStore().log(`API Error: ${JSON.stringify(err, null, 2)}`);
+    $q.notify({
+      type: 'warning',
+      message: `API Error`,
+      caption: err.message ?? err.statusText,
+    });
+    return;
+  }
+  if (err instanceof Error) {
+    useLogStore().log(`${err.name}: ${err.message}`);
+    $q.notify({
+      type: 'warning',
+      message: `${err.name}: ${err.message}`,
+    });
+    return;
+  }
+
+  if (typeof err === 'string') {
+    useLogStore().log(`Error: ${err}`);
+    $q.notify({
+      type: 'warning',
+      message: err,
+    });
+    return;
+  }
+
+  useLogStore().log(`Error: ${String(err)} | ${JSON.stringify(err, null, 2)}`);
+  $q.notify({
+    type: 'warning',
+    message: `${String(err)} | ${JSON.stringify(err, null, 2)}`,
+  });
+}
+
+const app = getCurrentInstance()?.appContext.app;
+if (app) {
+  window.onerror = (_event, _source, _lineno, _colno, error) => {
+    handleError(error);
+  };
+  app.config.errorHandler = (error, _source, _info) => {
+    handleError(error);
+  };
+}
+
+// Force dark/light mode based on URL
 switch (window.location.hash.split('#').at(-1)) {
   case 'dark':
     dark.value = true;

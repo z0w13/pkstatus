@@ -14,8 +14,10 @@
         <q-toolbar-title> PKStatus </q-toolbar-title>
 
         <div>
-          <q-icon v-if="isDev()" name="warning" />
-          {{ version }}
+          <q-btn flat to="/debug" style="text-transform: none">
+            <q-icon v-if="isDev()" name="warning" />
+            {{ version }}
+          </q-btn>
         </div>
       </q-toolbar>
     </q-header>
