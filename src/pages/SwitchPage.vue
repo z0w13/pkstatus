@@ -129,6 +129,7 @@ import { Member } from 'src/models/Member';
 import PageTitle from 'src/components/PageTitle.vue';
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
+import { System } from 'src/models/System';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
@@ -251,16 +252,37 @@ function showSuccessMessage(newFronters: Array<string>): void {
   }
 }
 
+async function getSystem(): Promise<System | null> {
+  try {
+    const system = await pluralKit.getOwnSystem();
+    if (!system) {
+      $q.notify({
+        type: 'negative',
+        message: `Couldn't retrieve own system for some reason`,
+      });
+    }
+    return system;
+  } catch (e) {
+    if (e instanceof APIError) {
+      if (e.status == '401') {
+        $q.notify({
+          type: 'negative',
+          message: `Invalid Token`,
+        });
+        return null;
+      }
+    }
+
+    throw e;
+  }
+}
+
 onMounted(async () => {
   loading.value = true;
 
   // Get system
-  const system = await pluralKit.getOwnSystem();
+  const system = await getSystem();
   if (!system) {
-    $q.notify({
-      type: 'negative',
-      message: `Couldn't retrieve own system for some reason`,
-    });
     return;
   }
 
