@@ -524,7 +524,7 @@ async function check(): Promise<boolean> {
   return pass;
 }
 
-program.hook('preAction', async (_) => {
+program.hook('preAction', async () => {
   if (!(await check())) {
     process.exit(1);
   }

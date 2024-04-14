@@ -43,7 +43,7 @@ function handleError(err: unknown): void {
     useLogStore().log(`API Error: ${JSON.stringify(err, null, 2)}`);
     $q.notify({
       type: 'warning',
-      message: `API Error`,
+      message: 'API Error',
       caption: err.message ?? err.statusText,
     });
     return;
@@ -78,7 +78,7 @@ if (app) {
   window.onerror = (_event, _source, _lineno, _colno, error) => {
     handleError(error);
   };
-  app.config.errorHandler = (error, _source, _info) => {
+  app.config.errorHandler = (error) => {
     handleError(error);
   };
 }

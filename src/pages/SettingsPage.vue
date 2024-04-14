@@ -31,7 +31,7 @@
             </q-input>
           </q-item-section>
         </q-item>
-        <q-item tag="label" v-if="shouldCheckForUpdates($q)">
+        <q-item v-if="shouldCheckForUpdates($q)" tag="label">
           <q-item-section>
             <q-item-label>Check for Updates</q-item-label>
             <q-item-label caption>

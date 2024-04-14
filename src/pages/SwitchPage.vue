@@ -31,12 +31,12 @@
             <div class="col-auto self-center">Selected Fronters:</div>
             <div class="col relative-position">
               <initial-fallback-avatar
-                @click="toggleMember(fronter.id)"
                 v-for="[idx, fronter] in fronters.entries()"
                 :key="fronter.id"
                 :style="`left: ${(fronters.length - idx - 1) * 25 + 5}px; position: absolute; box-shadow: 0 0 2px 2px black`"
                 :url="fronter.avatarUrl"
                 :name="fronter.getName(detectPronouns)"
+                @click="toggleMember(fronter.id)"
               />
             </div>
           </template>
@@ -121,7 +121,7 @@ import { useQuasar } from 'quasar';
 import { APIError } from 'pkapi.js';
 import { pk } from 'src/boot/pkapi';
 
-import { caseInsensitiveIncludes, getNameSort, notEmpty } from 'src/util';
+import { caseInsensitiveIncludes, getNameSort } from 'src/util';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { useServices } from 'src/lib/Services';
 import { Member } from 'src/models/Member';
@@ -258,7 +258,7 @@ async function getSystem(): Promise<System | null> {
     if (!system) {
       $q.notify({
         type: 'negative',
-        message: `Couldn't retrieve own system for some reason`,
+        message: "Couldn't retrieve own system for some reason",
       });
     }
     return system;
@@ -267,7 +267,7 @@ async function getSystem(): Promise<System | null> {
       if (e.status == '401') {
         $q.notify({
           type: 'negative',
-          message: `Invalid Token`,
+          message: 'Invalid Token',
         });
         return null;
       }

@@ -13,10 +13,10 @@
         <div class="col q-mx-lg">
           <h3 class="q-my-md">Application Logs</h3>
           <q-btn
-            @click="copyInfoToClipboard"
             color="primary"
             label="Copy Logs To Clipboard"
             icon="content_copy"
+            @click="copyInfoToClipboard"
           />
           <pre class="bg-lighten q-pa-md">{{ logText }}</pre>
         </div>

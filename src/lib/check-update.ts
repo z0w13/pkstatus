@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { z } from 'zod';
 import { getVersion, isDev } from 'src/util';
-import { Platform, QVueGlobals } from 'quasar';
+import { QVueGlobals } from 'quasar';
 
 const UpdateAsset = z.object({
   name: z.string(),
