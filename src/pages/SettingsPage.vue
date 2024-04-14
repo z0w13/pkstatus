@@ -153,6 +153,7 @@ function onTokenChange() {
 const checkToken = debounce(async () => {
   if (!newToken.value) {
     tokenChecking.value = false;
+    token.value = '';
     return $q.notify({ type: 'positive', message: 'Token Cleared' });
   }
 
