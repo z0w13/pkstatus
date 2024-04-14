@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.6.4-dev243+sha.042ced2d](https://github.com/z0w13/pkstatus/compare/v0.6.3...v0.6.4-dev243+sha.042ced2d) (2024-04-14)
+
+
+### Features
+
+* **ui:** give an error if token authentication fails and redirect to settings page
+* **debug:** add a debug page with troubleshooting information
+* **switch:** made more members fit per row on larger screens
+* **switch:** click/tap icons in current fronter list to remove them
+* **misc:** allow opening devtools on prod builds for easier debugging
+
+### Bug Fixes
+
+* **settings:** actually clear the token when the user clears it
+* **settings:** don't show 'check for updates' on web versions
+* **switch:** fixed some elements loading in too early
+
 ## [0.6.3](https://github.com/z0w13/pkstatus/compare/v0.6.2...v0.6.3) (2024-04-12)
 
 

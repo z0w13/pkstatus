@@ -1,6 +1,6 @@
 {
   "name": "pkstatus",
-  "version": "0.6.3",
+  "version": "0.6.4-dev243+sha.042ced2d",
   "description": "Display PluralKit systems and their current status",
   "productName": "PKStatus",
   "homepage": "https://github.com/z0w13/pkstatus",
@@ -18,7 +18,10 @@
     "test:unit:ci": "vitest run"
   },
   "lint-staged": {
-    "src/**/*": ["prettier --list-different", "eslint"]
+    "src/**/*": [
+      "prettier --list-different",
+      "eslint"
+    ]
   },
   "dependencies": {
     "@lumenpink/vue3-fitty": "^0.1.4",
