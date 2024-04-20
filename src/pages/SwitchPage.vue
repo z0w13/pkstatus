@@ -42,7 +42,7 @@
           </template>
         </div>
 
-        <div class="row q-col-gutter-md">
+        <div class="row q-col-gutter-x-md q-col-gutter-y-none q-mb-md">
           <div class="col-sm-6 col-12">
             <q-select
               v-if="!loading"
@@ -71,15 +71,23 @@
             />
             <q-skeleton v-else class="QInput" height="48px" />
           </div>
-        </div>
-        <div class="col-sm-6 col-12">
-          <q-select
-            label="Sort By"
-            map-options
-            emit-value
-            v-model="switcher.lastSortMethod"
-            :options="Object.values(sortMethods)"
-          />
+          <div class="col-sm-6 col-12">
+            <q-select
+              v-model="switcher.lastSortMethod"
+              label="Sort By"
+              map-options
+              emit-value
+              :options="Object.values(sortMethods)"
+            />
+          </div>
+
+          <div class="col-sm-6 col-12">
+            <group-select
+              v-model="switcher.excludeGroups"
+              label="Exclude Groups"
+              multiple
+            />
+          </div>
         </div>
 
         <div v-if="!loading" class="row q-col-gutter-md">
@@ -138,11 +146,12 @@ import { Member } from 'src/models/Member';
 import PageTitle from 'src/components/PageTitle.vue';
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
+import GroupSelect from 'src/components/GroupSelect.vue';
 import { System } from 'src/models/System';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
-const { pluralKit, memberCache } = useServices();
+const { pluralKit, memberCache, groupCache } = useServices();
 const { detectPronouns, token, switcher } = storeToRefs(settingsStore);
 
 const sortMethods: Record<
@@ -195,6 +204,13 @@ const options = computed(() =>
   })),
 );
 
+const filterMemberIds = computed(() =>
+  groupCache
+    .getMultiCached(switcher.value.excludeGroups)
+    .map((g) => g.members)
+    .flat(),
+);
+
 // Search results
 const filteredMembers = computed(() =>
   members.value
@@ -203,6 +219,7 @@ const filteredMembers = computed(() =>
         caseInsensitiveIncludes(m.name, searchText.value) ||
         caseInsensitiveIncludes(m.displayName || '', searchText.value),
     )
+    .filter((m) => !filterMemberIds.value.includes(m.id))
     .toSorted(sortMethod.value),
 );
 

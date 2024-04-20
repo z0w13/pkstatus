@@ -6,6 +6,9 @@ import FronterCache from 'src/stores/cache/FronterCache';
 import { System } from 'src/models/System';
 import { Fronters } from 'src/models/Fronters';
 import { Member } from 'src/models/Member';
+import GroupCache from 'src/stores/cache/GroupCache';
+import { Group } from 'src/models/Group';
+import SystemGroupCache from 'src/stores/cache/SystemGroupCache';
 
 enum AuthState {
   NoToken = 'NO_TOKEN',
@@ -38,8 +41,10 @@ export default class PluralKitWrapper {
     public readonly api: PluralKitApi,
     public readonly systemCache: SystemCache,
     public readonly memberCache: MemberCache,
-    public readonly fronterCache: FronterCache,
     public readonly systemMemberCache: SystemMemberCache,
+    public readonly groupCache: GroupCache,
+    public readonly systemGroupCache: SystemGroupCache,
+    public readonly fronterCache: FronterCache,
   ) {}
 
   public async setToken(token: string | null) {
@@ -102,6 +107,28 @@ export default class PluralKitWrapper {
 
   public async getMember(id: string): Promise<Member> {
     return await this.memberCache.get(id, this.authInfo.token);
+  }
+
+  public async getGroup(id: string): Promise<Group> {
+    return await this.groupCache.get(id, this.authInfo.token);
+  }
+
+  public async getOwnGroups(): Promise<Array<Group>> {
+    if (this.authInfo.state === AuthState.Loading) {
+      await this.authInfo.promise;
+    }
+
+    if (this.authInfo.state !== AuthState.LoggedIn) {
+      throw new Error("Can't get own groups when not logged in");
+    }
+
+    return await this.getGroups(this.authInfo.system.id);
+  }
+  public async getGroups(system: string): Promise<Array<Group>> {
+    const groupIds = (
+      await this.systemGroupCache.get(system, this.authInfo.token)
+    ).groups;
+    return await this.groupCache.getMulti(groupIds);
   }
 
   public async getFronters(system: string): Promise<Fronters> {

@@ -42,6 +42,7 @@ export const Settings = z.object({
   switcher: z
     .object({
       lastSortMethod: z.enum(['by-name', 'by-last-message']).default('by-name'),
+      excludeGroups: z.array(z.string()).default([]),
     })
     .default({}),
   systemUpdateInterval: z.number().default(3600),
