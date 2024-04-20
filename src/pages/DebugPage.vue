@@ -37,12 +37,10 @@ import { copyToClipboard, useQuasar } from 'quasar';
 import { useLogStore } from 'src/stores/log-store';
 
 import PageTitle from 'src/components/PageTitle.vue';
-import { useSettingsStore } from 'src/stores/settings-store';
 import { getVersion } from 'src/util';
 
 const $q = useQuasar();
 const { lines } = storeToRefs(useLogStore());
-const { token } = storeToRefs(useSettingsStore());
 
 const logText = computed(() =>
   lines.value
@@ -61,10 +59,8 @@ Platform: ${JSON.stringify($q.platform.is, null, 2)}
 `.trim();
 
 function sanitizeLogMessage(message: string): string {
-  if (token.value) {
-    message = message.replaceAll(token.value, '****PLURALKIT_API_TOKEN****');
-  }
-  return message;
+  const tokenRegex = /[\w+/]{64}/g;
+  return message.replaceAll(tokenRegex, '****PLURALKIT_API_TOKEN****');
 }
 
 async function copyInfoToClipboard() {
