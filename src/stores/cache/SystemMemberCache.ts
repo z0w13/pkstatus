@@ -32,10 +32,13 @@ export default class SystemMemberCache extends BaseCache<SystemMembers> {
     );
   }
 
-  protected async refresh(system: string): Promise<SystemMembers> {
-    const members = [...(await this.pk.getMembers({ system })).values()].map(
-      (m) => this.memberCache.set(Member.fromPKApi({ ...m, system })),
-    );
+  protected async refresh(
+    system: string,
+    token?: string,
+  ): Promise<SystemMembers> {
+    const members = [
+      ...(await this.pk.getMembers({ system, token })).values(),
+    ].map((m) => this.memberCache.set(Member.fromPKApi({ ...m, system })));
 
     return new SystemMembers(
       system,
