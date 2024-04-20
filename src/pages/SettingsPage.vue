@@ -2,7 +2,7 @@
   <q-page class="row justify-evenly">
     <div class="col col-sm-6 col-md-4">
       <page-title icon="settings" text="Settings" />
-      <q-list class="bg-lighten">
+      <q-list class="bg-lighten q-pb-sm">
         <q-item-label header>General Settings</q-item-label>
         <q-item tag="label">
           <q-item-section>
@@ -106,6 +106,13 @@
             </q-select>
           </q-item-section>
         </q-item>
+        <q-separator spaced />
+        <backup-section
+          @restore="
+            newToken = token;
+            onTokenChange();
+          "
+        />
       </q-list>
     </div>
   </q-page>
@@ -122,12 +129,14 @@ import { useSettingsStore } from 'src/stores/settings-store';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import PageTitle from 'src/components/PageTitle.vue';
+import BackupSection from 'src/pages/Settings/BackupSection.vue';
 import { useServices } from 'src/lib/Services';
 import { shouldCheckForUpdates } from 'src/lib/check-update';
 
 const $q = useQuasar();
 const { systemCache } = useServices();
 const settingsStore = useSettingsStore();
+
 const {
   detectPronouns,
   fronterUpdateInterval,
