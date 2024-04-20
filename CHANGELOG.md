@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.5-dev257+sha.9c543656](https://github.com/z0w13/pkstatus/compare/v0.6.4...v0.6.5-dev257+sha.9c543656) (2024-04-20)
+
+
+### Features
+
+* **switcher:** add option to sort by name or last message
+* **switcher:** dropdown to exclude groups from the member list
+* **settings:** add backup/restore functionality
+
+### Bug Fixes
+
+* **status/table:** fix text alignment with small icons
+* **status/table:** remove info symbols next to names, they don't do anything
+
 ## [0.6.4](https://github.com/z0w13/pkstatus/compare/v0.6.3...v0.6.4) (2024-04-14)
 
 
