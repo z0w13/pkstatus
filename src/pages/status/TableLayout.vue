@@ -28,7 +28,6 @@
               <table-entity
                 :img="systems[id].avatarUrl"
                 :size="settings.iconSize + 'px'"
-                :tooltip="systems[id].description"
                 :label="systems[id].getName(detectPronouns)"
                 :caption="systems[id].getPronouns(detectPronouns)"
                 :square="settings.squareIcons"
@@ -47,7 +46,6 @@
                     :key="member.id"
                     :img="member.avatarUrl"
                     :size="settings.iconSize + 'px'"
-                    :tooltip="member.description"
                     :label="member.getName(detectPronouns)"
                     :caption="member.getPronouns(detectPronouns)"
                     class="q-mb-sm"
@@ -66,7 +64,6 @@
                     <table-entity
                       :img="member.avatarUrl"
                       :size="settings.iconSize + 'px'"
-                      :tooltip="member.description"
                       :label="member.getName(detectPronouns)"
                       :caption="member.getPronouns(detectPronouns)"
                       :square="settings.squareIcons"

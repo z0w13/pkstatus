@@ -34,7 +34,6 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 withDefaults(
   defineProps<{
     showIcon?: boolean;
-    tooltip?: string | null;
     label: string;
     caption?: string | null;
     icon?: string | null;
@@ -45,7 +44,6 @@ withDefaults(
   }>(),
   {
     showIcon: true,
-    tooltip: null,
     caption: null,
     icon: null,
     color: 'primary',
