@@ -21,7 +21,6 @@
       <q-item-section class="col-auto">
         <q-item-label>
           {{ label }}
-          <q-icon v-if="tooltip" name="info" />
         </q-item-label>
         <q-item-label v-if="caption" caption>{{ caption }}</q-item-label>
       </q-item-section>
