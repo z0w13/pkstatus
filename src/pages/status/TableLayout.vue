@@ -6,7 +6,7 @@
     <div :class="['col', 'col-lg-auto', `self-${settings.verticalPosition}`]">
       <q-markup-table :flat="$q.dark.isActive">
         <thead>
-          <tr :style="`line-height: ${settings.iconSize * 1.1}px`">
+          <tr :style="rowLineHeight">
             <th>System</th>
             <th
               :colspan="useMobileUi ? 1 : maxFront + 1"
@@ -19,11 +19,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="id in ids"
-            :key="id"
-            :style="`line-height: ${settings.iconSize}px`"
-          >
+          <tr v-for="id in ids" :key="id" :style="rowLineHeight">
             <td v-if="systems[id]" valign="top">
               <table-entity
                 :img="systems[id].avatarUrl"
@@ -159,5 +155,13 @@ const maxFront = computed(() =>
   Math.max(
     ...fronterCache.getMultiCached(props.ids).map((f) => f.members.length),
   ),
+);
+
+const rowLineHeight = computed(
+  () =>
+    'line-height: ' +
+    (settings.showIcons && settings.iconSize > 34
+      ? `${settings.iconSize}px`
+      : '2.4em'),
 );
 </script>
