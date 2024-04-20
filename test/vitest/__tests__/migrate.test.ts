@@ -1,4 +1,4 @@
-import { describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { migrate as migrateSystems } from 'src/models/migrations/system/index';
 import { migrate as migrateSettings } from 'src/models/migrations/settings/index';
 import { Settings } from 'src/models/Settings';
@@ -76,6 +76,11 @@ describe('Test migration system', function () {
     z.array(z.string()).parse(migrateSystems(systemsV0).systems);
   });
   it('Migrates settings successfully', function () {
-    Settings.strict().parse(migrateSettings(settingsV0).settings);
+    const migrated = migrateSettings(settingsV0);
+    const parsed = Settings.strict().parse(migrated.settings);
+
+    expect(migrated.settings.dark).toBe(settingsV0.dark);
+    expect(migrated.version).toBe(13);
+    expect(migrated.settings).toStrictEqual(parsed);
   });
 });
