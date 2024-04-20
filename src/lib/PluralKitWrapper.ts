@@ -77,6 +77,10 @@ export default class PluralKitWrapper {
     );
   }
 
+  public async getSystem(id: string): Promise<System> {
+    return await this.systemCache.get(id);
+  }
+
   public async getOwnSystem(): Promise<System | null> {
     if (this.authInfo.state === AuthState.NoToken) {
       return null;
@@ -94,8 +98,8 @@ export default class PluralKitWrapper {
     return this.systemCache.get(system.id);
   }
 
-  public async getSystem(id: string): Promise<System> {
-    return await this.systemCache.get(id);
+  public async getMember(id: string): Promise<Member> {
+    return await this.memberCache.get(id, this.authInfo.token);
   }
 
   public async getMembers(system: string): Promise<Array<Member>> {
@@ -105,12 +109,27 @@ export default class PluralKitWrapper {
     return await this.memberCache.getMulti(memberIds);
   }
 
-  public async getMember(id: string): Promise<Member> {
-    return await this.memberCache.get(id, this.authInfo.token);
+  public async getOwnMembers(): Promise<Array<Member>> {
+    if (this.authInfo.state === AuthState.Loading) {
+      await this.authInfo.promise;
+    }
+
+    if (this.authInfo.state !== AuthState.LoggedIn) {
+      throw new Error("Can't get own members when not logged in");
+    }
+
+    return await this.getMembers(this.authInfo.system.id);
   }
 
   public async getGroup(id: string): Promise<Group> {
     return await this.groupCache.get(id, this.authInfo.token);
+  }
+
+  public async getGroups(system: string): Promise<Array<Group>> {
+    const groupIds = (
+      await this.systemGroupCache.get(system, this.authInfo.token)
+    ).groups;
+    return await this.groupCache.getMulti(groupIds);
   }
 
   public async getOwnGroups(): Promise<Array<Group>> {
@@ -124,14 +143,20 @@ export default class PluralKitWrapper {
 
     return await this.getGroups(this.authInfo.system.id);
   }
-  public async getGroups(system: string): Promise<Array<Group>> {
-    const groupIds = (
-      await this.systemGroupCache.get(system, this.authInfo.token)
-    ).groups;
-    return await this.groupCache.getMulti(groupIds);
-  }
 
   public async getFronters(system: string): Promise<Fronters> {
     return await this.fronterCache.get(system, this.authInfo.token);
+  }
+
+  public async getOwnFronters(): Promise<Fronters> {
+    if (this.authInfo.state === AuthState.Loading) {
+      await this.authInfo.promise;
+    }
+
+    if (this.authInfo.state !== AuthState.LoggedIn) {
+      throw new Error("Can't get own fronters when not logged in");
+    }
+
+    return await this.getFronters(this.authInfo.system.id);
   }
 }

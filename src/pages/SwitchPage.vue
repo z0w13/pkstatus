@@ -332,16 +332,10 @@ async function getSystem(): Promise<System | null> {
 onMounted(async () => {
   loading.value = true;
 
-  // Get system
-  const system = await getSystem();
-  if (!system) {
-    return;
-  }
-
   // Load members/fronters
-  members.value = await pluralKit.getMembers(system.id);
-
-  const lastSwitch = await pluralKit.getFronters(system.id);
+  await getSystem(); // Make sure we're logged in and handle invalid tokens
+  members.value = await pluralKit.getOwnMembers();
+  const lastSwitch = await pluralKit.getOwnFronters();
 
   // If there's no members we can't populate with previous data
   if (lastSwitch.members.length > 0) {
