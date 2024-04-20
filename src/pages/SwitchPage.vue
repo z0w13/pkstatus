@@ -72,6 +72,15 @@
             <q-skeleton v-else class="QInput" height="48px" />
           </div>
         </div>
+        <div class="col-sm-6 col-12">
+          <q-select
+            label="Sort By"
+            map-options
+            emit-value
+            v-model="switcher.lastSortMethod"
+            :options="Object.values(sortMethods)"
+          />
+        </div>
 
         <div v-if="!loading" class="row q-col-gutter-md">
           <div
@@ -134,7 +143,28 @@ import { System } from 'src/models/System';
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
 const { pluralKit, memberCache } = useServices();
-const { detectPronouns, token } = storeToRefs(settingsStore);
+const { detectPronouns, token, switcher } = storeToRefs(settingsStore);
+
+const sortMethods: Record<
+  string,
+  {
+    value: string;
+    label: string;
+    func: (a: Member, b: Member) => number;
+  }
+> = {
+  'by-name': {
+    value: 'by-name',
+    label: 'Name',
+    func: (a, b) => getNameSort(detectPronouns.value)(a, b),
+  },
+  'by-last-message': {
+    value: 'by-last-message',
+    label: 'Last Message',
+    func: (a, b) =>
+      (b.lastMessageAt?.valueOf() || 0) - (a.lastMessageAt?.valueOf() || 0),
+  },
+};
 
 const loading = ref(true);
 const switching = ref(false);
@@ -142,6 +172,9 @@ const searchText = ref('');
 const primaryFronterId = ref('');
 const selected = ref<Array<string>>([]);
 const members = ref<Array<Member>>([]);
+const sortMethod = computed(
+  () => sortMethods[switcher.value.lastSortMethod].func,
+);
 
 // Computed
 const primaryFronter = computed(() =>
@@ -164,11 +197,13 @@ const options = computed(() =>
 
 // Search results
 const filteredMembers = computed(() =>
-  members.value.filter(
-    (m) =>
-      caseInsensitiveIncludes(m.name, searchText.value) ||
-      caseInsensitiveIncludes(m.displayName || '', searchText.value),
-  ),
+  members.value
+    .filter(
+      (m) =>
+        caseInsensitiveIncludes(m.name, searchText.value) ||
+        caseInsensitiveIncludes(m.displayName || '', searchText.value),
+    )
+    .toSorted(sortMethod.value),
 );
 
 // Callbacks
@@ -287,9 +322,7 @@ onMounted(async () => {
   }
 
   // Load members/fronters
-  members.value = (await pluralKit.getMembers(system.id)).toSorted(
-    getNameSort(detectPronouns.value),
-  );
+  members.value = await pluralKit.getMembers(system.id);
 
   const lastSwitch = await pluralKit.getFronters(system.id);
 

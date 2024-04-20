@@ -39,6 +39,11 @@ export const Settings = z.object({
       lastLayout: z.enum(['table', 'list', 'tile']).default('tile'),
     })
     .default({}),
+  switcher: z
+    .object({
+      lastSortMethod: z.enum(['by-name', 'by-last-message']).default('by-name'),
+    })
+    .default({}),
   systemUpdateInterval: z.number().default(3600),
   fronterUpdateInterval: z.number().default(300),
   detectPronouns: z.boolean().default(true),
