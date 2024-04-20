@@ -38,8 +38,15 @@ const {
   token,
 } = storeToRefs(settingsStore);
 
+function logStack(err: unknown): void {
+  const stackErr = err as unknown as { stack?: string };
+  if (typeof stackErr?.stack === 'string') {
+    useLogStore().log(stackErr.stack);
+  }
+}
 function handleError(err: unknown): void {
   if (err instanceof APIError) {
+    logStack(err);
     useLogStore().log(`API Error: ${JSON.stringify(err, null, 2)}`);
     $q.notify({
       type: 'warning',
@@ -49,6 +56,7 @@ function handleError(err: unknown): void {
     return;
   }
   if (err instanceof Error) {
+    logStack(err);
     useLogStore().log(`${err.name}: ${err.message}`);
     $q.notify({
       type: 'warning',
@@ -66,6 +74,7 @@ function handleError(err: unknown): void {
     return;
   }
 
+  logStack(err);
   useLogStore().log(`Error: ${String(err)} | ${JSON.stringify(err, null, 2)}`);
   $q.notify({
     type: 'warning',
