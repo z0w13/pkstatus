@@ -81,10 +81,10 @@ export default abstract class BaseCache<T extends HasId> {
   }
 
   // Get cached object or fetch new one when missing or expired
-  public async get(id: string): Promise<T> {
+  public async get(id: string, token?: string): Promise<T> {
     const cacheInfo = this.cacheInfo[id];
     if (!cacheInfo || cacheInfo.expired()) {
-      return await this.fetch(id);
+      return await this.fetch(id, token);
     }
 
     const obj = this.objects[id];
@@ -111,8 +111,8 @@ export default abstract class BaseCache<T extends HasId> {
     return ids.map((id) => this.objects[id]).filter(notEmpty);
   }
 
-  public async fetch(id: string): Promise<T> {
-    return this.set(await this.refresh(id));
+  public async fetch(id: string, token?: string): Promise<T> {
+    return this.set(await this.refresh(id, token));
   }
 
   public async getCacheObject(id: string): Promise<CacheInfo> {
@@ -139,5 +139,5 @@ export default abstract class BaseCache<T extends HasId> {
       }));
   }
 
-  protected abstract refresh(id: string): Promise<T>;
+  protected abstract refresh(id: string, token?: string): Promise<T>;
 }

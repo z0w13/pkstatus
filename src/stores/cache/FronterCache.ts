@@ -52,7 +52,7 @@ export default class FronterCache extends BaseCache<Fronters> {
   }
 
   // Fetch (refresh) member
-  protected async refresh(id: string): Promise<Fronters> {
-    return await this.getFronters(id);
+  protected async refresh(id: string, token?: string): Promise<Fronters> {
+    return await this.getFronters(id, token);
   }
 }

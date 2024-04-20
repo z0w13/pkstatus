@@ -94,26 +94,17 @@ export default class PluralKitWrapper {
   }
 
   public async getMembers(system: string): Promise<Array<Member>> {
-    if (this.isOwnSystem(system)) {
-      const memberIds = (
-        await this.systemMemberCache.fetchToken(system, this.authInfo.token!)
-      ).members;
-      return await this.memberCache.getMulti(memberIds);
-    }
-
-    const memberIds = (await this.systemMemberCache.get(system)).members;
+    const memberIds = (
+      await this.systemMemberCache.get(system, this.authInfo.token)
+    ).members;
     return await this.memberCache.getMulti(memberIds);
   }
 
   public async getMember(id: string): Promise<Member> {
-    return await this.memberCache.get(id);
+    return await this.memberCache.get(id, this.authInfo.token);
   }
 
   public async getFronters(system: string): Promise<Fronters> {
-    if (this.isOwnSystem(system) && this.fronterCache.expired(system)) {
-      return await this.fronterCache.fetchToken(system, this.authInfo.token!);
-    }
-
-    return await this.fronterCache.get(system);
+    return await this.fronterCache.get(system, this.authInfo.token);
   }
 }
