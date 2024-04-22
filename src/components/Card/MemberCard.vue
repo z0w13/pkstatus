@@ -18,13 +18,17 @@
     </q-card-section>
     <img v-if="member.bannerUrl" :src="member.bannerUrl" />
     <q-card-actions
-      v-if="popup && !systemPage"
+      v-if="popup"
       class="bg-primary"
-      style="min-height: 52px"
+      :style="`min-height: 52px; background-color: #${member.color} !important;`"
     >
-      <q-btn flat label="View System" :to="`/lookup/system/${system.id}`" />
+      <q-btn
+        v-if="!systemPage"
+        flat
+        label="View System"
+        :to="`/lookup/system/${system.id}`"
+      />
     </q-card-actions>
-    <q-separator v-else-if="!member.bannerUrl" />
     <q-card-section v-if="details">
       <q-markup-table flat separator="horizontal" style="overflow: hidden">
         <tbody>

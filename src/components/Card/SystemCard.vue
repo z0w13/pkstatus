@@ -17,7 +17,7 @@
       </div>
     </q-card-section>
     <img v-if="system.bannerUrl" :src="system.bannerUrl" />
-    <q-card-actions v-if="popup" class="bg-primary">
+    <q-card-actions v-if="popup" class="bg-primary text-white">
       <q-btn
         flat
         label="View Full System"
