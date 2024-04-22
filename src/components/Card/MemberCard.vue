@@ -7,6 +7,7 @@
           size="64px"
           :url="member.avatarUrl"
           :name="member.getName(detectPronouns)"
+          @click="showAvatar = !!member.avatarUrl"
         />
       </div>
       <div class="col q-ml-md self-center">
@@ -66,18 +67,18 @@
         </tbody>
       </q-markup-table>
     </q-card-section>
-    <q-card-section v-if="!!member.description?.length">
-      <pre class="description">{{ member.description }}</pre>
-    </q-card-section>
+    <avatar-dialog v-model="showAvatar" :avatar-url="member.avatarUrl!" />
   </q-card>
 </template>
 
 <script setup lang="ts">
 import { Fitty } from '@lumenpink/vue3-fitty';
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
+import AvatarDialog from './AvatarDialog.vue';
 
 import { Member } from 'src/models/Member';
 import { System } from 'src/models/System';
@@ -85,6 +86,7 @@ import { useSettingsStore } from 'src/stores/settings-store';
 
 const settings = useSettingsStore();
 const { detectPronouns } = storeToRefs(settings);
+const showAvatar = ref(false);
 
 withDefaults(
   defineProps<{

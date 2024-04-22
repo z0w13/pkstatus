@@ -7,6 +7,7 @@
           size="64px"
           :url="system.avatarUrl"
           :name="system.getName(detectPronouns)"
+          @click="showAvatar = !!system.avatarUrl"
         />
       </div>
       <div class="col q-ml-md self-center">
@@ -62,6 +63,7 @@
     <q-card-section v-if="system.description.length > 0">
       <pre class="description">{{ system.description }}</pre>
     </q-card-section>
+    <avatar-dialog v-model="showAvatar" :avatar-url="system.avatarUrl!" />
   </q-card>
 </template>
 
@@ -72,9 +74,12 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 
 import { System } from 'src/models/System';
 import { useSettingsStore } from 'src/stores/settings-store';
+import { ref } from 'vue';
+import AvatarDialog from './AvatarDialog.vue';
 
 const settings = useSettingsStore();
 const { detectPronouns } = storeToRefs(settings);
+const showAvatar = ref(false);
 
 withDefaults(
   defineProps<{ system: System; details?: boolean; popup?: boolean }>(),
