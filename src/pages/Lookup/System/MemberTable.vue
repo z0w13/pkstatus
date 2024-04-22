@@ -21,6 +21,7 @@
         label: 'Name',
         align: 'left',
         sortable: true,
+        headerStyle: 'width: 100%',
       },
       {
         name: 'pronouns',
