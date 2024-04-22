@@ -1,8 +1,14 @@
 <template>
   <q-page>
-    <router-view :ids="ids" :systems="systems" :fronters="fronters" />
+    <router-view
+      v-if="!!ids.length"
+      :ids="ids"
+      :systems="systems"
+      :fronters="fronters"
+    />
+    <instructions-page v-else />
   </q-page>
-  <q-footer>
+  <q-footer v-if="!!ids.length">
     <q-toolbar>
       <q-tabs v-model="status.lastLayout" align="left" class="bg-primary">
         <q-route-tab
@@ -42,6 +48,7 @@ import { useServices } from 'src/lib/Services';
 import TableSettings from 'src/components/StatusPage/Settings/TableSettings.vue';
 import ListSettings from 'src/components/StatusPage/Settings/ListSettings.vue';
 import TileSettings from 'src/components/StatusPage/Settings/TileSettings.vue';
+import InstructionsPage from 'src/pages/status/InstructionsPage.vue';
 
 const { fronterCache, systemCache } = useServices();
 
