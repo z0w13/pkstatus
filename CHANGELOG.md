@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.8.0](https://github.com/z0w13/pkstatus/compare/v0.7.0...v0.8.0) (2024-04-22)
+
+
+### Features
+
+* **card:** click/tap avatar to zoom in
+* **lookup/system:** table view for member/fronter list
+* **lookup/system:** show member count
+* **general:** color accents for cards and member lists
+* **general:** show instructions when there's no tracked systems
+
 ## [0.7.0](https://github.com/z0w13/pkstatus/compare/v0.6.4...v0.7.0) (2024-04-20)
 
 
