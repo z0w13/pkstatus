@@ -4,11 +4,24 @@
     <div class="row q-mt-lg bg-lighten">
       <q-list class="col">
         <q-item-label header>
-          <span v-if="!fronters || fronters.allowed">Fronters</span>
-          <span v-else>Fronter List Private</span>
+          <div v-if="!fronters || fronters.allowed" class="row">
+            <div class="col self-center">Fronters</div>
+            <div class="col-auto">
+              <q-btn-toggle
+                v-model="lookup.memberLayout"
+                dense
+                flat
+                :options="[
+                  { value: 'list', icon: 'list' },
+                  { value: 'table', icon: 'table_chart' },
+                ]"
+              />
+            </div>
+          </div>
+          <div v-else>Fronter List Private</div>
         </q-item-label>
 
-        <template v-if="fronters?.allowed">
+        <template v-if="fronters?.allowed && lookup.memberLayout === 'list'">
           <q-item
             v-for="member of fronters.members"
             :key="member.id"
@@ -31,6 +44,16 @@
             </q-item-section>
           </q-item>
         </template>
+        <template
+          v-else-if="fronters?.allowed && lookup.memberLayout === 'table'"
+        >
+          <member-table
+            :members="fronters.members"
+            :system="system"
+            :detect-pronouns="detectPronouns"
+            @row-click="(_evt, row) => dialog.show({ system, member: row })"
+          />
+        </template>
         <q-item v-else-if="!fronters">
           <q-linear-progress indeterminate />
         </q-item>
@@ -39,14 +62,27 @@
     <div class="row q-mt-lg bg-lighten">
       <q-list class="col">
         <q-item-label header>
-          <span v-if="members.allowed">Members</span>
-          <span v-else>Member List Private</span>
+          <div v-if="members.allowed" class="row">
+            <div class="col self-center">Members</div>
+            <div class="col-auto">
+              <q-btn-toggle
+                v-model="lookup.memberLayout"
+                dense
+                flat
+                :options="[
+                  { value: 'list', icon: 'list' },
+                  { value: 'table', icon: 'table_chart' },
+                ]"
+              />
+            </div>
+          </div>
+          <div v-else>Member List Private</div>
         </q-item-label>
 
         <q-item v-if="members.loading">
           <q-linear-progress indeterminate />
         </q-item>
-        <template v-else-if="members.allowed">
+        <template v-else-if="members.allowed && lookup.memberLayout == 'list'">
           <q-item
             v-for="member of members.list"
             :key="member.id"
@@ -68,6 +104,14 @@
               </q-item-label>
             </q-item-section>
           </q-item>
+        </template>
+        <template v-else-if="members.allowed && lookup.memberLayout == 'table'">
+          <member-table
+            :members="members.list"
+            :system="system"
+            :detect-pronouns="detectPronouns"
+            @row-click="(_evt, row) => dialog.show({ system, member: row })"
+          />
         </template>
       </q-list>
     </div>
@@ -101,13 +145,15 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import SystemCard from 'src/components/Card/SystemCard.vue';
+import MemberTable from 'src/pages/Lookup/System/MemberTable.vue';
+
 import { getNameSort } from 'src/util';
 import { useServices } from 'src/lib/Services';
 
 const route = useRoute();
 const settingsStore = useSettingsStore();
 const { pluralKit } = useServices();
-const { detectPronouns } = storeToRefs(settingsStore);
+const { detectPronouns, lookup } = storeToRefs(settingsStore);
 
 const status = ref<'loading' | 'forbidden' | 'notfound'>('loading');
 const system = ref<System | null>(null);

@@ -10,7 +10,8 @@ import { migrateV8ToV9 } from './0009';
 import { migrateV9ToV10 } from './0010';
 import { migrateV10ToV11 } from './0011';
 import { migrateV11ToV12 } from './0012';
-import { migrateV12ToV13, SettingsV13 } from './0013';
+import { migrateV12ToV13 } from './0013';
+import { migrateV13ToV14, SettingsV14 } from './0014';
 import { getVersion } from 'src/models/migrations/util';
 
 const Migrations = [
@@ -27,10 +28,11 @@ const Migrations = [
   migrateV10ToV11,
   migrateV11ToV12,
   migrateV12ToV13,
+  migrateV13ToV14,
 ];
 export const LatestVersion = Migrations.length;
 
-export function migrate(data: unknown): SettingsV13 {
+export function migrate(data: unknown): SettingsV14 {
   const version = getVersion(data);
   const toApply = Migrations.slice(version);
 
@@ -39,5 +41,5 @@ export function migrate(data: unknown): SettingsV13 {
     curData = apply(curData);
   }
 
-  return SettingsV13.parse(curData);
+  return SettingsV14.parse(curData);
 }

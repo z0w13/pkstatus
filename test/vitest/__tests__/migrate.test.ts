@@ -80,7 +80,7 @@ describe('Test migration system', function () {
     const parsed = Settings.strict().parse(migrated.settings);
 
     expect(migrated.settings.dark).toBe(settingsV0.dark);
-    expect(migrated.version).toBe(13);
+    expect(migrated.version).toBe(14);
     expect(migrated.settings).toStrictEqual(parsed);
   });
 });

@@ -45,6 +45,11 @@ export const Settings = z.object({
       excludeGroups: z.array(z.string()).default([]),
     })
     .default({}),
+  lookup: z
+    .object({
+      memberLayout: z.enum(['list', 'table']).default('list'),
+    })
+    .default({}),
   systemUpdateInterval: z.number().default(3600),
   fronterUpdateInterval: z.number().default(300),
   detectPronouns: z.boolean().default(true),
