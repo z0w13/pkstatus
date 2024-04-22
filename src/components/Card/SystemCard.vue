@@ -20,7 +20,11 @@
     <q-card-actions
       v-if="popup"
       class="bg-primary text-white"
-      :style="`min-height: 52px; background-color: #${system.color} !important;`"
+      :style="
+        lookup.colorAccent
+          ? `min-height: 52px; background-color: #${system.color} !important;`
+          : ''
+      "
     >
       <q-btn
         color="dark"
@@ -82,7 +86,7 @@ import { ref } from 'vue';
 import AvatarDialog from './AvatarDialog.vue';
 
 const settings = useSettingsStore();
-const { detectPronouns } = storeToRefs(settings);
+const { detectPronouns, lookup } = storeToRefs(settings);
 const showAvatar = ref(false);
 
 withDefaults(

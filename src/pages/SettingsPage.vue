@@ -72,6 +72,21 @@
             />
           </q-item-section>
         </q-item>
+        <q-item tag="label">
+          <q-item-section>
+            <q-item-label>Show Color Accents</q-item-label>
+            <q-item-label caption>
+              Show color accents on member and system cards, and also in various
+              member lists
+            </q-item-label>
+          </q-item-section>
+          <q-item-section avatar>
+            <q-toggle
+              v-model="lookup.colorAccent"
+              @update:model-value="onChange"
+            />
+          </q-item-section>
+        </q-item>
         <q-separator spaced />
         <q-item-label header>Update Settings</q-item-label>
         <q-item>
@@ -143,6 +158,7 @@ const {
   showCardDetails,
   systemUpdateInterval,
   checkUpdates,
+  lookup,
   token,
 } = storeToRefs(settingsStore);
 

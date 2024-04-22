@@ -47,8 +47,12 @@
     <template #body-cell-avatar="props">
       <q-td
         :props="props"
-        class="member-accent"
-        :style="props.row.color ? `border-left-color: #${props.row.color}` : ''"
+        :class="{ 'color-accent': colorAccent }"
+        :style="
+          props.row.color && colorAccent
+            ? `border-left-color: #${props.row.color}`
+            : ''
+        "
       >
         <initial-fallback-avatar
           :url="props.value"
@@ -90,5 +94,6 @@ defineProps<{
   system: System;
   members: Array<Member>;
   detectPronouns: boolean;
+  colorAccent: boolean;
 }>();
 </script>

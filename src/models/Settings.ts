@@ -48,6 +48,7 @@ export const Settings = z.object({
   lookup: z
     .object({
       memberLayout: z.enum(['list', 'table']).default('list'),
+      colorAccent: z.boolean().default(true),
     })
     .default({}),
   systemUpdateInterval: z.number().default(3600),

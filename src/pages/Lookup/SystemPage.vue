@@ -27,6 +27,7 @@
             :members="fronters.members"
             :system="system"
             :detect-pronouns="detectPronouns"
+            :color-accent="lookup.colorAccent"
             @member-click="(member) => dialog.show({ system, member })"
           />
           <member-table
@@ -34,6 +35,7 @@
             :members="fronters.members"
             :system="system"
             :detect-pronouns="detectPronouns"
+            :color-accent="lookup.colorAccent"
             @member-click="(member) => dialog.show({ system, member })"
           />
         </template>
@@ -73,6 +75,7 @@
             :members="members.list"
             :system="system"
             :detect-pronouns="detectPronouns"
+            :color-accent="lookup.colorAccent"
             @member-click="(member) => dialog.show({ system, member })"
           />
           <member-table
@@ -80,6 +83,7 @@
             :members="members.list"
             :system="system"
             :detect-pronouns="detectPronouns"
+            :color-accent="lookup.colorAccent"
             @member-click="(member) => dialog.show({ system, member })"
           />
         </template>

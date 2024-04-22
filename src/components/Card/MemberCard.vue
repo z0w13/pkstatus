@@ -20,7 +20,11 @@
     <q-card-actions
       v-if="popup"
       class="bg-primary text-white"
-      :style="`min-height: 52px; background-color: #${member.color} !important;`"
+      :style="
+        lookup.colorAccent
+          ? `min-height: 52px; background-color: #${member.color} !important;`
+          : ''
+      "
     >
       <q-btn
         v-if="!systemPage"
@@ -95,7 +99,7 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import { useRoute } from 'vue-router';
 
 const settings = useSettingsStore();
-const { detectPronouns } = storeToRefs(settings);
+const { detectPronouns, lookup } = storeToRefs(settings);
 const showAvatar = ref(false);
 
 withDefaults(
