@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card :style="popup ? 'min-width: 400px' : ''">
     <q-card-section class="row">
       <div class="col-auto self-center">
         <initial-fallback-avatar
