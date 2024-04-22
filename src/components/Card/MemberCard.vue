@@ -24,7 +24,7 @@
     >
       <q-btn flat label="View System" :to="`/lookup/system/${system.id}`" />
     </q-card-actions>
-    <q-separator v-else-if="!member.avatarUrl" />
+    <q-separator v-else-if="!member.bannerUrl" />
     <q-card-section v-if="details">
       <q-markup-table flat separator="horizontal" style="overflow: hidden">
         <tbody>
