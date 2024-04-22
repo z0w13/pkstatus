@@ -40,7 +40,7 @@
             </q-item-label>
           </q-item-section>
           <q-item-section avatar>
-            <q-toggle v-model="checkUpdates" @update:model-value="onChange" />
+            <q-toggle v-model="checkUpdates" />
           </q-item-section>
         </q-item>
         <q-separator spaced />
@@ -54,7 +54,7 @@
             </q-item-label>
           </q-item-section>
           <q-item-section avatar>
-            <q-toggle v-model="detectPronouns" @update:model-value="onChange" />
+            <q-toggle v-model="detectPronouns" />
           </q-item-section>
         </q-item>
         <q-item tag="label">
@@ -66,10 +66,7 @@
             </q-item-label>
           </q-item-section>
           <q-item-section avatar>
-            <q-toggle
-              v-model="showCardDetails"
-              @update:model-value="onChange"
-            />
+            <q-toggle v-model="showCardDetails" />
           </q-item-section>
         </q-item>
         <q-item tag="label">
@@ -81,10 +78,7 @@
             </q-item-label>
           </q-item-section>
           <q-item-section avatar>
-            <q-toggle
-              v-model="lookup.colorAccent"
-              @update:model-value="onChange"
-            />
+            <q-toggle v-model="lookup.colorAccent" />
           </q-item-section>
         </q-item>
         <q-separator spaced />
@@ -97,7 +91,6 @@
               :options="options"
               emit-value
               map-options
-              @update:model-value="onChange"
             >
               <template #prepend>
                 <q-icon name="schedule" />
@@ -113,7 +106,6 @@
               :options="options"
               emit-value
               map-options
-              @update:model-value="onChange"
             >
               <template #prepend>
                 <q-icon name="schedule" />
@@ -199,10 +191,6 @@ const checkToken = debounce(async () => {
   }
 
   tokenChecking.value = false;
-}, 500);
-
-const onChange = debounce(() => {
-  $q.notify('Settings Updated');
 }, 500);
 
 const options = [
