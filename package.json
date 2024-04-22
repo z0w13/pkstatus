@@ -19,7 +19,9 @@
   },
   "lint-staged": {
     "src/**/*": [
-      "prettier --list-different",
+      "prettier --list-different"
+    ],
+    "src/**/*.{ts,js,vue}": [
       "eslint"
     ]
   },
