@@ -17,9 +17,14 @@
       </div>
     </q-card-section>
     <img v-if="member.bannerUrl" :src="member.bannerUrl" />
-    <q-card-actions v-if="popup" class="bg-primary">
+    <q-card-actions
+      v-if="popup && !systemPage"
+      class="bg-primary"
+      style="min-height: 52px"
+    >
       <q-btn flat label="View System" :to="`/lookup/system/${system.id}`" />
     </q-card-actions>
+    <q-separator v-else-if="!member.avatarUrl" />
     <q-card-section v-if="details">
       <q-markup-table flat separator="horizontal" style="overflow: hidden">
         <tbody>
@@ -73,7 +78,7 @@
 
 <script setup lang="ts">
 import { Fitty } from '@lumenpink/vue3-fitty';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
@@ -83,6 +88,7 @@ import AvatarDialog from './AvatarDialog.vue';
 import { Member } from 'src/models/Member';
 import { System } from 'src/models/System';
 import { useSettingsStore } from 'src/stores/settings-store';
+import { useRoute } from 'vue-router';
 
 const settings = useSettingsStore();
 const { detectPronouns } = storeToRefs(settings);
@@ -97,6 +103,8 @@ withDefaults(
   }>(),
   { details: true, popup: false },
 );
+
+const systemPage = computed(() => useRoute().name === 'lookup-system');
 </script>
 
 <style scoped lang="css">
