@@ -19,12 +19,12 @@
     <img v-if="member.bannerUrl" :src="member.bannerUrl" />
     <q-card-actions
       v-if="popup"
-      class="bg-primary"
+      class="bg-primary text-white"
       :style="`min-height: 52px; background-color: #${member.color} !important;`"
     >
       <q-btn
         v-if="!systemPage"
-        flat
+        color="dark"
         label="View System"
         :to="`/lookup/system/${system.id}`"
       />

@@ -3,6 +3,9 @@
     :hide-pagination="members.length <= 50"
     :pagination="{ rowsPerPage: 50 }"
     row-key="id"
+    :class="{
+      'bg-lighten': !$q.dark.isActive,
+    }"
     flat
     :rows="members"
     :columns="[
@@ -42,7 +45,11 @@
     @row-click="(_, member) => emit('memberClick', member)"
   >
     <template #body-cell-avatar="props">
-      <q-td :props="props">
+      <q-td
+        :props="props"
+        class="member-accent"
+        :style="props.row.color ? `border-left-color: #${props.row.color}` : ''"
+      >
         <initial-fallback-avatar
           :url="props.value"
           :name="props.row.name"

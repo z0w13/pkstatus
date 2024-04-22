@@ -17,9 +17,13 @@
       </div>
     </q-card-section>
     <img v-if="system.bannerUrl" :src="system.bannerUrl" />
-    <q-card-actions v-if="popup" class="bg-primary text-white">
+    <q-card-actions
+      v-if="popup"
+      class="bg-primary text-white"
+      :style="`min-height: 52px; background-color: #${system.color} !important;`"
+    >
       <q-btn
-        flat
+        color="dark"
         label="View Full System"
         :to="`/lookup/system/${system.id}`"
       />

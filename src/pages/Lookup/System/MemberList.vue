@@ -3,6 +3,11 @@
     v-for="member of members"
     :key="member.id"
     clickable
+    :class="{ 'member-accent': true, 'bg-lighten': !$q.dark.isActive }"
+    :style="
+      (member.color ? `border-left-color: #${member.color};` : '') +
+      ($q.dark.isActive ? 'background-color: var(--q-dark);' : '')
+    "
     @click="emit('memberClick', member)"
   >
     <q-item-section avatar>
