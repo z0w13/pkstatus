@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/z0w13/pkstatus/compare/v0.8.0...v0.8.1) (2024-04-22)
+
+
+### Bug Fixes
+
+* **card:** fix cards going off-screen
+
 ## [0.8.0](https://github.com/z0w13/pkstatus/compare/v0.7.0...v0.8.0) (2024-04-22)
 
 
