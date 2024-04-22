@@ -1,9 +1,17 @@
 <template>
   <q-page class="row justify-evenly">
-    <div class="col col-sm-6 col-md-4">
+    <div
+      :class="{
+        col: true,
+        'col-sm-6 col-md-4':
+          lookup.memberLayout == 'list' || route.name != 'lookup-system',
+        'col-md-8 col-lg-6':
+          lookup.memberLayout == 'table' && route.name == 'lookup-system',
+      }"
+    >
       <div class="bg-lighten q-pa-md">
         <page-title icon="settings" text="Lookup System/Member" />
-        <form @submit.prevent="lookup">
+        <form @submit.prevent="doLookup">
           <div class="row q-ma-sm">
             <div class="col">
               <q-btn-toggle
@@ -49,11 +57,17 @@
 
 <script setup lang="ts">
 import PageTitle from 'src/components/PageTitle.vue';
+import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+import { useSettingsStore } from 'src/stores/settings-store';
+
 const router = useRouter();
 const route = useRoute();
+const settingsStore = useSettingsStore();
+
+const { lookup } = storeToRefs(settingsStore);
 
 const searchType = ref('system');
 const searchValue = ref('');
@@ -67,7 +81,7 @@ onMounted(() => {
   );
 });
 
-async function lookup() {
+async function doLookup() {
   router.push({ path: `/lookup/${searchType.value}/${searchValue.value}` });
   searchValue.value = '';
 }
