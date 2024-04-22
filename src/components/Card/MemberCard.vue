@@ -80,6 +80,9 @@
         </tbody>
       </q-markup-table>
     </q-card-section>
+    <q-card-section v-if="!!member.description?.length">
+      <pre class="description">{{ member.description }}</pre>
+    </q-card-section>
     <avatar-dialog v-model="showAvatar" :avatar-url="member.avatarUrl!" />
   </q-card>
 </template>
