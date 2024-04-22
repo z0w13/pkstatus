@@ -21,37 +21,20 @@
           <div v-else>Fronter List Private</div>
         </q-item-label>
 
-        <template v-if="fronters?.allowed && lookup.memberLayout === 'list'">
-          <q-item
-            v-for="member of fronters.members"
-            :key="member.id"
-            clickable
-            @click="dialog.show({ member, system })"
-          >
-            <q-item-section avatar>
-              <initial-fallback-avatar
-                :name="member.getName(detectPronouns)"
-                :url="member.avatarUrl"
-              />
-            </q-item-section>
-            <q-item-section no-wrap>
-              <q-item-label>
-                {{ member.getName(detectPronouns) }}
-              </q-item-label>
-              <q-item-label v-if="member.getPronouns(detectPronouns)" caption>
-                {{ member.getPronouns(detectPronouns) }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-        </template>
-        <template
-          v-else-if="fronters?.allowed && lookup.memberLayout === 'table'"
-        >
-          <member-table
+        <template v-if="fronters?.allowed">
+          <member-list
+            v-if="lookup.memberLayout == 'list'"
             :members="fronters.members"
             :system="system"
             :detect-pronouns="detectPronouns"
-            @row-click="(_evt, row) => dialog.show({ system, member: row })"
+            @member-click="(member) => dialog.show({ system, member })"
+          />
+          <member-table
+            v-else-if="lookup.memberLayout == 'table'"
+            :members="fronters.members"
+            :system="system"
+            :detect-pronouns="detectPronouns"
+            @member-click="(member) => dialog.show({ system, member })"
           />
         </template>
         <q-item v-else-if="!fronters">
@@ -82,35 +65,20 @@
         <q-item v-if="members.loading">
           <q-linear-progress indeterminate />
         </q-item>
-        <template v-else-if="members.allowed && lookup.memberLayout == 'list'">
-          <q-item
-            v-for="member of members.list"
-            :key="member.id"
-            clickable
-            @click="dialog.show({ member, system })"
-          >
-            <q-item-section avatar>
-              <initial-fallback-avatar
-                :name="member.getName(detectPronouns)"
-                :url="member.avatarUrl"
-              />
-            </q-item-section>
-            <q-item-section no-wrap>
-              <q-item-label>
-                {{ member.getName(detectPronouns) }}
-              </q-item-label>
-              <q-item-label v-if="member.getPronouns(detectPronouns)" caption>
-                {{ member.getPronouns(detectPronouns) }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-        </template>
-        <template v-else-if="members.allowed && lookup.memberLayout == 'table'">
-          <member-table
+        <template v-else-if="members.allowed">
+          <member-list
+            v-if="lookup.memberLayout == 'list'"
             :members="members.list"
             :system="system"
             :detect-pronouns="detectPronouns"
-            @row-click="(_evt, row) => dialog.show({ system, member: row })"
+            @member-click="(member) => dialog.show({ system, member })"
+          />
+          <member-table
+            v-if="lookup.memberLayout == 'table'"
+            :members="members.list"
+            :system="system"
+            :detect-pronouns="detectPronouns"
+            @member-click="(member) => dialog.show({ system, member })"
           />
         </template>
       </q-list>
@@ -142,10 +110,10 @@ import { System } from 'src/models/System';
 import { Fronters } from 'src/models/Fronters';
 import { useSettingsStore } from 'src/stores/settings-store';
 
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import SystemCard from 'src/components/Card/SystemCard.vue';
 import MemberTable from 'src/pages/Lookup/System/MemberTable.vue';
+import MemberList from 'src/pages/Lookup/System/MemberList.vue';
 
 import { getNameSort } from 'src/util';
 import { useServices } from 'src/lib/Services';
