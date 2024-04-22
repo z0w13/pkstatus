@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="col col-md-auto">
-      <page-title icon="people" text="Systems" />
+      <page-title icon="manage_accounts" text="Systems" />
       <q-table
         :grid="$q.screen.lt.sm"
         :columns="columns"

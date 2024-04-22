@@ -10,7 +10,7 @@
       }"
     >
       <div class="bg-lighten q-pa-md">
-        <page-title icon="settings" text="Lookup System/Member" />
+        <page-title icon="search" text="Lookup System/Member" />
         <form @submit.prevent="doLookup">
           <div class="row q-ma-sm">
             <div class="col">
