@@ -1,14 +1,14 @@
 <template>
   <q-select
-    v-if="!loading"
     v-model="model"
     :options="filteredSelectOptions"
     map-options
     use-input
     emit-value
+    :loading="loading"
+    :readonly="loading"
     @filter="filterFunc"
   />
-  <q-skeleton v-else class="q-mt-sm" height="48px" shape="rectangle" />
 </template>
 
 <script setup lang="ts">

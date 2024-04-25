@@ -1,96 +1,13 @@
 <template>
   <q-page class="row justify-evenly">
-    <div class="col col-md-8">
-      <page-title icon="swap_horiz" text="Register Switch" />
-
-      <q-banner v-if="!token" class="text-white bg-red">
-        <template #avatar>
-          <q-icon name="warning" color="white" />
-        </template>
-        You need to set your PluralKit token to use this feature
-        <template #action>
-          <q-btn
-            to="/settings"
-            flat
-            class="bg-red text-white"
-            label="Go To Settings"
-          />
-        </template>
-      </q-banner>
-      <div v-else class="bg-lighten q-pa-lg">
-        <div class="row q-col-gutter-md q-mb-md" style="height: 64px">
-          <template v-if="loading">
-            <div class="col-auto self-center">
-              <q-skeleton type="rect" width="121px" height="21px" />
-            </div>
-            <div class="col">
-              <q-skeleton type="QAvatar" />
-            </div>
-          </template>
-          <template v-else>
-            <div class="col-auto self-center">Selected Fronters:</div>
-            <div class="col relative-position">
-              <initial-fallback-avatar
-                v-for="[idx, fronter] in fronters.entries()"
-                :key="fronter.id"
-                :style="`left: ${(fronters.length - idx - 1) * 25 + 5}px; position: absolute; box-shadow: 0 0 2px 2px black`"
-                :url="fronter.avatarUrl"
-                :name="fronter.getName(detectPronouns)"
-                @click="toggleMember(fronter.id)"
-              />
-            </div>
-          </template>
-        </div>
-
-        <div class="row q-col-gutter-x-md q-col-gutter-y-none q-mb-md">
-          <div class="col-sm-6 col-12">
-            <q-select
-              v-if="!loading"
-              v-model="primaryFronterId"
-              bottom-slots
-              emit-value
-              map-options
-              :options="options"
-              label="Primary Fronter"
-            >
-              <template v-if="primaryFronter" #append>
-                <initial-fallback-avatar
-                  :url="primaryFronter.avatarUrl"
-                  :name="primaryFronter.getName(detectPronouns)"
-                />
-              </template>
-            </q-select>
-            <q-skeleton v-else class="QInput" height="48px" />
-          </div>
-          <div class="col-sm-6 col-12">
-            <q-input
-              v-if="!loading"
-              v-model="searchText"
-              bottom-slots
-              label="Search"
-            />
-            <q-skeleton v-else class="QInput" height="48px" />
-          </div>
-          <div class="col-sm-6 col-12">
-            <q-select
-              v-model="switcher.lastSortMethod"
-              label="Sort By"
-              map-options
-              emit-value
-              :options="Object.values(sortMethods)"
-            />
-          </div>
-
-          <div class="col-sm-6 col-12">
-            <group-select
-              v-model="switcher.excludeGroups"
-              label="Exclude Groups"
-              multiple
-            />
-          </div>
-        </div>
-
-        <div v-if="!loading" class="row q-col-gutter-md">
+    <!-- Member List -->
+    <div
+      v-if="token"
+      class="col col-md-8 bg-lighten q-px-lg q-pb-lg q-pt-sm"
+      style="margin-top: 216px"
+    >
+      <template v-if="!loading">
+        <div class="row q-col-gutter-md">
           <div
             v-for="member of filteredMembers"
             :key="member.id"
@@ -110,25 +27,147 @@
             />
           </div>
         </div>
-        <div v-else class="row q-col-gutter-md q-mt-md">
-          <div v-for="idx of 6" :key="idx" class="col-xl-2 col-md-3 col-4">
-            <q-skeleton type="rect" style="aspect-ratio: 1/1" />
-          </div>
+      </template>
+      <div v-else class="row q-col-gutter-md q-mt-md">
+        <div v-for="idx of 6" :key="idx" class="col-xl-2 col-md-3 col-4">
+          <q-skeleton type="rect" style="aspect-ratio: 1/1" />
         </div>
-        <q-page-sticky position="bottom-right" :offset="[18, 18]">
-          <q-btn
-            fab
-            class="self-end"
-            icon="swap_horiz"
-            color="primary"
-            :disabled="loading || switching"
-            :loading="loading || switching"
-            @click="doSwitch"
-          />
-        </q-page-sticky>
       </div>
     </div>
+    <q-page-sticky position="top" :offset="[0, 0]" expand>
+      <div class="col col-md-8">
+        <!-- Title -->
+        <page-title icon="swap_horiz" text="Register Switch" class="col-auto" />
+
+        <q-banner v-if="!token" class="text-white bg-red col-auto">
+          <template #avatar>
+            <q-icon name="warning" color="white" />
+          </template>
+          You need to set your PluralKit token to use this feature
+          <template #action>
+            <q-btn
+              to="/settings"
+              flat
+              class="bg-red text-white"
+              label="Go To Settings"
+            />
+          </template>
+        </q-banner>
+        <!-- Header -->
+        <div v-else class="col-auto q-px-lg q-pt-md bg-lighten">
+          <div class="row q-col-gutter-md q-mb-md" style="min-height: 64px">
+            <template v-if="loading">
+              <div class="col-auto self-center">
+                <q-skeleton type="rect" width="121px" height="21px" />
+              </div>
+              <div class="col">
+                <q-skeleton type="QAvatar" />
+              </div>
+            </template>
+            <template v-else>
+              <div class="col-auto self-center">Selected Fronters:</div>
+              <div class="col relative-position">
+                <initial-fallback-avatar
+                  v-for="[idx, fronter] in fronters.entries()"
+                  :key="fronter.id"
+                  :style="`left: ${(fronters.length - idx - 1) * 25 + 5}px; position: absolute; box-shadow: 0 0 2px 2px black`"
+                  :url="fronter.avatarUrl"
+                  :name="fronter.getName(detectPronouns)"
+                  @click="toggleMember(fronter.id)"
+                />
+              </div>
+            </template>
+          </div>
+
+          <div class="row q-col-gutter-x-md q-col-gutter-y-none q-mb-md">
+            <div class="col-sm-6 col-12">
+              <q-select
+                v-if="!loading"
+                v-model="primaryFronterId"
+                bottom-slots
+                emit-value
+                map-options
+                :options="options"
+                label="Primary Fronter"
+              >
+                <template v-if="primaryFronter" #append>
+                  <initial-fallback-avatar
+                    :url="primaryFronter.avatarUrl"
+                    :name="primaryFronter.getName(detectPronouns)"
+                  />
+                </template>
+              </q-select>
+              <q-skeleton v-else class="QInput" height="48px" />
+            </div>
+            <div class="col-sm-6 col-12">
+              <q-input
+                v-if="!loading"
+                v-model="searchText"
+                bottom-slots
+                label="Search"
+              />
+              <q-skeleton v-else class="QInput" height="48px" />
+            </div>
+            <div class="col-sm-6 col-12"></div>
+          </div>
+        </div>
+      </div>
+    </q-page-sticky>
+    <!-- Filters -->
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn-dropdown
+        fab
+        icon="filter_alt"
+        color="primary"
+        :menu-offset="[0, 18]"
+      >
+        <q-list dense bordered separator class="rounded-borders">
+          <q-item-label header>Filters</q-item-label>
+          <q-separator />
+          <q-item>
+            <q-item-section>
+              <q-select
+                v-model="switcher.lastSortMethod"
+                borderless
+                label="Sort By"
+                map-options
+                emit-value
+                :options="Object.values(sortMethods)"
+              />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <group-select
+                v-model="switcher.excludeGroups"
+                borderless
+                label="Exclude Groups"
+                multiple
+              />
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-btn-dropdown>
+    </q-page-sticky>
   </q-page>
+  <q-footer>
+    <q-btn-group spread style="height: 50px">
+      <q-btn
+        color="negative"
+        icon="restart_alt"
+        label="Reset"
+        @click="doReset"
+      />
+      <q-btn
+        color="positive"
+        icon="swap_horiz"
+        label="Switch"
+        :disabled="loading || switching"
+        :loading="loading || switching"
+        @click="doSwitch"
+      />
+    </q-btn-group>
+  </q-footer>
 </template>
 
 <script setup lang="ts">
@@ -251,6 +290,10 @@ watch(primaryFronterId, (val) => {
   selected.value.unshift(val);
 });
 
+async function doReset() {
+  await loadState();
+}
+
 async function doSwitch() {
   switching.value = true;
   if (!token.value) {
@@ -329,7 +372,7 @@ async function getSystem(): Promise<System | null> {
   }
 }
 
-onMounted(async () => {
+async function loadState() {
   loading.value = true;
 
   // Load members/fronters
@@ -344,5 +387,9 @@ onMounted(async () => {
   }
 
   loading.value = false;
+}
+
+onMounted(async () => {
+  await loadState();
 });
 </script>
