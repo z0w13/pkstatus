@@ -19,6 +19,7 @@ import {
 } from './lib/check-update';
 import { useLogStore } from './stores/log-store';
 import { useRouter } from 'vue-router';
+import { isDev } from './util';
 
 const $q = useQuasar();
 
@@ -83,7 +84,7 @@ function handleError(err: unknown): void {
 }
 
 const app = getCurrentInstance()?.appContext.app;
-if (app) {
+if (app && !isDev()) {
   window.onerror = (_event, _source, _lineno, _colno, error) => {
     handleError(error);
   };
