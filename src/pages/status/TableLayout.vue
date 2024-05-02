@@ -6,16 +6,39 @@
     <div :class="['col', 'col-lg-auto', `self-${settings.verticalPosition}`]">
       <q-markup-table :flat="$q.dark.isActive">
         <thead>
-          <tr :style="rowLineHeight">
-            <th>System</th>
+          <tr>
+            <th align="left" :style="headerIconPaddingStyle">System</th>
             <th
               :colspan="useMobileUi ? 1 : maxFront + 1"
-              :style="{ width: useMobileUi ? 'auto' : '100%' }"
+              :style="`width: ${useMobileUi ? 'auto' : '100%'}; ${headerIconPaddingStyle}`"
+              align="left"
             >
               Fronters
             </th>
-            <th v-if="settings.showLastSwitch">Last Switch</th>
-            <th v-if="settings.showUpdateTime">Last Update</th>
+            <template v-if="useMobileUi">
+              <th
+                v-if="settings.showLastSwitch || settings.showUpdateTime"
+                align="left"
+              >
+                <q-item dense class="q-pa-none">
+                  <q-item-section class="col-auto">
+                    <q-item-label v-if="settings.showLastSwitch">
+                      Last Switch
+                    </q-item-label>
+                    <q-item-label
+                      v-if="settings.showUpdateTime"
+                      :caption="settings.showLastSwitch"
+                    >
+                      Last Update
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </th>
+            </template>
+            <template v-else>
+              <th v-if="settings.showLastSwitch" align="left">Last Switch</th>
+              <th v-if="settings.showUpdateTime" align="left">Last Updated</th>
+            </template>
           </tr>
         </thead>
         <tbody>
@@ -96,20 +119,51 @@
             </td>
             <!-- Spacer -->
             <td v-if="!useMobileUi" />
-            <!-- Last Switch -->
-            <td v-if="settings.showLastSwitch" valign="top">
-              <relative-time-display
-                v-if="fronters[id]"
-                :time="fronters[id]?.lastSwitch"
-              />
-            </td>
-            <!-- Last Updated -->
-            <td v-if="settings.showUpdateTime" valign="top">
-              <relative-time-display
-                v-if="fronters[id]"
-                :time="fronters[id]?.lastUpdated"
-              />
-            </td>
+            <!-- Last Switch/Updated -->
+            <template v-if="useMobileUi">
+              <td
+                v-if="settings.showLastSwitch || settings.showUpdateTime"
+                valign="top"
+              >
+                <q-item
+                  dense
+                  class="q-pa-none"
+                  :style="`min-height: ${settings.iconSize}px`"
+                >
+                  <q-item-section class="col-auto">
+                    <q-item-label v-if="settings.showLastSwitch">
+                      <relative-time-display
+                        v-if="fronters[id]"
+                        :time="fronters[id]?.lastSwitch"
+                      />
+                    </q-item-label>
+                    <q-item-label
+                      v-if="settings.showUpdateTime"
+                      :caption="settings.showLastSwitch"
+                    >
+                      <relative-time-display
+                        v-if="fronters[id]"
+                        :time="fronters[id]?.lastUpdated"
+                      />
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </td>
+            </template>
+            <template v-else>
+              <td v-if="settings.showLastSwitch" valign="top">
+                <relative-time-display
+                  v-if="fronters[id]"
+                  :time="fronters[id]?.lastSwitch"
+                />
+              </td>
+              <td v-if="settings.showUpdateTime" valign="top">
+                <relative-time-display
+                  v-if="fronters[id]"
+                  :time="fronters[id]?.lastUpdated"
+                />
+              </td>
+            </template>
           </tr>
         </tbody>
       </q-markup-table>
@@ -163,5 +217,8 @@ const rowLineHeight = computed(
     (settings.showIcons && settings.iconSize > 34
       ? `${settings.iconSize}px`
       : '2.4em'),
+);
+const headerIconPaddingStyle = computed(() =>
+  settings.showIcons ? `padding-left: ${24 + settings.iconSize}px` : '',
 );
 </script>
