@@ -43,6 +43,27 @@ const routes: RouteRecordRaw[] = [
             path: '/lookup/system/:id',
             component: () => import('pages/Lookup/System/IndexPage.vue'),
             name: 'lookup-system',
+            children: [
+              {
+                path: '/lookup/system/:id',
+                redirect: (to) => ({
+                  name: 'lookup-system-fronters',
+                  params: { id: to.params.id },
+                }),
+              },
+              {
+                path: '/lookup/system/:id/fronters',
+                component: () =>
+                  import('pages/Lookup/System/View/FronterView.vue'),
+                name: 'lookup-system-fronters',
+              },
+              {
+                path: '/lookup/system/:id/members',
+                component: () =>
+                  import('pages/Lookup/System/View/MemberView.vue'),
+                name: 'lookup-system-members',
+              },
+            ],
           },
           {
             path: '/lookup/member/:id',

@@ -1,94 +1,36 @@
 <template>
   <template v-if="system">
     <system-card :system="system" flat />
-    <div class="row q-mt-lg bg-lighten">
-      <q-list class="col">
-        <q-item-label header>
-          <div v-if="!fronters || fronters.allowed" class="row">
-            <div class="col self-center">Fronters</div>
-            <div class="col-auto">
-              <q-btn-toggle
-                v-model="lookup.memberLayout"
-                dense
-                flat
-                :options="[
-                  { value: 'list', icon: 'list' },
-                  { value: 'table', icon: 'table_chart' },
-                ]"
-              />
-            </div>
-          </div>
-          <div v-else>Fronter List Private</div>
-        </q-item-label>
-
-        <template v-if="fronters?.allowed">
-          <member-list
-            v-if="lookup.memberLayout == 'list'"
-            :members="fronters.members"
-            :system="system"
-            :detect-pronouns="detectPronouns"
-            :color-accent="lookup.colorAccent"
-            @member-click="(member) => dialog.show({ system, member })"
+    <router-view
+      :dialog="dialog"
+      :system="system"
+      :fronters="fronters"
+      :members="members"
+    />
+    <q-footer>
+      <q-toolbar>
+        <q-tabs align="center" class="bg-primary full-width">
+          <q-route-tab
+            :to="{
+              name: 'lookup-system-fronters',
+              params: { id: route.params.id },
+            }"
+            color="primary"
+            icon="person_search"
+            label="Fronters"
           />
-          <member-table
-            v-else-if="lookup.memberLayout == 'table'"
-            :members="fronters.members"
-            :system="system"
-            :detect-pronouns="detectPronouns"
-            :color-accent="lookup.colorAccent"
-            @member-click="(member) => dialog.show({ system, member })"
+          <q-route-tab
+            :to="{
+              name: 'lookup-system-members',
+              params: { id: route.params.id },
+            }"
+            color="primary"
+            icon="people"
+            label="Members"
           />
-        </template>
-        <q-item v-else-if="!fronters">
-          <q-linear-progress indeterminate />
-        </q-item>
-      </q-list>
-    </div>
-    <div class="row q-mt-lg bg-lighten">
-      <q-list class="col">
-        <q-item-label header>
-          <div v-if="members.allowed" class="row">
-            <div class="col self-center">
-              Members ({{ members.list.length }})
-            </div>
-            <div class="col-auto">
-              <q-btn-toggle
-                v-model="lookup.memberLayout"
-                dense
-                flat
-                :options="[
-                  { value: 'list', icon: 'list' },
-                  { value: 'table', icon: 'table_chart' },
-                ]"
-              />
-            </div>
-          </div>
-          <div v-else>Member List Private</div>
-        </q-item-label>
-
-        <q-item v-if="members.loading">
-          <q-linear-progress indeterminate />
-        </q-item>
-        <template v-else-if="members.allowed">
-          <member-list
-            v-if="lookup.memberLayout == 'list'"
-            :members="members.list"
-            :system="system"
-            :detect-pronouns="detectPronouns"
-            :color-accent="lookup.colorAccent"
-            @member-click="(member) => dialog.show({ system, member })"
-          />
-          <member-table
-            v-if="lookup.memberLayout == 'table'"
-            :members="members.list"
-            :system="system"
-            :detect-pronouns="detectPronouns"
-            :color-accent="lookup.colorAccent"
-            @member-click="(member) => dialog.show({ system, member })"
-          />
-        </template>
-      </q-list>
-    </div>
+        </q-tabs>
+      </q-toolbar>
+    </q-footer>
   </template>
   <q-linear-progress v-else-if="status == 'loading'" indeterminate />
   <div
@@ -118,8 +60,6 @@ import { useSettingsStore } from 'src/stores/settings-store';
 
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import SystemCard from 'src/components/Card/SystemCard.vue';
-import MemberTable from 'src/pages/Lookup/System/MemberTable.vue';
-import MemberList from 'src/pages/Lookup/System/MemberList.vue';
 
 import { getNameSort } from 'src/util';
 import { useServices } from 'src/lib/Services';
@@ -127,7 +67,7 @@ import { useServices } from 'src/lib/Services';
 const route = useRoute();
 const settingsStore = useSettingsStore();
 const { pluralKit } = useServices();
-const { detectPronouns, lookup } = storeToRefs(settingsStore);
+const { detectPronouns } = storeToRefs(settingsStore);
 
 const status = ref<'loading' | 'forbidden' | 'notfound'>('loading');
 const system = ref<System | null>(null);
