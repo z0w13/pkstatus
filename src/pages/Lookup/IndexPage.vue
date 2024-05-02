@@ -4,9 +4,11 @@
       :class="{
         col: true,
         'col-sm-6 col-md-4':
-          lookup.memberLayout == 'list' || route.name != 'lookup-system',
+          lookup.memberLayout == 'list' ||
+          !route.name?.toString().startsWith('lookup-system'),
         'col-md-8 col-lg-6':
-          lookup.memberLayout == 'table' && route.name == 'lookup-system',
+          lookup.memberLayout == 'table' &&
+          route.name?.toString().startsWith('lookup-system'),
       }"
     >
       <page-title icon="search" text="Lookup System/Member" />
@@ -20,6 +22,7 @@
                 :options="[
                   { label: 'System', value: 'system' },
                   { label: 'Member', value: 'member' },
+                  { label: 'Group', value: 'group' },
                 ]"
               />
             </div>

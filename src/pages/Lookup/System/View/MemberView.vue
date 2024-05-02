@@ -3,7 +3,10 @@
     <q-list class="col">
       <q-item-label header>
         <div v-if="members.allowed" class="row">
-          <div class="col self-center">Members ({{ members.list.length }})</div>
+          <div class="col self-center">
+            Members
+            <span v-if="!members.loading">({{ members.list.length }})</span>
+          </div>
           <div class="col-auto">
             <q-btn-toggle
               v-model="lookup.memberLayout"

@@ -5,6 +5,7 @@ import { nonEmptyStringOrNull, formatId, FormatIdOpts } from 'src/util';
 export interface IGroup {
   id: string;
   uuid: string;
+  system: string;
   name: string;
   displayName: string | null;
   description: string | null;
@@ -19,6 +20,7 @@ export class Group implements IGroup {
   constructor(
     public id: string,
     public uuid: string,
+    public system: string,
     public name: string,
     public displayName: string | null,
     public description: string | null,
@@ -27,7 +29,11 @@ export class Group implements IGroup {
     public color: string | null,
     public members: Array<string>,
     public createdAt: dayjs.Dayjs,
-  ) {}
+  ) {
+    if (system.length === 0) {
+      throw new Error("Group.system shouldn't be an empty string");
+    }
+  }
 
   public formatId(opts: FormatIdOpts = {}): string {
     return formatId(this.id, opts);
@@ -41,6 +47,7 @@ export class Group implements IGroup {
     return new Group(
       group.id,
       group.uuid,
+      group.system,
       group.name,
       group.displayName,
       group.description,
@@ -52,9 +59,14 @@ export class Group implements IGroup {
     );
   }
   static fromPKApi(group: ApiGroup): Group {
+    if (typeof group.system !== 'string' || group.system.length === 0) {
+      throw new Error("Group.system shouldn't be an empty string");
+    }
+
     return Group.fromDict({
       ...group,
 
+      system: group.system!, // This is verified by above guard
       color: nonEmptyStringOrNull(group.color),
       displayName: nonEmptyStringOrNull(group.display_name),
       description: nonEmptyStringOrNull(group.description),

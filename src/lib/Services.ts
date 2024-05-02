@@ -6,6 +6,7 @@ import SystemMemberCache from 'src/stores/cache/SystemMemberCache';
 import PluralKitWrapper from 'src/lib/PluralKitWrapper';
 import PluralKitApi from './PluralKitApi';
 import SystemGroupCache from 'src/stores/cache/SystemGroupCache';
+import GroupMemberCache from 'src/stores/cache/GroupMemberCache';
 
 class ServiceStore {
   private static instance: ServiceStore;
@@ -14,6 +15,7 @@ class ServiceStore {
   public memberCache: MemberCache;
   public systemMemberCache: SystemMemberCache;
   public groupCache: GroupCache;
+  public groupMemberCache: GroupMemberCache;
   public systemGroupCache: SystemGroupCache;
   public fronterCache: FronterCache;
   public pluralKit: PluralKitWrapper;
@@ -24,6 +26,11 @@ class ServiceStore {
     this.memberCache = new MemberCache(pk);
     this.systemMemberCache = new SystemMemberCache(this.memberCache, pk);
     this.groupCache = new GroupCache(pk);
+    this.groupMemberCache = new GroupMemberCache(
+      this.memberCache,
+      this.groupCache,
+      pk,
+    );
     this.systemGroupCache = new SystemGroupCache(this.groupCache, pk);
     this.fronterCache = new FronterCache(this.memberCache, pk);
     this.pluralKit = new PluralKitWrapper(
@@ -32,6 +39,7 @@ class ServiceStore {
       this.memberCache,
       this.systemMemberCache,
       this.groupCache,
+      this.groupMemberCache,
       this.systemGroupCache,
       this.fronterCache,
     );

@@ -9,6 +9,7 @@ import { Member } from 'src/models/Member';
 import GroupCache from 'src/stores/cache/GroupCache';
 import { Group } from 'src/models/Group';
 import SystemGroupCache from 'src/stores/cache/SystemGroupCache';
+import GroupMemberCache from 'src/stores/cache/GroupMemberCache';
 
 enum AuthState {
   NoToken = 'NO_TOKEN',
@@ -43,6 +44,7 @@ export default class PluralKitWrapper {
     public readonly memberCache: MemberCache,
     public readonly systemMemberCache: SystemMemberCache,
     public readonly groupCache: GroupCache,
+    public readonly groupMemberCache: GroupMemberCache,
     public readonly systemGroupCache: SystemGroupCache,
     public readonly fronterCache: FronterCache,
   ) {}
@@ -123,6 +125,12 @@ export default class PluralKitWrapper {
 
   public async getGroup(id: string): Promise<Group> {
     return await this.groupCache.get(id, this.authInfo.token);
+  }
+
+  public async getGroupMembers(id: string): Promise<Array<Member>> {
+    const memberIds = (await this.groupMemberCache.get(id, this.authInfo.token))
+      .members;
+    return await this.memberCache.getMulti(memberIds, this.authInfo.token);
   }
 
   public async getGroups(system: string): Promise<Array<Group>> {

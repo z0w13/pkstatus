@@ -29,7 +29,7 @@ export default class SystemGroupCache extends BaseCache<SystemGroups> {
       ...(
         await this.pk.getGroups({ system, token, with_members: true })
       ).values(),
-    ].map((g) => this.groupCache.set(Group.fromPKApi(g)));
+    ].map((g) => this.groupCache.set(Group.fromPKApi({ ...g, system })));
 
     return new SystemGroups(
       system,

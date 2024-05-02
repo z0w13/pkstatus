@@ -6,6 +6,7 @@
       :system="system"
       :fronters="fronters"
       :members="members"
+      :groups="groups"
     />
     <q-footer>
       <q-toolbar>
@@ -27,6 +28,15 @@
             color="primary"
             icon="people"
             label="Members"
+          />
+          <q-route-tab
+            :to="{
+              name: 'lookup-system-groups',
+              params: { id: route.params.id },
+            }"
+            color="primary"
+            icon="group"
+            label="Groups"
           />
         </q-tabs>
       </q-toolbar>
@@ -63,6 +73,7 @@ import SystemCard from 'src/components/Card/SystemCard.vue';
 
 import { getNameSort } from 'src/util';
 import { useServices } from 'src/lib/Services';
+import { Group } from 'src/models/Group';
 
 const route = useRoute();
 const settingsStore = useSettingsStore();
@@ -81,6 +92,15 @@ const members = ref<{
   allowed: true,
   list: [],
 });
+const groups = ref<{
+  loading: boolean;
+  allowed: boolean;
+  list: Array<Group>;
+}>({
+  loading: true,
+  allowed: true,
+  list: [],
+});
 
 const dialog = ref();
 
@@ -93,8 +113,12 @@ watch(
 
     system.value = null;
     fronters.value = null;
+
     members.value.loading = true;
     members.value.list = [];
+
+    groups.value.loading = true;
+    groups.value.list = [];
 
     try {
       system.value = await pluralKit.getSystem(newId);
@@ -123,6 +147,25 @@ watch(
     } catch (e) {
       if (e instanceof APIError && e.status == '403') {
         members.value = {
+          loading: false,
+          allowed: false,
+          list: [],
+        };
+      } else {
+        throw e;
+      }
+    }
+
+    try {
+      groups.value.list = (await pluralKit.getGroups(newId)).sort(
+        getNameSort(detectPronouns.value),
+      );
+
+      groups.value.loading = false;
+      groups.value.allowed = true;
+    } catch (e) {
+      if (e instanceof APIError && e.status == '403') {
+        groups.value = {
           loading: false,
           allowed: false,
           list: [],

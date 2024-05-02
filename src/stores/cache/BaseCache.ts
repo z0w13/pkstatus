@@ -94,8 +94,8 @@ export default abstract class BaseCache<T extends HasId> {
     return obj;
   }
 
-  public async getMulti(ids: Array<string>): Promise<Array<T>> {
-    return await Promise.all(ids.map((id) => this.get(id)));
+  public async getMulti(ids: Array<string>, token?: string): Promise<Array<T>> {
+    return await Promise.all(ids.map((id) => this.get(id, token)));
   }
 
   public setCached(info: CacheInfo, object: T) {

@@ -3,26 +3,26 @@
     <q-card-section class="row">
       <div class="col-auto self-center">
         <initial-fallback-avatar
-          v-if="member.avatarUrl"
+          v-if="group.icon"
           size="64px"
-          :url="member.avatarUrl"
-          :name="member.getName(detectPronouns)"
-          @click="showAvatar = !!member.avatarUrl"
+          :url="group.icon"
+          :name="group.getName()"
+          @click="showAvatar = !!group.icon"
         />
       </div>
-      <div class="col q-ml-md self-center">
+      <div :class="{ col: true, 'q-ml-md': !!group.icon, 'self-center': true }">
         <fitty style="line-height: 100%" :options="{ maxSize: 100 }">
-          {{ member.getName(detectPronouns) }}
+          {{ group.getName() }}
         </fitty>
       </div>
     </q-card-section>
-    <img v-if="member.bannerUrl" :src="member.bannerUrl" />
+    <img v-if="group.banner" :src="group.banner" />
     <q-card-actions
       v-if="popup"
       class="bg-primary text-white"
       :style="
         lookup.colorAccent
-          ? `min-height: 52px; background-color: #${member.color} !important;`
+          ? `min-height: 52px; background-color: #${group.color} !important;`
           : ''
       "
     >
@@ -32,39 +32,32 @@
         label="View System"
         :to="`/lookup/system/${system.id}`"
       />
+      <q-btn
+        color="dark"
+        label="View Group"
+        :to="`/lookup/group/${group.id}`"
+      />
     </q-card-actions>
     <q-card-section v-if="details">
       <q-markup-table flat separator="horizontal" style="overflow: hidden">
         <tbody>
           <tr>
             <td>ID</td>
-            <td>{{ member.formatId(idOpts) }}</td>
-          </tr>
-          <tr v-if="member.getPronouns(detectPronouns)">
-            <td>Pronouns</td>
-            <td>{{ member.getPronouns(detectPronouns) }}</td>
+            <td>{{ group.id }}</td>
           </tr>
           <tr>
             <td>System</td>
             <td>{{ system.getName(detectPronouns) }}</td>
           </tr>
-          <tr v-if="member.messageCount">
-            <td>Messages Sent</td>
-            <td>{{ member.messageCount.toLocaleString() }}</td>
+          <tr>
+            <td>Members</td>
+            <td>{{ group.members.length }}</td>
           </tr>
-          <tr v-if="member.lastMessageAt">
-            <td>Last Message</td>
-            <td><relative-time-display :time="member.lastMessageAt" /></td>
-          </tr>
-          <tr v-if="member.birthday">
-            <td>Birthday</td>
-            <td>{{ member.birthday.format('YYYY-MM-DD') }}</td>
-          </tr>
-          <tr v-if="member.color">
+          <tr v-if="group.color">
             <td>Color</td>
             <td
               :style="{
-                color: `#${member.color}`,
+                color: `#${group.color}`,
                 fontSize: '48px',
                 lineHeight: '16px',
                 textIndent: '-4px',
@@ -75,18 +68,18 @@
           </tr>
           <tr>
             <td>Created At</td>
-            <td>{{ member.createdAt.format('YYYY-MM-DD') }}</td>
+            <td>{{ group.createdAt.format('YYYY-MM-DD') }}</td>
           </tr>
         </tbody>
       </q-markup-table>
     </q-card-section>
-    <q-card-section v-if="!!member.description?.length">
-      <pre class="description">{{ member.description }}</pre>
+    <q-card-section v-if="!!group.description?.length">
+      <pre class="description">{{ group.description }}</pre>
     </q-card-section>
     <avatar-dialog
-      v-if="member.avatarUrl"
+      v-if="group.icon"
       v-model="showAvatar"
-      :avatar-url="member.avatarUrl"
+      :avatar-url="group.icon"
     />
   </q-card>
 </template>
@@ -97,21 +90,21 @@ import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
-import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 import AvatarDialog from './AvatarDialog.vue';
 
-import { Member } from 'src/models/Member';
+import { Group } from 'src/models/Group';
 import { System } from 'src/models/System';
+
 import { useSettingsStore } from 'src/stores/settings-store';
 import { useRoute } from 'vue-router';
 
 const settings = useSettingsStore();
-const { detectPronouns, lookup, id: idOpts } = storeToRefs(settings);
+const { detectPronouns, lookup } = storeToRefs(settings);
 const showAvatar = ref(false);
 
 withDefaults(
   defineProps<{
-    member: Member;
+    group: Group;
     system: System;
     details?: boolean;
     popup?: boolean;

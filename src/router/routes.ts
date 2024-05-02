@@ -63,11 +63,21 @@ const routes: RouteRecordRaw[] = [
                   import('pages/Lookup/System/View/MemberView.vue'),
                 name: 'lookup-system-members',
               },
+              {
+                path: '/lookup/system/:id/groups',
+                component: () =>
+                  import('pages/Lookup/System/View/GroupView.vue'),
+                name: 'lookup-system-groups',
+              },
             ],
           },
           {
             path: '/lookup/member/:id',
             component: () => import('pages/Lookup/MemberPage.vue'),
+          },
+          {
+            path: '/lookup/group/:id',
+            component: () => import('pages/Lookup/GroupPage.vue'),
           },
         ],
       },
