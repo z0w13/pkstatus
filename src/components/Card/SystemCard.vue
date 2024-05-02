@@ -71,7 +71,11 @@
     <q-card-section v-if="system.description.length > 0">
       <pre class="description">{{ system.description }}</pre>
     </q-card-section>
-    <avatar-dialog v-model="showAvatar" :avatar-url="system.avatarUrl!" />
+    <avatar-dialog
+      v-if="system.avatarUrl"
+      v-model="showAvatar"
+      :avatar-url="system.avatarUrl"
+    />
   </q-card>
 </template>
 
