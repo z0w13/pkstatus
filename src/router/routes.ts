@@ -41,7 +41,7 @@ const routes: RouteRecordRaw[] = [
         children: [
           {
             path: '/lookup/system/:id',
-            component: () => import('pages/Lookup/SystemPage.vue'),
+            component: () => import('pages/Lookup/System/IndexPage.vue'),
             name: 'lookup-system',
           },
           {
