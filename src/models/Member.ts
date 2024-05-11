@@ -94,6 +94,10 @@ export class Member implements IMember {
     }
   }
 
+  formatId(opts: util.FormatIdOpts = {}): string {
+    return util.formatId(this.id, opts);
+  }
+
   getName(stripPronouns = false): string {
     const name = this.displayName || this.name;
     return stripPronouns ? util.stripPronouns(name, '|') : name;

@@ -3,6 +3,7 @@ import {
   containsPronouns,
   getPronouns,
   stripPronouns,
+  formatId,
 } from 'src/util';
 import { describe, expect, it, test } from 'vitest';
 
@@ -74,5 +75,29 @@ describe('stripPronouns', function () {
   });
   it('strips delimiters at the end of a string', function () {
     expect(stripPronouns('Foo (She/Her)', '|')).toBe('Foo');
+  });
+});
+
+describe('formatId', function () {
+  it("errors on IDs that aren't 5 or 6 characters", function () {
+    expect(() => formatId('expl')).toThrowError(/either 5 or 6/);
+  });
+  it("doesn't change 5-char IDs", function () {
+    expect(formatId('exmpl')).toBe('exmpl');
+  });
+  it("removes separators from 6-char IDs if 'sep' is false", function () {
+    expect(formatId('exa-mpl', { sep: false })).toBe('exampl');
+  });
+  it("doesn't change 6-char IDs if 'sep' is false", function () {
+    expect(formatId('exampl', { sep: false })).toBe('exampl');
+  });
+  it("splits 6-char IDs if 'sep' is true", function () {
+    expect(formatId('exampl', { sep: true })).toBe('exa-mpl');
+  });
+  it("capitalises IDs if 'caps' is true", function () {
+    expect(formatId('exampl', { caps: true })).toBe('EXAMPL');
+  });
+  it("capitalises and splits IDs if 'sep' and 'caps' are true", function () {
+    expect(formatId('exampl', { sep: true, caps: true })).toBe('EXA-MPL');
   });
 });

@@ -66,3 +66,27 @@ export function getNameSort(stripPronouns: boolean) {
       .localeCompare(b.getName(stripPronouns).toLocaleLowerCase());
   };
 }
+
+export interface FormatIdOpts {
+  sep?: boolean;
+  caps?: boolean;
+}
+export function formatId(id: string, { sep, caps }: FormatIdOpts = {}): string {
+  id = caps ? id.toUpperCase() : id.toLowerCase();
+
+  if (id.length == 7 && id.at(3) == '-') {
+    return sep ? id : id.replace('-', '');
+  }
+
+  if (id.length == 6 && sep) {
+    return `${id.substring(0, 3)}-${id.substring(3, 6)}`;
+  }
+
+  if (id.length == 5 || id.length == 6) {
+    return id;
+  }
+
+  throw new Error(
+    `PluralKit ID is either 5 or 6 characters long, ${id} is ${id.length} characters long`,
+  );
+}

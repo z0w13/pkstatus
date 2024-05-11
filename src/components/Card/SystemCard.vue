@@ -37,7 +37,7 @@
         <tbody>
           <tr>
             <td>ID</td>
-            <td>{{ system.id }}</td>
+            <td>{{ system.formatId(idOpts) }}</td>
           </tr>
           <tr>
             <td>Created At</td>
@@ -90,7 +90,7 @@ import { ref } from 'vue';
 import AvatarDialog from './AvatarDialog.vue';
 
 const settings = useSettingsStore();
-const { detectPronouns, lookup } = storeToRefs(settings);
+const { detectPronouns, lookup, id: idOpts } = storeToRefs(settings);
 const showAvatar = ref(false);
 
 withDefaults(

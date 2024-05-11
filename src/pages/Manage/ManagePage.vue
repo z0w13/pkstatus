@@ -29,6 +29,11 @@
             <q-skeleton v-else type="circle" size="24px" />
           </q-td>
         </template>
+        <template #body-cell-id="props">
+          <q-td :props="props">
+            {{ props.row.formatId(idOpts) }}
+          </q-td>
+        </template>
         <template #body-cell-name="props">
           <q-td :props="props">
             <template v-if="props.value">{{ props.value }}</template>
@@ -63,7 +68,9 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ props.row.name }}</q-item-label>
-              <q-item-label caption>{{ props.row.id }}</q-item-label>
+              <q-item-label caption>{{
+                props.row.formatId(idOpts)
+              }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-btn
@@ -86,9 +93,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import { QTableProps, useQuasar } from 'quasar';
 
 import { useSystemStore } from 'src/stores/system-store';
+import { useSettingsStore } from 'src/stores/settings-store';
 import { useServices } from 'src/lib/Services';
 
 import PageTitle from 'src/components/PageTitle.vue';
@@ -96,6 +105,8 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 
 const $q = useQuasar();
 const systemStore = useSystemStore();
+const settings = useSettingsStore();
+const { id: idOpts } = storeToRefs(settings);
 const { systemCache } = useServices();
 
 const columns: QTableProps['columns'] = [

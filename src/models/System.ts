@@ -56,6 +56,10 @@ export class System implements ISystem {
     public updatedAt: dayjs.Dayjs,
   ) {}
 
+  formatId(opts: util.FormatIdOpts = {}): string {
+    return util.formatId(this.id, opts);
+  }
+
   getName(stripPronouns = false): string {
     return stripPronouns ? util.stripPronouns(this.name, '|') : this.name;
   }

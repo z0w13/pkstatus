@@ -38,7 +38,7 @@
         <tbody>
           <tr>
             <td>ID</td>
-            <td>{{ member.id }}</td>
+            <td>{{ member.formatId(idOpts) }}</td>
           </tr>
           <tr v-if="member.getPronouns(detectPronouns)">
             <td>Pronouns</td>
@@ -106,7 +106,7 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import { useRoute } from 'vue-router';
 
 const settings = useSettingsStore();
-const { detectPronouns, lookup } = storeToRefs(settings);
+const { detectPronouns, lookup, id: idOpts } = storeToRefs(settings);
 const showAvatar = ref(false);
 
 withDefaults(

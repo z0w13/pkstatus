@@ -114,6 +114,7 @@
           </q-item-section>
         </q-item>
         <q-separator spaced />
+        <id-section />
         <backup-section
           @restore="
             newToken = token;
@@ -136,6 +137,7 @@ import { useSettingsStore } from 'src/stores/settings-store';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import PageTitle from 'src/components/PageTitle.vue';
+import IdSection from 'src/pages/Settings/IdSection.vue';
 import BackupSection from 'src/pages/Settings/BackupSection.vue';
 import { useServices } from 'src/lib/Services';
 import { shouldCheckForUpdates } from 'src/lib/check-update';

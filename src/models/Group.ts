@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { IGroup as ApiGroup } from 'pkapi.js';
-import { nonEmptyStringOrNull } from 'src/util';
+import { nonEmptyStringOrNull, formatId, FormatIdOpts } from 'src/util';
 
 export interface IGroup {
   id: string;
@@ -28,6 +28,10 @@ export class Group implements IGroup {
     public members: Array<string>,
     public createdAt: dayjs.Dayjs,
   ) {}
+
+  public formatId(opts: FormatIdOpts = {}): string {
+    return formatId(this.id, opts);
+  }
 
   public getName() {
     return this.displayName || this.name;

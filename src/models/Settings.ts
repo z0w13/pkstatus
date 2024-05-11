@@ -51,6 +51,12 @@ export const Settings = z.object({
       colorAccent: z.boolean().default(true),
     })
     .default({}),
+  id: z
+    .object({
+      sep: z.boolean().default(false),
+      caps: z.boolean().default(false),
+    })
+    .default({}),
   systemUpdateInterval: z.number().default(3600),
   fronterUpdateInterval: z.number().default(300),
   detectPronouns: z.boolean().default(true),
