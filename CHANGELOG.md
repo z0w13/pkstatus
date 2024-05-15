@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.9.0](https://github.com/z0w13/pkstatus/compare/v0.8.2...v0.9.0) (2024-05-15)
+
+
+### Features
+* **lookup:** add group cards and lookup
+* **lookup/system:** show fronters/members in separate tabs
+* **switcher:** rework the ui
+* **status/table:** merge last updated/last switch into one column in mobile view
+* **settings:** configurable ID display matching PluralKit behaviour
+
 ## [0.8.2](https://github.com/z0w13/pkstatus/compare/v0.8.1...v0.8.2) (2024-04-22)
 
 
