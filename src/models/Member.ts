@@ -142,9 +142,14 @@ export class Member implements IMember {
   }
 
   static fromPKApi(member: ApiMember): Member {
+    if (typeof member.system !== 'string' || member.system.length === 0) {
+      throw new Error("Group.system shouldn't be an empty string");
+    }
+
     return Member.fromDict({
       ...member,
 
+      system: member.system!,
       name: member.name || '',
       displayName: util.nonEmptyStringOrNull(member.display_name),
       color: util.nonEmptyStringOrNull(member.color),

@@ -36,8 +36,8 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1(pinia@2.1.7(typescript@5.4.4)(vue@3.4.21(typescript@5.4.4)))
       pkapi.js:
-        specifier: ^7.1.0
-        version: 7.1.0
+        specifier: ^7.2.1
+        version: 7.2.1
       quasar:
         specifier: ^2.15.2
         version: 2.15.2
@@ -131,7 +131,7 @@ importers:
         version: 5.4.4
       vite-plugin-checker:
         specifier: ^0.6.4
-        version: 0.6.4(eslint@8.57.0)(meow@12.1.1)(optionator@0.9.3)(typescript@5.4.4)(vite@5.2.8(@types/node@20.12.5)(sass@1.74.1)(terser@5.30.3))(vue-tsc@1.8.27(typescript@5.4.4))
+        version: 0.6.4(eslint@8.57.0)(optionator@0.9.3)(typescript@5.4.4)(vite@5.2.8(@types/node@20.12.5)(sass@1.74.1)(terser@5.30.3))(vue-tsc@1.8.27(typescript@5.4.4))
       vitest:
         specifier: ^1.4.0
         version: 1.4.0(@types/node@20.12.5)(happy-dom@13.10.1)(sass@1.74.1)(terser@5.30.3)
@@ -4716,8 +4716,8 @@ packages:
     resolution: {integrity: sha512-J8B6xqiO37sU/gkcMglv6h5Jbd9xNER7aHzpfRdNmV4IbQBzBpe4l9XmbG+xPF/znacgu2jfEw+wHffaq/YkXA==}
     hasBin: true
 
-  pkapi.js@7.1.0:
-    resolution: {integrity: sha512-vMig4jBnDuO3t0gHoPZ403FIq/diHgclgKOWZVKy4h5OlP4vr9Au0Ji7cQZTVGQjqbQS06Mumg36u2P0q20vIQ==}
+  pkapi.js@7.2.1:
+    resolution: {integrity: sha512-7KsHB1R3XTHAgxPdBXXUyDlX+mJ+VUS0MkXIHxS1Sj1bwxWSVuIG0YjCdDgAG2pOiM+4jOIl04zgA6VKRQ/wZQ==}
 
   pkg-types@1.0.3:
     resolution: {integrity: sha512-nN7pYi0AQqJnoLPC9eHFQ8AcyaixBUOwvqc5TDnIKCMEE6I0y8P7OKA7fPexsXGCGxQDl/cmrLAp26LhcwxZ4A==}
@@ -11427,7 +11427,7 @@ snapshots:
     dependencies:
       pngjs: 3.4.0
 
-  pkapi.js@7.1.0:
+  pkapi.js@7.2.1:
     dependencies:
       '@vvo/tzdb': 6.130.0
       axios: 0.21.4
@@ -12645,7 +12645,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-checker@0.6.4(eslint@8.57.0)(meow@12.1.1)(optionator@0.9.3)(typescript@5.4.4)(vite@5.2.8(@types/node@20.12.5)(sass@1.74.1)(terser@5.30.3))(vue-tsc@1.8.27(typescript@5.4.4)):
+  vite-plugin-checker@0.6.4(eslint@8.57.0)(optionator@0.9.3)(typescript@5.4.4)(vite@5.2.8(@types/node@20.12.5)(sass@1.74.1)(terser@5.30.3))(vue-tsc@1.8.27(typescript@5.4.4)):
     dependencies:
       '@babel/code-frame': 7.24.2
       ansi-escapes: 4.3.2
@@ -12665,7 +12665,6 @@ snapshots:
       vscode-uri: 3.0.8
     optionalDependencies:
       eslint: 8.57.0
-      meow: 12.1.1
       optionator: 0.9.3
       typescript: 5.4.4
       vue-tsc: 1.8.27(typescript@5.4.4)
