@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/z0w13/pkstatus/compare/v0.9.0...v0.9.1) (2024-05-17)
+
+
+### Bug Fixes
+
+* **lookup/group:** private groups and group members now show up for your own system
+
 ## [0.9.0](https://github.com/z0w13/pkstatus/compare/v0.8.2...v0.9.0) (2024-05-15)
 
 
