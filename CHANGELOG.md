@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.3](https://github.com/z0w13/pkstatus/compare/v0.9.2...v0.9.3) (2024-05-18)
+
+
+### Bug Fixes
+
+* **switcher:** doesn't get hidden behind other elements anymore (it's fixed now I swear)
+
 ## [0.9.2](https://github.com/z0w13/pkstatus/compare/v0.9.1...v0.9.2) (2024-05-18)
 
 
