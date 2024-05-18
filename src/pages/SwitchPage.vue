@@ -175,7 +175,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { debounce, useQuasar } from 'quasar';
 import { APIError } from 'pkapi.js';
@@ -402,11 +402,11 @@ async function loadState() {
   }
 
   loading.value = false;
+  nextTick(repositionSwitcher);
 }
 
 onMounted(async () => {
   window.addEventListener('resize', repositionSwitcher);
-  repositionSwitcher();
   await loadState();
 });
 onUnmounted(() => {
