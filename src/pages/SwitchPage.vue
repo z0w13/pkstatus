@@ -4,7 +4,7 @@
     <div
       v-if="token"
       class="col col-md-8 bg-lighten q-px-lg q-pb-lg q-pt-sm"
-      style="margin-top: 216px"
+      :style="`margin-top: ${memberGridMargin}px`"
     >
       <template v-if="!loading">
         <div class="row q-col-gutter-md">
@@ -54,7 +54,11 @@
           </template>
         </q-banner>
         <!-- Header -->
-        <div v-else class="col-auto q-px-lg q-pt-md bg-lighten">
+        <div
+          v-else
+          class="col-auto q-px-lg q-pt-md bg-lighten"
+          ref="searchForm"
+        >
           <div class="row q-col-gutter-md q-mb-md" style="min-height: 64px">
             <template v-if="loading">
               <div class="col-auto self-center">
@@ -171,9 +175,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useQuasar } from 'quasar';
+import { debounce, useQuasar } from 'quasar';
 import { APIError } from 'pkapi.js';
 import { pk } from 'src/boot/pkapi';
 
@@ -220,6 +224,7 @@ const searchText = ref('');
 const primaryFronterId = ref('');
 const selected = ref<Array<string>>([]);
 const members = ref<Array<Member>>([]);
+const searchForm = ref<HTMLElement>();
 const sortMethod = computed(
   () => sortMethods[switcher.value.lastSortMethod].func,
 );
@@ -372,6 +377,16 @@ async function getSystem(): Promise<System | null> {
   }
 }
 
+// Handle positioning the member list correctly
+const memberGridMargin = ref(216);
+const repositionSwitcher = debounce(() => {
+  if (!searchForm.value) {
+    return;
+  }
+
+  memberGridMargin.value = searchForm.value.getBoundingClientRect().bottom - 50;
+}, 100);
+
 async function loadState() {
   loading.value = true;
 
@@ -390,6 +405,11 @@ async function loadState() {
 }
 
 onMounted(async () => {
+  window.addEventListener('resize', repositionSwitcher);
+  repositionSwitcher();
   await loadState();
+});
+onUnmounted(() => {
+  window.removeEventListener('resize', repositionSwitcher);
 });
 </script>
