@@ -21,11 +21,15 @@ export const useSystemStore = defineStore(STORE_NAME, {
   actions: {
     getExpired(ttl?: number): Array<System> {
       const { systemCache } = useServices();
-      return systemCache.getExpired(ttl).filter((s) => this.systems[s.id]);
+      return systemCache
+        .getExpired(ttl, true)
+        .filter((s) => this.systems[s.id]);
     },
     getExpiredFronters(ttl?: number): Array<Fronters> {
       const { fronterCache } = useServices();
-      return fronterCache.getExpired(ttl).filter((f) => this.systems[f.system]);
+      return fronterCache
+        .getExpired(ttl, true)
+        .filter((f) => this.systems[f.system]);
     },
     async get(id: string): Promise<System> {
       return await this.add(id);
