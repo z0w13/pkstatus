@@ -71,8 +71,20 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
     return object;
   }
 
-  public getExpired(ttl?: number): Array<T> {
-    return Object.values(this.objects).filter((obj) => this.expired(obj, ttl));
+  public getExpired(ttl?: number, sorted = false): Array<T> {
+    const objects = Object.values(this.objects).filter((obj) =>
+      this.expired(obj, ttl),
+    );
+
+    if (!sorted) {
+      return objects;
+    }
+
+    return objects.sort(
+      (a, b) =>
+        this.cacheInfo[a.id].createdAt.valueOf() -
+        this.cacheInfo[b.id].createdAt.valueOf(),
+    );
   }
 
   public expired(obj: string | T, ttl?: number): boolean {
