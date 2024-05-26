@@ -1,6 +1,7 @@
 import { APIError } from 'pkapi.js';
 import { useQuasar } from 'quasar';
 import { useServices } from 'src/lib/Services';
+import { useSettingsStore } from 'src/stores/settings-store';
 import { useSystemStore } from 'src/stores/system-store';
 
 export default function useStatusUpdater() {
@@ -9,6 +10,7 @@ export default function useStatusUpdater() {
   const $q = useQuasar();
   const { fronterCache, systemCache } = useServices();
   const systemStore = useSystemStore();
+  const settings = useSettingsStore();
 
   function start() {
     if (!updateInterval) {
@@ -23,6 +25,17 @@ export default function useStatusUpdater() {
       updateInterval = null;
     }
   }
+
+  const systemCount = systemStore.ids.length;
+  const avgRequestsPerSecond =
+    systemCount / settings.systemUpdateInterval +
+    systemCount / settings.fronterUpdateInterval;
+
+  const targetReqsPerSec = 1.5; // Leave a bit of wiggle room, current max is 2
+  const multiplyInterval =
+    avgRequestsPerSecond > targetReqsPerSec
+      ? avgRequestsPerSecond / targetReqsPerSec
+      : 1;
 
   // Update logic for status display
   async function updateSystemInfo() {
@@ -48,7 +61,9 @@ export default function useStatusUpdater() {
       }
     }
 
-    for (const system of systemStore.getExpired()) {
+    for (const system of systemStore.getExpired(
+      settings.systemUpdateInterval * multiplyInterval,
+    )) {
       try {
         return await systemStore.update(system.id);
       } catch (e) {
@@ -64,7 +79,9 @@ export default function useStatusUpdater() {
       }
     }
 
-    for (const fronters of fronterCache.getExpired()) {
+    for (const fronters of fronterCache.getExpired(
+      settings.fronterUpdateInterval * multiplyInterval,
+    )) {
       try {
         return await fronterCache.fetch(fronters.system);
       } catch (e) {

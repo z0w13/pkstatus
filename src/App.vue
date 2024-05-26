@@ -24,19 +24,13 @@ const $q = useQuasar();
 
 const loading = ref(true);
 const settingsStore = useSettingsStore();
-const { fronterCache, systemCache, pluralKit } = useServices();
+const { pluralKit } = useServices();
 
 const newVersion = ref<UpdateInfo | null>(null);
 const router = useRouter();
 const persister = useCachePersister();
 
-const {
-  dark,
-  systemUpdateInterval,
-  fronterUpdateInterval,
-  ignoreVersion,
-  token,
-} = storeToRefs(settingsStore);
+const { dark, ignoreVersion, token } = storeToRefs(settingsStore);
 
 function logStack(err: unknown): void {
   const stackErr = err as unknown as { stack?: string };
@@ -106,12 +100,7 @@ switch (window.location.hash.split('#').at(-1)) {
 watch(dark, (newVal) => $q.dark.set(newVal), {
   immediate: true,
 });
-watch(fronterUpdateInterval, (newVal) => fronterCache.setTtl(newVal), {
-  immediate: true,
-});
-watch(systemUpdateInterval, (newVal) => systemCache.setTtl(newVal), {
-  immediate: true,
-});
+
 watch(
   token,
   async (newVal) => {

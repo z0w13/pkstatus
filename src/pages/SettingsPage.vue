@@ -113,6 +113,12 @@
             </q-select>
           </q-item-section>
         </q-item>
+        <q-item>
+          <q-item-label caption>
+            These are minimums, PKStatus increases the interval dynamically if
+            it would exceed the PluralKit API limits with your settings
+          </q-item-label>
+        </q-item>
         <q-separator spaced />
         <id-section />
         <backup-section

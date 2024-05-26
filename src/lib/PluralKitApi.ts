@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import PKAPI, { APIData, APIError } from 'pkapi.js';
-import dayjs from 'dayjs';
 
 import PriorityQueue from 'src/lib/PriorityQueue';
+import RateLimiter from 'src/lib/RateLimiter';
 
 interface RequestPath {
   method: string;
@@ -28,6 +28,7 @@ export default class PluralKitApi extends PKAPI {
   private promiseMap: Map<string, HandleReturn>;
   private requestQueue: PriorityQueue<Request>;
   private running: boolean;
+  private limiter: RateLimiter;
 
   constructor(data?: APIData) {
     super(data);
@@ -35,6 +36,7 @@ export default class PluralKitApi extends PKAPI {
     this.promiseMap = new Map<string, HandleReturn>();
     this.requestQueue = new PriorityQueue<Request>();
     this.running = false;
+    this.limiter = new RateLimiter();
   }
 
   public async start(): Promise<void> {
@@ -54,11 +56,11 @@ export default class PluralKitApi extends PKAPI {
         const res = await super.handle(item.path, item.options);
 
         item.resolve(res);
-        await this.handleRatelimitHeaders(res);
+        await this.limiter.handleHeaders(res);
       } catch (e) {
         if (e instanceof APIError && e.status == '429') {
           this.requestQueue.push(item.priority, item);
-          await this.handleRatelimitHeaders(e);
+          await this.limiter.handleHeaders(e);
         } else {
           return item.reject(e);
         }
@@ -97,22 +99,5 @@ export default class PluralKitApi extends PKAPI {
       prom.finally(() => this.promiseMap.delete(key));
     }
     return prom;
-  }
-
-  private async handleRatelimitHeaders(
-    res: PKApiResponse | APIError,
-  ): Promise<void> {
-    // TODO: Extra backoff if hitting ratelimit multiple times
-
-    // const limit = res.headers['x-ratelimit-limit'];
-    const remaining = res.headers['x-ratelimit-remaining'];
-    const reset = res.headers['x-ratelimit-reset'];
-    const resetSeconds = Math.max(reset - dayjs().unix(), 1);
-
-    if (remaining < 1) {
-      const type = res instanceof APIError ? 'triggered' : 'hit';
-      console.info(`Rate limit ${type}, waiting for ${resetSeconds} seconds`);
-      await new Promise((resolve) => setTimeout(resolve, resetSeconds * 1_000));
-    }
   }
 }
