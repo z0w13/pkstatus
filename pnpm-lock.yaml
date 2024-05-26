@@ -111,6 +111,9 @@ importers:
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@8.57.0)
+      eslint-plugin-no-relative-import-paths:
+        specifier: ^1.5.4
+        version: 1.5.4
       eslint-plugin-vue:
         specifier: ^9.24.1
         version: 9.24.1(eslint@8.57.0)
@@ -2922,6 +2925,9 @@ packages:
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
+
+  eslint-plugin-no-relative-import-paths@1.5.4:
+    resolution: {integrity: sha512-2smViH7R3682NR6dwgYr8Vm7emqNP1gEjBku6DbvUy3Ef/2Fz+mhwsFjZGSixzWzazMCj4MAgIWTsHELCCDJKA==}
 
   eslint-plugin-vue@9.24.1:
     resolution: {integrity: sha512-wk3SuwmS1pZdcuJlokGYEi/buDOwD6KltvhIZyOnpJ/378dcQ4zchu9PAMbbLAaydCz1iYc5AozszcOOgZIIOg==}
@@ -9589,6 +9595,8 @@ snapshots:
   eslint-config-prettier@9.1.0(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
+
+  eslint-plugin-no-relative-import-paths@1.5.4: {}
 
   eslint-plugin-vue@9.24.1(eslint@8.57.0):
     dependencies:
