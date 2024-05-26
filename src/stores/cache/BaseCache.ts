@@ -22,8 +22,8 @@ export class CacheInfo {
     public createdAt: dayjs.Dayjs = dayjs(),
   ) {}
 
-  public expired(): boolean {
-    return dayjs().diff(this.createdAt, 'seconds') > this.ttl;
+  public expired(ttl?: number): boolean {
+    return dayjs().diff(this.createdAt, 'seconds') > (ttl ?? this.ttl);
   }
 
   public toStorage(): SerializedCacheInfo {
@@ -71,11 +71,11 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
     return object;
   }
 
-  public getExpired(): Array<T> {
-    return Object.values(this.objects).filter((obj) => this.expired(obj));
+  public getExpired(ttl?: number): Array<T> {
+    return Object.values(this.objects).filter((obj) => this.expired(obj, ttl));
   }
 
-  public expired(obj: string | T): boolean {
+  public expired(obj: string | T, ttl?: number): boolean {
     const id = typeof obj === 'string' ? obj : obj.id;
 
     const cacheInfo = this.cacheInfo[id];
@@ -83,7 +83,7 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
       return true;
     }
 
-    return cacheInfo.expired();
+    return cacheInfo.expired(ttl);
   }
 
   // Get cached object or fetch new one when missing or expired

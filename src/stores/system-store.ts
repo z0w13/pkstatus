@@ -18,9 +18,9 @@ export const useSystemStore = defineStore(STORE_NAME, {
     ids: (state) => Object.keys(state.systems),
   },
   actions: {
-    getExpired(): Array<System> {
+    getExpired(ttl?: number): Array<System> {
       const { systemCache } = useServices();
-      return systemCache.getExpired().filter((s) => this.systems[s.id]);
+      return systemCache.getExpired(ttl).filter((s) => this.systems[s.id]);
     },
     async get(id: string): Promise<System> {
       return await this.add(id);
