@@ -179,7 +179,6 @@ import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { debounce, useQuasar } from 'quasar';
 import { APIError } from 'pkapi.js';
-import { pk } from 'src/boot/pkapi';
 
 import { caseInsensitiveIncludes, getNameSort } from 'src/util';
 import { useSettingsStore } from 'src/stores/settings-store';
@@ -306,9 +305,8 @@ async function doSwitch() {
   }
 
   try {
-    await pk.createSwitch({
+    await pluralKit.createSwitch({
       members: selected.value,
-      token: token.value,
     });
     showSuccessMessage(selected.value);
   } catch (e) {

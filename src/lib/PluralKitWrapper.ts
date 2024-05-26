@@ -167,4 +167,12 @@ export default class PluralKitWrapper {
 
     return await this.getFronters(this.authInfo.system.id);
   }
+
+  public async createSwitch(...args: Parameters<PluralKitApi['createSwitch']>) {
+    if (!args[0].token) {
+      args[0].token = this.authInfo.token;
+    }
+
+    return await this.api.createSwitch(...args);
+  }
 }
