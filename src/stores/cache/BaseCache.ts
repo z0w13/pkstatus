@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { notEmpty } from 'src/util';
 import PluralKitApi from 'src/lib/PluralKitApi';
+import { EventBus } from 'quasar';
 
 interface HasId {
   id: string;
@@ -37,7 +38,9 @@ export class CacheInfo {
   }
 }
 
-export default abstract class BaseCache<T extends HasId> {
+export default abstract class BaseCache<T extends HasId> extends EventBus<{
+  change: (item: T) => void;
+}> {
   public objects: Record<string, T>;
   public cacheInfo: Record<string, CacheInfo>;
 
@@ -45,6 +48,8 @@ export default abstract class BaseCache<T extends HasId> {
     protected pk: PluralKitApi,
     public ttl: number = 300,
   ) {
+    super();
+
     this.objects = reactive(Object.create(null));
     this.cacheInfo = Object.create(null);
   }
@@ -62,6 +67,7 @@ export default abstract class BaseCache<T extends HasId> {
     this.objects[object.id] = object;
     this.cacheInfo[object.id] = new CacheInfo(this.ttl);
 
+    this.emit('change', object);
     return object;
   }
 
@@ -101,6 +107,8 @@ export default abstract class BaseCache<T extends HasId> {
   public setCached(info: CacheInfo, object: T) {
     this.cacheInfo[object.id] = info;
     this.objects[object.id] = object;
+
+    this.emit('change', object);
   }
 
   public getCached(id: string): T | undefined {

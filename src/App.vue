@@ -11,7 +11,7 @@ import { storeToRefs } from 'pinia';
 import { useSystemStore } from './stores/system-store';
 import { APIError } from 'pkapi.js';
 import { useServices } from 'src/lib/Services';
-import { CachePersister } from './lib/CachePersister';
+import useCachePersister from 'src/components/CachePersister';
 import {
   UpdateInfo,
   checkForUpdate,
@@ -26,10 +26,11 @@ const $q = useQuasar();
 const loading = ref(true);
 const settingsStore = useSettingsStore();
 const systemStore = useSystemStore();
-const { fronterCache, systemCache, memberCache, pluralKit } = useServices();
-const persister = new CachePersister(systemCache, memberCache, fronterCache);
+const { fronterCache, systemCache, pluralKit } = useServices();
+
 const newVersion = ref<UpdateInfo | null>(null);
 const router = useRouter();
+const persister = useCachePersister();
 
 const {
   dark,
