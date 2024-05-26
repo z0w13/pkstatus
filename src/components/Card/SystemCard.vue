@@ -87,7 +87,7 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import { System } from 'src/models/System';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { ref } from 'vue';
-import AvatarDialog from './AvatarDialog.vue';
+import AvatarDialog from 'src/components/Card/AvatarDialog.vue';
 
 const settings = useSettingsStore();
 const { detectPronouns, lookup, id: idOpts } = storeToRefs(settings);

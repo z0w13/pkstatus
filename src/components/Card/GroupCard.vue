@@ -90,7 +90,7 @@ import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
-import AvatarDialog from './AvatarDialog.vue';
+import AvatarDialog from 'src/components/Card/AvatarDialog.vue';
 
 import { Group } from 'src/models/Group';
 import { System } from 'src/models/System';

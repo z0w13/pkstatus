@@ -173,7 +173,9 @@
 import { ref, watch } from 'vue';
 import markdownit from 'markdown-it';
 
+// eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import { homepage } from '../../package.json';
+
 import { useSettingsStore } from 'src/stores/settings-store';
 import { storeToRefs } from 'pinia';
 import { useQuasar } from 'quasar';

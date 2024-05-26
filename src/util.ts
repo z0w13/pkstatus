@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+
+// eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import { version } from '../package.json';
 
 export function isDev(): boolean {

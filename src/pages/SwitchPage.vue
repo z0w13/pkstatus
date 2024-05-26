@@ -56,8 +56,8 @@
         <!-- Header -->
         <div
           v-else
-          class="col-auto q-px-lg q-pt-md bg-lighten"
           ref="searchForm"
+          class="col-auto q-px-lg q-pt-md bg-lighten"
         >
           <div class="row q-col-gutter-md q-mb-md" style="min-height: 64px">
             <template v-if="loading">

@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { useSettingsStore } from './stores/settings-store';
+import { useSettingsStore } from 'src/stores/settings-store';
 import { getCurrentInstance, onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { APIError } from 'pkapi.js';
@@ -15,10 +15,10 @@ import {
   UpdateInfo,
   checkForUpdate,
   shouldCheckForUpdates,
-} from './lib/check-update';
-import { useLogStore } from './stores/log-store';
+} from 'src/lib/check-update';
+import { useLogStore } from 'src/stores/log-store';
 import { useRouter } from 'vue-router';
-import { isDev } from './util';
+import { isDev } from 'src/util';
 
 const $q = useQuasar();
 

@@ -32,7 +32,7 @@ import { useServices } from 'src/lib/Services';
 
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import GroupCard from 'src/components/Card/GroupCard.vue';
-import MemberView from './System/View/MemberView.vue';
+import MemberView from 'src/pages/Lookup/System/View/MemberView.vue';
 
 const route = useRoute();
 

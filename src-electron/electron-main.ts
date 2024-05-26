@@ -2,6 +2,8 @@ import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'path';
 import os from 'os';
 import { fileURLToPath } from 'url';
+
+//eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import { homepage } from '../package.json';
 
 // needed in case process is undefined under Linux

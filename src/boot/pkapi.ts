@@ -1,4 +1,6 @@
+//eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import { version } from '../../package.json';
+
 import { boot } from 'quasar/wrappers';
 import PluralKitApi from 'src/lib/PluralKitApi';
 

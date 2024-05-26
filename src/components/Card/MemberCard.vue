@@ -98,7 +98,7 @@ import { storeToRefs } from 'pinia';
 
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
-import AvatarDialog from './AvatarDialog.vue';
+import AvatarDialog from 'src/components/Card/AvatarDialog.vue';
 
 import { Member } from 'src/models/Member';
 import { System } from 'src/models/System';

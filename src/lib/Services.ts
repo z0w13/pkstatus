@@ -4,7 +4,7 @@ import FronterCache from 'src/stores/cache/FronterCache';
 import GroupCache from 'src/stores/cache/GroupCache';
 import SystemMemberCache from 'src/stores/cache/SystemMemberCache';
 import PluralKitWrapper from 'src/lib/PluralKitWrapper';
-import PluralKitApi from './PluralKitApi';
+import PluralKitApi from 'src/lib/PluralKitApi';
 import SystemGroupCache from 'src/stores/cache/SystemGroupCache';
 import GroupMemberCache from 'src/stores/cache/GroupMemberCache';
 
