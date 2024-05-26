@@ -149,6 +149,7 @@ async function updateChecker() {
 let updateCheckerInterval: ReturnType<typeof setInterval> | null = null;
 onMounted(() => {
   persister.restore();
+  pluralKit.api.start();
 
   if (
     !updateCheckerInterval &&
