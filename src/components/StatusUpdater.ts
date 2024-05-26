@@ -6,6 +6,7 @@ import { useSystemStore } from 'src/stores/system-store';
 
 export default function useStatusUpdater() {
   let updateInterval: ReturnType<typeof setInterval> | null = null;
+  let lastUpdated: 'system' | 'fronters' = 'fronters';
 
   const $q = useQuasar();
   const { fronterCache, systemCache } = useServices();
@@ -61,39 +62,45 @@ export default function useStatusUpdater() {
       }
     }
 
-    for (const system of systemStore.getExpired(
-      settings.systemUpdateInterval * multiplyInterval,
-    )) {
-      try {
-        return await systemStore.update(system.id);
-      } catch (e) {
-        if (!(e instanceof APIError)) {
-          throw e;
-        }
+    if (lastUpdated == 'fronters') {
+      lastUpdated = 'system';
 
-        return $q.notify({
-          type: 'negative',
-          message: `Error updating '${system.name}'`,
-          caption: `${e.status}: ${e.message} (${e.code})`,
-        });
+      for (const system of systemStore.getExpired(
+        settings.systemUpdateInterval * multiplyInterval,
+      )) {
+        try {
+          return await systemStore.update(system.id);
+        } catch (e) {
+          if (!(e instanceof APIError)) {
+            throw e;
+          }
+
+          return $q.notify({
+            type: 'negative',
+            message: `Error updating '${system.name}'`,
+            caption: `${e.status}: ${e.message} (${e.code})`,
+          });
+        }
       }
-    }
+    } else {
+      lastUpdated = 'fronters';
 
-    for (const fronters of systemStore.getExpiredFronters(
-      settings.fronterUpdateInterval * multiplyInterval,
-    )) {
-      try {
-        return await fronterCache.fetch(fronters.system);
-      } catch (e) {
-        if (!(e instanceof APIError)) {
-          throw e;
+      for (const fronters of systemStore.getExpiredFronters(
+        settings.fronterUpdateInterval * multiplyInterval,
+      )) {
+        try {
+          return await fronterCache.fetch(fronters.system);
+        } catch (e) {
+          if (!(e instanceof APIError)) {
+            throw e;
+          }
+
+          return $q.notify({
+            type: 'negative',
+            message: `Error updating fronters for '${(await systemCache.get(fronters.system))?.name || fronters.system}'`,
+            caption: `${e.status}: ${e.message} (${e.code})`,
+          });
         }
-
-        return $q.notify({
-          type: 'negative',
-          message: `Error updating fronters for '${(await systemCache.get(fronters.system))?.name || fronters.system}'`,
-          caption: `${e.status}: ${e.message} (${e.code})`,
-        });
       }
     }
   }
