@@ -74,8 +74,7 @@ export default class PluralKitApi extends PKAPI {
     const key = this.queueKey(path.method, path.route);
     const priority = path.method.toLowerCase() == 'GET' ? 75 : 25;
 
-    // Only deduplicate get requests
-    if (path.method == 'GET' && this.promiseMap.has(key)) {
+    if (this.promiseMap.has(key)) {
       // Don't create new responses if we're already waiting for one
       console.debug('Returning existing request with key:', key);
       return this.promiseMap.get(key)!;
@@ -91,6 +90,7 @@ export default class PluralKitApi extends PKAPI {
       }),
     );
 
+    // Only deduplicate GET requests
     if (path.method == 'GET') {
       // Make sure to delete promise from cache when it resolves
       this.promiseMap.set(key, prom);
