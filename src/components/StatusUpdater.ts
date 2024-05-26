@@ -79,7 +79,7 @@ export default function useStatusUpdater() {
       }
     }
 
-    for (const fronters of fronterCache.getExpired(
+    for (const fronters of systemStore.getExpiredFronters(
       settings.fronterUpdateInterval * multiplyInterval,
     )) {
       try {

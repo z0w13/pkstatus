@@ -3,6 +3,7 @@ import { StateTree, defineStore } from 'pinia';
 import { LatestVersion, migrate } from 'src/models/migrations/system/index';
 import { System } from 'src/models/System';
 import { useServices } from 'src/lib/Services';
+import { Fronters } from 'src/models/Fronters';
 
 const STORE_NAME = 'systems';
 
@@ -21,6 +22,10 @@ export const useSystemStore = defineStore(STORE_NAME, {
     getExpired(ttl?: number): Array<System> {
       const { systemCache } = useServices();
       return systemCache.getExpired(ttl).filter((s) => this.systems[s.id]);
+    },
+    getExpiredFronters(ttl?: number): Array<Fronters> {
+      const { fronterCache } = useServices();
+      return fronterCache.getExpired(ttl).filter((f) => this.systems[f.system]);
     },
     async get(id: string): Promise<System> {
       return await this.add(id);
