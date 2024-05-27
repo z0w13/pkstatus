@@ -193,7 +193,7 @@ import { System } from 'src/models/System';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
-const { pluralKit, memberCache, groupCache } = useServices();
+const { pluralKit, memberCache, groupCache, fronterCache } = useServices();
 const { detectPronouns, token, switcher } = storeToRefs(settingsStore);
 
 const sortMethods: Record<
@@ -389,9 +389,13 @@ async function loadState() {
   loading.value = true;
 
   // Load members/fronters
-  await getSystem(); // Make sure we're logged in and handle invalid tokens
+  const system = await getSystem(); // Make sure we're logged in and handle invalid tokens
+  if (!system) {
+    return;
+  }
+
   members.value = await pluralKit.getOwnMembers();
-  const lastSwitch = await pluralKit.getOwnFronters();
+  const lastSwitch = await fronterCache.fetch(system.id, token.value!);
 
   // If there's no members we can't populate with previous data
   if (lastSwitch.members.length > 0) {
