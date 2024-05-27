@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.10.0](https://github.com/z0w13/pkstatus/compare/v0.9.3...v0.10.0) (2024-05-27)
+
+
+### Features
+* **api:** better handling of PluralKit rate limits which should resolve some bugs
+
+
+### Bug Fixes
+* **status:** fixed an issue causing fronters for untracked systems to be updated
+
+
+### Changes
+* **status:** only update systems/fronters when on the status page
+* **status:** update the most outdated system or fronters first
+
 ## [0.9.3](https://github.com/z0w13/pkstatus/compare/v0.9.2...v0.9.3) (2024-05-18)
 
 
