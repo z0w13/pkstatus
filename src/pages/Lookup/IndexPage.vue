@@ -3,7 +3,7 @@
     <div
       :class="{
         col: true,
-        'col-sm-6 col-md-4':
+        'col-sm-6 col-xs-12':
           lookup.memberLayout == 'list' ||
           !route.name?.toString().startsWith('lookup-system'),
         'col-md-8 col-lg-6':
