@@ -93,7 +93,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["src/models/migrations"],
+      files: ["src/models/migrations/**/*.ts"],
       rules: {
         'no-relative-import-paths/no-relative-import-paths': ['error', { "allowSameFolder": true }],
       },
