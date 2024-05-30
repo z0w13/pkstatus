@@ -25,8 +25,11 @@
     <q-drawer
       v-model="leftDrawerOpen"
       class="row column justify-between"
+      :breakpoint="drawerBreakpoint"
       show-if-above
       bordered
+      @before-hide="updateBreakpoint"
+      @before-show="updateBreakpoint"
     >
       <q-list class="col-auto">
         <q-item-label header>Pages</q-item-label>
@@ -178,7 +181,7 @@ import { homepage } from '../../package.json';
 
 import { useSettingsStore } from 'src/stores/settings-store';
 import { storeToRefs } from 'pinia';
-import { useQuasar } from 'quasar';
+import { scroll, useQuasar } from 'quasar';
 import { UpdateInfo } from 'src/lib/check-update';
 import { getVersion, isDev } from 'src/util';
 
@@ -199,6 +202,22 @@ watch(
     }
   },
 );
+
+// HACKFIX: There's an issue where hitting the breakpoint for showing the sidebar
+//          causes the page to have overflow, aka a scrollbar appears
+//          this then in turn causes the breakpoint for the sidebar showing to
+//          no longer  be met, thus hiding it again, rinse repeat.
+//
+//          If we detect a scrollbar on the before-show/before-hide events
+//          we increase the breakpoint to the default + scrollbar width to
+//          break this loop, also resetting it to the default if no scrollbar
+//          is visible to at least function as close to correctly as possible.
+const drawerBreakpoint = ref(1023);
+function updateBreakpoint() {
+  const hasScrollbar = window.innerHeight < document.body.clientHeight;
+  drawerBreakpoint.value =
+    1023 + (hasScrollbar ? scroll.getScrollbarWidth() + 1 : 0);
+}
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
