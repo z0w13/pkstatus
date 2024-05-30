@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.1](https://github.com/z0w13/pkstatus/compare/v0.10.0...v0.10.1) (2024-05-30)
+
+
+### Bug Fixes
+
+* **ui:** sidebar no longer rapidly hides/shows in specific situations
+
 ## [0.10.0](https://github.com/z0w13/pkstatus/compare/v0.9.3...v0.10.0) (2024-05-27)
 
 
