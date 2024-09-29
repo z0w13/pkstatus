@@ -56,7 +56,7 @@ export default function useStatusUpdater() {
 
         return $q.notify({
           type: 'negative',
-          message: `Error updating fronters for '${(await systemCache.get(system))?.name || system}'`,
+          message: `Error updating fronters for '${systemCache.getCached(system)?.name || system}'`,
           caption: `${e.status}: ${e.message} (${e.code})`,
         });
       }
@@ -97,7 +97,7 @@ export default function useStatusUpdater() {
 
           return $q.notify({
             type: 'negative',
-            message: `Error updating fronters for '${(await systemCache.get(fronters.system))?.name || fronters.system}'`,
+            message: `Error updating fronters for '${systemCache.getCached(fronters.system)?.name || fronters.system}'`,
             caption: `${e.status}: ${e.message} (${e.code})`,
           });
         }
