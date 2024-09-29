@@ -74,7 +74,7 @@ export default class PluralKitApi extends PKAPI {
 
   handle(path: RequestPath, options?: RequestOptions): HandleReturn {
     const key = this.queueKey(path.method, path.route);
-    const priority = path.method.toLowerCase() == 'GET' ? 75 : 25;
+    const priority = path.method.toUpperCase() == 'GET' ? 75 : 25;
 
     if (this.promiseMap.has(key)) {
       // Don't create new responses if we're already waiting for one
