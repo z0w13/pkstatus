@@ -90,14 +90,19 @@ export default class PluralKitApi extends PKAPI {
         resolve,
         reject,
       }),
-    );
+    ).finally(() => {
+      if (path.method == 'GET') {
+        console.debug('deleting promise key', { key });
+        this.promiseMap.delete(key);
+      }
+    });
 
     // Only deduplicate GET requests
     if (path.method == 'GET') {
-      // Make sure to delete promise from cache when it resolves
+      console.debug('setting promise key', { key });
       this.promiseMap.set(key, prom);
-      prom.finally(() => this.promiseMap.delete(key));
     }
+
     return prom;
   }
 }
