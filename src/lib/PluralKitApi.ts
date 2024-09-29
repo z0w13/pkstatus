@@ -62,7 +62,7 @@ export default class PluralKitApi extends PKAPI {
           this.requestQueue.push(item.priority, item);
           await this.limiter.handleHeaders(e);
         } else {
-          return item.reject(e);
+          item.reject(e);
         }
       }
     }
