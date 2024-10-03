@@ -7,6 +7,7 @@ import {
 } from 'vue-router';
 
 import routes from 'src/router/routes';
+import { normaliseId } from 'src/util';
 
 /*
  * If not building with SSR mode, you can
@@ -32,6 +33,29 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
+  });
+
+  // Normalise system IDs
+  Router.beforeEach((to) => {
+    if (!to.params.id) {
+      return;
+    }
+
+    if (Array.isArray(to.params.id)) {
+      console.error("params.id is an array somehow, this shouldn't happen wtf");
+      return false;
+    }
+
+    const normalisedId = normaliseId(to.params.id);
+    if (to.params.id !== normalisedId) {
+      return {
+        ...to,
+        params: {
+          ...to.params,
+          id: normalisedId,
+        },
+      };
+    }
   });
 
   return Router;

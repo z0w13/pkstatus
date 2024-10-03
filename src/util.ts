@@ -94,6 +94,10 @@ export function formatId(id: string, { sep, caps }: FormatIdOpts = {}): string {
   );
 }
 
+export function normaliseId(id: string): string {
+  return id.trim().replaceAll('-', '').toLowerCase();
+}
+
 export function is404(e: unknown): e is APIError {
   return e instanceof APIError && e.status == '404';
 }
