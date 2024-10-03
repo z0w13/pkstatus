@@ -31,7 +31,7 @@
             <div class="col">
               <q-input
                 ref="searchInput"
-                v-model="searchValue"
+                v-model.trim="searchValue"
                 filled
                 :autofocus="route.name == 'lookup'"
                 :label="`Enter ${searchType} ID`"
