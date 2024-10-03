@@ -31,7 +31,7 @@
         </template>
         <template #body-cell-id="props">
           <q-td :props="props">
-            {{ props.row.formatId(idOpts) }}
+            {{ formatId(props.row.id, idOpts) }}
           </q-td>
         </template>
         <template #body-cell-name="props">
@@ -69,7 +69,7 @@
             <q-item-section>
               <q-item-label>{{ props.row.name }}</q-item-label>
               <q-item-label caption>{{
-                props.row.formatId(idOpts)
+                formatId(props.row.id, idOpts)
               }}</q-item-label>
             </q-item-section>
             <q-item-section side>
