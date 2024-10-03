@@ -80,7 +80,9 @@ export default class PluralKitWrapper {
   }
 
   public async getSystem(id: string): Promise<System> {
-    return await this.systemCache.get(id);
+    return this.isOwnSystem(id)
+      ? await this.systemCache.get(id, this.authInfo.token)
+      : this.systemCache.get(id);
   }
 
   public async getOwnSystem(): Promise<System | null> {
@@ -97,7 +99,7 @@ export default class PluralKitWrapper {
       return this.systemCache.fetchToken(this.authInfo.token);
     }
 
-    return this.systemCache.get(system.id);
+    return this.systemCache.get(system.id, this.authInfo.token);
   }
 
   public async getMember(id: string): Promise<Member> {
@@ -108,7 +110,7 @@ export default class PluralKitWrapper {
     const memberIds = (
       await this.systemMemberCache.get(system, this.authInfo.token)
     ).members;
-    return await this.memberCache.getMulti(memberIds);
+    return await this.memberCache.getMulti(memberIds, this.authInfo.token);
   }
 
   public async getOwnMembers(): Promise<Array<Member>> {
@@ -137,7 +139,7 @@ export default class PluralKitWrapper {
     const groupIds = (
       await this.systemGroupCache.get(system, this.authInfo.token)
     ).groups;
-    return await this.groupCache.getMulti(groupIds);
+    return await this.groupCache.getMulti(groupIds, this.authInfo.token);
   }
 
   public async getOwnGroups(): Promise<Array<Group>> {
