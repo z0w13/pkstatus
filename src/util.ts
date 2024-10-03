@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 
 // eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import { version } from '../package.json';
+import { APIError } from 'pkapi.js';
 
 export function isDev(): boolean {
   return (process.env.DEV as unknown as boolean) || version.includes('-dev');
@@ -91,4 +92,8 @@ export function formatId(id: string, { sep, caps }: FormatIdOpts = {}): string {
   throw new Error(
     `PluralKit ID is either 5 or 6 characters long, ${id} is ${id.length} characters long`,
   );
+}
+
+export function is404(e: unknown): e is APIError {
+  return e instanceof APIError && e.status == '404';
 }

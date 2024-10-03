@@ -31,6 +31,9 @@ export const useSystemStore = defineStore(STORE_NAME, {
         .getExpired(ttl, true)
         .filter((f) => this.systems[f.system]);
     },
+    has(id: string): boolean {
+      return this.ids.includes(id);
+    },
     async get(id: string): Promise<System> {
       return await this.add(id);
     },

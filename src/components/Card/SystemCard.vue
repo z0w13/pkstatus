@@ -18,7 +18,6 @@
     </q-card-section>
     <img v-if="system.bannerUrl" :src="system.bannerUrl" />
     <q-card-actions
-      v-if="popup"
       class="bg-primary text-white"
       :style="
         lookup.colorAccent
@@ -27,9 +26,26 @@
       "
     >
       <q-btn
+        v-if="popup"
         color="dark"
-        label="View Full System"
+        label="View"
         :to="`/lookup/system/${system.id}`"
+      />
+
+      <!-- Follow/Unfollow Buttons -->
+      <q-btn
+        v-if="!systemStore.has(system.id)"
+        color="dark"
+        icon="group_add"
+        label="Follow"
+        @click="followSystem(system.id)"
+      />
+      <q-btn
+        v-else
+        color="dark"
+        icon="group_remove"
+        label="Unfollow"
+        @click="unfollowSystem(system.id)"
       />
     </q-card-actions>
     <q-card-section v-if="details" class="q-pt-none">
@@ -86,10 +102,16 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 
 import { System } from 'src/models/System';
 import { useSettingsStore } from 'src/stores/settings-store';
+import { useSystemStore } from 'src/stores/system-store';
 import { ref } from 'vue';
 import AvatarDialog from 'src/components/Card/AvatarDialog.vue';
+import { is404 } from 'src/util';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const settings = useSettingsStore();
+const systemStore = useSystemStore();
+
 const { detectPronouns, lookup, id: idOpts } = storeToRefs(settings);
 const showAvatar = ref(false);
 
@@ -100,6 +122,26 @@ withDefaults(
     popup: false,
   },
 );
+
+async function followSystem(id: string) {
+  try {
+    await systemStore.add(id);
+  } catch (e) {
+    if (is404(e)) {
+      return $q.notify({
+        type: 'negative',
+        message: `Error adding system ${id}`,
+        caption: `${e.status}: ${e.message} (${e.code})`,
+      });
+    }
+
+    throw e;
+  }
+}
+
+function unfollowSystem(id: string) {
+  systemStore.delete(id);
+}
 </script>
 
 <style scoped lang="css">

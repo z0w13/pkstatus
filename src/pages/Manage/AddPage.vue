@@ -52,7 +52,6 @@
 import { useRouter } from 'vue-router';
 import { debounce, useQuasar } from 'quasar';
 import { ref, watch } from 'vue';
-import { APIError } from 'pkapi.js';
 
 import { useSystemStore } from 'src/stores/system-store';
 import { useServices } from 'src/lib/Services';
@@ -61,6 +60,7 @@ import { System } from 'src/models/System';
 import { matGroups } from '@quasar/extras/material-icons';
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
 import PageTitle from 'src/components/PageTitle.vue';
+import { is404 } from 'src/util';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -71,10 +71,6 @@ const newId = ref('');
 const newSys = ref<System | null>(null);
 const errorMessage = ref('');
 const isLoading = ref(false);
-
-function is404(e: unknown): boolean {
-  return e instanceof APIError && e.status == '404';
-}
 
 const onChange = debounce(async function (id: string) {
   try {
