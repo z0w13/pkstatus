@@ -92,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { QTableProps, useQuasar } from 'quasar';
 
@@ -102,12 +102,13 @@ import { useServices } from 'src/lib/Services';
 
 import PageTitle from 'src/components/PageTitle.vue';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
+import { formatId, is404 } from 'src/util';
 
 const $q = useQuasar();
 const systemStore = useSystemStore();
 const settings = useSettingsStore();
 const { id: idOpts } = storeToRefs(settings);
-const { systemCache } = useServices();
+const { systemCache, pluralKit } = useServices();
 
 const columns: QTableProps['columns'] = [
   { name: 'avatar', field: 'avatarUrl', label: 'Icon', align: 'left' },
@@ -131,4 +132,21 @@ function deleteSystem(id: string) {
   systemStore.delete(id);
   $q.notify('System Deleted');
 }
+
+// Make sure systems get fetched and cached
+onMounted(() => {
+  systemStore.ids.forEach(async (id) => {
+    try {
+      await pluralKit.getSystem(id);
+    } catch (e) {
+      if (is404(e)) {
+        $q.notify({
+          type: 'negative',
+          message: `Error fetching ${systemCache.getCached(id)?.name || formatId(id, idOpts.value)}`,
+          caption: `${e.status}: ${e.message} (${e.code})`,
+        });
+      }
+    }
+  });
+});
 </script>
