@@ -386,6 +386,11 @@ const repositionSwitcher = debounce(() => {
 }, 100);
 
 async function loadState() {
+  if (!token.value) {
+    // don't try loading anything without a token
+    return;
+  }
+
   loading.value = true;
 
   // Load members/fronters
