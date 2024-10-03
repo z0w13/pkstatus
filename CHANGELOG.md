@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.12.0](https://github.com/z0w13/pkstatus/compare/v0.11.0...v0.12.0) (2024-10-03)
+
+
+### Features
+
+* **card/system:** add follow/unfollow buttons
+
+
+### Bug Fixes
+
+* **api:** fixed sometimes not passing api token
+* **manage:** don't error out when a system no longer exists and isn't in cache
+* **manage:** actually load systems into cache when opening page
+* **switcher:** don't try to load system when no token is set
+
 ## [0.11.0](https://github.com/z0w13/pkstatus/compare/v0.10.1...v0.11.0) (2024-09-29)
 
 
