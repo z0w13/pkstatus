@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.1](https://github.com/z0w13/pkstatus/compare/v0.12.0...v0.12.1) (2024-10-03)
+
+
+### Bug Fixes
+
+* **lookup:** trim whitespace from searches
+* **lookup:** normalise system/group/member IDs in URLs
+
 ## [0.12.0](https://github.com/z0w13/pkstatus/compare/v0.11.0...v0.12.0) (2024-10-03)
 
 
