@@ -53,6 +53,16 @@
             <q-item-label caption>Register a switch</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable to="/switches">
+          <q-item-section avatar>
+            <q-icon name="history" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Switch History</q-item-label>
+            <q-item-label caption>Your switch history</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item clickable to="/lookup">
           <q-item-section avatar>
             <q-icon name="search" />

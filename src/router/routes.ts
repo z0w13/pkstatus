@@ -82,6 +82,10 @@ const routes: RouteRecordRaw[] = [
         ],
       },
       {
+        path: '/switches',
+        component: () => import('pages/Switch/IndexPage.vue'),
+      },
+      {
         path: '/manage',
         children: [
           {

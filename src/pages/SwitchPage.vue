@@ -39,20 +39,7 @@
         <!-- Title -->
         <page-title icon="swap_horiz" text="Register Switch" class="col-auto" />
 
-        <q-banner v-if="!token" class="text-white bg-red col-auto">
-          <template #avatar>
-            <q-icon name="warning" color="white" />
-          </template>
-          You need to set your PluralKit token to use this feature
-          <template #action>
-            <q-btn
-              to="/settings"
-              flat
-              class="bg-red text-white"
-              label="Go To Settings"
-            />
-          </template>
-        </q-banner>
+        <token-required-banner v-if="!token" />
         <!-- Header -->
         <div
           v-else
@@ -190,6 +177,7 @@ import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import GroupSelect from 'src/components/GroupSelect.vue';
 import { System } from 'src/models/System';
+import TokenRequiredBanner from 'src/components/TokenRequiredBanner.vue';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();

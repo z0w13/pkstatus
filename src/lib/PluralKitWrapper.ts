@@ -10,6 +10,8 @@ import GroupCache from 'src/stores/cache/GroupCache';
 import { Group } from 'src/models/Group';
 import SystemGroupCache from 'src/stores/cache/SystemGroupCache';
 import GroupMemberCache from 'src/stores/cache/GroupMemberCache';
+import SystemSwitchCache from 'src/stores/cache/SystemSwitchCache';
+import { Switch } from 'src/models/Switch';
 
 enum AuthState {
   NoToken = 'NO_TOKEN',
@@ -46,6 +48,7 @@ export default class PluralKitWrapper {
     public readonly groupCache: GroupCache,
     public readonly groupMemberCache: GroupMemberCache,
     public readonly systemGroupCache: SystemGroupCache,
+    public readonly systemSwitchCache: SystemSwitchCache,
     public readonly fronterCache: FronterCache,
   ) {}
 
@@ -168,6 +171,31 @@ export default class PluralKitWrapper {
     }
 
     return await this.getFronters(this.authInfo.system.id);
+  }
+
+  public async getSwitches(system: string): Promise<Array<Switch>> {
+    return (await this.systemSwitchCache.get(system, this.authInfo.token))
+      .switches;
+  }
+
+  public async getOwnSwitches(): Promise<Array<Switch>> {
+    if (this.authInfo.state === AuthState.Loading) {
+      await this.authInfo.promise;
+    }
+
+    if (this.authInfo.state !== AuthState.LoggedIn) {
+      throw new Error("Can't get own switches when not logged in");
+    }
+
+    return await this.getSwitches(this.authInfo.system.id);
+  }
+
+  public async deleteSwitch(...args: Parameters<PluralKitApi['deleteSwitch']>) {
+    if (!args[0].token) {
+      args[0].token = this.authInfo.token;
+    }
+
+    return await this.api.deleteSwitch(...args);
   }
 
   public async createSwitch(...args: Parameters<PluralKitApi['createSwitch']>) {
