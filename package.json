@@ -1,6 +1,6 @@
 {
   "name": "pkstatus",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "description": "Display PluralKit systems and their current status",
   "productName": "PKStatus",
   "homepage": "https://github.com/z0w13/pkstatus",

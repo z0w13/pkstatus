@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.2](https://github.com/z0w13/pkstatus/compare/v0.12.1...v0.12.2) (2024-11-04)
+
+
+### Tweaks
+
+* **switcher:** tweaked layout to show more members on larger window/screen sizes
+
 ## [0.12.1](https://github.com/z0w13/pkstatus/compare/v0.12.0...v0.12.1) (2024-10-03)
 
 
