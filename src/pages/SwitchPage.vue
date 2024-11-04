@@ -11,7 +11,7 @@
           <div
             v-for="member of filteredMembers"
             :key="member.id"
-            class="col-xl-2 col-md-3 col-4"
+            class="col-xl-2 col-sm-3 col-4"
           >
             <labeled-tile
               style="
