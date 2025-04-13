@@ -16,6 +16,7 @@ node_modules
 # Capacitor related directories and files
 /src-capacitor/www
 /src-capacitor/node_modules
+/.android
 
 # BEX related directories and files
 /src-bex/www
@@ -35,3 +36,8 @@ yarn-error.log*
 
 # local .env files
 .env.local*
+
+# devenv/nix
+/.devenv
+/.direnv
+/local.properties
