@@ -80,8 +80,9 @@
 
             android = {
               enable = true;
-              buildTools.version = [ "30.0.3" ];
-              platforms.version = [ "33" ];
+              buildTools.version = [ "34.0.0" ];
+              platforms.version = [ "34" ];
+              emulator.enable = false;
               googleAPIs.enable = false;
               googleTVAddOns.enable = false;
               ndk.enable = false;
