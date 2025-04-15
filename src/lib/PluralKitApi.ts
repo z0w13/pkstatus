@@ -72,7 +72,7 @@ export default class PluralKitApi extends PKAPI {
     return token ? `${method} | ${route} | ${token}` : `${method} | ${route}`;
   }
 
-  handle(path: RequestPath, options?: RequestOptions): HandleReturn {
+  override handle(path: RequestPath, options?: RequestOptions): HandleReturn {
     const key = this.queueKey(path.method, path.route);
     const priority = path.method.toUpperCase() == 'GET' ? 75 : 25;
 
