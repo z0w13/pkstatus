@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ProxyTag as ApiProxyTag } from 'pkapi.js/dist/esm/structures/member';
+import { ProxyTag as ApiProxyTag } from 'pkapi.js';
 
 export const IProxyTag = z.object({
   prefix: z.string().nullable(),
