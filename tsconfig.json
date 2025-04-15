@@ -1,10 +1,8 @@
 {
-  "extends": "@quasar/app-vite/tsconfig-preset",
-  "exclude": [
-    "contrib/release.ts"
-  ],
+  "extends": "./.quasar/tsconfig.json",
+  "exclude": ["contrib/release.ts"],
   "compilerOptions": {
-    "baseUrl": ".",
-    "skipLibCheck": true
+    "exactOptionalPropertyTypes": false,
+    "noUncheckedIndexedAccess": false
   }
 }

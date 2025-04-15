@@ -82,8 +82,10 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
 
     return objects.sort(
       (a, b) =>
-        this.cacheInfo[a.id].createdAt.valueOf() -
-        this.cacheInfo[b.id].createdAt.valueOf(),
+        // NOTE: we can safely use ! because `objects` and `cacheInfo` are always set together
+        //       @see BaseCache#set
+        this.cacheInfo[a.id]!.createdAt.valueOf() -
+        this.cacheInfo[b.id]!.createdAt.valueOf(),
     );
   }
 
@@ -154,7 +156,9 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
     return Object.values(this.objects)
       .filter(filterFunc)
       .map((obj) => ({
-        info: this.cacheInfo[obj.id],
+        // NOTE: we can safely use ! because `objects` and `cacheInfo` are always set together
+        //       @see BaseCache#set
+        info: this.cacheInfo[obj.id]!,
         obj: obj,
       }));
   }

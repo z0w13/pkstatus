@@ -17,7 +17,7 @@ class TestCache extends BaseCache<TestCacheObject> {
 
   public async setWithCustomCacheInfo(id: string, createdAt: dayjs.Dayjs) {
     await this.fetch(id);
-    this.cacheInfo[id].createdAt = createdAt;
+    this.cacheInfo[id]!.createdAt = createdAt;
   }
 }
 
