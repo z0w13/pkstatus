@@ -60,7 +60,6 @@
     "conventional-changelog-cli": "^4.1.0",
     "electron": "^29.2.0",
     "electron-builder": "^24.3.0",
-    "electron-packager": "npm:@electron/packager@^18.3.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-no-relative-import-paths": "^1.5.4",
