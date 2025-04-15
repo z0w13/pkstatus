@@ -43,7 +43,7 @@
         sortable: true,
       },
     ]"
-    @row-click="(_, member) => emit('memberClick', member)"
+    @row-click="(_evt: Event, member: Member) => emit('memberClick', member)"
   >
     <template #body-cell-avatar="props">
       <q-td
