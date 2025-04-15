@@ -1,7 +1,7 @@
 import { Command, Option } from '@commander-js/extra-typings';
 import fs from 'node:fs';
 import semver from 'semver';
-import { spawn as baseSpawn, spawnSync } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import process from 'node:process';
 import path from 'node:path';
 import tmp, { withFile } from 'tmp-promise';
@@ -25,28 +25,98 @@ async function withDir<T>(dir: string, inner: () => T) {
   return retVal;
 }
 
-async function spawn(
-  ...args: Parameters<typeof baseSpawn>
-): Promise<number | null> {
-  return new Promise((resolve, reject) => {
-    const proc = baseSpawn(...args);
-    proc.on('close', (code) => resolve(code));
-    proc.on('error', (err) => reject(err));
-  });
-}
-async function run(
-  args: Array<string>,
-  output = false,
-): Promise<number | null> {
-  return await spawn(args[0], args.slice(1), {
-    stdio: output ? 'inherit' : 'ignore',
-  });
+class NonZeroExitError extends Error {
+  constructor(
+    public code: number,
+    public command: ReadonlyArray<string>,
+    public output: string,
+  ) {
+    super(`non-zero exit code: ${code}`);
+  }
+
+  /**
+   * print the error and command output to stdout, and then exit propagating the exit code
+   */
+  public printAndPropagate() {
+    console.error('=====================================================');
+    console.error(`Error: ${this.message}`);
+    console.log(`Command: ${this.command.join(' ')}`);
+    console.error('=====================================================');
+    console.log(this.output);
+    console.error('=====================================================');
+    console.error(`Error: ${this.message}`);
+    console.log(`Command: ${this.command.join(' ')}`);
+    console.error('=====================================================');
+
+    process.exit(this.code);
+  }
 }
 
-async function getOutput(args: Array<string>): Promise<string> {
-  return new Promise((resolve) => {
-    const proc = spawnSync(args[0], args.slice(1));
-    resolve(proc.stdout.toString().trim());
+interface RunOptions {
+  /**
+   * raise error if we receive a non-zero exit
+   */
+  check?: boolean;
+  /**
+   * if the child process exit with a non-zero exit status and check == true, do we exit with that same status?
+   * @see NonZeroExitError::printAndPropagate
+   */
+  propagateCheck?: boolean;
+}
+
+/**
+ * convenience wrapper around spawn with non-zero exit handling
+ */
+async function run(
+  command: string,
+  args: Array<string> = [],
+  options: Parameters<typeof spawn>[2] & RunOptions = {
+    check: true,
+    propagateCheck: true,
+  },
+): Promise<{ code: number | null; output: string }> {
+  if (args.length == 0) {
+    throw new Error('run `args` is empty, needs at least 1 argument');
+  }
+
+  return new Promise((resolve, reject) => {
+    const output: Array<string> = [];
+    const proc = spawn(command, args, {
+      ...options,
+      env: {
+        ...process.env,
+        ...options.env,
+        FORCE_COLOR: '1', // force colors on quasar output
+      },
+    });
+
+    if (proc.stdout) {
+      proc.stdout.on('data', (data) => output.push(data));
+    }
+    if (proc.stderr) {
+      proc.stderr.on('data', (data) => output.push(data));
+    }
+
+    proc.on('exit', (code, _signal) => {
+      // reject on a non-zero exit code
+      if (options.check == true && code != null && code > 0) {
+        const error = new NonZeroExitError(
+          code,
+          [command, ...args],
+          output.join(''),
+        );
+        if (options?.propagateCheck == true) {
+          error.printAndPropagate();
+        } else {
+          reject(
+            new NonZeroExitError(code, [command, ...args], output.join('\n')),
+          );
+        }
+      } else {
+        resolve({ code, output: output.join('') });
+      }
+    });
+    proc.on('error', (err) => reject(err));
   });
 }
 
@@ -92,12 +162,11 @@ function devFlag(version: string): Array<string> {
 
 async function pushGithubPages(version: string) {
   console.info('Building GitHub pages build...');
-  await spawn(
+  await run(
     'pnpm',
     ['exec', 'quasar', 'build', '--mode', 'pwa', ...devFlag(version)],
     {
       env: {
-        ...process.env,
         PKSTATUS_SPA_PREFIX: isDev(version) ? '/pkstatus-dev' : '/pkstatus',
       },
       stdio: 'inherit',
@@ -105,20 +174,30 @@ async function pushGithubPages(version: string) {
   );
   console.info('Pushing to GitHub pages...');
   await withDir(path.join(ROOT_DIR, 'dist/pwa'), async () => {
-    await run(['git', 'init', '--initial-branch', 'gh-pages'], true);
-    await run(['git', 'remote', 'add', 'prod-pages', GIT_PROD_URL], true);
-    await run(['git', 'remote', 'add', 'dev-pages', GIT_DEV_URL], true);
-    await run(['git', 'add', '.'], true);
-    await run(['git', 'commit', '-m', `Generated v${version}`], true);
+    await run('git', ['init', '--initial-branch', 'gh-pages'], {
+      stdio: 'inherit',
+    });
+    await run('git', ['remote', 'add', 'prod-pages', GIT_PROD_URL], {
+      stdio: 'inherit',
+    });
+    await run('git', ['remote', 'add', 'dev-pages', GIT_DEV_URL], {
+      stdio: 'inherit',
+    });
+    await run('git', ['add', '.'], {
+      stdio: 'inherit',
+    });
+    await run('git', ['commit', '-m', `Generated v${version}`], {
+      stdio: 'inherit',
+    });
     await run(
+      'git',
       [
-        'git',
         'push',
         isDev(version) ? 'dev-pages' : 'prod-pages',
         'gh-pages',
         '--force',
       ],
-      true,
+      { stdio: 'inherit' },
     );
   });
 }
@@ -128,8 +207,7 @@ async function buildSpa() {
   const outDir = createOrGetOutDir(version);
 
   console.info('Building SPA...');
-  await run([
-    'pnpm',
+  await run('pnpm', [
     'exec',
     'quasar',
     'build',
@@ -138,8 +216,7 @@ async function buildSpa() {
     ...devFlag(version),
   ]);
   // 1a. Create SPA with subdir
-  await run([
-    'tar',
+  await run('tar', [
     '--verbose',
     '--create',
     '--gzip',
@@ -149,8 +226,7 @@ async function buildSpa() {
     'spa',
   ]);
   // 1b. Create SPA without subdir
-  await run([
-    'tar',
+  await run('tar', [
     '--create',
     '--gzip',
     `--file=${outDir}/spa-pkstatus-v${version}-nosubdir.tar.gz`,
@@ -164,8 +240,7 @@ async function buildElectronWin() {
   const outDir = createOrGetOutDir(version);
 
   console.info('Building Electron (Win)...');
-  await run([
-    'pnpm',
+  await run('pnpm', [
     'exec',
     'quasar',
     'build',
@@ -186,8 +261,7 @@ async function buildElectronNix() {
   const outDir = createOrGetOutDir(version);
 
   console.info('Building Electron (Linux)...');
-  await run([
-    'pnpm',
+  await run('pnpm', [
     'exec',
     'quasar',
     'build',
@@ -212,8 +286,7 @@ async function buildAndroidPackage(keystore: string) {
   const outDir = createOrGetOutDir(version);
 
   console.info('Building Capacitor (Android)...');
-  await run([
-    'pnpm',
+  await run('pnpm', [
     'exec',
     'quasar',
     'build',
@@ -232,15 +305,16 @@ async function buildAndroidPackage(keystore: string) {
       ? '/debug/app-debug.apk'
       : 'release/app-release-unsigned.apk');
   await run(
-    ['zipalign', '-vp', '4', apkPath, apkPath.replace('.apk', '-aligned.apk')],
-    true,
+    'zipalign',
+    ['-vp', '4', apkPath, apkPath.replace('.apk', '-aligned.apk')],
+    { stdio: 'inherit' },
   );
 
   // 4b. sign
   console.info('Signing APK...');
   await run(
+    'apksigner',
     [
-      'apksigner',
       'sign',
       '--ks',
       keystore,
@@ -249,7 +323,7 @@ async function buildAndroidPackage(keystore: string) {
       '--out',
       `${outDir}/android-pkstatus-v${version}.apk`,
     ],
-    true,
+    { stdio: 'inherit' },
   );
   // 4c. cleanup
   fs.unlinkSync(`${outDir}/android-pkstatus-v${version}.apk.idsig`);
@@ -288,12 +362,14 @@ program
     }
 
     if (dev) {
-      newVersion += `-dev${await getOutput([
-        'git',
-        'rev-list',
-        '--count',
-        'HEAD',
-      ])}+sha.${await getOutput(['git', 'rev-parse', '--short', 'HEAD'])}`;
+      const commitCount = (
+        await run('git', ['rev-list', '--count', 'HEAD'])
+      ).output.trim();
+      const shortHash = (
+        await run('git', ['rev-parse', '--short', 'HEAD'])
+      ).output.trim();
+
+      newVersion += `-dev${commitCount}+sha.${shortHash}`;
     }
 
     console.info(`Bumping version from ${currVersion} to ${newVersion}`);
@@ -341,9 +417,9 @@ program
   .action(async () => {
     const version = getVersion();
 
-    await run(['git', 'add', 'CHANGELOG.md', ...BUMP_VERSION]);
-    await run(['git', 'commit', '-m', `chore(release): release v${version}`]);
-    await run(['git', 'tag', '-am', `release v${version}`, `v${version}`]);
+    await run('git', ['add', 'CHANGELOG.md', ...BUMP_VERSION]);
+    await run('git', ['commit', '-m', `chore(release): release v${version}`]);
+    await run('git', ['tag', '-am', `release v${version}`, `v${version}`]);
   });
 
 program
@@ -393,8 +469,7 @@ program
     console.info(
       `Pushing ${isDev(version) ? 'dev' : 'main'} branch and tags...`,
     );
-    await run([
-      'git',
+    await run('git', [
       'push',
       'origin',
       isDev(version) ? 'dev' : 'main',
@@ -405,8 +480,7 @@ program
     console.info(`Creating release v${version}...`);
     await withFile(async ({ path }) => {
       fs.writeFileSync(path, getLatestChangelog());
-      await run([
-        'gh',
+      await run('gh', [
         'release',
         'create',
         `v${version}`,
@@ -420,8 +494,9 @@ program
     for (const file of fs.readdirSync(outDir)) {
       console.info(` * Uploading ${file}...`);
       await run(
-        ['gh', 'release', 'upload', `v${version}`, path.join(outDir, file)],
-        true,
+        'gh',
+        ['release', 'upload', `v${version}`, path.join(outDir, file)],
+        { stdio: 'inherit' },
       );
     }
 
@@ -431,15 +506,15 @@ program
     // 5. Publish the release draft
     console.info(`Publishing release v${version}...`);
     await run(
+      'gh',
       [
-        'gh',
         'release',
         'edit',
         `v${version}`,
         '--draft=false',
         isDev(version) ? '--prerelease' : '--latest',
       ],
-      true,
+      { stdio: 'inherit' },
     );
   });
 
@@ -489,7 +564,7 @@ async function check(): Promise<boolean> {
   pass =
     pass &&
     checkItem(
-      (await run(['which', 'gh'])) !== 1,
+      (await run('which', ['gh'], { check: false })).code !== 1,
       "'gh' binary",
       'installed',
       "missing, can't create releases",
@@ -498,7 +573,7 @@ async function check(): Promise<boolean> {
   pass =
     pass &&
     checkItem(
-      (await run(['which', 'tar'])) !== 1,
+      (await run('which', ['tar'], { check: false })).code !== 1,
       "'tar' binary",
       'installed',
       "missing, can't package releases",
@@ -507,7 +582,7 @@ async function check(): Promise<boolean> {
   pass =
     pass &&
     checkItem(
-      (await run(['which', 'zipalign'])) !== 1,
+      (await run('which', ['zipalign'], { check: false })).code !== 1,
       "'zipalign' binary",
       'installed',
       "missing, can't create android releases",
@@ -515,7 +590,7 @@ async function check(): Promise<boolean> {
   pass =
     pass &&
     checkItem(
-      (await run(['which', 'apksigner'])) !== 1,
+      (await run('which', ['apksigner'], { check: false })).code !== 1,
       "'apksigner' binary",
       'installed',
       "missing, can't create android releases",
