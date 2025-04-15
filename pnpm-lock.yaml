@@ -12,8 +12,8 @@ importers:
         specifier: ^0.1.4
         version: 0.1.4(typescript@5.4.4)
       '@quasar/extras':
-        specifier: ^1.16.11
-        version: 1.16.11
+        specifier: ^1.16.17
+        version: 1.16.17
       '@types/markdown-it':
         specifier: ^14.0.0
         version: 14.0.0
@@ -1350,8 +1350,8 @@ packages:
       workbox-build:
         optional: true
 
-  '@quasar/extras@1.16.11':
-    resolution: {integrity: sha512-sbTBHOA+Hi7ah0P6qSm+xfRXqwJ94ct3NKA3Lkq3iNPYuHD7VXbSWtP2eA7Cu9Fd0WjVoPbngf6yFGg46U3IfQ==}
+  '@quasar/extras@1.16.17':
+    resolution: {integrity: sha512-4aX9XU/oj1+8O2C7LQCgywmoIw7suyUEZMPFFLWI61f21mF55VOsMdLCBhjeFgL5U4EWy079mfOR6/J8thi/ag==}
 
   '@quasar/icongenie@4.0.0':
     resolution: {integrity: sha512-tPT3jUnaGGf+51RGjzLa4Er5NH2qtViOfs+b1A/c2RXNkYNMHC9KAbRgkzG4jO+zL3DjBZ0SrGjjYxdn4yE/Ug==}
@@ -7693,7 +7693,7 @@ snapshots:
       - supports-color
       - terser
 
-  '@quasar/extras@1.16.11': {}
+  '@quasar/extras@1.16.17': {}
 
   '@quasar/icongenie@4.0.0':
     dependencies:
