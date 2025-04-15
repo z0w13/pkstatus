@@ -603,6 +603,10 @@ program.hook('preAction', async () => {
   if (!(await check())) {
     process.exit(1);
   }
+
+  // NOTE: Workaround for electron-builder, it always builds when `npm_lifecycle_event == release`
+  //       we don't need the npm_lifecycle_event env var so unset it
+  delete process.env.npm_lifecycle_event;
 });
 
 tmp.setGracefulCleanup();
