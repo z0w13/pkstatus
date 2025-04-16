@@ -72,16 +72,14 @@
 
             languages.java = {
               enable = true;
-              # NOTE: Would prefer jbr 17, but that has a bug as of 2025-04-16
-              #       See https://github.com/NixOS/nixpkgs/blob/2631b0b7abcea6e640ce31cd78ea58910d31e650/pkgs/development/compilers/jetbrains-jdk/17.nix#L181
-              jdk.package = pkgs.jdk17;
               gradle.enable = true;
+              jdk.package = pkgs.jetbrains.jdk-no-jcef;
             };
 
             android = {
               enable = true;
               buildTools.version = [ "34.0.0" ];
-              platforms.version = [ "34" ];
+              platforms.version = [ "35" ];
               emulator.enable = false;
               googleAPIs.enable = false;
               googleTVAddOns.enable = false;
@@ -101,7 +99,7 @@
 
                 # setting GRADLE_OPTS currently breaks things
                 # TODO: See if this is fixed after updating capacitor
-                export -n GRADLE_OPTS
+                #export -n GRADLE_OPTS
 
                 # run pnpm install if dependencies changed
                 function _devenv-local-pnpm-install() {
