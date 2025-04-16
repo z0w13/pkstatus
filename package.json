@@ -30,7 +30,7 @@
     "@lumenpink/vue3-fitty": "^0.1.4",
     "@quasar/extras": "^1.16.17",
     "@types/markdown-it": "^14.1.2",
-    "axios": "^1.6.8",
+    "axios": "^1.8.4",
     "bottleneck": "^2.19.5",
     "dayjs": "^1.11.13",
     "markdown-it": "^14.1.0",
