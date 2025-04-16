@@ -34,7 +34,7 @@
     "bottleneck": "^2.19.5",
     "dayjs": "^1.11.13",
     "markdown-it": "^14.1.0",
-    "pinia": "^2.1.7",
+    "pinia": "^2.3.1",
     "pinia-plugin-persistedstate": "^3.2.1",
     "pkapi.js": "^7.3.2",
     "quasar": "^2.16.4",
