@@ -135,10 +135,9 @@
             </q-item-section>
           </q-item>
           <q-card-section class="col overflow-auto">
-            <div
-              class="changelog"
-              v-html="markdownit({ html: false }).render(newVersion.changelog)"
-            />
+            <div class="changelog">
+              {{ markdownit({ html: false }).render(newVersion.changelog) }}
+            </div>
           </q-card-section>
           <q-card-actions class="col-auto" align="between">
             <q-btn
