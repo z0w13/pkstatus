@@ -37,7 +37,7 @@
     "pinia": "^2.3.1",
     "pinia-plugin-persistedstate": "^4.2.0",
     "pkapi.js": "^7.3.2",
-    "quasar": "^2.16.4",
+    "quasar": "^2.18.1",
     "register-service-worker": "^1.7.2",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
