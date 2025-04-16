@@ -73,6 +73,6 @@ export const useSystemStore = defineStore(STORE_NAME, {
         };
       },
     },
-    afterRestore: (ctx) => ctx.store.$persist(),
+    afterHydrate: (ctx) => ctx.store.$persist(),
   },
 });

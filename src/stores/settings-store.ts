@@ -21,6 +21,6 @@ export const useSettingsStore = defineStore(STORE_NAME, {
         return Settings.parse(migrate(JSON.parse(value)).settings);
       },
     },
-    afterRestore: (ctx) => ctx.store.$persist(),
+    afterHydrate: (ctx) => ctx.store.$persist(),
   },
 });
