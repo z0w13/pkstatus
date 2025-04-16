@@ -39,22 +39,26 @@ describe('PriorityQueue', function () {
     });
   });
 
-  describe('getHighestPriority() returns the highest priority', function () {
-    const queue = new PriorityQueue<string>();
+  describe('getHighestPriority', function () {
+    it('returns the highest priority', function () {
+      const queue = new PriorityQueue<string>();
 
-    queue.push(2, 'highest');
-    queue.push(5, 'second');
+      queue.push(2, 'highest');
+      queue.push(5, 'second');
 
-    expect(queue.getHighestPriority()).toBe(2);
+      expect(queue.getHighestPriority()).toBe(2);
+    });
   });
 
-  describe('length returns the length of the queue', function () {
-    const queue = new PriorityQueue<string>();
+  describe('length', function () {
+    it('returns the length of the queue', function () {
+      const queue = new PriorityQueue<string>();
 
-    queue.push(1, 'first');
-    queue.push(5, 'second');
+      queue.push(1, 'first');
+      queue.push(5, 'second');
 
-    expect(queue.length).toBe(2);
+      expect(queue.length).toBe(2);
+    });
   });
 
   describe('pushReplace', function () {
@@ -72,7 +76,7 @@ describe('PriorityQueue', function () {
   });
 
   describe('wait', function () {
-    describe("resolves instantly when there's an item in the queue", async function () {
+    it("resolves instantly when there's an item in the queue", async function () {
       const queue = new PriorityQueue<string>();
 
       queue.push(1, 'item');
@@ -80,7 +84,7 @@ describe('PriorityQueue', function () {
       await expect(queue.wait()).resolves.toBeUndefined();
     });
 
-    describe('resolves when an item gets pushed', async function () {
+    it('resolves when an item gets pushed', async function () {
       const queue = new PriorityQueue<string>();
       const prom = queue.wait();
 
@@ -88,14 +92,21 @@ describe('PriorityQueue', function () {
 
       await expect(prom).resolves.toBeUndefined();
     });
+
+    it('returns an existing Promise', function () {
+      const queue = new PriorityQueue<string>();
+      expect(queue.wait()).toEqual(queue.wait());
+    });
   });
 
-  describe('waitPop resolves to the queue item', async function () {
-    const queue = new PriorityQueue<string>();
-    const prom = queue.waitPop();
+  describe('waitPop', function () {
+    it('resolves to the queue item', async function () {
+      const queue = new PriorityQueue<string>();
+      const prom = queue.waitPop();
 
-    queue.push(1, 'first');
+      queue.push(1, 'first');
 
-    await expect(prom).resolves.toBe('first');
+      await expect(prom).resolves.toBe('first');
+    });
   });
 });
