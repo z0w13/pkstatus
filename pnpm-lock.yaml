@@ -58,8 +58,8 @@ importers:
         version: 3.24.2
     devDependencies:
       '@commander-js/extra-typings':
-        specifier: ^12.0.1
-        version: 12.0.1(commander@12.0.0)
+        specifier: ^13.1.0
+        version: 13.1.0(commander@13.1.0)
       '@commitlint/cli':
         specifier: ^19.8.0
         version: 19.8.0(@types/node@22.10.10)(typescript@5.8.3)
@@ -103,8 +103,8 @@ importers:
         specifier: ^5.4.1
         version: 5.4.1
       commander:
-        specifier: ^12.0.0
-        version: 12.0.0
+        specifier: ^13.1.0
+        version: 13.1.0
       electron:
         specifier: ^29.2.0
         version: 29.2.0
@@ -788,10 +788,10 @@ packages:
   '@bufbuild/protobuf@2.2.5':
     resolution: {integrity: sha512-/g5EzJifw5GF8aren8wZ/G5oMuPoGeS6MQD3ca8ddcvdXR5UELUfdTZITCGNhNXynY/AYl3Z4plmxdj/tRl/hQ==}
 
-  '@commander-js/extra-typings@12.0.1':
-    resolution: {integrity: sha512-OvkMobb1eMqOCuJdbuSin/KJkkZr7n24/UNV+Lcz/0Dhepf3r2p9PaGwpRpAWej7A+gQnny4h8mGhpFl4giKkg==}
+  '@commander-js/extra-typings@13.1.0':
+    resolution: {integrity: sha512-q5P52BYb1hwVWE6dtID7VvuJWrlfbCv4klj7BjUUOqMz4jbSZD4C9fJ9lRjL2jnBGTg+gDDlaXN51rkWcLk4fg==}
     peerDependencies:
-      commander: ~12.0.0
+      commander: ~13.1.0
 
   '@commitlint/cli@19.8.0':
     resolution: {integrity: sha512-t/fCrLVu+Ru01h0DtlgHZXbHV2Y8gKocTR5elDOqIRUzQd0/6hpt2VIWOj9b3NDo7y4/gfxeR2zRtXq/qO6iUg==}
@@ -2634,10 +2634,6 @@ packages:
   commander@10.0.1:
     resolution: {integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==}
     engines: {node: '>=14'}
-
-  commander@12.0.0:
-    resolution: {integrity: sha512-MwVNWlYjDTtOjX5PiD7o5pK0UrFU/OYgcJfjjK4RaHZETNtjJqrZa9Y9ds88+A+f+d5lv+561eZ+yCKoS3gbAA==}
-    engines: {node: '>=18'}
 
   commander@13.1.0:
     resolution: {integrity: sha512-/rFeCpNJQbhSZjGVwO9RFV3xPqbnERS8MmIQzCtD/zl6gpJuV/bMLuN92oG3F7d8oDEHHRrujSXNUr8fpjntKw==}
@@ -7380,9 +7376,9 @@ snapshots:
 
   '@bufbuild/protobuf@2.2.5': {}
 
-  '@commander-js/extra-typings@12.0.1(commander@12.0.0)':
+  '@commander-js/extra-typings@13.1.0(commander@13.1.0)':
     dependencies:
-      commander: 12.0.0
+      commander: 13.1.0
 
   '@commitlint/cli@19.8.0(@types/node@22.10.10)(typescript@5.8.3)':
     dependencies:
@@ -9533,8 +9529,6 @@ snapshots:
       delayed-stream: 1.0.0
 
   commander@10.0.1: {}
-
-  commander@12.0.0: {}
 
   commander@13.1.0: {}
 
