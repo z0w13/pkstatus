@@ -32,7 +32,7 @@
     "@types/markdown-it": "^14.1.2",
     "axios": "^1.6.8",
     "bottleneck": "^2.19.5",
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.13",
     "markdown-it": "^14.1.0",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
