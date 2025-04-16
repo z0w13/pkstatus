@@ -1,8 +1,7 @@
-import dayjs from 'dayjs';
 import { APIError } from 'pkapi.js';
 import PluralKitApi from 'src/lib/PluralKitApi';
 import RateLimiter from 'src/lib/RateLimiter';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 class TestRateLimiter extends RateLimiter {
   public setErrorTimestamps(timestamps: Array<number>) {
@@ -28,7 +27,7 @@ describe('RateLimiter', function () {
 
     expect(limiter.getWaitTime()).toBe(1.5);
   });
-  it('increases decreases the wait time if we drop below the min threshold', function () {
+  it('decreases the wait time if we drop below the min threshold', function () {
     const limiter = new TestRateLimiter([], 5000, 2);
 
     limiter.setErrorTimestamps([0, 1, 2]);
@@ -39,20 +38,36 @@ describe('RateLimiter', function () {
     expect(limiter.getWaitTime()).toBe(1.5);
   });
   it("waits if there's no remaining requests", async function () {
-    const limiter = new TestRateLimiter([], 5000, 0.1, 0.1);
+    vi.useFakeTimers();
 
-    const timeBefore = dayjs().valueOf();
-    await limiter.handleHeaders({
-      status: '200',
-      headers: { 'x-ratelimit-remaining': '0' },
-    });
-    expect(dayjs().valueOf() - timeBefore).toBeGreaterThanOrEqual(100);
+    const limiter = new TestRateLimiter([], 5000, 1);
+
+    // set done to true after the wait time
+    let done = false;
+    const limiterPromise = limiter
+      .handleHeaders({
+        status: '200',
+        headers: { 'x-ratelimit-remaining': '0' },
+      })
+      .then(() => (done = true));
+
+    expect(done).toBe(false);
+    vi.runAllTimers(); // run the timers
+    await limiterPromise; // wait for the promise
+    expect(done).toBe(true);
   });
   it('waits if a rate limit error was triggered', async function () {
+    vi.useFakeTimers();
+
     const limiter = new TestRateLimiter([], 5000, 0.1, 0.1);
 
-    const timeBefore = dayjs().valueOf();
-    await limiter.triggerError();
-    expect(dayjs().valueOf() - timeBefore).toBeGreaterThanOrEqual(100);
+    // set done to true after the wait time
+    let done = false;
+    const limiterPromise = limiter.triggerError().then(() => (done = true));
+
+    expect(done).toBe(false);
+    vi.runAllTimers(); // run the timers
+    await limiterPromise; // wait for the promise
+    expect(done).toBe(true);
   });
 });
