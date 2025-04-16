@@ -77,7 +77,7 @@ importers:
         version: 4.0.0
       '@quasar/quasar-app-extension-testing-unit-vitest':
         specifier: ^1.0.0
-        version: 1.0.0(@vue/test-utils@2.4.5)(quasar@2.16.4)(typescript@5.8.3)(vite@5.4.18(@types/node@20.12.5)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.30.3))(vitest@1.6.0(@types/node@20.12.5)(happy-dom@13.10.1)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.30.3))(vue@3.4.21(typescript@5.8.3))
+        version: 1.0.0(@vue/test-utils@2.4.6)(quasar@2.16.4)(typescript@5.8.3)(vite@5.4.18(@types/node@20.12.5)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.30.3))(vitest@1.6.0(@types/node@20.12.5)(happy-dom@13.10.1)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.30.3))(vue@3.4.21(typescript@5.8.3))
       '@types/node':
         specifier: ^20.12.5
         version: 20.12.5
@@ -88,8 +88,8 @@ importers:
         specifier: ^8.30.1
         version: 8.30.1(eslint@8.57.0)(typescript@5.8.3)
       '@vue/test-utils':
-        specifier: ^2.4.5
-        version: 2.4.5
+        specifier: ^2.4.6
+        version: 2.4.6
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.5.3)
@@ -1982,8 +1982,8 @@ packages:
   '@vue/shared@3.5.13':
     resolution: {integrity: sha512-/hnE/qP5ZoGpol0a5mDi45bOd7t3tjYJBjsgCsivow7D48cJeV5l05RD82lPqi7gRiphZM37rnhW1l6ZoCNNnQ==}
 
-  '@vue/test-utils@2.4.5':
-    resolution: {integrity: sha512-oo2u7vktOyKUked36R93NB7mg2B+N7Plr8lxp2JBGwr18ch6EggFjixSCdIVVLkT6Qr0z359Xvnafc9dcKyDUg==}
+  '@vue/test-utils@2.4.6':
+    resolution: {integrity: sha512-FMxEjOpYNYiFe0GkaHsnJPXFHxQ6m4t8vI/ElPGpMWxZKpmRvQ33OIrvRXemy6yha03RxhOlQuy+gZMC3CQSow==}
 
   '@vvo/tzdb@6.130.0':
     resolution: {integrity: sha512-9jhliGe3lHMJxTHoJPsS+jLk3HJOJWS32gA1a7D9rVe0u6ElauasuSOkysIDzbf0Ag3fd7nVR2j2By1BoRS7qw==}
@@ -8208,9 +8208,9 @@ snapshots:
       untildify: 5.0.0
       update-notifier: 7.0.0
 
-  '@quasar/quasar-app-extension-testing-unit-vitest@1.0.0(@vue/test-utils@2.4.5)(quasar@2.16.4)(typescript@5.8.3)(vite@5.4.18(@types/node@20.12.5)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.30.3))(vitest@1.6.0(@types/node@20.12.5)(happy-dom@13.10.1)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.30.3))(vue@3.4.21(typescript@5.8.3))':
+  '@quasar/quasar-app-extension-testing-unit-vitest@1.0.0(@vue/test-utils@2.4.6)(quasar@2.16.4)(typescript@5.8.3)(vite@5.4.18(@types/node@20.12.5)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.30.3))(vitest@1.6.0(@types/node@20.12.5)(happy-dom@13.10.1)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.30.3))(vue@3.4.21(typescript@5.8.3))':
     dependencies:
-      '@vue/test-utils': 2.4.5
+      '@vue/test-utils': 2.4.6
       happy-dom: 13.10.1
       lodash-es: 4.17.21
       quasar: 2.16.4
@@ -8714,7 +8714,7 @@ snapshots:
 
   '@vue/shared@3.5.13': {}
 
-  '@vue/test-utils@2.4.5':
+  '@vue/test-utils@2.4.6':
     dependencies:
       js-beautify: 1.15.1
       vue-component-type-helpers: 2.0.11
@@ -9945,7 +9945,7 @@ snapshots:
       '@one-ini/wasm': 0.1.1
       commander: 10.0.1
       minimatch: 9.0.1
-      semver: 7.6.0
+      semver: 7.7.1
 
   ee-first@1.1.1: {}
 
