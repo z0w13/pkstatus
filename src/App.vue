@@ -33,7 +33,7 @@ const persister = useCachePersister();
 const { dark, ignoreVersion, token } = storeToRefs(settingsStore);
 
 function logStack(err: unknown): void {
-  const stackErr = err as unknown as { stack?: string };
+  const stackErr = err as { stack?: string };
   if (typeof stackErr?.stack === 'string') {
     useLogStore().log(stackErr.stack);
   }
@@ -146,6 +146,7 @@ onMounted(() => {
     shouldCheckForUpdates($q)
   ) {
     updateChecker();
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     updateCheckerInterval = setInterval(updateChecker, 60 * 60 * 1000);
   }
 });

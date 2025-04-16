@@ -8,16 +8,13 @@ class TestCacheObject {
 }
 
 class TestCache extends BaseCache<TestCacheObject> {
-  protected async refresh(
-    id: string,
-    _token?: string,
-  ): Promise<TestCacheObject> {
-    return new TestCacheObject(id);
+  protected refresh(id: string, _token?: string): Promise<TestCacheObject> {
+    return Promise.resolve(new TestCacheObject(id));
   }
 
   public async setWithCustomCacheInfo(id: string, createdAt: dayjs.Dayjs) {
     await this.fetch(id);
-    this.cacheInfo[id]!.createdAt = createdAt;
+    this.cacheInfo[id].createdAt = createdAt;
   }
 }
 
@@ -41,7 +38,7 @@ describe('BaseCache::getCached', function () {
     await cache.get('Foo');
     expect(cache.getCached('Foo')?.id).toBe('Foo');
   });
-  it('returns undefined if the object is missing', async function () {
+  it('returns undefined if the object is missing', function () {
     const cache = getCache();
     expect(cache.getCached('Foo')).toBeUndefined();
   });

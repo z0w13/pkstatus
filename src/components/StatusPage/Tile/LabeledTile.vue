@@ -58,7 +58,7 @@ import { matPerson, matBrokenImage } from '@quasar/extras/material-icons';
 
 withDefaults(
   defineProps<{
-    img: string | null;
+    img?: string | null;
     label: string;
     caption?: string | null;
     size: string;

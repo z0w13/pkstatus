@@ -85,7 +85,9 @@ onMounted(() => {
 });
 
 async function doLookup() {
-  router.push({ path: `/lookup/${searchType.value}/${searchValue.value}` });
+  await router.push({
+    path: `/lookup/${searchType.value}/${searchValue.value}`,
+  });
   searchValue.value = '';
 }
 </script>

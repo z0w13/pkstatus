@@ -2,6 +2,9 @@
 .thumbs.db
 node_modules
 
+# ESLint
+/.eslintcache
+
 # Quasar core related directories
 .quasar
 /dist

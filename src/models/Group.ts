@@ -66,7 +66,8 @@ export class Group implements IGroup {
     return Group.fromDict({
       ...group,
 
-      system: group.system!, // This is verified by above guard
+      // NOTE: Needed because typescript doesn't seem to narrow spread operators
+      system: group.system,
       color: nonEmptyStringOrNull(group.color),
       displayName: nonEmptyStringOrNull(group.display_name),
       description: nonEmptyStringOrNull(group.description),

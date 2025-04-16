@@ -402,7 +402,7 @@ async function loadState() {
   }
 
   members.value = await pluralKit.getOwnMembers();
-  const lastSwitch = await fronterCache.fetch(system.id, token.value!);
+  const lastSwitch = await fronterCache.fetch(system.id, token.value);
 
   // If there's no members we can't populate with previous data
   if (lastSwitch.members.length > 0) {

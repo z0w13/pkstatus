@@ -134,8 +134,8 @@ function deleteSystem(id: string) {
 }
 
 // Make sure systems get fetched and cached
-onMounted(() => {
-  systemStore.ids.forEach(async (id) => {
+onMounted(async () => {
+  for (const id of systemStore.ids) {
     try {
       await pluralKit.getSystem(id);
     } catch (e) {
@@ -147,6 +147,6 @@ onMounted(() => {
         });
       }
     }
-  });
+  }
 });
 </script>

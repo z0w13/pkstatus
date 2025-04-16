@@ -74,6 +74,8 @@ watch(
           // Forbidden
           status.value = 'forbidden';
         } else {
+          // NOTE: pkapi.js doesn't extend the Error type with it's custom APIError
+          // eslint-disable-next-line @typescript-eslint/only-throw-error
           throw e; // Rethrow if we shouldn't handle the error
         }
       } else {

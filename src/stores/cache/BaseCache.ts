@@ -84,8 +84,8 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
       (a, b) =>
         // NOTE: we can safely use ! because `objects` and `cacheInfo` are always set together
         //       @see BaseCache#set
-        this.cacheInfo[a.id]!.createdAt.valueOf() -
-        this.cacheInfo[b.id]!.createdAt.valueOf(),
+        this.cacheInfo[a.id].createdAt.valueOf() -
+        this.cacheInfo[b.id].createdAt.valueOf(),
     );
   }
 
@@ -158,7 +158,7 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
       .map((obj) => ({
         // NOTE: we can safely use ! because `objects` and `cacheInfo` are always set together
         //       @see BaseCache#set
-        info: this.cacheInfo[obj.id]!,
+        info: this.cacheInfo[obj.id],
         obj: obj,
       }));
   }

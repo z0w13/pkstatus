@@ -149,7 +149,8 @@ export class Member implements IMember {
     return Member.fromDict({
       ...member,
 
-      system: member.system!,
+      // NOTE: Needed because typescript doesn't seem to narrow spread operators
+      system: member.system,
       name: member.name || '',
       displayName: util.nonEmptyStringOrNull(member.display_name),
       color: util.nonEmptyStringOrNull(member.color),

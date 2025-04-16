@@ -19,10 +19,6 @@ const PersistedCache = z.object({
     z.object({ info: SerializedCacheInfo, obj: SerializedMember }),
   ),
 });
-
-// NOTE: Disabled because somehow we get a false positive for a non-exported
-//       const + type combo
-// eslint-disable-next-line no-redeclare
 type PersistedCache = z.infer<typeof PersistedCache>;
 
 export class CachePersister {

@@ -63,7 +63,7 @@ function sanitizeLogMessage(message: string): string {
   return message.replaceAll(tokenRegex, '****PLURALKIT_API_TOKEN****');
 }
 
-async function copyInfoToClipboard() {
+function copyInfoToClipboard() {
   $q.dialog({
     title: 'Warning!',
     color: 'warning',
@@ -75,14 +75,17 @@ async function copyInfoToClipboard() {
     html: true,
     cancel: true,
     persistent: true,
-  }).onOk(async () => {
-    await copyToClipboard(
+  }).onOk(() => {
+    copyToClipboard(
       '==== INFO ====\n\n' +
         infoText +
         '\n\n==== LOGS ====\n\n' +
         logText.value,
-    );
-    $q.notify({ message: 'Log Copied' });
+    )
+      .then(() => $q.notify({ message: 'Log Copied' }))
+      .catch((err) =>
+        $q.notify({ message: `Couldn't copy to clipboard: ${err?.message}` }),
+      );
   });
 }
 </script>

@@ -16,6 +16,7 @@ export default function useStatusUpdater() {
   function start() {
     if (!updateInterval) {
       updateSystemInfo();
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       updateInterval = setInterval(updateSystemInfo, 1000);
     }
   }

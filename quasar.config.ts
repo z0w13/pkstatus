@@ -70,7 +70,9 @@ export default defineConfig((/* ctx */) => {
           {
             vueTsc: true,
             eslint: {
-              lintCommand: 'eslint "./**/*.{js,ts,mjs,cjs,vue}"',
+              useFlatConfig: true,
+              lintCommand:
+                'eslint --cache -c ./eslint.config.js "./src*/**/*.{ts,js,mjs,cjs,vue}"',
             },
           },
           { server: false },

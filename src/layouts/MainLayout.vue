@@ -238,7 +238,7 @@ function downloadUpdate() {
 
   if ($q.platform.is.electron) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ((window as any).PKStatusApi as any).openUrl(
+    (window as any).PKStatusApi.openUrl(
       props.newVersion.assets.windows ?? props.newVersion.url,
     );
   } else if ($q.platform.is.android) {
@@ -251,7 +251,7 @@ function downloadUpdate() {
 function openProjectPage() {
   if ($q.platform.is.electron) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ((window as any).PKStatusApi as any).openProjectPage();
+    (window as any).PKStatusApi.openProjectPage();
   } else {
     open(homepage, '_blank');
   }
