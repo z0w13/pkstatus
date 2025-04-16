@@ -268,9 +268,11 @@ const filteredMembers = computed(() =>
 
 // Callbacks
 function toggleMember(id: string) {
-  selected.value.includes(id)
-    ? selected.value.splice(selected.value.indexOf(id), 1)
-    : selected.value.push(id);
+  if (selected.value.includes(id)) {
+    selected.value.splice(selected.value.indexOf(id), 1);
+  } else {
+    selected.value.push(id);
+  }
 
   // If there's no primary fronter selected set it to this one
   if (primaryFronterId.value == '') {
