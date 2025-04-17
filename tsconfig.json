@@ -1,6 +1,7 @@
 {
   "extends": "./.quasar/tsconfig.json",
   "compilerOptions": {
+    "composite": true,
     "exactOptionalPropertyTypes": false,
     "noUncheckedIndexedAccess": false
   }
