@@ -8,7 +8,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "lint": "eslint --cache -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
+    "lint": "eslint --cache -c ./eslint.config.ts \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\"",
     "dev": "quasar dev",
     "release": "vite-node contrib/release.ts",
@@ -67,6 +67,7 @@
     "eslint-plugin-vue": "^10.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.1",
+    "postcss-load-config": "^6.0.1",
     "prettier": "^3.5.3",
     "tmp-promise": "^3.0.3",
     "typescript": "^5.8.3",

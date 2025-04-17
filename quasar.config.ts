@@ -77,7 +77,7 @@ export default defineConfig((/* ctx */) => {
             eslint: {
               useFlatConfig: true,
               lintCommand:
-                'eslint --cache -c ./eslint.config.js "./src*/**/*.{ts,js,mjs,cjs,vue}"',
+                'eslint --cache -c ./eslint.config.ts "./src*/**/*.{ts,js,mjs,cjs,vue}"',
             },
           },
           { server: false },

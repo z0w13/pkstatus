@@ -1,7 +1,6 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import pluginVue from 'eslint-plugin-vue';
-import pluginQuasar from '@quasar/app-vite/eslint';
 import {
   defineConfigWithVueTs,
   vueTsConfigs,
@@ -12,7 +11,9 @@ import noRelativeImportPaths from 'eslint-plugin-no-relative-import-paths';
 // the following is optional, if you want prettier too:
 import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting';
 
-export default defineConfigWithVueTs(
+// NOTE: Can't directly use `export default` as we run into microsoft/TypeScript#58176 otherwise
+//       ReturnType<...> is a hackfix to fix the error "The inferred type of 'default' cannot be named" error
+const config: ReturnType<typeof defineConfigWithVueTs> = defineConfigWithVueTs(
   {
     /**
      * Ignore the following files.
@@ -28,10 +29,17 @@ export default defineConfigWithVueTs(
       // TODO: Somehow include the below in tsconfig without errors
       'contrib/release.ts',
       '.commitlintrc.ts',
+
+      // NOTE: inlined from @quasar/app-vite as their eslint config lacks types
+      //       see https://github.com/quasarframework/quasar/blob/e3c62f9b315f3ff6eee0b0e0323eabe3fb49090c/app-vite/exports/eslint/eslint.js
+      'dist/*',
+      'src-capacitor/*',
+      'src-cordova/*',
+      '.quasar/*',
+      'quasar.config.*.temporary.compiled*',
     ],
   },
 
-  pluginQuasar.configs.recommended(),
   js.configs.recommended,
 
   /**
@@ -136,3 +144,5 @@ export default defineConfigWithVueTs(
 
   prettierSkipFormatting, // optional, if you want prettier
 );
+
+export default config;
