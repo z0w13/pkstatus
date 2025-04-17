@@ -1,6 +1,5 @@
 {
   "extends": "./.quasar/tsconfig.json",
-  "exclude": ["contrib/release.ts"],
   "compilerOptions": {
     "exactOptionalPropertyTypes": false,
     "noUncheckedIndexedAccess": false

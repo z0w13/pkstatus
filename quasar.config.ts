@@ -42,7 +42,12 @@ export default defineConfig((/* ctx */) => {
       typescript: {
         strict: true, // (recommended) enables strict settings for TypeScript
         vueShim: true, // required when using ESLint with type-checked rules, will generate a shim file for `*.vue` files
-        // extendTsConfig(tsConfig) {},
+        extendTsConfig(tsconfig) {
+          tsconfig.exclude = [
+            ...(tsconfig.exclude ?? []),
+            './../contrib/release.ts',
+          ];
+        },
       },
 
       vueRouterMode: 'hash', // available values: 'hash', 'history'
