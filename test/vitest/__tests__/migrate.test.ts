@@ -84,11 +84,14 @@ describe('getVersion', function () {
   });
 });
 
-describe('Test migration system', function () {
-  it('Migrates systems successfully', function () {
+describe('migrateSystems', function () {
+  it('migrates successfully', function () {
     z.array(z.string()).parse(migrateSystems(systemsV0).systems);
   });
-  it('Migrates settings successfully', function () {
+});
+
+describe('migrateSettings', function () {
+  it('migrates successfully', function () {
     const migrated = migrateSettings(settingsV0);
     const parsed = Settings.strict().parse(migrated.settings);
 
