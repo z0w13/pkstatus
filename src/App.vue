@@ -6,19 +6,18 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings-store';
-import { getCurrentInstance, onMounted, onUnmounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { APIError } from 'pkapi.js';
 import { useServices } from 'src/lib/Services';
 import useCachePersister from 'src/components/CachePersister';
+import setupErrorHandler from 'src/errorHandler';
 import {
   UpdateInfo,
   checkForUpdate,
   shouldCheckForUpdates,
 } from 'src/lib/check-update';
-import { useLogStore } from 'src/stores/log-store';
 import { useRouter } from 'vue-router';
-import { isDev } from 'src/util';
 
 const $q = useQuasar();
 
@@ -31,60 +30,6 @@ const router = useRouter();
 const persister = useCachePersister();
 
 const { dark, ignoreVersion, token } = storeToRefs(settingsStore);
-
-function logStack(err: unknown): void {
-  const stackErr = err as { stack?: string };
-  if (typeof stackErr?.stack === 'string') {
-    useLogStore().log(stackErr.stack);
-  }
-}
-function handleError(err: unknown): void {
-  if (err instanceof APIError) {
-    logStack(err);
-    useLogStore().log(`API Error: ${JSON.stringify(err, null, 2)}`);
-    $q.notify({
-      type: 'warning',
-      message: 'API Error',
-      caption: err.message ?? err.statusText,
-    });
-    return;
-  }
-  if (err instanceof Error) {
-    logStack(err);
-    useLogStore().log(`${err.name}: ${err.message}`);
-    $q.notify({
-      type: 'warning',
-      message: `${err.name}: ${err.message}`,
-    });
-    return;
-  }
-
-  if (typeof err === 'string') {
-    useLogStore().log(`Error: ${err}`);
-    $q.notify({
-      type: 'warning',
-      message: err,
-    });
-    return;
-  }
-
-  logStack(err);
-  useLogStore().log(`Error: ${String(err)} | ${JSON.stringify(err, null, 2)}`);
-  $q.notify({
-    type: 'warning',
-    message: `${String(err)} | ${JSON.stringify(err, null, 2)}`,
-  });
-}
-
-const app = getCurrentInstance()?.appContext.app;
-if (app && !isDev()) {
-  window.onerror = (_event, _source, _lineno, _colno, error) => {
-    handleError(error);
-  };
-  app.config.errorHandler = (error) => {
-    handleError(error);
-  };
-}
 
 // Force dark/light mode based on URL
 switch (window.location.hash.split('#').at(-1)) {
