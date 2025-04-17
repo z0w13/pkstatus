@@ -89,7 +89,9 @@
   },
   "pnpm": {
     "overrides": {
-      "vite": "^6.3.0"
+      "vite": "^6.3.0",
+      "immutable": "4.3.7",
+      "@babel/types": "7.27.0"
     }
   }
 }
