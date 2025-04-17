@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { migrate as migrateSystems } from 'src/models/migrations/system/index';
 import { migrate as migrateSettings } from 'src/models/migrations/settings/index';
 import { Settings } from 'src/models/Settings';
-import { z } from 'zod';
+import { z, ZodError } from 'zod';
+import { getVersion } from 'src/models/migrations/util';
 
 const settingsV0 = {
   status: {
@@ -70,6 +71,18 @@ const systemsV0 = {
     },
   },
 };
+
+describe('getVersion', function () {
+  it('Parses version correctly %s -> %i', function () {
+    expect(getVersion({ version: 3 })).toBe(3);
+  });
+  it("Errors when version isn't a number", function () {
+    expect(() => getVersion({ version: 'a' })).toThrowError(ZodError);
+  });
+  it("Returns default version when it's missing", function () {
+    expect(getVersion({})).toBe(0);
+  });
+});
 
 describe('Test migration system', function () {
   it('Migrates systems successfully', function () {
