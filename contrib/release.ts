@@ -341,8 +341,9 @@ program
   .addOption(new Option('--major').conflicts(['minor', 'version']))
   .addOption(new Option('--minor').conflicts(['major', 'version']))
   .addOption(new Option('--version <version>').conflicts(['major', 'minor']))
-  .option('--dev')
-  .action(async ({ dryRun, major, minor, version, dev }) => {
+  .addOption(new Option('--dev').conflicts(['prerelease']))
+  .addOption(new Option('--prerelease <prerelease>').conflicts(['dev']))
+  .action(async ({ dryRun, major, minor, version, dev, prerelease }) => {
     const currVersion = getVersion();
 
     // Bump version
@@ -370,6 +371,10 @@ program
       ).output.trim();
 
       newVersion += `-dev${commitCount}+sha.${shortHash}`;
+    }
+
+    if (prerelease) {
+      newVersion += `-${prerelease}`;
     }
 
     console.info(`Bumping version from ${currVersion} to ${newVersion}`);
