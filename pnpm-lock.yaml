@@ -69,8 +69,8 @@ importers:
         specifier: ^19.8.1
         version: 19.8.1
       '@quasar/app-vite':
-        specifier: 2.2.0
-        version: 2.2.0(@electron/packager@18.3.2)(@types/node@22.10.10)(electron-builder@26.0.12(electron-builder-squirrel-windows@26.0.12(dmg-builder@26.0.12)))(eslint@9.24.0(jiti@2.4.2))(jiti@2.4.2)(pinia@2.3.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)))(quasar@2.18.1)(rollup@2.79.1)(sass@1.77.3)(terser@5.39.0)(typescript@5.8.3)(vue-router@4.5.0(vue@3.5.13(typescript@5.8.3)))(vue@3.5.13(typescript@5.8.3))(workbox-build@7.3.0)(yaml@2.7.1)
+        specifier: 2.2.1
+        version: 2.2.1(@electron/packager@18.3.2)(@types/node@22.10.10)(electron-builder@26.0.12(electron-builder-squirrel-windows@26.0.12(dmg-builder@26.0.12)))(eslint@9.24.0(jiti@2.4.2))(jiti@2.4.2)(pinia@2.3.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)))(quasar@2.18.1)(rollup@2.79.1)(sass@1.77.3)(terser@5.39.0)(typescript@5.8.3)(vue-router@4.5.0(vue@3.5.13(typescript@5.8.3)))(vue@3.5.13(typescript@5.8.3))(workbox-build@7.3.0)(yaml@2.7.1)
       '@quasar/extras':
         specifier: ^1.17.0
         version: 1.17.0
@@ -1437,8 +1437,8 @@ packages:
     resolution: {integrity: sha512-UA91GwWPhFExt3IizW6bOeY/pQ0BkuNwKjk9iQW9KqxluGCrg4VenZ0/L+2Y0+ZOtme72EVvg6v0zo3AMQRCeA==}
     engines: {node: '>=12'}
 
-  '@quasar/app-vite@2.2.0':
-    resolution: {integrity: sha512-MvCfJrCbxUYvoGaK5jPq0h0hjO8mbxYOWngf+dIKrxhwb+1h5ERh6aVYEUuCtMIwTMEVfPkCez4DIfZIoReuDw==}
+  '@quasar/app-vite@2.2.1':
+    resolution: {integrity: sha512-wGKmPgrEFj3UzxZym2v8ZhCADhrUdC6Q2LvnSYtCBRldgZI71er2j52prbX40rDVIIeVReRFYRae235kzDJHOA==}
     engines: {node: ^30 || ^28 || ^26 || ^24 || ^22 || ^20 || ^18, npm: '>= 6.14.12', yarn: '>= 1.17.3'}
     hasBin: true
     peerDependencies:
@@ -2057,11 +2057,6 @@ packages:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
-
-  acorn@8.11.3:
-    resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
 
   acorn@8.14.1:
     resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
@@ -6097,11 +6092,6 @@ packages:
     resolution: {integrity: sha512-G13vtMYPT/J8A4X2SjdtBTphZlrp1gKv6hZiOjw14RCWg6GbHuQBGtjlx75xLbYV/wEc0D7G5K4rxKP/cXk8Bw==}
     engines: {node: '>=10'}
 
-  terser@5.30.3:
-    resolution: {integrity: sha512-STdUgOUx8rLbMGO9IOwHLpCqolkDITFFQSMYYwKE1N2lY6MVSaeoi10z/EhWxRc6ybqoVmKSkhKYH/XUpl7vSA==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   terser@5.39.0:
     resolution: {integrity: sha512-LBAhFyLho16harJoWMg/nZsQYgTrg5jXOn2nCYjRUcZZEdE3qa2zb8QEDRUGVZBW4rlazf2fxkg8tztybTaqWw==}
     engines: {node: '>=10'}
@@ -6234,9 +6224,6 @@ packages:
 
   tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
-
-  tslib@2.6.2:
-    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
@@ -8418,7 +8405,7 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@quasar/app-vite@2.2.0(@electron/packager@18.3.2)(@types/node@22.10.10)(electron-builder@26.0.12(electron-builder-squirrel-windows@26.0.12(dmg-builder@26.0.12)))(eslint@9.24.0(jiti@2.4.2))(jiti@2.4.2)(pinia@2.3.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)))(quasar@2.18.1)(rollup@2.79.1)(sass@1.77.3)(terser@5.39.0)(typescript@5.8.3)(vue-router@4.5.0(vue@3.5.13(typescript@5.8.3)))(vue@3.5.13(typescript@5.8.3))(workbox-build@7.3.0)(yaml@2.7.1)':
+  '@quasar/app-vite@2.2.1(@electron/packager@18.3.2)(@types/node@22.10.10)(electron-builder@26.0.12(electron-builder-squirrel-windows@26.0.12(dmg-builder@26.0.12)))(eslint@9.24.0(jiti@2.4.2))(jiti@2.4.2)(pinia@2.3.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)))(quasar@2.18.1)(rollup@2.79.1)(sass@1.77.3)(terser@5.39.0)(typescript@5.8.3)(vue-router@4.5.0(vue@3.5.13(typescript@5.8.3)))(vue@3.5.13(typescript@5.8.3))(workbox-build@7.3.0)(yaml@2.7.1)':
     dependencies:
       '@quasar/render-ssr-error': 1.0.3
       '@quasar/ssl-certificate': 1.0.0
@@ -8435,12 +8422,12 @@ snapshots:
       confbox: 0.1.8
       cross-spawn: 7.0.6
       dot-prop: 9.0.0
-      dotenv: 16.4.5
+      dotenv: 16.5.0
       dotenv-expand: 11.0.6
       elementtree: 0.1.7
       esbuild: 0.25.2
       express: 4.21.2
-      fs-extra: 11.2.0
+      fs-extra: 11.3.0
       html-minifier-terser: 7.2.0
       inquirer: 9.3.7
       isbinaryfile: 5.0.4
@@ -8454,7 +8441,7 @@ snapshots:
       sass-embedded: 1.86.3
       semver: 7.7.1
       serialize-javascript: 6.0.2
-      tinyglobby: 0.2.12
+      tinyglobby: 0.2.14
       ts-essentials: 9.4.2(typescript@5.8.3)
       vite: 6.3.0(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.39.0)(yaml@2.7.1)
       vue: 3.5.13(typescript@5.8.3)
@@ -8525,7 +8512,7 @@ snapshots:
 
   '@quasar/ssl-certificate@1.0.0':
     dependencies:
-      fs-extra: 11.2.0
+      fs-extra: 11.3.0
       selfsigned: 2.4.1
 
   '@quasar/vite-plugin@1.9.0(@vitejs/plugin-vue@5.2.3(vite@6.3.0(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.39.0)(yaml@2.7.1))(vue@3.5.13(typescript@5.8.3)))(quasar@2.18.1)(vite@6.3.0(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.39.0)(yaml@2.7.1))(vue@3.5.13(typescript@5.8.3))':
@@ -9166,8 +9153,6 @@ snapshots:
     dependencies:
       acorn: 8.14.1
 
-  acorn@8.11.3: {}
-
   acorn@8.14.1: {}
 
   agent-base@6.0.2:
@@ -9698,7 +9683,7 @@ snapshots:
   camel-case@4.1.2:
     dependencies:
       pascal-case: 3.1.2
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   camelcase@7.0.1: {}
 
@@ -9741,7 +9726,7 @@ snapshots:
   chokidar@3.6.0:
     dependencies:
       anymatch: 3.1.3
-      braces: 3.0.2
+      braces: 3.0.3
       glob-parent: 5.1.2
       is-binary-path: 2.1.0
       is-glob: 4.0.3
@@ -10255,7 +10240,7 @@ snapshots:
   dot-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   dot-prop@5.3.0:
     dependencies:
@@ -11310,7 +11295,7 @@ snapshots:
       entities: 4.5.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.30.3
+      terser: 5.39.0
 
   http-cache-semantics@3.8.1: {}
 
@@ -11899,7 +11884,7 @@ snapshots:
 
   lower-case@2.0.2:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   lowercase-keys@1.0.0: {}
 
@@ -12140,7 +12125,7 @@ snapshots:
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   node-abi@3.57.0:
     dependencies:
@@ -12391,7 +12376,7 @@ snapshots:
   param-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   parent-module@1.0.1:
     dependencies:
@@ -12430,7 +12415,7 @@ snapshots:
   pascal-case@3.1.2:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   path-browserify@1.0.1: {}
 
@@ -12963,7 +12948,7 @@ snapshots:
 
   rxjs@7.8.1:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   safe-array-concat@1.1.2:
     dependencies:
@@ -13583,13 +13568,6 @@ snapshots:
       type-fest: 0.16.0
       unique-string: 2.0.0
 
-  terser@5.30.3:
-    dependencies:
-      '@jridgewell/source-map': 0.3.6
-      acorn: 8.11.3
-      commander: 2.20.3
-      source-map-support: 0.5.21
-
   terser@5.39.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
@@ -13700,8 +13678,6 @@ snapshots:
       strip-bom: 3.0.0
 
   tslib@1.14.1: {}
-
-  tslib@2.6.2: {}
 
   tslib@2.8.1: {}
 
