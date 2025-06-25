@@ -16,9 +16,6 @@ importers:
       '@lumenpink/vue3-fitty':
         specifier: ^0.1.4
         version: 0.1.4(typescript@5.8.3)
-      '@quasar/extras':
-        specifier: ^1.16.17
-        version: 1.16.17
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -74,6 +71,9 @@ importers:
       '@quasar/app-vite':
         specifier: 2.2.0
         version: 2.2.0(@electron/packager@18.3.2)(@types/node@22.10.10)(electron-builder@26.0.12(electron-builder-squirrel-windows@26.0.12(dmg-builder@26.0.12)))(eslint@9.24.0(jiti@2.4.2))(jiti@2.4.2)(pinia@2.3.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)))(quasar@2.18.1)(rollup@2.79.1)(sass@1.77.3)(terser@5.39.0)(typescript@5.8.3)(vue-router@4.5.0(vue@3.5.13(typescript@5.8.3)))(vue@3.5.13(typescript@5.8.3))(workbox-build@7.3.0)(yaml@2.7.1)
+      '@quasar/extras':
+        specifier: ^1.17.0
+        version: 1.17.0
       '@quasar/icongenie':
         specifier: ^4.0.0
         version: 4.0.0
@@ -1459,8 +1459,8 @@ packages:
       workbox-build:
         optional: true
 
-  '@quasar/extras@1.16.17':
-    resolution: {integrity: sha512-4aX9XU/oj1+8O2C7LQCgywmoIw7suyUEZMPFFLWI61f21mF55VOsMdLCBhjeFgL5U4EWy079mfOR6/J8thi/ag==}
+  '@quasar/extras@1.17.0':
+    resolution: {integrity: sha512-KqAHdSJfIDauiR1nJ8rqHWT0diqD0QradZKoVIZJAilHAvgwyPIY7MbyR2z4RIMkUIMUSqBZcbshMpEw+9A30w==}
 
   '@quasar/icongenie@4.0.0':
     resolution: {integrity: sha512-tPT3jUnaGGf+51RGjzLa4Er5NH2qtViOfs+b1A/c2RXNkYNMHC9KAbRgkzG4jO+zL3DjBZ0SrGjjYxdn4yE/Ug==}
@@ -8408,7 +8408,7 @@ snapshots:
       - tsx
       - yaml
 
-  '@quasar/extras@1.16.17': {}
+  '@quasar/extras@1.17.0': {}
 
   '@quasar/icongenie@4.0.0':
     dependencies:
