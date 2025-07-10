@@ -2,9 +2,8 @@ import { reactive } from 'vue';
 import dayjs from 'dayjs';
 import { z } from 'zod';
 
-import { notEmpty } from 'src/util';
-import PluralKitApi from 'src/lib/PluralKitApi';
 import { EventBus } from 'quasar';
+import { notEmpty } from 'src/util';
 
 interface HasId {
   id: string;
@@ -23,6 +22,11 @@ export class CacheInfo {
   ) {}
 
   public expired(ttl?: number): boolean {
+    console.log('CacheInfo::expired', {
+      ttl: ttl ?? this.ttl,
+      diff: dayjs().diff(this.createdAt, 'seconds'),
+      expired: dayjs().diff(this.createdAt, 'seconds') > (ttl ?? this.ttl),
+    });
     return dayjs().diff(this.createdAt, 'seconds') > (ttl ?? this.ttl);
   }
 
@@ -38,16 +42,13 @@ export class CacheInfo {
   }
 }
 
-export default abstract class BaseCache<T extends HasId> extends EventBus<{
+export default abstract class BaseCache<T extends HasId, I> extends EventBus<{
   change: (item: T) => void;
 }> {
   public objects: Record<string, T>;
   public cacheInfo: Record<string, CacheInfo>;
 
-  constructor(
-    protected pk: PluralKitApi,
-    public ttl: number = 300,
-  ) {
+  constructor(public ttl: number = 300) {
     super();
 
     this.objects = reactive(Object.create(null));
@@ -63,12 +64,50 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
     return !!this.objects[id];
   }
 
-  public set(object: T): T {
-    this.objects[object.id] = object;
-    this.cacheInfo[object.id] = new CacheInfo(this.ttl);
+  protected abstract parse(input: I): T;
 
-    this.emit('change', object);
-    return object;
+  public async getOrInsert(
+    id: string,
+    insertFn: (id: string) => Promise<I>,
+    skipCache = false,
+  ): Promise<T> {
+    console.debug('getOrInsert', {
+      class: this.constructor.name,
+      id,
+      has: this.has(id),
+      skipCache,
+    });
+
+    if (skipCache) {
+      return this.set(await insertFn(id));
+    }
+
+    return this.get(id) ?? this.set(await insertFn(id));
+  }
+
+  public setCached(info: CacheInfo, obj: T): T {
+    this.cacheInfo[obj.id] = info;
+    this.objects[obj.id] = obj;
+
+    this.emit('change', obj);
+    return obj;
+  }
+
+  public setDirect(obj: T): T {
+    console.debug('setDirect', {
+      class: this.constructor.name,
+      id: obj.id,
+    });
+
+    this.objects[obj.id] = obj;
+    this.cacheInfo[obj.id] = new CacheInfo(this.ttl);
+
+    this.emit('change', obj);
+    return obj;
+  }
+
+  public set(input: I): T {
+    return this.setDirect(this.parse(input));
   }
 
   public getExpired(ttl?: number, sorted = false): Array<T> {
@@ -100,11 +139,41 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
     return cacheInfo.expired(ttl);
   }
 
-  // Get cached object or fetch new one when missing or expired
-  public async get(id: string, token?: string): Promise<T> {
+  public prune(id: string): T | undefined {
+    console.debug('prune', {
+      class: this.constructor.name,
+      id,
+      has: this.has(id),
+    });
+
+    if (this.has(id)) {
+      // NOTE: access this.objects directly, so expired state gets bypassed
+      const object = this.objects[id];
+
+      delete this.objects[id];
+      delete this.cacheInfo[id];
+
+      return object;
+    }
+  }
+
+  public get(id: string): T | undefined {
+    console.debug('get', {
+      class: this.constructor.name,
+      id,
+      has: this.has(id),
+    });
+
     const cacheInfo = this.cacheInfo[id];
-    if (!cacheInfo || cacheInfo.expired()) {
-      return await this.fetch(id, token);
+    if (!cacheInfo) {
+      return;
+    }
+
+    if (cacheInfo.expired()) {
+      delete this.objects[id];
+      delete this.cacheInfo[id];
+
+      return;
     }
 
     const obj = this.objects[id];
@@ -114,33 +183,14 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
     return obj;
   }
 
-  public async getMulti(ids: Array<string>, token?: string): Promise<Array<T>> {
-    return await Promise.all(ids.map((id) => this.get(id, token)));
+  public getMulti(ids: ReadonlyArray<string>): ReadonlyArray<T> {
+    return ids.map((id) => this.get(id)).filter(notEmpty);
   }
 
-  public setCached(info: CacheInfo, object: T) {
-    this.cacheInfo[object.id] = info;
-    this.objects[object.id] = object;
-
-    this.emit('change', object);
-  }
-
-  public getCached(id: string): T | undefined {
-    return this.objects[id];
-  }
-
-  public getMultiCached(ids: Array<string>): Array<T> {
-    return ids.map((id) => this.objects[id]).filter(notEmpty);
-  }
-
-  public async fetch(id: string, token?: string): Promise<T> {
-    return this.set(await this.refresh(id, token));
-  }
-
-  public async getCacheObject(id: string): Promise<CacheInfo> {
+  public getCacheObject(id: string): CacheInfo | undefined {
     const cacheInfo = this.cacheInfo[id];
     if (!cacheInfo || cacheInfo.expired()) {
-      await this.fetch(id);
+      return;
     }
 
     const res = this.cacheInfo[id];
@@ -162,6 +212,4 @@ export default abstract class BaseCache<T extends HasId> extends EventBus<{
         obj: obj,
       }));
   }
-
-  protected abstract refresh(id: string, token?: string): Promise<T>;
 }

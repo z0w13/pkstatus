@@ -9,7 +9,7 @@ export default function useStatusUpdater() {
   let lastUpdated: 'system' | 'fronters' = 'fronters';
 
   const $q = useQuasar();
-  const { fronterCache, systemCache } = useServices();
+  const { pluralKit } = useServices();
   const systemStore = useSystemStore();
   const settings = useSettingsStore();
 
@@ -43,12 +43,12 @@ export default function useStatusUpdater() {
   async function updateSystemInfo() {
     for (const system of systemStore.ids) {
       try {
-        if (!systemCache.has(system)) {
-          return await systemCache.fetch(system);
+        if (!pluralKit.systemCache.has(system)) {
+          return await pluralKit.getSystem(system);
         }
 
-        if (!fronterCache.has(system)) {
-          return await fronterCache.fetch(system);
+        if (!pluralKit.fronterCache.has(system)) {
+          return await pluralKit.getFronters(system);
         }
       } catch (e) {
         if (!(e instanceof APIError)) {
@@ -57,7 +57,7 @@ export default function useStatusUpdater() {
 
         return $q.notify({
           type: 'negative',
-          message: `Error updating fronters for '${systemCache.getCached(system)?.name || system}'`,
+          message: `Error updating fronters for '${pluralKit.systemCache.get(system)?.name || system}'`,
           caption: `${e.status}: ${e.message} (${e.code})`,
         });
       }
@@ -90,7 +90,9 @@ export default function useStatusUpdater() {
         settings.fronterUpdateInterval * multiplyInterval,
       )) {
         try {
-          return await fronterCache.fetch(fronters.system);
+          return await pluralKit.getFronters(fronters.system, {
+            skipCache: true,
+          });
         } catch (e) {
           if (!(e instanceof APIError)) {
             throw e;
@@ -98,7 +100,7 @@ export default function useStatusUpdater() {
 
           return $q.notify({
             type: 'negative',
-            message: `Error updating fronters for '${systemCache.getCached(fronters.system)?.name || fronters.system}'`,
+            message: `Error updating fronters for '${pluralKit.systemCache.get(fronters.system)?.name || fronters.system}'`,
             caption: `${e.status}: ${e.message} (${e.code})`,
           });
         }

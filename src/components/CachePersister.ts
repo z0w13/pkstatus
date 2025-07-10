@@ -3,21 +3,25 @@ import { useServices } from 'src/lib/Services';
 import { useSystemStore } from 'src/stores/system-store';
 
 export default function useCachePersister() {
-  const { fronterCache, systemCache, memberCache } = useServices();
+  const { pluralKit } = useServices();
   const systemStore = useSystemStore();
-  const persister = new CachePersister(systemCache, memberCache, fronterCache);
+  const persister = new CachePersister(
+    pluralKit.systemCache,
+    pluralKit.memberCache,
+    pluralKit.fronterCache,
+  );
 
-  systemCache.on('change', (system) => {
+  pluralKit.systemCache.on('change', (system) => {
     if (systemStore.ids.includes(system.id)) {
       persister.persist(systemStore.ids);
     }
   });
-  memberCache.on('change', (member) => {
+  pluralKit.memberCache.on('change', (member) => {
     if (systemStore.ids.includes(member.system)) {
       persister.persist(systemStore.ids);
     }
   });
-  fronterCache.on('change', (fronter) => {
+  pluralKit.fronterCache.on('change', (fronter) => {
     if (systemStore.ids.includes(fronter.system)) {
       persister.persist(systemStore.ids);
     }

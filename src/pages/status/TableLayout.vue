@@ -192,7 +192,7 @@ const $q = useQuasar();
 const settingsStore = useSettingsStore();
 const { detectPronouns } = storeToRefs(settingsStore);
 const settings = settingsStore.status.table;
-const { fronterCache } = useServices();
+const { pluralKit } = useServices();
 
 const useMobileUi = computed(() => $q.screen.lt.sm || settings.forceMobileUi);
 const dialog = ref();
@@ -207,7 +207,7 @@ const props = defineProps<Props>();
 
 const maxFront = computed(() =>
   Math.max(
-    ...fronterCache.getMultiCached(props.ids).map((f) => f.members.length),
+    ...pluralKit.fronterCache.getMulti(props.ids).map((f) => f.members.length),
   ),
 );
 

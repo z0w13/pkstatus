@@ -40,7 +40,7 @@ const emit = defineEmits<{
 
 defineProps<{
   system: System;
-  members: Array<Member>;
+  members: ReadonlyArray<Member>;
   detectPronouns: boolean;
   colorAccent: boolean;
 }>();

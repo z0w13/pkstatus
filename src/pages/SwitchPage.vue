@@ -193,7 +193,7 @@ import { System } from 'src/models/System';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
-const { pluralKit, memberCache, groupCache, fronterCache } = useServices();
+const { pluralKit } = useServices();
 const { detectPronouns, token, switcher } = storeToRefs(settingsStore);
 
 const sortMethods: Record<
@@ -222,7 +222,7 @@ const switching = ref(false);
 const searchText = ref('');
 const primaryFronterId = ref('');
 const selected = ref<Array<string>>([]);
-const members = ref<Array<Member>>([]);
+const members = ref<ReadonlyArray<Member>>([]);
 const searchForm = ref<HTMLElement>();
 const sortMethod = computed(
   () => sortMethods[switcher.value.lastSortMethod].func,
@@ -230,26 +230,26 @@ const sortMethod = computed(
 
 // Computed
 const primaryFronter = computed(() =>
-  memberCache.getCached(primaryFronterId.value),
+  pluralKit.memberCache.get(primaryFronterId.value),
 );
 
 // To display list of (selected) fronters
 // reversed so the main fronter shows on top
 const fronters = computed(() =>
-  memberCache.getMultiCached(selected.value.toReversed()),
+  pluralKit.memberCache.getMulti(selected.value.toReversed()),
 );
 
 // Options for the main fronter dropdown
 const options = computed(() =>
-  memberCache.getMultiCached(selected.value).map((m) => ({
+  pluralKit.memberCache.getMulti(selected.value).map((m) => ({
     value: m.id,
     label: m.getName(detectPronouns.value),
   })),
 );
 
 const filterMemberIds = computed(() =>
-  groupCache
-    .getMultiCached(switcher.value.excludeGroups)
+  pluralKit.groupCache
+    .getMulti(switcher.value.excludeGroups)
     .map((g) => g.members)
     .flat(),
 );
@@ -334,16 +334,17 @@ function showSuccessMessage(newFronters: Array<string>): void {
     });
   } else if (newFronters.length == 1) {
     const name =
-      memberCache.getCached(newFronters[0])?.getName(detectPronouns.value) ??
-      'Unknown';
+      pluralKit.memberCache
+        .get(newFronters[0])
+        ?.getName(detectPronouns.value) ?? 'Unknown';
 
     $q.notify({
       type: 'positive',
       message: `Switch registered. Current fronter is now ${name}.`,
     });
   } else {
-    const names = memberCache
-      .getMultiCached(newFronters)
+    const names = pluralKit.memberCache
+      .getMulti(newFronters)
       .map((m) => m.getName(detectPronouns.value));
 
     $q.notify({
@@ -402,11 +403,11 @@ async function loadState() {
     return;
   }
 
-  members.value = await pluralKit.getOwnMembers();
-  const lastSwitch = await fronterCache.fetch(system.id, token.value);
+  members.value = (await pluralKit.getOwnMembers()) ?? [];
+  const lastSwitch = await pluralKit.getOwnFronters();
 
   // If there's no members we can't populate with previous data
-  if (lastSwitch.members.length > 0) {
+  if (lastSwitch && lastSwitch.members.length > 0) {
     primaryFronterId.value = lastSwitch.members[0].id;
     selected.value = lastSwitch.members.map((m) => m.id);
   }

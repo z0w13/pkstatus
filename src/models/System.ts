@@ -21,7 +21,7 @@ export const SerializedSystem = z.object({
 });
 export type SerializedSystem = z.infer<typeof SerializedSystem>;
 
-interface ISystem {
+export interface ISystem {
   id: string;
   uuid: string;
 

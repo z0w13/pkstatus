@@ -138,7 +138,7 @@ watch(
     fronters.value = await pluralKit.getFronters(newId);
 
     try {
-      members.value.list = (await pluralKit.getMembers(newId)).sort(
+      members.value.list = (await pluralKit.getMembers(newId)).toSorted(
         getNameSort(detectPronouns.value),
       );
 
@@ -157,7 +157,7 @@ watch(
     }
 
     try {
-      groups.value.list = (await pluralKit.getGroups(newId)).sort(
+      groups.value.list = (await pluralKit.getGroups(newId)).toSorted(
         getNameSort(detectPronouns.value),
       );
 

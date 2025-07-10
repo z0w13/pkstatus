@@ -19,11 +19,13 @@ import {
 } from 'src/lib/check-update';
 import { useRouter } from 'vue-router';
 
+// set up our custom error handler so errors get logged
+setupErrorHandler();
+
 const $q = useQuasar();
 
 const loading = ref(true);
 const settingsStore = useSettingsStore();
-const { pluralKit } = useServices();
 
 const newVersion = ref<UpdateInfo | null>(null);
 const router = useRouter();
@@ -46,6 +48,13 @@ watch(dark, (newVal) => $q.dark.set(newVal), {
   immediate: true,
 });
 
+// define and start the PluralKit api service
+const { pluralKit } = useServices(token.value ?? undefined);
+
+// restore the caches from local storage
+useCachePersister().restore();
+
+// Watch for changes to the pluralkit token and update the PluralKit API wrapper with it
 watch(
   token,
   async (newVal) => {
@@ -83,7 +92,6 @@ async function updateChecker() {
 let updateCheckerInterval: ReturnType<typeof setInterval> | null = null;
 onMounted(() => {
   persister.restore();
-  pluralKit.api.start();
 
   if (
     !updateCheckerInterval &&

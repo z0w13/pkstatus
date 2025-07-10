@@ -20,14 +20,14 @@ export const useSystemStore = defineStore(STORE_NAME, {
   },
   actions: {
     getExpired(ttl?: number): Array<System> {
-      const { systemCache } = useServices();
-      return systemCache
+      const { pluralKit } = useServices();
+      return pluralKit.systemCache
         .getExpired(ttl, true)
         .filter((s) => this.systems[s.id]);
     },
     getExpiredFronters(ttl?: number): Array<Fronters> {
-      const { fronterCache } = useServices();
-      return fronterCache
+      const { pluralKit } = useServices();
+      return pluralKit.fronterCache
         .getExpired(ttl, true)
         .filter((f) => this.systems[f.system]);
     },
@@ -37,21 +37,21 @@ export const useSystemStore = defineStore(STORE_NAME, {
     async get(id: string): Promise<System> {
       return await this.add(id);
     },
-    async getAll(): Promise<Array<System>> {
-      const { systemCache } = useServices();
-      return await systemCache.getMulti(this.ids);
+    async getAll(): Promise<ReadonlyArray<System>> {
+      const { pluralKit } = useServices();
+      return Promise.all(this.ids.map((id) => pluralKit.getSystem(id)));
     },
 
     async add(id: string): Promise<System> {
-      const { systemCache } = useServices();
-      const system = await systemCache.get(id);
+      const { pluralKit } = useServices();
+      const system = await pluralKit.getSystem(id);
 
       this.systems[system.id] = true;
       return system;
     },
     async update(id: string): Promise<System> {
-      const { systemCache } = useServices();
-      return await systemCache.fetch(id);
+      const { pluralKit } = useServices();
+      return await pluralKit.getSystem(id, { skipCache: true });
     },
     delete(id: string): void {
       delete this.systems[id];

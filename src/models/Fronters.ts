@@ -16,7 +16,7 @@ export type SerializedFronters = z.infer<typeof SerializedFronters>;
 export interface IFronters {
   system: string;
   allowed: boolean;
-  members: Array<Member>;
+  members: ReadonlyArray<Member>;
   lastSwitch: dayjs.Dayjs | null;
   lastUpdated: dayjs.Dayjs;
 }
@@ -49,14 +49,14 @@ export class Fronters {
       values.system,
       values.allowed,
       values.lastSwitch,
-      values.members,
+      [...values.members],
       values.lastUpdated,
     );
   }
 
   static fromStorage(
     serialized: SerializedFronters,
-    members: Array<Member>,
+    members: ReadonlyArray<Member>,
   ): Fronters {
     return Fronters.fromDict({
       ...serialized,

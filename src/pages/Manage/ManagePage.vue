@@ -108,7 +108,7 @@ const $q = useQuasar();
 const systemStore = useSystemStore();
 const settings = useSettingsStore();
 const { id: idOpts } = storeToRefs(settings);
-const { systemCache, pluralKit } = useServices();
+const { pluralKit } = useServices();
 
 const columns: QTableProps['columns'] = [
   { name: 'avatar', field: 'avatarUrl', label: 'Icon', align: 'left' },
@@ -125,7 +125,7 @@ const columns: QTableProps['columns'] = [
 ];
 
 const tableData = computed(() =>
-  systemStore.ids.map((id) => systemCache.objects[id] || { id }),
+  systemStore.ids.map((id) => pluralKit.systemCache.objects[id] || { id }),
 );
 
 function deleteSystem(id: string) {
@@ -142,7 +142,7 @@ onMounted(async () => {
       if (is404(e)) {
         $q.notify({
           type: 'negative',
-          message: `Error fetching ${systemCache.getCached(id)?.name || formatId(id, idOpts.value)}`,
+          message: `Error fetching ${pluralKit.systemCache.get(id)?.name || formatId(id, idOpts.value)}`,
           caption: `${e.status}: ${e.message} (${e.code})`,
         });
       }

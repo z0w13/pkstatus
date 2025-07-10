@@ -3,10 +3,14 @@ import { ZodError, z } from 'zod';
 import { System, SerializedSystem } from 'src/models/System';
 import { Fronters, SerializedFronters } from 'src/models/Fronters';
 import { Member, SerializedMember } from 'src/models/Member';
-import { CacheInfo, SerializedCacheInfo } from 'src/stores/cache/BaseCache';
-import SystemCache from 'src/stores/cache/SystemCache';
-import MemberCache from 'src/stores/cache/MemberCache';
-import FronterCache from 'src/stores/cache/FronterCache';
+import {
+  CacheInfo,
+  SerializedCacheInfo,
+} from 'src/lib/PluralKit/cache/BaseCache';
+
+import SystemCache from 'src/lib/PluralKit/cache/SystemCache';
+import MemberCache from 'src/lib/PluralKit/cache/MemberCache';
+import FronterCache from 'src/lib/PluralKit/cache/FronterCache';
 
 const PersistedCache = z.object({
   systems: z.array(
@@ -78,10 +82,7 @@ export class CachePersister {
       parsedCache.fronters.forEach(({ info, obj }) =>
         this.fronterCache.setCached(
           CacheInfo.fromStorage(info),
-          Fronters.fromStorage(
-            obj,
-            this.memberCache.getMultiCached(obj.members),
-          ),
+          Fronters.fromStorage(obj, this.memberCache.getMulti(obj.members)),
         ),
       );
     } catch (e) {

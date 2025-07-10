@@ -38,7 +38,7 @@ export interface IMember {
   uuid: string;
   system: string;
 
-  name: string;
+  name: string | null;
   displayName: string | null;
   color: string | null;
   birthday: dayjs.Dayjs | null;
@@ -151,7 +151,7 @@ export class Member implements IMember {
 
   static fromPKApi(member: ApiMember): Member {
     if (typeof member.system !== 'string' || member.system.length === 0) {
-      throw new Error("Group.system shouldn't be an empty string");
+      throw new Error("Member.system shouldn't be an empty string");
     }
 
     return Member.fromDict({

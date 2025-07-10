@@ -149,7 +149,7 @@ import { useServices } from 'src/lib/Services';
 import { shouldCheckForUpdates } from 'src/lib/check-update';
 
 const $q = useQuasar();
-const { systemCache } = useServices();
+const { pluralKit } = useServices();
 const settingsStore = useSettingsStore();
 
 const {
@@ -184,7 +184,7 @@ const checkToken = debounce(async () => {
 
   try {
     tokenChecking.value = true;
-    tokenSystem.value = await systemCache.fetchToken(newToken.value);
+    tokenSystem.value = await pluralKit.getSystemByToken(newToken.value);
 
     $q.notify({
       type: 'positive',

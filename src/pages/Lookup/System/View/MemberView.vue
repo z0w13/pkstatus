@@ -67,7 +67,7 @@ defineProps<{
   members: {
     loading: boolean;
     allowed: boolean;
-    list: Array<Member>;
+    list: ReadonlyArray<Member>;
   };
   dialog: typeof DescriptionDialog;
 }>();

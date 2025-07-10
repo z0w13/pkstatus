@@ -52,12 +52,12 @@ import TileSettings from 'src/components/StatusPage/Settings/TileSettings.vue';
 import InstructionsPage from 'src/pages/status/InstructionsPage.vue';
 import useStatusUpdater from 'src/components/StatusUpdater';
 
-const { fronterCache, systemCache } = useServices();
+const { pluralKit } = useServices();
 const systemStore = useSystemStore();
 const { status } = storeToRefs(useSettingsStore());
 const { ids } = storeToRefs(systemStore);
-const fronters = fronterCache.objects;
-const systems = systemCache.objects;
+const fronters = pluralKit.fronterCache.objects;
+const systems = pluralKit.systemCache.objects;
 const statusUpdater = useStatusUpdater();
 
 onMounted(statusUpdater.start);

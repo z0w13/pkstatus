@@ -13,7 +13,7 @@ const { pluralKit } = useServices();
 const model = defineModel<string | Array<string>>();
 
 const loading = ref(true);
-const groups = ref<Array<Group>>([]);
+const groups = ref<ReadonlyArray<Group>>([]);
 const filteredSelectOptions = ref<Array<{ label: string; value: string }>>([]);
 const selectOptions = computed(() =>
   groups.value.map((g) => ({ label: g.getName(), value: g.id })),
