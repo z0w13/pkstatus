@@ -1,6 +1,14 @@
 <template>
-  <q-select v-model="model" :options="filteredSelectOptions" map-options use-input emit-value :loading="loading"
-    :readonly="loading" @filter="filterFunc" />
+  <q-select
+    v-model="model"
+    :options="filteredSelectOptions"
+    map-options
+    use-input
+    emit-value
+    :loading="loading"
+    :readonly="loading"
+    @filter="filterFunc"
+  />
 </template>
 
 <script setup lang="ts">
