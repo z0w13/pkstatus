@@ -8,9 +8,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "lint": "eslint --cache -c ./eslint.config.ts \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
+    "lint": "eslint --cache --max-warnings 0 -c ./eslint.config.ts \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\"",
     "dev": "quasar dev",
+    "check": "vue-tsc --noEmit",
     "release": "vite-node contrib/release.ts",
     "build": "quasar build",
     "prepare": "husky",
