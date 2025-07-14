@@ -259,8 +259,9 @@ const filteredMembers = computed(() =>
   members.value
     .filter(
       (m) =>
-        caseInsensitiveIncludes(m.name, searchText.value) ||
-        caseInsensitiveIncludes(m.displayName || '', searchText.value),
+        (m.name && caseInsensitiveIncludes(m.name, searchText.value)) ||
+        (m.displayName &&
+          caseInsensitiveIncludes(m.displayName || '', searchText.value)),
     )
     .filter((m) => !filterMemberIds.value.includes(m.id))
     .toSorted(sortMethod.value),

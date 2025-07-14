@@ -84,7 +84,7 @@
       </q-markup-table>
     </q-card-section>
     <q-separator />
-    <q-card-section v-if="system.description.length > 0">
+    <q-card-section v-if="system.description && system.description.length > 0">
       <pre class="description">{{ system.description }}</pre>
     </q-card-section>
     <avatar-dialog

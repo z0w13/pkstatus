@@ -7,10 +7,10 @@ export const SerializedSystem = z.object({
   id: z.string(),
   uuid: z.string(),
 
-  name: z.string().default(''),
-  description: z.string().default(''),
-  tag: z.string().default(''),
-  pronouns: z.string().default(''),
+  name: z.string().nullable(),
+  description: z.string().nullable(),
+  tag: z.string().nullable(),
+  pronouns: z.string().nullable(),
 
   avatarUrl: z.string().nullable(),
   bannerUrl: z.string().nullable(),
@@ -25,10 +25,10 @@ interface ISystem {
   id: string;
   uuid: string;
 
-  name: string;
-  description: string;
-  tag: string;
-  pronouns: string;
+  name: string | null;
+  description: string | null;
+  tag: string | null;
+  pronouns: string | null;
 
   avatarUrl: string | null;
   bannerUrl: string | null;
@@ -43,10 +43,10 @@ export class System implements ISystem {
     public id: string,
     public uuid: string,
 
-    public name: string,
-    public description: string,
-    public tag: string,
-    public pronouns: string,
+    public name: string | null,
+    public description: string | null,
+    public tag: string | null,
+    public pronouns: string | null,
 
     public avatarUrl: string | null,
     public bannerUrl: string | null,
@@ -61,15 +61,23 @@ export class System implements ISystem {
   }
 
   getName(stripPronouns = false): string {
+    if (!this.name) {
+      return this.id;
+    }
+
     return stripPronouns ? util.stripPronouns(this.name, '|') : this.name;
   }
 
   getPronouns(nameFallback = false): string | null {
-    if (!this.pronouns) {
-      return nameFallback ? util.getPronouns(this.name) : null;
+    if (this.pronouns) {
+      return this.pronouns;
     }
 
-    return this.pronouns;
+    if (this.name && nameFallback) {
+      return util.getPronouns(this.name);
+    }
+
+    return null;
   }
 
   static fromDict(values: ISystem): System {

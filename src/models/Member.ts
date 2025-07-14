@@ -10,7 +10,7 @@ export const SerializedMember = z.object({
   uuid: z.string(),
   system: z.string(),
 
-  name: z.string(),
+  name: z.string().nullable(),
   displayName: z.string().nullable(),
   color: z.string().nullable(),
   birthday: z.string().datetime().nullable(),
@@ -67,7 +67,7 @@ export class Member implements IMember {
     public uuid: string,
     public system: string,
 
-    public name: string,
+    public name: string | null,
     public displayName: string | null,
     public color: string | null,
     public birthday: dayjs.Dayjs | null,
@@ -99,16 +99,24 @@ export class Member implements IMember {
   }
 
   getName(stripPronouns = false): string {
-    const name = this.displayName || this.name;
+    const name = this.displayName ?? this.name;
+    if (!name) {
+      return this.id;
+    }
+
     return stripPronouns ? util.stripPronouns(name, '|') : name;
   }
 
   getPronouns(nameFallback = false): string | null {
-    if (!this.pronouns) {
-      return nameFallback ? util.getPronouns(this.getName()) : null;
+    if (this.pronouns) {
+      return this.pronouns;
     }
 
-    return this.pronouns;
+    if (this.name && nameFallback) {
+      return util.getPronouns(this.name);
+    }
+
+    return null;
   }
 
   static fromDict(values: IMember): Member {
