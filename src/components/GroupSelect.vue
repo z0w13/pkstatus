@@ -1,14 +1,6 @@
 <template>
-  <q-select
-    v-model="model"
-    :options="filteredSelectOptions"
-    map-options
-    use-input
-    emit-value
-    :loading="loading"
-    :readonly="loading"
-    @filter="filterFunc"
-  />
+  <q-select v-model="model" :options="filteredSelectOptions" map-options use-input emit-value :loading="loading"
+    :readonly="loading" @filter="filterFunc" />
 </template>
 
 <script setup lang="ts">
@@ -45,7 +37,14 @@ function filterFunc(val: string, update: (cb: () => void) => void) {
 }
 
 onMounted(async () => {
-  groups.value = await pluralKit.getOwnGroups();
+  const groupResult = await pluralKit.getOwnGroups();
+  if (!groupResult) {
+    throw new Error(
+      "couldn't get own groups despite in GroupSelect but we shouldn't get here without a token",
+    );
+  }
+
+  groups.value = groupResult;
   filteredSelectOptions.value = selectOptions.value;
   model.value = Array.isArray(model.value) ? [...model.value] : model.value;
   loading.value = false;
