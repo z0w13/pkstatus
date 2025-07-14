@@ -179,7 +179,7 @@ export default class ApiClient {
       });
 
       this.limiter.handleResponse(resp);
-      return resp;
+      return resp.data;
     } catch (e) {
       // handle ratelimiter errors
       if (isAxiosError(e) && e.status === 429) {

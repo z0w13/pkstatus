@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 import { describe, expect, it } from 'vitest';
 import AxiosMockAdapter from 'axios-mock-adapter';
 
+import ApiClient from 'src/lib/PluralKit/ApiClient';
+
 import { ManuallyStartedApiClient } from 'test/vitest/__tests__/lib/PluralKit/util';
 
 describe('ApiClient', function () {
@@ -32,6 +34,22 @@ describe('ApiClient', function () {
     const system = await prom;
 
     expect(system).toMatchObject({ id: 'exmpl' });
+  });
+
+  it('returns api data', async function () {
+    const axiosInstance = axios.create({});
+    const axiosMock = new AxiosMockAdapter(axiosInstance);
+    const client = new ApiClient({ token: 'fake-token', axiosInstance });
+
+    axiosMock.onGet('/systems/exmpl').reply(200, {
+      id: 'exmpl',
+      uuid: 'uuid-exmpl',
+      created: dayjs(0).toISOString(),
+    });
+
+    expect(await client.request('GET', '/systems/exmpl')).toMatchObject({
+      id: 'exmpl',
+    });
   });
 
   it('prioritizes non-get requests', async function () {
