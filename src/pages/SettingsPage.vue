@@ -146,7 +146,7 @@ import PageTitle from 'src/components/PageTitle.vue';
 import IdSection from 'src/pages/Settings/IdSection.vue';
 import BackupSection from 'src/pages/Settings/BackupSection.vue';
 import { useServices } from 'src/lib/Services';
-import { shouldCheckForUpdates } from 'src/lib/check-update';
+import { shouldCheckForUpdates } from 'src/lib/updateChecker';
 
 const $q = useQuasar();
 const { pluralKit } = useServices();

@@ -181,7 +181,7 @@ import { homepage } from '../../package.json';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { storeToRefs } from 'pinia';
 import { scroll, useQuasar } from 'quasar';
-import { UpdateInfo } from 'src/lib/check-update';
+import { UpdateInfo } from 'src/lib/updateChecker';
 import { getVersion, isDev } from 'src/util';
 
 const settings = useSettingsStore();

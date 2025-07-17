@@ -16,7 +16,7 @@ import {
   UpdateInfo,
   checkForUpdate,
   shouldCheckForUpdates,
-} from 'src/lib/check-update';
+} from 'src/lib/updateChecker';
 import { useRouter } from 'vue-router';
 
 // set up our custom error handler so errors get logged
