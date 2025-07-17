@@ -62,7 +62,7 @@ async function getLatestRelease(): Promise<ReleaseResponse> {
   );
 }
 
-function isValidUpdateTarget(
+export function isValidUpdateTarget(
   currentVersion: string,
   newVersion: string,
 ): boolean {
