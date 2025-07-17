@@ -20,14 +20,36 @@ const ReleaseResponse = z.object({
 });
 type ReleaseResponse = z.infer<typeof ReleaseResponse>;
 
-export interface UpdateInfo {
-  version: string;
-  changelog: string;
-  url: string;
-  assets: {
-    android: string | null;
-    windows: string | null;
-  };
+export class UpdateInfo {
+  constructor(
+    public version: string,
+    public changelog: string,
+    public url: string,
+    public assets: {
+      android: string | null;
+      windows: string | null;
+    },
+  ) {}
+
+  static async fromRelease(release: ReleaseResponse): Promise<UpdateInfo> {
+    const newVersion = release.tag_name;
+    const changelog = (
+      await axios.get(
+        `https://raw.githubusercontent.com/z0w13/pkstatus/${newVersion}/CHANGELOG.md`,
+      )
+    ).data
+      .replaceAll(/\[(.*)\]\(.*?\)/g, '$1')
+      .replaceAll(/^## /g, '---\n##');
+
+    return new UpdateInfo(newVersion, changelog, release.html_url, {
+      android:
+        release.assets.find((a: ReleaseAsset) => a.name.endsWith('.apk'))
+          ?.browser_download_url || null,
+      windows:
+        release.assets.find((a: ReleaseAsset) => a.name.endsWith('.exe'))
+          ?.browser_download_url || null,
+    });
+  }
 }
 
 async function getLatestRelease(): Promise<ReleaseResponse> {
@@ -60,31 +82,11 @@ export async function checkForUpdate(): Promise<UpdateInfo | null> {
   const currVer = getVersion();
   const newVer = latest.tag_name;
 
-  if (isValidUpdateTarget(currVer, newVer)) {
-    if (newVer !== currVer) {
-      return {
-        version: newVer,
-        changelog: (
-          await axios.get(
-            `https://raw.githubusercontent.com/z0w13/pkstatus/${newVer}/CHANGELOG.md`,
-          )
-        ).data
-          .replaceAll(/\[(.*)\]\(.*?\)/g, '$1')
-          .replaceAll(/^## /g, '---\n##'),
-        url: latest.html_url,
-        assets: {
-          android:
-            latest.assets.find((a: ReleaseAsset) => a.name.endsWith('.apk'))
-              ?.browser_download_url || null,
-          windows:
-            latest.assets.find((a: ReleaseAsset) => a.name.endsWith('.exe'))
-              ?.browser_download_url || null,
-        },
-      };
-    }
+  if (!isValidUpdateTarget(currVer, newVer) || newVer == currVer) {
+    return null;
   }
 
-  return null;
+  return await UpdateInfo.fromRelease(latest);
 }
 
 export function shouldCheckForUpdates($q: QVueGlobals): boolean {
