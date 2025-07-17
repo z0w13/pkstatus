@@ -12,11 +12,11 @@
 </template>
 
 <script setup lang="ts">
-import { useServices } from 'src/lib/Services';
+import { usePluralKit } from 'boot/pluralKit';
 import { Group } from 'src/models/Group';
 import { computed, onMounted, ref } from 'vue';
 
-const { pluralKit } = useServices();
+const pluralKit = usePluralKit();
 
 const model = defineModel<string | Array<string>>();
 

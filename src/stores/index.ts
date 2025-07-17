@@ -2,6 +2,9 @@ import { defineStore } from '#q-app/wrappers';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
+import { usePluralKit } from 'src/boot/pluralKit';
+import PluralKit from 'src/lib/PluralKit/PluralKit';
+
 /*
  * When adding new properties to stores, you should also
  * extend the `PiniaCustomProperties` interface.
@@ -23,9 +26,18 @@ declare module 'pinia' {
  * with the Store instance.
  */
 
+declare module 'pinia' {
+  export interface PiniaCustomProperties {
+    pluralKit: PluralKit;
+  }
+}
+
 export default defineStore((/* { ssrContext } */) => {
   const pinia = createPinia();
   pinia.use(piniaPluginPersistedstate);
+  pinia.use(({ store }) => {
+    store.pluralKit = usePluralKit();
+  });
 
   return pinia;
 });

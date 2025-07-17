@@ -26,11 +26,11 @@ import { Member } from 'src/models/Member';
 
 import MemberCard from 'src/components/Card/MemberCard.vue';
 import { APIError } from 'pkapi.js';
-import { useServices } from 'src/lib/Services';
+import { usePluralKit } from 'boot/pluralKit';
 
 const route = useRoute();
 
-const { pluralKit } = useServices();
+const pluralKit = usePluralKit();
 
 const status = ref<'loading' | 'forbidden' | 'notfound'>('loading');
 const member = ref<Member | null>(null);

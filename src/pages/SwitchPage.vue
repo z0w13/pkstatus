@@ -182,7 +182,7 @@ import { APIError } from 'pkapi.js';
 
 import { caseInsensitiveIncludes, getNameSort } from 'src/util';
 import { useSettingsStore } from 'src/stores/settings-store';
-import { useServices } from 'src/lib/Services';
+import { usePluralKit } from 'boot/pluralKit';
 import { Member } from 'src/models/Member';
 
 import PageTitle from 'src/components/PageTitle.vue';
@@ -193,7 +193,7 @@ import { System } from 'src/models/System';
 
 const $q = useQuasar();
 const settingsStore = useSettingsStore();
-const { pluralKit } = useServices();
+const pluralKit = usePluralKit();
 const { detectPronouns, token, switcher } = storeToRefs(settingsStore);
 
 const sortMethods: Record<

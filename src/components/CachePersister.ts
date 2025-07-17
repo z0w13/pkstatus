@@ -1,9 +1,9 @@
 import { CachePersister } from 'src/lib/CachePersister';
-import { useServices } from 'src/lib/Services';
+import { usePluralKit } from 'boot/pluralKit';
 import { useSystemStore } from 'src/stores/system-store';
 
 export default function useCachePersister() {
-  const { pluralKit } = useServices();
+  const pluralKit = usePluralKit();
   const systemStore = useSystemStore();
   const persister = new CachePersister(
     pluralKit.systemCache,

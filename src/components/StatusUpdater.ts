@@ -1,6 +1,6 @@
 import { APIError } from 'pkapi.js';
 import { useQuasar } from 'quasar';
-import { useServices } from 'src/lib/Services';
+import { usePluralKit } from 'boot/pluralKit';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { useSystemStore } from 'src/stores/system-store';
 
@@ -9,7 +9,7 @@ export default function useStatusUpdater() {
   let lastUpdated: 'system' | 'fronters' = 'fronters';
 
   const $q = useQuasar();
-  const { pluralKit } = useServices();
+  const pluralKit = usePluralKit();
   const systemStore = useSystemStore();
   const settings = useSettingsStore();
 

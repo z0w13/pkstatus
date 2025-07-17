@@ -72,12 +72,12 @@ import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import SystemCard from 'src/components/Card/SystemCard.vue';
 
 import { getNameSort } from 'src/util';
-import { useServices } from 'src/lib/Services';
+import { usePluralKit } from 'boot/pluralKit';
 import { Group } from 'src/models/Group';
 
 const route = useRoute();
 const settingsStore = useSettingsStore();
-const { pluralKit } = useServices();
+const pluralKit = usePluralKit();
 const { detectPronouns } = storeToRefs(settingsStore);
 
 const status = ref<'loading' | 'forbidden' | 'notfound'>('loading');

@@ -54,7 +54,7 @@ import { debounce, useQuasar } from 'quasar';
 import { ref, watch } from 'vue';
 
 import { useSystemStore } from 'src/stores/system-store';
-import { useServices } from 'src/lib/Services';
+import { usePluralKit } from 'boot/pluralKit';
 import { System } from 'src/models/System';
 
 import { matGroups } from '@quasar/extras/material-icons';
@@ -65,7 +65,7 @@ import { is404 } from 'src/util';
 const $q = useQuasar();
 const router = useRouter();
 const systemStore = useSystemStore();
-const { pluralKit } = useServices();
+const pluralKit = usePluralKit();
 
 const newId = ref('');
 const newSys = ref<System | null>(null);

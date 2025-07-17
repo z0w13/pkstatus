@@ -28,7 +28,7 @@ import { System } from 'src/models/System';
 import { Member } from 'src/models/Member';
 import { Group } from 'src/models/Group';
 
-import { useServices } from 'src/lib/Services';
+import { usePluralKit } from 'boot/pluralKit';
 
 import DescriptionDialog from 'src/components/DescriptionDialog.vue';
 import GroupCard from 'src/components/Card/GroupCard.vue';
@@ -36,7 +36,7 @@ import MemberView from 'src/pages/Lookup/System/View/MemberView.vue';
 
 const route = useRoute();
 
-const { pluralKit } = useServices();
+const pluralKit = usePluralKit();
 
 const status = ref<'loading' | 'forbidden' | 'notfound'>('loading');
 const group = ref<Group | null>(null);

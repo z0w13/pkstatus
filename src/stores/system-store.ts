@@ -2,7 +2,6 @@ import { StateTree, defineStore } from 'pinia';
 
 import { LatestVersion, migrate } from 'src/models/migrations/system/index';
 import { System } from 'src/models/System';
-import { useServices } from 'src/lib/Services';
 import { Fronters } from 'src/models/Fronters';
 
 const STORE_NAME = 'systems';
@@ -20,14 +19,12 @@ export const useSystemStore = defineStore(STORE_NAME, {
   },
   actions: {
     getExpired(ttl?: number): Array<System> {
-      const { pluralKit } = useServices();
-      return pluralKit.systemCache
+      return this.pluralKit.systemCache
         .getExpired(ttl, true)
         .filter((s) => this.systems[s.id]);
     },
     getExpiredFronters(ttl?: number): Array<Fronters> {
-      const { pluralKit } = useServices();
-      return pluralKit.fronterCache
+      return this.pluralKit.fronterCache
         .getExpired(ttl, true)
         .filter((f) => this.systems[f.system]);
     },
@@ -38,20 +35,17 @@ export const useSystemStore = defineStore(STORE_NAME, {
       return await this.add(id);
     },
     async getAll(): Promise<ReadonlyArray<System>> {
-      const { pluralKit } = useServices();
-      return Promise.all(this.ids.map((id) => pluralKit.getSystem(id)));
+      return Promise.all(this.ids.map((id) => this.pluralKit.getSystem(id)));
     },
 
     async add(id: string): Promise<System> {
-      const { pluralKit } = useServices();
-      const system = await pluralKit.getSystem(id);
+      const system = await this.pluralKit.getSystem(id);
 
       this.systems[system.id] = true;
       return system;
     },
     async update(id: string): Promise<System> {
-      const { pluralKit } = useServices();
-      return await pluralKit.getSystem(id, { skipCache: true });
+      return await this.pluralKit.getSystem(id, { skipCache: true });
     },
     delete(id: string): void {
       delete this.systems[id];

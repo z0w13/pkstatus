@@ -44,15 +44,15 @@ import { onMounted, onUnmounted } from 'vue';
 
 import { useSystemStore } from 'src/stores/system-store';
 import { useSettingsStore } from 'src/stores/settings-store';
-import { useServices } from 'src/lib/Services';
 
 import TableSettings from 'src/components/StatusPage/Settings/TableSettings.vue';
 import ListSettings from 'src/components/StatusPage/Settings/ListSettings.vue';
 import TileSettings from 'src/components/StatusPage/Settings/TileSettings.vue';
 import InstructionsPage from 'src/pages/status/InstructionsPage.vue';
 import useStatusUpdater from 'src/components/StatusUpdater';
+import { usePluralKit } from 'boot/pluralKit';
 
-const { pluralKit } = useServices();
+const pluralKit = usePluralKit();
 const systemStore = useSystemStore();
 const { status } = storeToRefs(useSettingsStore());
 const { ids } = storeToRefs(systemStore);

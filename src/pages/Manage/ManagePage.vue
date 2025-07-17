@@ -98,7 +98,7 @@ import { QTableProps, useQuasar } from 'quasar';
 
 import { useSystemStore } from 'src/stores/system-store';
 import { useSettingsStore } from 'src/stores/settings-store';
-import { useServices } from 'src/lib/Services';
+import { usePluralKit } from 'boot/pluralKit';
 
 import PageTitle from 'src/components/PageTitle.vue';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
@@ -108,7 +108,7 @@ const $q = useQuasar();
 const systemStore = useSystemStore();
 const settings = useSettingsStore();
 const { id: idOpts } = storeToRefs(settings);
-const { pluralKit } = useServices();
+const pluralKit = usePluralKit();
 
 const columns: QTableProps['columns'] = [
   { name: 'avatar', field: 'avatarUrl', label: 'Icon', align: 'left' },

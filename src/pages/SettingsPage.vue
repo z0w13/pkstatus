@@ -145,11 +145,11 @@ import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import PageTitle from 'src/components/PageTitle.vue';
 import IdSection from 'src/pages/Settings/IdSection.vue';
 import BackupSection from 'src/pages/Settings/BackupSection.vue';
-import { useServices } from 'src/lib/Services';
 import { shouldCheckForUpdates } from 'src/lib/updateChecker';
+import { usePluralKit } from 'boot/pluralKit';
 
 const $q = useQuasar();
-const { pluralKit } = useServices();
+const pluralKit = usePluralKit();
 const settingsStore = useSettingsStore();
 
 const {

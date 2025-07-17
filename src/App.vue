@@ -9,7 +9,6 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { APIError } from 'pkapi.js';
-import { useServices } from 'src/lib/Services';
 import useCachePersister from 'src/components/CachePersister';
 import setupErrorHandler from 'src/errorHandler';
 import {
@@ -18,6 +17,8 @@ import {
   shouldCheckForUpdates,
 } from 'src/lib/updateChecker';
 import { useRouter } from 'vue-router';
+
+import { usePluralKit } from 'boot/pluralKit';
 
 // set up our custom error handler so errors get logged
 setupErrorHandler();
@@ -48,9 +49,6 @@ watch(dark, (newVal) => $q.dark.set(newVal), {
   immediate: true,
 });
 
-// define and start the PluralKit api service
-const { pluralKit } = useServices(token.value ?? undefined);
-
 // restore the caches from local storage
 useCachePersister().restore();
 
@@ -59,7 +57,7 @@ watch(
   token,
   async (newVal) => {
     try {
-      await pluralKit.setToken(newVal);
+      await usePluralKit().setToken(newVal);
       loading.value = false;
     } catch (e) {
       if (e instanceof APIError && e.status == '401') {
