@@ -149,6 +149,9 @@ importers:
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
+      vite-bundle-analyzer:
+        specifier: ^1.1.0
+        version: 1.1.0
       vite-plugin-checker:
         specifier: ^0.9.3
         version: 0.9.3(eslint@9.29.0(jiti@2.4.2))(meow@13.2.0)(typescript@5.8.3)(vite@6.3.0(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.39.0)(yaml@2.8.0))(vue-tsc@2.2.10(typescript@5.8.3))
@@ -6412,6 +6415,10 @@ packages:
   verror@1.10.1:
     resolution: {integrity: sha512-veufcmxri4e3XSrT0xwfUR7kguIkaxBeosDg00yDWhk49wdwkSUrvvsm7nc75e1PUyvIeZj6nS8VQRYz2/S4Xg==}
     engines: {node: '>=0.6.0'}
+
+  vite-bundle-analyzer@1.1.0:
+    resolution: {integrity: sha512-f/9m+6S5yPOHf/QS00rLOkyQ0icZeF67roM3O5LZZMPTOZFU1bHJTptNHCKMJc2yxXzj0Hunwcetrc+vM2LEQQ==}
+    hasBin: true
 
   vite-node@3.2.4:
     resolution: {integrity: sha512-EbKSKh+bh1E1IFxeO0pg1n4dvoOTt0UDiXMd/qn++r98+jPO1xtJilvXldeuQ8giIB5IkpjCgMleHMNEsGH6pg==}
@@ -13770,6 +13777,8 @@ snapshots:
       core-util-is: 1.0.2
       extsprintf: 1.4.1
     optional: true
+
+  vite-bundle-analyzer@1.1.0: {}
 
   vite-node@3.2.4(@types/node@22.10.10)(jiti@2.4.2)(sass-embedded@1.86.3)(sass@1.77.3)(terser@5.39.0)(yaml@2.8.0):
     dependencies:

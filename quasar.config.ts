@@ -88,6 +88,13 @@ export default defineConfig((/* ctx */) => {
           },
           { server: false },
         ],
+        [
+          'vite-bundle-analyzer',
+          {
+            enabled: !!process.env.VITE_BUNDLE_ANALYZER,
+            analyzerMode: 'static',
+          },
+        ],
       ],
     },
 
