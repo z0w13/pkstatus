@@ -1,12 +1,18 @@
 import dayjs from 'dayjs';
+import { prerelease } from 'semver';
 
 // eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import { version } from '../package.json';
 import { APIError } from 'pkapi.js';
 
+export function isPrerelease(version: string): boolean {
+  return !!prerelease(version);
+}
+
 export function isDev(): boolean {
   return (process.env.DEV as unknown as boolean) || version.includes('-dev');
 }
+
 export function getVersion(): string {
   const append = isDev() && !version.includes('-dev') ? '-dev' : '';
   return 'v' + version + append;

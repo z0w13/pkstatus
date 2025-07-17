@@ -1,7 +1,8 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { z } from 'zod';
-import { getVersion, isDev } from 'src/util';
 import { QVueGlobals } from 'quasar';
+
+import { getVersion, isPrerelease } from 'src/util';
 
 const UpdateAsset = z.object({
   name: z.string(),
@@ -17,6 +18,7 @@ const UpdateResponse = z.object({
   html_url: z.string(),
   assets: z.array(UpdateAsset),
 });
+type UpdateResponse = z.infer<typeof UpdateResponse>;
 
 export interface UpdateInfo {
   version: string;
@@ -28,48 +30,57 @@ export interface UpdateInfo {
   };
 }
 
+async function getLatestRelease(): Promise<UpdateResponse> {
+  return UpdateResponse.parse(
+    (
+      await axios.get(
+        'https://api.github.com/repos/z0w13/pkstatus/releases/latest',
+      )
+    ).data,
+  );
+}
+
+function isValidUpdateTarget(
+  currentVersion: string,
+  newVersion: string,
+): boolean {
+  return (
+    // prerelease -> prerelease
+    (isPrerelease(currentVersion) && isPrerelease(newVersion)) ||
+    // prerelease -> release
+    (isPrerelease(currentVersion) && !isPrerelease(newVersion)) ||
+    // release -> release
+    (!isPrerelease(currentVersion) && !isPrerelease(newVersion))
+  );
+}
+
 export async function checkForUpdate(): Promise<UpdateInfo | null> {
-  try {
-    const resp = UpdateResponse.parse(
-      (
-        await axios.get(
-          'https://api.github.com/repos/z0w13/pkstatus/releases/latest',
-        )
-      ).data,
-    );
+  const latest = await getLatestRelease();
 
-    const currVer = getVersion();
-    const newVer = resp.tag_name;
+  const currVer = getVersion();
+  const newVer = latest.tag_name;
 
-    const currIsDev = isDev();
-    const newIsDev = resp.tag_name.includes('dev');
-
-    if ((currIsDev && newIsDev) || (!currIsDev && !newIsDev)) {
-      if (newVer !== currVer) {
-        return {
-          version: newVer,
-          changelog: (
-            await axios.get(
-              `https://raw.githubusercontent.com/z0w13/pkstatus/${newVer}/CHANGELOG.md`,
-            )
-          ).data
-            .replaceAll(/\[(.*)\]\(.*?\)/g, '$1')
-            .replaceAll(/^## /g, '---\n##'),
-          url: resp.html_url,
-          assets: {
-            android:
-              resp.assets.find((a: UpdateAsset) => a.name.endsWith('.apk'))
-                ?.browser_download_url || null,
-            windows:
-              resp.assets.find((a: UpdateAsset) => a.name.endsWith('.exe'))
-                ?.browser_download_url || null,
-          },
-        };
-      }
-    }
-  } catch (e) {
-    if (!(e instanceof AxiosError)) {
-      throw e;
+  if (isValidUpdateTarget(currVer, newVer)) {
+    if (newVer !== currVer) {
+      return {
+        version: newVer,
+        changelog: (
+          await axios.get(
+            `https://raw.githubusercontent.com/z0w13/pkstatus/${newVer}/CHANGELOG.md`,
+          )
+        ).data
+          .replaceAll(/\[(.*)\]\(.*?\)/g, '$1')
+          .replaceAll(/^## /g, '---\n##'),
+        url: latest.html_url,
+        assets: {
+          android:
+            latest.assets.find((a: UpdateAsset) => a.name.endsWith('.apk'))
+              ?.browser_download_url || null,
+          windows:
+            latest.assets.find((a: UpdateAsset) => a.name.endsWith('.exe'))
+              ?.browser_download_url || null,
+        },
+      };
     }
   }
 
