@@ -72,7 +72,7 @@
     "lint-staged": "^16.1.2",
     "pinia-plugin-persistedstate": "^4.4.1",
     "postcss-load-config": "^6.0.1",
-    "prettier": "^3.6.1",
+    "prettier": "^3.6.2",
     "tmp-promise": "^3.0.3",
     "typescript": "^5.8.3",
     "vite-bundle-analyzer": "^1.1.0",
