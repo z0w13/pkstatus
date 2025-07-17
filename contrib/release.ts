@@ -1,6 +1,6 @@
 import { Command, Option } from '@commander-js/extra-typings';
 import fs from 'node:fs';
-import semver from 'semver';
+import semver, { prerelease } from 'semver';
 import { spawn } from 'node:child_process';
 import process from 'node:process';
 import path from 'node:path';
@@ -153,21 +153,23 @@ function getLatestChangelog() {
     .trim();
 }
 
-function isDev(version: string): boolean {
-  return version.includes('-dev');
+function isPreRelease(version: string): boolean {
+  return !!prerelease(version);
 }
-function devFlag(version: string): Array<string> {
-  return isDev(version) ? ['--debug'] : [];
+function preReleaseFlags(version: string): Array<string> {
+  return isPreRelease(version) ? ['--debug'] : [];
 }
 
 async function pushGithubPages(version: string) {
   console.info('Building GitHub pages build...');
   await run(
     'pnpm',
-    ['exec', 'quasar', 'build', '--mode', 'pwa', ...devFlag(version)],
+    ['exec', 'quasar', 'build', '--mode', 'pwa', ...preReleaseFlags(version)],
     {
       env: {
-        PKSTATUS_SPA_PREFIX: isDev(version) ? '/pkstatus-dev' : '/pkstatus',
+        PKSTATUS_SPA_PREFIX: isPreRelease(version)
+          ? '/pkstatus-dev'
+          : '/pkstatus',
       },
       stdio: 'inherit',
     },
@@ -193,7 +195,7 @@ async function pushGithubPages(version: string) {
       'git',
       [
         'push',
-        isDev(version) ? 'dev-pages' : 'prod-pages',
+        isPreRelease(version) ? 'dev-pages' : 'prod-pages',
         'gh-pages',
         '--force',
       ],
@@ -213,7 +215,7 @@ async function buildSpa() {
     'build',
     '--mode',
     'spa',
-    ...devFlag(version),
+    ...preReleaseFlags(version),
   ]);
   // 1a. Create SPA with subdir
   await run('tar', [
@@ -248,7 +250,7 @@ async function buildElectronWin() {
     'electron',
     '--target',
     'win',
-    ...devFlag(version),
+    ...preReleaseFlags(version),
   ]);
   fs.copyFileSync(
     `${ROOT_DIR}/dist/electron/Packaged/PKStatus Setup ${version.split('+')[0]}.exe`,
@@ -269,7 +271,7 @@ async function buildElectronNix() {
     'electron',
     '--target',
     'linux',
-    ...devFlag(version),
+    ...preReleaseFlags(version),
   ]);
   fs.copyFileSync(
     `${ROOT_DIR}/dist/electron/Packaged/PKStatus-${version.split('+')[0]}.AppImage`,
@@ -294,14 +296,14 @@ async function buildAndroidPackage(keystore: string) {
     'capacitor',
     '--target',
     'android',
-    ...devFlag(version),
+    ...preReleaseFlags(version),
   ]);
 
   // 4a. zipalign
   console.info('ZIP Aligning APK...');
   const apkPath =
     'dist/capacitor/android/apk/' +
-    (isDev(version)
+    (isPreRelease(version)
       ? '/debug/app-debug.apk'
       : 'release/app-release-unsigned.apk');
   await run(
@@ -472,12 +474,12 @@ program
 
     // 1. Push branch and tags
     console.info(
-      `Pushing ${isDev(version) ? 'dev' : 'main'} branch and tags...`,
+      `Pushing ${isPreRelease(version) ? 'dev' : 'main'} branch and tags...`,
     );
     await run('git', [
       'push',
       'origin',
-      isDev(version) ? 'dev' : 'main',
+      isPreRelease(version) ? 'dev' : 'main',
       '--follow-tags',
     ]);
 
@@ -509,7 +511,9 @@ program
     await pushGithubPages(version);
 
     // 5. Publish the release draft
-    console.info(`Publishing release v${version}...`);
+    console.info(
+      `Publishing release v${version}${isPreRelease(version) ? ' (prelease)' : ''} ...`,
+    );
     await run(
       'gh',
       [
@@ -517,7 +521,7 @@ program
         'edit',
         `v${version}`,
         '--draft=false',
-        isDev(version) ? '--prerelease' : '--latest',
+        isPreRelease(version) ? '--prerelease' : '--latest',
       ],
       { stdio: 'inherit' },
     );
