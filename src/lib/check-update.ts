@@ -4,21 +4,21 @@ import { QVueGlobals } from 'quasar';
 
 import { getVersion, isPrerelease } from 'src/util';
 
-const UpdateAsset = z.object({
+const ReleaseAsset = z.object({
   name: z.string(),
   url: z.string(),
   browser_download_url: z.string(),
 });
-type UpdateAsset = z.infer<typeof UpdateAsset>;
+type ReleaseAsset = z.infer<typeof ReleaseAsset>;
 
-const UpdateResponse = z.object({
+const ReleaseResponse = z.object({
   name: z.string().nullable(),
   tag_name: z.string(),
   body: z.string(),
   html_url: z.string(),
-  assets: z.array(UpdateAsset),
+  assets: z.array(ReleaseAsset),
 });
-type UpdateResponse = z.infer<typeof UpdateResponse>;
+type ReleaseResponse = z.infer<typeof ReleaseResponse>;
 
 export interface UpdateInfo {
   version: string;
@@ -30,8 +30,8 @@ export interface UpdateInfo {
   };
 }
 
-async function getLatestRelease(): Promise<UpdateResponse> {
-  return UpdateResponse.parse(
+async function getLatestRelease(): Promise<ReleaseResponse> {
+  return ReleaseResponse.parse(
     (
       await axios.get(
         'https://api.github.com/repos/z0w13/pkstatus/releases/latest',
@@ -74,10 +74,10 @@ export async function checkForUpdate(): Promise<UpdateInfo | null> {
         url: latest.html_url,
         assets: {
           android:
-            latest.assets.find((a: UpdateAsset) => a.name.endsWith('.apk'))
+            latest.assets.find((a: ReleaseAsset) => a.name.endsWith('.apk'))
               ?.browser_download_url || null,
           windows:
-            latest.assets.find((a: UpdateAsset) => a.name.endsWith('.exe'))
+            latest.assets.find((a: ReleaseAsset) => a.name.endsWith('.exe'))
               ?.browser_download_url || null,
         },
       };
