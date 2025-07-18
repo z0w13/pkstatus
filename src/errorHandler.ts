@@ -97,7 +97,7 @@ function stringifyArgs(args: Array<unknown>): Array<string> {
 }
 
 function setupConsoleHandlers() {
-  const methods = ['warn', 'error'] as const;
+  const methods = ['trace', 'debug', 'info', 'warn', 'error'] as const;
   for (const method of methods) {
     const origMethod = console[method].bind(console);
     console[method] = (...args) => {
