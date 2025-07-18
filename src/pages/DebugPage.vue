@@ -21,7 +21,25 @@
       <div class="row justify-center">
         <div class="col q-mx-lg">
           <h3 class="q-my-md">Application Logs</h3>
-          <pre class="bg-lighten q-pa-md">{{ logText }}</pre>
+          <table class="log-entries">
+            <tr
+              v-for="line in lines.toReversed()"
+              :key="line.time"
+              class="bg-lighten"
+            >
+              <td class="timestamp q-pa-sm">
+                {{ dayjs(line.time).format('YYYY-MM-DD HH:mm:ss') }}
+              </td>
+              <td class="q-pa-sm">
+                <!-- eslint-disable vue/no-v-html -- we intend to use html here so shh -->
+                <pre
+                  class="q-ma-none"
+                  v-html="sanitizeLogMessage(line.message)"
+                />
+                <!-- eslint-enable vue/no-v-html -->
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -89,3 +107,10 @@ function copyInfoToClipboard() {
   });
 }
 </script>
+
+<style lang="scss" scoped>
+.log-entries .timestamp {
+  white-space: nowrap;
+  vertical-align: top;
+}
+</style>
