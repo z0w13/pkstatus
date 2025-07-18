@@ -17,6 +17,9 @@ export const useLogStore = defineStore(STORE_NAME, {
       }
       this.lines.push({ time: new Date().valueOf(), message });
     },
+    clear() {
+      this.lines = [];
+    },
   },
   persist: true,
 });

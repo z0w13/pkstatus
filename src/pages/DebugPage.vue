@@ -20,7 +20,17 @@
       </div>
       <div class="row justify-center">
         <div class="col q-mx-lg">
-          <h3 class="q-my-md">Application Logs</h3>
+          <div class="row">
+            <h3 class="q-my-md col">Application Logs</h3>
+            <div class="col-auto self-center">
+              <q-btn
+                aria-label="Clear Log"
+                flat
+                icon="delete"
+                @click="clearLog"
+              />
+            </div>
+          </div>
           <table class="log-entries">
             <tr
               v-for="line in lines.toReversed()"
@@ -58,7 +68,9 @@ import PageTitle from 'src/components/PageTitle.vue';
 import { getVersion } from 'src/util';
 
 const $q = useQuasar();
-const { lines } = storeToRefs(useLogStore());
+
+const logStore = useLogStore();
+const { lines } = storeToRefs(logStore);
 
 const logText = computed(() =>
   lines.value
@@ -104,6 +116,19 @@ function copyInfoToClipboard() {
       .catch((err) =>
         $q.notify({ message: `Couldn't copy to clipboard: ${err?.message}` }),
       );
+  });
+}
+
+function clearLog() {
+  $q.dialog({
+    title: 'Warning!',
+    color: 'warning',
+    message: 'This will wipe the entire log, are you sure?',
+    html: true,
+    cancel: true,
+    persistent: true,
+  }).onOk(() => {
+    logStore.clear();
   });
 }
 </script>
