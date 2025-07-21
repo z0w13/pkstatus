@@ -2,19 +2,17 @@ import { defineBoot } from '@quasar/app-vite/wrappers';
 
 import PluralKit from 'src/lib/PluralKit/PluralKit';
 import ApiClient from 'src/lib/PluralKit/ApiClient';
-import { inject } from 'vue';
 
-export const PluralKitSymbol = Symbol('PLURAL_KIT');
+let pluralKitInstance: PluralKit | undefined;
 
-export default defineBoot(({ app }) => {
-  app.provide(PluralKitSymbol, new PluralKit(new ApiClient()));
+export default defineBoot(() => {
+  pluralKitInstance = new PluralKit(new ApiClient());
 });
 
 export function usePluralKit(): PluralKit {
-  const pluralKit = inject<PluralKit>(PluralKitSymbol);
-  if (!pluralKit) {
+  if (!pluralKitInstance) {
     throw Error('usePluralKit: pluralKit is not defined');
   }
 
-  return pluralKit;
+  return pluralKitInstance;
 }
