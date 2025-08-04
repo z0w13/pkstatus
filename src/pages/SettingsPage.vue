@@ -133,7 +133,7 @@
 </template>
 
 <script setup lang="ts">
-import { APIError } from 'pkapi.js';
+import { APIError } from 'pkapi-ts/errors';
 import { debounce, useQuasar } from 'quasar';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
@@ -192,7 +192,7 @@ const checkToken = debounce(async () => {
     });
     token.value = newToken.value;
   } catch (e) {
-    if (e instanceof APIError && e.status == '401') {
+    if (e instanceof APIError && e.status == 401) {
       tokenError.value = true;
       newToken.value = null;
     }

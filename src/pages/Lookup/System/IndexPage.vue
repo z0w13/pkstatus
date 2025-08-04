@@ -61,7 +61,7 @@
 import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { APIError } from 'pkapi.js';
+import { HTTPError } from 'pkapi-ts/errors';
 
 import { Member } from 'src/models/Member';
 import { System } from 'src/models/System';
@@ -123,11 +123,11 @@ watch(
     try {
       system.value = await pluralKit.getSystem(newId);
     } catch (e) {
-      if (e instanceof APIError) {
-        if (e.status == '404') {
+      if (e instanceof HTTPError) {
+        if (e.status == 404) {
           // Not Found
           status.value = 'notfound';
-        } else if (e.status == '403') {
+        } else if (e.status == 403) {
           // Forbidden
           status.value = 'forbidden';
         }
@@ -145,7 +145,7 @@ watch(
       members.value.loading = false;
       members.value.allowed = true;
     } catch (e) {
-      if (e instanceof APIError && e.status == '403') {
+      if (e instanceof HTTPError && e.status == 403) {
         members.value = {
           loading: false,
           allowed: false,
@@ -164,7 +164,7 @@ watch(
       groups.value.loading = false;
       groups.value.allowed = true;
     } catch (e) {
-      if (e instanceof APIError && e.status == '403') {
+      if (e instanceof HTTPError && e.status == 403) {
         groups.value = {
           loading: false,
           allowed: false,

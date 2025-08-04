@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
-import { IGroup as ApiGroup } from 'pkapi.js';
-import { nonEmptyStringOrNull, formatId, FormatIdOpts } from 'src/util';
+import { GroupWithMembers } from 'pkapi-ts/models/Group';
+
+import { formatId, FormatIdOpts } from 'src/util';
 
 export interface IGroup {
   id: string;
@@ -58,7 +59,7 @@ export class Group implements IGroup {
       group.createdAt,
     );
   }
-  static fromPKApi(group: ApiGroup): Group {
+  static fromPKApi(group: GroupWithMembers): Group {
     if (typeof group.system !== 'string' || group.system.length === 0) {
       throw new Error("Group.system shouldn't be an empty string");
     }
@@ -66,18 +67,10 @@ export class Group implements IGroup {
     return Group.fromDict({
       ...group,
 
+      createdAt: dayjs(group.created),
+
       // NOTE: Needed because typescript doesn't seem to narrow spread operators
       system: group.system,
-      color: nonEmptyStringOrNull(group.color),
-      displayName: nonEmptyStringOrNull(group.display_name),
-      description: nonEmptyStringOrNull(group.description),
-      icon: nonEmptyStringOrNull(group.icon),
-      banner: nonEmptyStringOrNull(group.banner),
-      members: Array.isArray(group.members)
-        ? group.members || []
-        : [...(group?.members?.keys() || [])],
-
-      createdAt: dayjs(group.created),
     });
   }
 }

@@ -1,6 +1,6 @@
 import { getCurrentInstance } from 'vue';
 import { useQuasar } from 'quasar';
-import { APIError } from 'pkapi.js';
+import { HTTPError } from 'pkapi-ts/errors';
 import { useLogStore } from 'src/stores/log-store';
 import { isDev } from 'src/util';
 
@@ -11,7 +11,7 @@ function logStack(err: unknown): void {
   }
 }
 
-function logPluralKitApiError(err: APIError): void {
+function logPluralKitApiError(err: HTTPError): void {
   logStack(err);
   useLogStore().log(`API Error: ${JSON.stringify(err, null, 2)}`);
   useQuasar().notify({
@@ -48,7 +48,7 @@ function logUnknown(err: unknown): void {
 }
 
 function log(err: unknown): void {
-  if (err instanceof APIError) {
+  if (err instanceof HTTPError) {
     logPluralKitApiError(err);
   } else if (err instanceof Error) {
     logError(err);

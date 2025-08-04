@@ -1,12 +1,12 @@
 import { defineBoot } from '@quasar/app-vite/wrappers';
+import { StrictTypedClient } from 'pkapi-ts';
 
 import PluralKit from 'src/lib/PluralKit/PluralKit';
-import ApiClient from 'src/lib/PluralKit/ApiClient';
 
 let pluralKitInstance: PluralKit | undefined;
 
 export default defineBoot(() => {
-  pluralKitInstance = new PluralKit(new ApiClient());
+  pluralKitInstance = new PluralKit(new StrictTypedClient());
 });
 
 export function usePluralKit(): PluralKit {

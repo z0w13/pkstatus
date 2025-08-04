@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { APIError } from 'pkapi.js';
+import { HTTPError } from 'pkapi-ts/errors';
 
 import { System } from 'src/models/System';
 import { Member } from 'src/models/Member';
@@ -66,11 +66,11 @@ watch(
       group.value = await pluralKit.getGroup(newId);
       system.value = await pluralKit.getSystem(group.value.system);
     } catch (e) {
-      if (e instanceof APIError) {
-        if (e.status == '404') {
+      if (e instanceof HTTPError) {
+        if (e.status == 404) {
           // Not Found
           status.value = 'notfound';
-        } else if (e.status == '403') {
+        } else if (e.status == 403) {
           // Forbidden
           status.value = 'forbidden';
         } else {
@@ -84,7 +84,7 @@ watch(
     try {
       members.value.list = await pluralKit.getGroupMembers(newId);
     } catch (e) {
-      if (e instanceof APIError && e.status == '403') {
+      if (e instanceof HTTPError && e.status == 403) {
         // Forbidden
         members.value.allowed = false;
       } else {

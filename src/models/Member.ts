@@ -1,6 +1,10 @@
 import dayjs from 'dayjs';
 import { z } from 'zod';
-import { IMember as ApiMember } from 'pkapi.js';
+import ApiMember from 'pkapi-ts/models/Member';
+import Birthday, {
+  BirthdayFromString,
+  BirthdayToString,
+} from 'pkapi-ts/models/Birthday';
 
 import { IProxyTag, ProxyTag } from 'src/models/ProxyTag';
 import * as util from 'src/util';
@@ -13,7 +17,7 @@ export const SerializedMember = z.object({
   name: z.string().nullable(),
   displayName: z.string().nullable(),
   color: z.string().nullable(),
-  birthday: z.string().datetime().nullable(),
+  birthday: z.string().nullable(),
   pronouns: z.string().nullable(),
   description: z.string().nullable(),
 
@@ -41,7 +45,7 @@ export interface IMember {
   name: string | null;
   displayName: string | null;
   color: string | null;
-  birthday: dayjs.Dayjs | null;
+  birthday: Birthday | null;
   pronouns: string | null;
   description: string | null;
 
@@ -70,7 +74,7 @@ export class Member implements IMember {
     public name: string | null,
     public displayName: string | null,
     public color: string | null,
-    public birthday: dayjs.Dayjs | null,
+    public birthday: Birthday | null,
     public pronouns: string | null,
     public description: string | null,
 
@@ -119,6 +123,18 @@ export class Member implements IMember {
     return null;
   }
 
+  getFormattedBirthday(): string | null {
+    if (!this.birthday) {
+      return null;
+    }
+
+    if (this.birthday.year === null) {
+      return `????-${this.birthday.month}-${this.birthday.day}`;
+    }
+
+    return `${this.birthday.year}-${this.birthday.month}-${this.birthday.day}`;
+  }
+
   static fromDict(values: IMember): Member {
     return new Member(
       values.id,
@@ -160,29 +176,22 @@ export class Member implements IMember {
       // NOTE: Needed because typescript doesn't seem to narrow spread operators
       system: member.system,
       name: member.name || '',
-      displayName: util.nonEmptyStringOrNull(member.display_name),
+      displayName: util.nonEmptyStringOrNull(member.displayName),
       color: util.nonEmptyStringOrNull(member.color),
-      birthday: member.birthday ? dayjs(member.birthday) : null,
       pronouns: util.nonEmptyStringOrNull(member.pronouns),
       description: util.nonEmptyStringOrNull(member.description),
 
-      avatarUrl: util.nonEmptyStringOrNull(member.avatar_url),
-      webhookAvatarUrl: util.nonEmptyStringOrNull(member.webhook_avatar_url),
       bannerUrl: util.nonEmptyStringOrNull(member.banner),
 
-      proxyTags: (member.proxy_tags || []).map((t) => ProxyTag.fromPKApi(t)),
-      keepProxy: member.keep_proxy || null,
-      tts: member.tts || null,
-      autoproxyEnabled: member.autoproxy_enabled || null,
-      messageCount: member.message_count || null,
+      proxyTags: (member.proxyTags || []).map((t) => ProxyTag.fromPKApi(t)),
 
       createdAt: dayjs(member.created),
       // Need to check for the epoch timestamp because PKAPI.js incorrectly returns
       // new Date(null) when the last_message_timestamp is null
       lastMessageAt:
-        member.last_message_timestamp &&
-        !util.isEpochDate(member.last_message_timestamp)
-          ? dayjs(member.last_message_timestamp)
+        member.lastMessageTimestamp &&
+        !util.isEpochDate(member.lastMessageTimestamp)
+          ? dayjs(member.lastMessageTimestamp)
           : null,
 
       updatedAt: dayjs(),
@@ -193,7 +202,7 @@ export class Member implements IMember {
     return {
       ...this,
 
-      birthday: this.birthday?.toJSON() || null,
+      birthday: this.birthday ? BirthdayToString.parse(this.birthday) : null,
 
       createdAt: this.createdAt.toJSON(),
       lastMessageAt: this.lastMessageAt?.toJSON() || null,
@@ -206,7 +215,9 @@ export class Member implements IMember {
     return Member.fromDict({
       ...serialized,
 
-      birthday: util.dayjsNull(serialized.birthday),
+      birthday: serialized.birthday
+        ? BirthdayFromString.parse(serialized.birthday)
+        : null,
 
       createdAt: dayjs(serialized.createdAt),
       lastMessageAt: util.dayjsNull(serialized.lastMessageAt),

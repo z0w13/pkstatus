@@ -20,12 +20,12 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { HTTPError } from 'pkapi-ts/errors';
 
 import { System } from 'src/models/System';
 import { Member } from 'src/models/Member';
 
 import MemberCard from 'src/components/Card/MemberCard.vue';
-import { APIError } from 'pkapi.js';
 import { usePluralKit } from 'boot/pluralKit';
 
 const route = useRoute();
@@ -49,11 +49,11 @@ watch(
       member.value = await pluralKit.getMember(newId);
       system.value = await pluralKit.getSystem(member.value.system);
     } catch (e) {
-      if (e instanceof APIError) {
-        if (e.status == '404') {
+      if (e instanceof HTTPError) {
+        if (e.status == 404) {
           // Not Found
           status.value = 'notfound';
-        } else if (e.status == '403') {
+        } else if (e.status == 403) {
           // Forbidden
           status.value = 'forbidden';
         }

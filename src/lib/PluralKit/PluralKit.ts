@@ -1,6 +1,9 @@
-import { APIError, ISwitch } from 'pkapi.js';
+import { StrictTypedClient } from 'pkapi-ts';
+import { APIError, HTTPError } from 'pkapi-ts/errors';
 
-import ApiClient from 'src/lib/PluralKit/ApiClient';
+import SystemID, { SystemRef } from 'pkapi-ts/models/SystemID';
+import MemberID from 'pkapi-ts/models/MemberID';
+import GroupID from 'pkapi-ts/models/GroupID';
 
 import FronterCache from 'src/lib/PluralKit/cache/FronterCache';
 import SystemCache from 'src/lib/PluralKit/cache/SystemCache';
@@ -13,6 +16,8 @@ import GroupMemberCache from 'src/lib/PluralKit/cache/GroupMemberCache';
 import { System } from 'src/models/System';
 import { Group } from 'src/models/Group';
 import { Member } from 'src/models/Member';
+import { Fronters } from 'src/models/Fronters';
+import dayjs from 'dayjs';
 
 interface RequestOptions {
   priority?: number;
@@ -31,7 +36,7 @@ const DEFAULT_GET_REQUEST_OPTIONS: Required<GetRequestOptions> = {
 };
 
 export default class PluralKit {
-  protected client: ApiClient;
+  protected client: StrictTypedClient;
   protected ownSystem: System | null;
 
   // caches
@@ -46,8 +51,8 @@ export default class PluralKit {
   public groupCache: GroupCache;
   public groupMemberCache: GroupMemberCache;
 
-  constructor(client?: ApiClient) {
-    this.client = client ?? new ApiClient();
+  constructor(client?: StrictTypedClient) {
+    this.client = client ?? new StrictTypedClient();
 
     this.ownSystem = null;
 
@@ -93,7 +98,7 @@ export default class PluralKit {
       return this.systemCache.setDirect(newSystem);
     } catch (e) {
       // if we get a 401 then the API token was wrong, reset token and rethrow error
-      if (e instanceof APIError && e.status == '401') {
+      if (e instanceof APIError && e.status == 401) {
         this.client.setToken(null);
       }
 
@@ -129,7 +134,12 @@ export default class PluralKit {
   // api methods
   public async getSystemByToken(token: string, inOptions: RequestOptions = {}) {
     const options = this.mergeRequestOptions(inOptions);
-    return this.client.getSystem('@me', { ...options, token });
+    return System.fromPKApi(
+      await this.client.getSystem(SystemRef.parse('@me'), {
+        ...options,
+        token,
+      }),
+    );
   }
 
   public async getSystem(id: string, inOptions: GetRequestOptions = {}) {
@@ -143,7 +153,8 @@ export default class PluralKit {
 
     return this.systemCache.getOrInsert(
       id,
-      async (id) => this.client.getSystem(id, options),
+      async (id) =>
+        System.fromPKApi(await this.client.getSystem(SystemID.parse(id))),
       options.skipCache,
     );
   }
@@ -156,7 +167,9 @@ export default class PluralKit {
         system,
         async (id) => ({
           system,
-          members: await this.client.getMembers(id, options),
+          members: (await this.client.getSystemMembers(SystemID.parse(id))).map(
+            (m) => Member.fromPKApi(m),
+          ),
         }),
         options.skipCache,
       )
@@ -170,7 +183,8 @@ export default class PluralKit {
 
     return this.memberCache.getOrInsert(
       id,
-      async (id) => await this.client.getMember(id, options),
+      async (id) =>
+        Member.fromPKApi(await this.client.getMember(MemberID.parse(id))),
       options.skipCache,
     );
   }
@@ -183,7 +197,8 @@ export default class PluralKit {
 
     return await this.groupCache.getOrInsert(
       id,
-      async (id) => await this.client.getGroup(id, options),
+      async (id) =>
+        Group.fromPKApi(await this.client.getGroup(GroupID.parse(id), true)),
       options.skipCache,
     );
   }
@@ -199,7 +214,9 @@ export default class PluralKit {
         id,
         async (id) => ({
           group: id,
-          members: await this.client.getGroupMembers(id, options),
+          members: (await this.client.getGroupMembers(GroupID.parse(id))).map(
+            (m) => Member.fromPKApi(m),
+          ),
         }),
         options.skipCache,
       )
@@ -219,7 +236,9 @@ export default class PluralKit {
         system,
         async (id) => ({
           system,
-          groups: await this.client.getGroups(id, options),
+          groups: (await this.client.getGroups(SystemID.parse(id), true)).map(
+            (g) => Group.fromPKApi(g),
+          ),
         }),
         options.skipCache,
       )
@@ -233,36 +252,67 @@ export default class PluralKit {
 
     return await this.fronterCache.getOrInsert(
       system,
-      async (system) => ({
-        system,
-        fronters: await this.client.getFronters(system, options),
-      }),
+      async (system) => {
+        try {
+          const fronters = await this.client.getFronters(
+            SystemID.parse(system),
+          );
+
+          return {
+            system,
+            fronters: fronters
+              ? new Fronters(
+                  system,
+                  true,
+                  dayjs(fronters.timestamp),
+                  fronters.members.map((m) => Member.fromPKApi(m)),
+                )
+              : Fronters.empty(system),
+          };
+        } catch (e) {
+          if (e instanceof HTTPError && e.status == 403) {
+            return { system, fronters: Fronters.private(system) };
+          }
+
+          throw e;
+        }
+      },
       options.skipCache,
     );
   }
 
   public async createSwitch(
-    data: Partial<Omit<ISwitch, 'token'>>,
+    members: Array<string>,
     inOptions: RequestOptions = {},
   ) {
-    const options = this.mergeRequestOptions(inOptions);
+    const _options = this.mergeRequestOptions(inOptions);
 
     const system = await this.getOwnSystem();
     if (!system) {
       return null;
     }
 
-    const result = await this.client.createSwitch(system.id, data, options);
+    const result = await this.client.createSwitch(
+      system.id,
+      members.map((m) => MemberID.parse(m)),
+    );
     if (!result) {
       throw new Error("result of createSwitch is empty, shouldn't happen");
     }
 
+    const fronters = new Fronters(
+      system.id,
+      true,
+      dayjs(result.timestamp),
+      result.members.map((m) => Member.fromPKApi(m)),
+    );
+
     this.fronterCache.set({
       system: system.id,
-      fronters: result,
+      fronters,
     });
 
-    return result;
+    return fronters;
   }
 
   // own system

@@ -3,7 +3,7 @@ import { prerelease } from 'semver';
 
 // eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import { version } from '../package.json';
-import { APIError } from 'pkapi.js';
+import { APIError } from 'pkapi-ts/errors';
 
 export function isPrerelease(version: string): boolean {
   return !!prerelease(version);
@@ -105,5 +105,5 @@ export function normaliseId(id: string): string {
 }
 
 export function is404(e: unknown): e is APIError {
-  return e instanceof APIError && e.status == '404';
+  return e instanceof APIError && e.status == 404;
 }

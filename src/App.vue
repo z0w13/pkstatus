@@ -8,7 +8,7 @@ import { useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { APIError } from 'pkapi.js';
+import { APIError } from 'pkapi-ts/errors';
 import useCachePersister from 'src/components/CachePersister';
 import setupErrorHandler from 'src/errorHandler';
 import {
@@ -60,7 +60,7 @@ watch(
       await usePluralKit().setToken(newVal);
       loading.value = false;
     } catch (e) {
-      if (e instanceof APIError && e.status == '401') {
+      if (e instanceof APIError && e.status == 401) {
         $q.notify({
           type: 'negative',
           message: 'PluralKit API Token Is Incorrect',

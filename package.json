@@ -36,7 +36,7 @@
     "dayjs": "^1.11.13",
     "markdown-it": "^14.1.0",
     "pinia": "^3.0.3",
-    "pkapi.js": "^7.3.2",
+    "pkapi-ts": "^0.2.5",
     "quasar": "^2.18.1",
     "register-service-worker": "^1.7.2",
     "semver": "^7.7.2",

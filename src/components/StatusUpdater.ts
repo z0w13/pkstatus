@@ -1,4 +1,4 @@
-import { APIError } from 'pkapi.js';
+import { APIError } from 'pkapi-ts/errors';
 import { useQuasar } from 'quasar';
 import { usePluralKit } from 'boot/pluralKit';
 import { useSettingsStore } from 'src/stores/settings-store';

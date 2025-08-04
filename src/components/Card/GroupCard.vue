@@ -66,7 +66,7 @@
               &bull;
             </td>
           </tr>
-          <tr>
+          <tr v-if="group.createdAt">
             <td>Created At</td>
             <td>{{ group.createdAt.format('YYYY-MM-DD') }}</td>
           </tr>

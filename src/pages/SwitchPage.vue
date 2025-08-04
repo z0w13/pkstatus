@@ -178,7 +178,9 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { debounce, useQuasar } from 'quasar';
-import { APIError } from 'pkapi.js';
+
+import { APIError } from 'pkapi-ts/errors';
+import MemberID from 'pkapi-ts/models/MemberID';
 
 import { caseInsensitiveIncludes, getNameSort } from 'src/util';
 import { useSettingsStore } from 'src/stores/settings-store';
@@ -263,7 +265,7 @@ const filteredMembers = computed(() =>
         (m.displayName &&
           caseInsensitiveIncludes(m.displayName || '', searchText.value)),
     )
-    .filter((m) => !filterMemberIds.value.includes(m.id))
+    .filter((m) => !filterMemberIds.value.includes(m.uuid))
     .toSorted(sortMethod.value),
 );
 
@@ -308,9 +310,7 @@ async function doSwitch() {
   }
 
   try {
-    await pluralKit.createSwitch({
-      members: selected.value,
-    });
+    await pluralKit.createSwitch(selected.value.map((m) => MemberID.parse(m)));
     showSuccessMessage(selected.value);
   } catch (e) {
     if (!(e instanceof APIError)) {
@@ -366,7 +366,7 @@ async function getSystem(): Promise<System | null> {
     return system;
   } catch (e) {
     if (e instanceof APIError) {
-      if (e.status == '401') {
+      if (e.status == 401) {
         $q.notify({
           type: 'negative',
           message: 'Invalid Token',

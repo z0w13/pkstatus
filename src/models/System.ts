@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
-import { ISystem as ApiSystem } from 'pkapi.js';
+import ApiSystem from 'pkapi-ts/models/System';
 import { z } from 'zod';
 import * as util from 'src/util';
+import SystemID, { SystemUUID } from 'pkapi-ts/models/SystemID';
 
 export const SerializedSystem = z.object({
   id: z.string(),
@@ -22,8 +23,8 @@ export const SerializedSystem = z.object({
 export type SerializedSystem = z.infer<typeof SerializedSystem>;
 
 export interface ISystem {
-  id: string;
-  uuid: string;
+  id: SystemID;
+  uuid: SystemUUID;
 
   name: string | null;
   description: string | null;
@@ -40,8 +41,8 @@ export interface ISystem {
 
 export class System implements ISystem {
   constructor(
-    public id: string,
-    public uuid: string,
+    public id: SystemID,
+    public uuid: SystemUUID,
 
     public name: string | null,
     public description: string | null,
@@ -107,7 +108,7 @@ export class System implements ISystem {
       tag: system.tag || '',
       pronouns: system.pronouns || '',
 
-      avatarUrl: system.avatar_url || null,
+      avatarUrl: system.avatarUrl || null,
       bannerUrl: system.banner || null,
       color: system.color || null,
 
@@ -128,6 +129,9 @@ export class System implements ISystem {
   static fromStorage(serialized: SerializedSystem): System {
     return System.fromDict({
       ...serialized,
+
+      id: SystemID.parse(serialized.id),
+      uuid: SystemUUID.parse(serialized.uuid),
 
       createdAt: dayjs(serialized.createdAt),
       updatedAt: dayjs(serialized.updatedAt),

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ProxyTag as ApiProxyTag } from 'pkapi.js';
+import ApiProxyTag from 'pkapi-ts/models/ProxyTag';
 
 export const IProxyTag = z.object({
   prefix: z.string().nullable(),

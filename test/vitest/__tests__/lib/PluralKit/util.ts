@@ -1,109 +1,119 @@
 import { vi } from 'vitest';
 
-import dayjs from 'dayjs';
-import { Fronters } from 'src/models/Fronters';
-import { IMember, Member } from 'src/models/Member';
-import { ISystem, System } from 'src/models/System';
-import { AxiosError } from 'axios';
-import { Group, IGroup } from 'src/models/Group';
-import ApiClient from 'src/lib/PluralKit/ApiClient';
-
-export class ManuallyStartedApiClient extends ApiClient {
-  protected override async processQueue(): Promise<void> {}
-
-  public async drainQueue(): Promise<void> {
-    console.debug(`manually draining queue of size ${this.queue.length}`);
-    await super.processQueue();
-    console.debug('queue drained');
-  }
-}
+import { StrictTypedClient } from 'pkapi-ts';
+import { HTTPError } from 'pkapi-ts/errors';
+import SystemID from 'pkapi-ts/models/SystemID';
+import ApiSystem from 'pkapi-ts/models/System';
+import ApiMember from 'pkapi-ts/models/Member';
+import ApiGroup from 'pkapi-ts/models/Group';
+import { SwitchWithMembers } from 'pkapi-ts/models/Switch';
 
 export function mockSystem(
   id: string,
-  additionalProps: Partial<ISystem> = {},
-): System {
-  return System.fromDict({
+  additionalProps: Partial<ApiMember> = {},
+): ApiSystem {
+  return ApiSystem.parse({
     id,
-    uuid: `uuid-${id}`,
-
-    name: additionalProps.name ?? `system-${id}`,
-    description: additionalProps.description ?? null,
-    tag: additionalProps.tag ?? null,
-    pronouns: additionalProps.pronouns ?? null,
-
-    avatarUrl: additionalProps.avatarUrl ?? null,
-    bannerUrl: additionalProps.bannerUrl ?? null,
-    color: additionalProps.color ?? null,
-
-    createdAt: additionalProps.createdAt ?? dayjs(0),
-    updatedAt: additionalProps.createdAt ?? dayjs(0),
+    uuid: '8b5eac7a-b019-416f-a9ad-89f62225a815',
+    name: null,
+    color: null,
+    banner: null,
+    pronouns: null,
+    tag: null,
+    description: null,
+    avatarUrl: null,
+    created: new Date(),
+    privacy: {
+      namePrivacy: null,
+      avatarPrivacy: null,
+      descriptionPrivacy: null,
+      bannerPrivacy: null,
+      pronounPrivacy: null,
+      memberListPrivacy: null,
+      groupListPrivacy: null,
+      frontPrivacy: null,
+      frontHistoryPrivacy: null,
+    },
+    ...additionalProps,
   });
 }
 
 export function mockMember(
   id: string,
-  additionalProps: Partial<IMember> = {},
-): Member {
-  return Member.fromDict({
+  additionalProps: Partial<ApiMember> = {},
+): ApiMember {
+  return ApiMember.parse({
     id,
-    uuid: additionalProps.uuid ?? `uuid-${id}`,
-
-    system: additionalProps.system ?? 'no-system',
-    name: additionalProps.name ?? null,
-    displayName: additionalProps.displayName ?? null,
-    color: additionalProps.color ?? null,
-
-    birthday: additionalProps.birthday ?? null,
-    pronouns: additionalProps.pronouns ?? null,
-    description: additionalProps.description ?? null,
-
-    avatarUrl: additionalProps.avatarUrl ?? null,
-    bannerUrl: additionalProps.bannerUrl ?? null,
-    webhookAvatarUrl: additionalProps.webhookAvatarUrl ?? null,
-    proxyTags: additionalProps.proxyTags ?? [],
-    keepProxy: additionalProps.keepProxy ?? null,
-    tts: additionalProps.tts ?? null,
-    autoproxyEnabled: additionalProps.autoproxyEnabled ?? null,
-    messageCount: additionalProps.messageCount ?? null,
-
-    createdAt: additionalProps.createdAt ?? dayjs(0),
-    lastMessageAt: additionalProps.lastMessageAt ?? null,
-
-    updatedAt: additionalProps.createdAt ?? dayjs(0),
+    uuid: '8b5eac7a-b019-416f-a9ad-89f62225a816',
+    autoproxyEnabled: null,
+    tts: false,
+    keepProxy: false,
+    name: null,
+    displayName: null,
+    pronouns: null,
+    color: null,
+    banner: null,
+    avatarUrl: null,
+    webhookAvatarUrl: null,
+    description: null,
+    proxyTags: [],
+    messageCount: null,
+    lastMessageTimestamp: null,
+    birthday: null,
+    created: new Date(),
+    privacy: {
+      visibility: null,
+      namePrivacy: null,
+      descriptionPrivacy: null,
+      bannerPrivacy: null,
+      birthdayPrivacy: null,
+      pronounPrivacy: null,
+      avatarPrivacy: null,
+      metadataPrivacy: null,
+      proxyPrivacy: null,
+    },
+    ...additionalProps,
   });
 }
 
-export function mockGroup(id: string, additionalProps: Partial<IGroup>): Group {
-  return Group.fromDict({
+export function mockGroup(
+  id: string,
+  name: string,
+  additionalProps: Partial<ApiGroup>,
+): ApiGroup {
+  return ApiGroup.parse({
     id,
-    uuid: additionalProps.uuid ?? `uuid-${id}`,
-
-    system: additionalProps.system ?? 'unknown-system',
-    name: additionalProps.name ?? `group-${id}`,
-
-    displayName: additionalProps.displayName ?? null,
-    description: additionalProps.description ?? null,
-
-    icon: additionalProps.icon ?? null,
-    banner: additionalProps.banner ?? null,
-    color: additionalProps.color ?? null,
-
-    members: [],
-    createdAt: dayjs(0),
+    name,
+    uuid: '8b5eac7a-b019-416f-a9ad-89f62225a818',
+    displayName: null,
+    description: null,
+    icon: null,
+    banner: null,
+    color: null,
+    privacy: {
+      namePrivacy: null,
+      descriptionPrivacy: null,
+      bannerPrivacy: null,
+      iconPrivacy: null,
+      listPrivacy: null,
+      metadataPrivacy: null,
+      visibility: null,
+    },
+    created: null,
+    ...additionalProps,
   });
 }
 
 export function mockFronters(
   id: string,
-  system: string,
+  system: SystemID,
   members: Array<string>,
-): Fronters {
-  return new Fronters(
-    system,
-    true,
-    dayjs(0),
-    members.map((m) => mockMember(m, { system })),
-  );
+): SwitchWithMembers {
+  return SwitchWithMembers.parse({
+    id,
+    members: members.map((m) => mockMember(m, { system })),
+    timestamp: new Date(),
+  });
 }
 
 export function mockedApi(
@@ -115,32 +125,32 @@ export function mockedApi(
     groups: Record<string, Array<string>>;
     fronters: string[];
   }>,
-): ApiClient {
+): StrictTypedClient {
   const ownId = systems.find((s) => s.own)?.id;
   const systemMap = Object.fromEntries(systems.map((s) => [s.id, s]));
 
-  const api = vi.mockObject(new ApiClient());
+  const api = vi.mockObject(new StrictTypedClient(token));
   // eslint-disable-next-line @typescript-eslint/require-await -- base method is async
   api.getSystem.mockImplementation(async (id) => {
     if (id == '@me' && ownId) {
-      id = ownId;
+      id = SystemID.parse(ownId);
     }
 
     if (!id || !systemMap[id]) {
-      throw new AxiosError('Not Found', '404');
+      throw new HTTPError(404, 'Not Found');
     }
 
     return mockSystem(id);
   });
 
   // eslint-disable-next-line @typescript-eslint/require-await -- base method is async
-  api.getMembers.mockImplementation(async (id) => {
+  api.getSystemMembers.mockImplementation(async (id) => {
     if (id == '@me' && ownId) {
-      id = ownId;
+      id = SystemID.parse(ownId);
     }
 
     if (!id || !systemMap[id]) {
-      throw new AxiosError('Not Found', '404');
+      throw new HTTPError(404, 'Not Found');
     }
 
     return systemMap[id].members.map((m) => mockMember(m));

@@ -1,6 +1,8 @@
 import { vi, it, describe, expect } from 'vitest';
 
-import ApiClient from 'src/lib/PluralKit/ApiClient';
+import { StrictTypedClient } from 'pkapi-ts';
+import SystemID from 'pkapi-ts/models/SystemID';
+
 import PluralKit from 'src/lib/PluralKit/PluralKit';
 
 import {
@@ -10,17 +12,18 @@ import {
   mockMember,
   mockSystem,
 } from 'test/vitest/__tests__/lib/PluralKit/util';
+
 describe('PluralKit', function () {
   it('caches results', async function () {
     const system = {
-      id: 'exmpl',
+      id: SystemID.parse('exmpl'),
       own: true,
       members: ['member-1'],
       groups: { 'group-1': ['member-1'] },
       fronters: [],
     };
     const client = mockedApi('fake-token', [system]);
-    const spy = vi.spyOn(client, 'getMembers');
+    const spy = vi.spyOn(client, 'getSystemMembers');
 
     const pk = new PluralKit(client);
 
@@ -35,14 +38,16 @@ describe('PluralKit', function () {
   });
 
   it('clears own system data when token gets cleared', async function () {
-    const client = new ApiClient({ token: 'fake-token' });
+    const client = new StrictTypedClient('fake-token');
     // eslint-disable-next-line @typescript-eslint/require-await -- base method is async
     vi.spyOn(client, 'getSystem').mockImplementation(async () =>
       mockSystem('exmpl'),
     );
     const pk = new PluralKit(client);
 
-    expect(await pk.getOwnSystem()).toMatchObject({ id: 'exmpl' });
+    expect(await pk.getOwnSystem()).toMatchObject({
+      id: SystemID.parse('exmpl'),
+    });
 
     console.debug('test, set-token');
     await pk.setToken(null);
@@ -51,59 +56,69 @@ describe('PluralKit', function () {
   });
 
   it('clears own system data when new token gets set', async function () {
-    const client = new ApiClient();
+    const client = new StrictTypedClient();
     // eslint-disable-next-line @typescript-eslint/require-await -- base method is async
     vi.spyOn(client, 'getSystem').mockImplementation(async () =>
       client.getToken()
         ? mockSystem('exmpl', { description: 'private' })
         : mockSystem('exmpl'),
     );
-    vi.spyOn(client, 'getMembers').mockImplementation(
+    vi.spyOn(client, 'getSystemMembers').mockImplementation(
       // eslint-disable-next-line @typescript-eslint/require-await -- base method is async
       async () =>
         client.getToken()
           ? [
-              mockMember('member-publ', {
-                system: 'exmpl',
+              mockMember('mempub', {
+                system: SystemID.parse('exmpl'),
                 description: 'private',
               }),
-              mockMember('member-priv', {
-                system: 'exmpl',
+              mockMember('memprv', {
+                system: SystemID.parse('exmpl'),
               }),
             ]
-          : [mockMember('member-publ', { system: 'exmpl' })],
+          : [mockMember('mempub', { system: SystemID.parse('exmpl') })],
     );
     vi.spyOn(client, 'getGroups').mockImplementation(
       // eslint-disable-next-line @typescript-eslint/require-await -- base method is async
       async () =>
         client.getToken()
           ? [
-              mockGroup('group-publ', {
-                system: 'exmpl',
+              mockGroup('grpub', 'public group', {
+                system: SystemID.parse('exmpl'),
                 description: 'private',
               }),
-              mockGroup('group-priv', { system: 'exmpl' }),
+              mockGroup('grprv', 'private group', {
+                system: SystemID.parse('exmpl'),
+              }),
             ]
-          : [mockGroup('group-publ', { system: 'exmpl' })],
+          : [
+              mockGroup('grpub', 'public group', {
+                system: SystemID.parse('exmpl'),
+              }),
+            ],
     );
     vi.spyOn(client, 'getGroupMembers').mockImplementation(
       // eslint-disable-next-line @typescript-eslint/require-await -- base method is async
       async (id) => {
         switch (id) {
-          case 'group-publ':
+          case 'grpub':
             return client.getToken()
               ? [
-                  mockMember('member-publ', {
-                    system: 'exmpl',
+                  mockMember('mempub', {
+                    system: SystemID.parse('exmpl'),
                     description: 'private',
                   }),
                 ]
-              : [mockMember('member-publ', { system: 'exmpl' })];
-          case 'group-priv':
+              : [
+                  mockMember('mempub', {
+                    system: SystemID.parse('exmpl'),
+                  }),
+                ];
+          case 'grprv':
             if (!client.getToken()) {
               throw new Error(`private group without token`);
             }
-            return [mockMember('member-priv', { system: 'exmpl' })];
+            return [mockMember('memprv', { system: SystemID.parse('exmpl') })];
           default:
             throw new Error(`unknown group ${id}`);
         }
@@ -113,29 +128,48 @@ describe('PluralKit', function () {
       // eslint-disable-next-line @typescript-eslint/require-await -- base method is async
       async () =>
         client.getToken()
-          ? mockFronters('fronters-1', 'exmpl', ['member-publ', 'member-priv'])
-          : mockFronters('fronters-1', 'exmpl', ['member-publ']),
+          ? mockFronters(
+              '8b5eac7a-b019-416f-a9ad-89f62225a817',
+              SystemID.parse('exmpl'),
+              ['mempub', 'memprv'],
+            )
+          : mockFronters(
+              '8b5eac7a-b019-416f-a9ad-89f62225a817',
+              SystemID.parse('exmpl'),
+              ['mempub'],
+            ),
     );
 
     const pk = new PluralKit(client);
 
-    const systemBefore = await pk.getSystem('exmpl');
-    const membersBefore = await pk.getMembers('exmpl');
-    const frontersBefore = (await pk.getFronters('exmpl')).members;
-    const groupsBefore = await pk.getGroups('exmpl');
+    const systemBefore = await pk.getSystem(SystemID.parse('exmpl'));
+    const membersBefore = await pk.getMembers(SystemID.parse('exmpl'));
+    const frontersBefore = (await pk.getFronters(SystemID.parse('exmpl')))
+      .members;
+    const groupsBefore = await pk.getGroups(SystemID.parse('exmpl'));
     const groupMembersBefore = await Promise.all(
       groupsBefore.map((g) => pk.getGroupMembers(g.id)),
     );
 
     await pk.setToken('exmpl-token');
 
-    expect(await pk.getSystem('exmpl')).not.toEqual(systemBefore);
-    expect(await pk.getMembers('exmpl')).not.toEqual(membersBefore);
-    expect((await pk.getFronters('exmpl')).members).not.toEqual(frontersBefore);
-    expect(await pk.getGroups('exmpl')).not.toEqual(groupsBefore);
+    expect(await pk.getSystem(SystemID.parse('exmpl'))).not.toEqual(
+      systemBefore,
+    );
+    expect(await pk.getMembers(SystemID.parse('exmpl'))).not.toEqual(
+      membersBefore,
+    );
+    expect((await pk.getFronters(SystemID.parse('exmpl'))).members).not.toEqual(
+      frontersBefore,
+    );
+    expect(await pk.getGroups(SystemID.parse('exmpl'))).not.toEqual(
+      groupsBefore,
+    );
     expect(
       await Promise.all(
-        (await pk.getGroups('exmpl')).map((g) => pk.getGroupMembers(g.id)),
+        (await pk.getGroups(SystemID.parse('exmpl'))).map((g) =>
+          pk.getGroupMembers(g.id),
+        ),
       ),
     ).not.toEqual(groupMembersBefore);
   });

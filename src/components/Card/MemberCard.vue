@@ -58,7 +58,7 @@
           </tr>
           <tr v-if="member.birthday">
             <td>Birthday</td>
-            <td>{{ member.birthday.format('YYYY-MM-DD') }}</td>
+            <td>{{ member.getFormattedBirthday() }}</td>
           </tr>
           <tr v-if="member.color">
             <td>Color</td>

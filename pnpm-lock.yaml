@@ -37,9 +37,9 @@ importers:
       pinia:
         specifier: ^3.0.3
         version: 3.0.3(typescript@5.8.3)(vue@3.5.17(typescript@5.8.3))
-      pkapi.js:
-        specifier: ^7.3.2
-        version: 7.3.2
+      pkapi-ts:
+        specifier: ^0.2.5
+        version: 0.2.5
       quasar:
         specifier: ^2.18.1
         version: 2.18.1
@@ -2000,9 +2000,6 @@ packages:
   '@vue/test-utils@2.4.6':
     resolution: {integrity: sha512-FMxEjOpYNYiFe0GkaHsnJPXFHxQ6m4t8vI/ElPGpMWxZKpmRvQ33OIrvRXemy6yha03RxhOlQuy+gZMC3CQSow==}
 
-  '@vvo/tzdb@6.130.0':
-    resolution: {integrity: sha512-9jhliGe3lHMJxTHoJPsS+jLk3HJOJWS32gA1a7D9rVe0u6ElauasuSOkysIDzbf0Ag3fd7nVR2j2By1BoRS7qw==}
-
   '@xmldom/xmldom@0.8.10':
     resolution: {integrity: sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==}
     engines: {node: '>=10.0.0'}
@@ -2200,9 +2197,6 @@ packages:
     resolution: {integrity: sha512-AZUe4OjECGCNNssH8SOdtneiQELsqTsat3SQQCWLPjN436/H+L9AjWfV7bF+Zg/YL9cgbhrz5671hoh+Tbn98w==}
     peerDependencies:
       axios: '>= 0.17.0'
-
-  axios@0.21.4:
-    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
 
   axios@1.10.0:
     resolution: {integrity: sha512-/1xYAC4MP/HEG+3duIhFr4ZQXR4sQXOIe+o6sdqzeykGLx6Upp/1p8MHqhINOvGeP7xyNHe7tsiJByc4SSVUxw==}
@@ -2471,10 +2465,6 @@ packages:
 
   chromium-pickle-js@0.2.0:
     resolution: {integrity: sha512-1R5Fho+jBq0DDydt+/vHWj5KJNJCKdARKOCwZUen84I5BreWoLqRLANH1U87eJy1tiASPtMnGqJJq0ZsLoRPOw==}
-
-  chrono-node@2.7.5:
-    resolution: {integrity: sha512-VJWqFN5rWmXVvXAxOD4i0jX8Tb4cLswaslyaAFhxM45zNXPsZleygPbgiaYBD7ORb9fj07zBgJb0Q6eKL+0iJg==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   ci-info@3.9.0:
     resolution: {integrity: sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==}
@@ -2938,6 +2928,10 @@ packages:
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
+
+  discord-snowflake@2.0.0:
+    resolution: {integrity: sha512-MFWier0d78ajvk1lAXUCm7wbNnY2bD7/rqvtemuhoebkBBS9AnA0OwQI7SpYqiy/01GR1raLPTsIOwWCj8Pb+w==}
+    engines: {node: '>=18'}
 
   dmg-builder@26.0.12:
     resolution: {integrity: sha512-59CAAjAhTaIMCN8y9kD573vDkxbs1uhDcrFLHSgutYdPcGOU35Rf95725snvzEOy4BFB7+eLJ8djCNPmGwG67w==}
@@ -5084,8 +5078,9 @@ packages:
     resolution: {integrity: sha512-J8B6xqiO37sU/gkcMglv6h5Jbd9xNER7aHzpfRdNmV4IbQBzBpe4l9XmbG+xPF/znacgu2jfEw+wHffaq/YkXA==}
     hasBin: true
 
-  pkapi.js@7.3.2:
-    resolution: {integrity: sha512-HN0DARqglYRIYuqM8m1Uw2WQb9yEkBeAX+buV1qiiYPc4YPAfn3rAJPEparhlTaKc+mxVs4HsXJ3+EnR7HcOhw==}
+  pkapi-ts@0.2.5:
+    resolution: {integrity: sha512-Uc1ZJU9rsMq+pfM7n3+gzlmSjQMcWJmz7qhVmIl2BDjjdy7u5jTkI5eRP2f0VHhDoy0HFSErIJq6X8mvmnLwaw==}
+    engines: {node: '>=22.0.0'}
 
   pkg-types@1.3.1:
     resolution: {integrity: sha512-/Jm5M4RvtBFVkKWRu2BLUTNP8/M2a+UwuAX+ae4770q1qVGtfjG+WTCupoZixokjmHiry8uI+dlY8KXYV5HVVQ==}
@@ -6157,6 +6152,9 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
+  ts-case-convert@2.1.0:
+    resolution: {integrity: sha512-Ye79el/pHYXfoew6kqhMwCoxp4NWjKNcm2kBzpmEMIU9dd9aBmHNNFtZ+WTm0rz1ngyDmfqDXDlyUnBXayiD0w==}
+
   ts-essentials@9.4.2:
     resolution: {integrity: sha512-mB/cDhOvD7pg3YCLk2rOtejHjjdSi9in/IBYE13S+8WA5FBSraYf4V/ws55uvs0IvQ/l0wBOlXy5yBNZ9Bl8ZQ==}
     peerDependencies:
@@ -6397,9 +6395,6 @@ packages:
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
-
-  valid-url@1.0.9:
-    resolution: {integrity: sha512-QQDsV8OnSf5Uc30CKSwG9lnhMPe6exHtTXLRYX8uMwKENy640pU+2BgBL0LRbDh/eYRahNCS7aewCx0wf3NYVA==}
 
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
@@ -6765,6 +6760,9 @@ packages:
 
   zod@3.25.67:
     resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
+
+  zod@4.0.14:
+    resolution: {integrity: sha512-nGFJTnJN6cM2v9kXL+SOBq3AtjQby3Mv5ySGFof5UGRHrRioSJ5iG680cYNjE/yWk671nROcpPj4hAS8nyLhSw==}
 
 snapshots:
 
@@ -9013,8 +9011,6 @@ snapshots:
       js-beautify: 1.15.1
       vue-component-type-helpers: 2.0.11
 
-  '@vvo/tzdb@6.130.0': {}
-
   '@xmldom/xmldom@0.8.10': {}
 
   JSONStream@1.3.5:
@@ -9248,12 +9244,6 @@ snapshots:
       axios: 1.10.0
       fast-deep-equal: 3.1.3
       is-buffer: 2.0.5
-
-  axios@0.21.4:
-    dependencies:
-      follow-redirects: 1.15.6
-    transitivePeerDependencies:
-      - debug
 
   axios@1.10.0:
     dependencies:
@@ -9643,10 +9633,6 @@ snapshots:
   chownr@2.0.0: {}
 
   chromium-pickle-js@0.2.0: {}
-
-  chrono-node@2.7.5:
-    dependencies:
-      dayjs: 1.11.13
 
   ci-info@3.9.0: {}
 
@@ -10097,6 +10083,8 @@ snapshots:
   dir-glob@3.0.1:
     dependencies:
       path-type: 4.0.0
+
+  discord-snowflake@2.0.0: {}
 
   dmg-builder@26.0.12(electron-builder-squirrel-windows@26.0.12(dmg-builder@26.0.12)):
     dependencies:
@@ -12406,15 +12394,11 @@ snapshots:
     dependencies:
       pngjs: 3.4.0
 
-  pkapi.js@7.3.2:
+  pkapi-ts@0.2.5:
     dependencies:
-      '@vvo/tzdb': 6.130.0
-      axios: 0.21.4
-      chrono-node: 2.7.5
-      tinycolor2: 1.6.0
-      valid-url: 1.0.9
-    transitivePeerDependencies:
-      - debug
+      discord-snowflake: 2.0.0
+      ts-case-convert: 2.1.0
+      zod: 4.0.14
 
   pkg-types@1.3.1:
     dependencies:
@@ -13527,6 +13511,8 @@ snapshots:
     dependencies:
       typescript: 5.8.3
 
+  ts-case-convert@2.1.0: {}
+
   ts-essentials@9.4.2(typescript@5.8.3):
     optionalDependencies:
       typescript: 5.8.3
@@ -13776,8 +13762,6 @@ snapshots:
   uuid@3.4.0: {}
 
   uuid@9.0.1: {}
-
-  valid-url@1.0.9: {}
 
   validate-npm-package-license@3.0.4:
     dependencies:
@@ -14216,3 +14200,5 @@ snapshots:
       readable-stream: 4.5.2
 
   zod@3.25.67: {}
+
+  zod@4.0.14: {}
