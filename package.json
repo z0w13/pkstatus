@@ -76,7 +76,7 @@
     "tmp-promise": "^3.0.3",
     "typescript": "^5.8.3",
     "vite-bundle-analyzer": "^1.1.0",
-    "vite-plugin-checker": "^0.9.3",
+    "vite-plugin-checker": "^0.10.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4",
     "vue-tsc": "^2.2.10",
