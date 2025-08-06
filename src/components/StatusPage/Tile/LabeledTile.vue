@@ -8,6 +8,18 @@
         <div class="text-subtitle2">{{ label }}</div>
         <div v-if="caption" class="text-caption">{{ caption }}</div>
       </div>
+      <template #loading>
+        <div class="q-img__loading absolute-full flex flex-center">
+          <q-spinner />
+        </div>
+        <div
+          class="absolute-bottom text-center"
+          :style="!!caption ? 'padding-top: 6px; padding-bottom: 6px' : ''"
+        >
+          <div class="text-subtitle2">{{ label }}</div>
+          <div v-if="caption" class="text-caption">{{ caption }}</div>
+        </div>
+      </template>
       <template #error>
         <q-icon
           :size="size"
