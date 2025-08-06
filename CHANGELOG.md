@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0-beta.2](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.1...v0.13.0-beta.2) (2025-08-06)
+
+
+### Bug Fixes
+
+* **switcher:** completely rewritten from the ground up, hopefully fixes an infinite loop
+
 ## [0.13.0-beta.1](https://github.com/z0w13/pkstatus/compare/v0.12.2...v0.13.0-beta.1) (2025-08-06)
 
 
