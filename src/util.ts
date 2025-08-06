@@ -107,3 +107,8 @@ export function normaliseId(id: string): string {
 export function is404(e: unknown): e is APIError {
   return e instanceof APIError && e.status == 404;
 }
+
+export function sanitizeLogMessage(message: string): string {
+  const tokenRegex = /[\w+/]{64}/g;
+  return message.replaceAll(tokenRegex, '****PLURALKIT_API_TOKEN****');
+}

@@ -1,49 +1,58 @@
 import { getCurrentInstance } from 'vue';
-import { useQuasar } from 'quasar';
+import { Notify } from 'quasar';
 import { HTTPError } from 'pkapi-ts/errors';
 import { useLogStore } from 'src/stores/log-store';
 import { isDev } from 'src/util';
 
-function logStack(err: unknown): void {
+function maybeStringStack(err: unknown): string | null {
   const stackErr = err as { stack?: string };
-  if (typeof stackErr?.stack === 'string') {
-    useLogStore().log(stackErr.stack);
-  }
+  return typeof stackErr?.stack === 'string' ? stackErr.stack : null;
 }
 
 function logPluralKitApiError(err: HTTPError): void {
-  logStack(err);
-  useLogStore().log(`API Error: ${JSON.stringify(err, null, 2)}`);
-  useQuasar().notify({
+  useLogStore().log(
+    `PluralKit API Error: ${err.message ?? err.statusText}`,
+    JSON.stringify(err, null, 2),
+    maybeStringStack(err),
+  );
+
+  Notify.create({
     type: 'warning',
-    message: 'API Error',
+    message: 'PluralKit API Error',
     caption: err.message ?? err.statusText,
   });
 }
 
 function logError(err: Error): void {
-  logStack(err);
-  useLogStore().log(`${err.name}: ${err.message}`);
-  useQuasar().notify({
+  useLogStore().log(
+    `${err.name}: ${err.message}`,
+    JSON.stringify(err, null, 2),
+    maybeStringStack(err),
+  );
+  Notify.create({
     type: 'warning',
     message: `${err.name}: ${err.message}`,
   });
 }
 
 function logString(err: string): void {
-  useLogStore().log(`Error: ${err}`);
-  useQuasar().notify({
+  useLogStore().log(`Error: ${err}`, err, null);
+  Notify.create({
     type: 'warning',
     message: err,
   });
 }
 
 function logUnknown(err: unknown): void {
-  logStack(err);
-  useLogStore().log(`Error: ${String(err)} | ${JSON.stringify(err, null, 2)}`);
-  useQuasar().notify({
+  useLogStore().log(
+    `Error: ${String(err)}`,
+    JSON.stringify(err, null, 2),
+    maybeStringStack(err),
+  );
+  Notify.create({
     type: 'warning',
-    message: `${String(err)} | ${JSON.stringify(err, null, 2)}`,
+    message: 'Unknown error',
+    caption: String(err),
   });
 }
 
@@ -67,13 +76,25 @@ function setupAppHandlers() {
   }
 
   app.config.errorHandler = (error, _instance, info) => {
-    log(error);
-    useLogStore().log(`Vue Info: ${info}`);
+    useLogStore().log(
+      `Vue Error: ${String(error)}`,
+      JSON.stringify({ error, info }, null, 2),
+      maybeStringStack(error),
+    );
+
+    Notify.create({
+      type: 'error',
+      message: 'Vue Error',
+      caption: String(error),
+    });
   };
 
   app.config.warnHandler = (warning, _instance, info) => {
-    logString(warning); // warnings are always strings
-    useLogStore().log(`Vue Info: ${info}`);
+    useLogStore().log(
+      `Vue Warning: ${warning}`,
+      JSON.stringify({ warning, info }, null, 2),
+      null,
+    );
   };
 }
 
@@ -105,13 +126,13 @@ function setupConsoleHandlers() {
 
       const argString = stringifyArgs(args).join(', ');
       if (method == 'error') {
-        useQuasar().notify({
+        Notify.create({
           type: 'warning',
           message: argString,
         });
       }
 
-      useLogStore().log(`console.${method}: ${argString}`);
+      useLogStore().log(`console.${method}: ${argString}`, null, null);
     };
   }
 }

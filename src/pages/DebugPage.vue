@@ -32,23 +32,11 @@
             </div>
           </div>
           <table class="log-entries">
-            <tr
+            <log-entry
               v-for="line in lines.toReversed()"
               :key="line.time"
-              class="bg-lighten"
-            >
-              <td class="timestamp q-pa-sm">
-                {{ dayjs(line.time).format('YYYY-MM-DD HH:mm:ss') }}
-              </td>
-              <td class="q-pa-sm">
-                <!-- eslint-disable vue/no-v-html -- we intend to use html here so shh -->
-                <pre
-                  class="q-ma-none"
-                  v-html="sanitizeLogMessage(line.message)"
-                />
-                <!-- eslint-enable vue/no-v-html -->
-              </td>
-            </tr>
+              :line="line"
+            />
           </table>
         </div>
       </div>
@@ -59,38 +47,68 @@
 <script setup lang="ts">
 import dayjs from 'dayjs';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
 import { copyToClipboard, useQuasar } from 'quasar';
 
 import { useLogStore } from 'src/stores/log-store';
 
 import PageTitle from 'src/components/PageTitle.vue';
-import { getVersion } from 'src/util';
+import LogEntry from 'src/components/DebugPage/LogEntry.vue';
+import { getVersion, sanitizeLogMessage } from 'src/util';
 
 const $q = useQuasar();
 
 const logStore = useLogStore();
 const { lines } = storeToRefs(logStore);
 
-const logText = computed(() =>
-  lines.value
-    .toReversed()
-    .map(
-      (l) =>
-        `${dayjs(l.time).format('YYYY-MM-DD HH:mm:ss')} | ${sanitizeLogMessage(l.message)}`,
-    )
-    .join('\n'),
-);
-
 const infoText = `
 App: ${getVersion()}
 Quasar: v${$q.version}
-Platform: ${JSON.stringify($q.platform.is, null, 2)}
+
+${JSON.stringify($q.platform.is, null, 2)}
 `.trim();
 
-function sanitizeLogMessage(message: string): string {
-  const tokenRegex = /[\w+/]{64}/g;
-  return message.replaceAll(tokenRegex, '****PLURALKIT_API_TOKEN****');
+function generateClipboardText(): string {
+  const outLines = [
+    '# Info',
+    '',
+    `**App:** ${getVersion()}`,
+    `**Quasar:** ${$q.version}`,
+    '',
+    '## Platform',
+    '```json',
+    JSON.stringify($q.platform.is, null, 2),
+    '```',
+    '',
+    '# Logs',
+    '',
+  ];
+
+  for (const logLine of lines.value.toReversed()) {
+    outLines.push(
+      `## ${dayjs(logLine.time).format('YYYY-MM-DD HH:mm:ss')}`,
+      '```',
+      sanitizeLogMessage(logLine.message),
+      '```',
+    );
+    if (logLine.error) {
+      outLines.push(
+        '### Error',
+        '```',
+        sanitizeLogMessage(logLine.error),
+        '```',
+      );
+    }
+    if (logLine.stack) {
+      outLines.push(
+        '### Stack',
+        '```',
+        sanitizeLogMessage(logLine.stack),
+        '```',
+      );
+    }
+  }
+
+  return outLines.join('\n');
 }
 
 function copyInfoToClipboard() {
@@ -106,12 +124,7 @@ function copyInfoToClipboard() {
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    copyToClipboard(
-      '==== INFO ====\n\n' +
-        infoText +
-        '\n\n==== LOGS ====\n\n' +
-        logText.value,
-    )
+    copyToClipboard(generateClipboardText())
       .then(() => $q.notify({ message: 'Log Copied' }))
       .catch((err) =>
         $q.notify({ message: `Couldn't copy to clipboard: ${err?.message}` }),
@@ -132,10 +145,3 @@ function clearLog() {
   });
 }
 </script>
-
-<style lang="scss" scoped>
-.log-entries .timestamp {
-  white-space: nowrap;
-  vertical-align: top;
-}
-</style>
