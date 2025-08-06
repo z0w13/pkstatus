@@ -135,9 +135,12 @@
             </q-item-section>
           </q-item>
           <q-card-section class="col overflow-auto">
-            <div class="changelog">
-              {{ markdownit({ html: false }).render(newVersion.changelog) }}
-            </div>
+            <!-- eslint-disable vue/no-v-html -- needed for rendering changelog -->
+            <div
+              class="changelog"
+              v-html="markdownit({ html: false }).render(newVersion.changelog)"
+            />
+            <!-- eslint-enable vue/no-v-html -->
           </q-card-section>
           <q-card-actions class="col-auto" align="between">
             <q-btn
