@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.13.0-beta.1](https://github.com/z0w13/pkstatus/compare/v0.12.2...v0.13.0-beta.1) (2025-08-06)
+
+
+### Features
+
+* **updater:** better update checking that should work correctly in more circumstances
+* **backend:** switched to a different PluralKit API library, should be unnoticable
+* **troubleshooting:** better error handling, logging and feedback
+
+
+### Bug Fixes
+
+* always show names/pronouns in tile layout and switcher, even when avatars are loading
+
+### Misc
+
+* all dependencies have been updated, shouldn't impact users
+
 ## [0.12.2](https://github.com/z0w13/pkstatus/compare/v0.12.1...v0.12.2) (2024-11-04)
 
 
