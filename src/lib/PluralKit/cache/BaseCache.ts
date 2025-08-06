@@ -22,7 +22,7 @@ export class CacheInfo {
   ) {}
 
   public expired(ttl?: number): boolean {
-    console.log('CacheInfo::expired', {
+    console.debug('CacheInfo::expired', {
       ttl: ttl ?? this.ttl,
       diff: dayjs().diff(this.createdAt, 'seconds'),
       expired: dayjs().diff(this.createdAt, 'seconds') > (ttl ?? this.ttl),
