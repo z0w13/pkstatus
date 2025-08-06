@@ -37,6 +37,9 @@ importers:
       pinia:
         specifier: ^3.0.3
         version: 3.0.3(typescript@5.8.3)(vue@3.5.17(typescript@5.8.3))
+      pinia-plugin-persistedstate:
+        specifier: ^4.4.1
+        version: 4.4.1(@nuxt/kit@3.17.5)(pinia@3.0.3(typescript@5.8.3)(vue@3.5.17(typescript@5.8.3)))
       pkapi-ts:
         specifier: ^0.2.5
         version: 0.2.5
@@ -134,9 +137,6 @@ importers:
       lint-staged:
         specifier: ^16.1.2
         version: 16.1.2
-      pinia-plugin-persistedstate:
-        specifier: ^4.4.1
-        version: 4.4.1(@nuxt/kit@3.17.5)(pinia@3.0.3(typescript@5.8.3)(vue@3.5.17(typescript@5.8.3)))
       postcss-load-config:
         specifier: ^6.0.1
         version: 6.0.1(jiti@2.4.2)(postcss@8.5.6)(yaml@2.8.0)
