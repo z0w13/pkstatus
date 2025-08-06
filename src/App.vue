@@ -10,7 +10,7 @@ import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { APIError } from 'pkapi-ts/errors';
 import useCachePersister from 'src/components/CachePersister';
-import setupErrorHandler from 'src/errorHandler';
+import setupErrorHandler, { logWithMessage } from 'src/errorHandler';
 import {
   UpdateInfo,
   checkForUpdate,
@@ -79,12 +79,17 @@ watch(
 );
 
 async function updateChecker() {
-  const update = await checkForUpdate();
-  if (update && update.version == ignoreVersion.value) {
+  try {
+    const update = await checkForUpdate();
+    if (update && update.version == ignoreVersion.value) {
+      return;
+    }
+
+    newVersion.value = update;
+  } catch (e) {
+    logWithMessage('Error checking for updates', e);
     return;
   }
-
-  newVersion.value = update;
 }
 
 let updateCheckerInterval: ReturnType<typeof setInterval> | null = null;

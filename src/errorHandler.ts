@@ -56,6 +56,32 @@ function logUnknown(err: unknown): void {
   });
 }
 
+export function logWithMessage(message: string, err: unknown) {
+  useLogStore().log(
+    `${message}: ${errorToString(err)}`,
+    JSON.stringify(err, null, 2),
+    maybeStringStack(err),
+  );
+
+  Notify.create({
+    type: 'negative',
+    message,
+    caption: errorToString(err),
+  });
+}
+
+function errorToString(err: unknown): string {
+  if (err instanceof HTTPError) {
+    return `PluralKit API Error: ${err.message ?? err.statusText}`;
+  } else if (err instanceof Error) {
+    return `${err.name}: ${err.message}`;
+  } else if (typeof err === 'string') {
+    return err;
+  } else {
+    return `Error: ${String(err)}`;
+  }
+}
+
 function log(err: unknown): void {
   if (err instanceof HTTPError) {
     logPluralKitApiError(err);
