@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { QVueGlobals } from 'quasar';
 
 import { getVersion, isPrerelease } from 'src/util';
+import { compareBuild, gt, valid } from 'semver';
 
 const ReleaseAsset = z.object({
   name: z.string(),
@@ -52,13 +53,21 @@ export class UpdateInfo {
   }
 }
 
-async function getLatestRelease(): Promise<ReleaseResponse> {
-  return ReleaseResponse.parse(
-    (
-      await axios.get(
-        'https://api.github.com/repos/z0w13/pkstatus/releases/latest',
+async function getReleases(): Promise<Array<ReleaseResponse>> {
+  return (
+    z
+      .array(ReleaseResponse)
+      .parse(
+        (
+          await axios.get(
+            'https://api.github.com/repos/z0w13/pkstatus/releases',
+          )
+        ).data,
       )
-    ).data,
+      // filter releases that aren't semver
+      .filter((r) => !!valid(r.tag_name))
+      // sort by version descending
+      .toSorted((a, b) => compareBuild(b.tag_name, a.tag_name))
   );
 }
 
@@ -67,26 +76,35 @@ export function isValidUpdateTarget(
   newVersion: string,
 ): boolean {
   return (
-    // prerelease -> prerelease
-    (isPrerelease(currentVersion) && isPrerelease(newVersion)) ||
-    // prerelease -> release
-    (isPrerelease(currentVersion) && !isPrerelease(newVersion)) ||
-    // release -> release
-    (!isPrerelease(currentVersion) && !isPrerelease(newVersion))
+    // prerelease -> prerelease (newer)
+    (isPrerelease(currentVersion) &&
+      isPrerelease(newVersion) &&
+      gt(newVersion, currentVersion)) ||
+    // prerelease -> release (newer)
+    (isPrerelease(currentVersion) &&
+      !isPrerelease(newVersion) &&
+      gt(newVersion, currentVersion)) ||
+    // release -> release (newer)
+    (!isPrerelease(currentVersion) &&
+      !isPrerelease(newVersion) &&
+      gt(newVersion, currentVersion))
   );
 }
 
 export async function checkForUpdate(): Promise<UpdateInfo | null> {
-  const latest = await getLatestRelease();
+  const releases = await getReleases();
 
   const currVer = getVersion();
-  const newVer = latest.tag_name;
+  const targets = releases.filter((r) =>
+    isValidUpdateTarget(currVer, r.tag_name),
+  );
 
-  if (!isValidUpdateTarget(currVer, newVer) || newVer == currVer) {
+  if (targets.length === 0) {
     return null;
   }
+  console.info({ targets });
 
-  return await UpdateInfo.fromRelease(latest);
+  return await UpdateInfo.fromRelease(targets[0]);
 }
 
 export function shouldCheckForUpdates($q: QVueGlobals): boolean {
