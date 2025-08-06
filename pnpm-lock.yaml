@@ -41,8 +41,8 @@ importers:
         specifier: ^4.4.1
         version: 4.4.1(@nuxt/kit@3.17.5)(pinia@3.0.3(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2)))
       pkapi-ts:
-        specifier: ^0.2.5
-        version: 0.2.5
+        specifier: ^0.2.6
+        version: 0.2.6
       quasar:
         specifier: ^2.18.2
         version: 2.18.2
@@ -5104,8 +5104,8 @@ packages:
     resolution: {integrity: sha512-J8B6xqiO37sU/gkcMglv6h5Jbd9xNER7aHzpfRdNmV4IbQBzBpe4l9XmbG+xPF/znacgu2jfEw+wHffaq/YkXA==}
     hasBin: true
 
-  pkapi-ts@0.2.5:
-    resolution: {integrity: sha512-Uc1ZJU9rsMq+pfM7n3+gzlmSjQMcWJmz7qhVmIl2BDjjdy7u5jTkI5eRP2f0VHhDoy0HFSErIJq6X8mvmnLwaw==}
+  pkapi-ts@0.2.6:
+    resolution: {integrity: sha512-UY0+RONlMFzLnTa8JpZu+kAqU7b/Nvq9jX+B5VEjlnU8JUfuOgY3628bL/q2vm6uzgjVAcd0uePSmVsfU2A8JA==}
     engines: {node: '>=22.0.0'}
 
   pkg-types@1.3.1:
@@ -12446,7 +12446,7 @@ snapshots:
     dependencies:
       pngjs: 3.4.0
 
-  pkapi-ts@0.2.5:
+  pkapi-ts@0.2.6:
     dependencies:
       discord-snowflake: 2.0.0
       ts-case-convert: 2.1.0
