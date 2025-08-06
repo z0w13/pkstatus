@@ -74,7 +74,7 @@
     "postcss-load-config": "^6.0.1",
     "prettier": "^3.6.2",
     "tmp-promise": "^3.0.3",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.2",
     "vite-bundle-analyzer": "^1.1.0",
     "vite-plugin-checker": "^0.10.2",
     "vite-tsconfig-paths": "^5.1.4",
