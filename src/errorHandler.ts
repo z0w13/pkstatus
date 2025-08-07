@@ -76,7 +76,7 @@ function logUnknown(err: unknown): void {
   });
 }
 
-export function logWithMessage(message: string, err: unknown) {
+export function logErrorWithMessage(message: string, err: unknown) {
   useLogger().log(
     `${message}: ${errorToString(err)}`,
     JSON.stringify(err, getCircularReplacer(), 2),

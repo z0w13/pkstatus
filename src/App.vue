@@ -10,7 +10,7 @@ import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { APIError } from 'pkapi-ts/errors';
 import useCachePersister from 'src/components/CachePersister';
-import setupErrorHandler, { logWithMessage } from 'src/errorHandler';
+import setupErrorHandler, { logErrorWithMessage } from 'src/errorHandler';
 import {
   UpdateInfo,
   checkForUpdate,
@@ -88,7 +88,7 @@ async function updateChecker() {
 
     newVersion.value = update;
   } catch (e) {
-    logWithMessage('Error checking for updates', e);
+    logErrorWithMessage('Error checking for updates', e);
     return;
   }
 }
