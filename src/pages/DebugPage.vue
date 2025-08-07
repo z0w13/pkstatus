@@ -31,12 +31,9 @@
               />
             </div>
           </div>
-          <table
-            v-if="!!logger.lines.length"
-            class="log-entries full-width q-mb-lg"
-          >
+          <table v-if="!!lines.length" class="log-entries full-width q-mb-lg">
             <log-entry
-              v-for="line in logger.lines.toReversed()"
+              v-for="line in lines.toReversed()"
               :key="line.time"
               :line="line"
             />
@@ -57,9 +54,11 @@ import { getVersion, sanitizeLogMessage } from 'src/util';
 
 import PageTitle from 'src/components/PageTitle.vue';
 import LogEntry from 'src/components/DebugPage/LogEntry.vue';
+import { ref } from 'vue';
 
 const $q = useQuasar();
 const logger = useLogger();
+const lines = ref(logger.lines);
 
 const infoText = `
 App: ${getVersion()}
@@ -143,6 +142,7 @@ function clearLog() {
     persistent: true,
   }).onOk(() => {
     logger.clear();
+    lines.value = logger.lines;
   });
 }
 </script>
