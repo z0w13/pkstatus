@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { shallowReactive } from 'vue';
 import dayjs from 'dayjs';
 import { z } from 'zod';
 
@@ -51,7 +51,7 @@ export default abstract class BaseCache<T extends HasId, I> extends EventBus<{
   constructor(public ttl: number = 300) {
     super();
 
-    this.objects = reactive(Object.create(null));
+    this.objects = shallowReactive(Object.create(null));
     this.cacheInfo = Object.create(null);
   }
 
