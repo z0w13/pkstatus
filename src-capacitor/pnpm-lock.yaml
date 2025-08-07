@@ -20,6 +20,9 @@ importers:
       '@capacitor/splash-screen':
         specifier: ^7.0.1
         version: 7.0.1(@capacitor/core@7.2.0)
+      '@capawesome/capacitor-android-edge-to-edge-support':
+        specifier: ^7.2.2
+        version: 7.2.2(@capacitor/core@7.2.0)
     devDependencies:
       '@capacitor/cli':
         specifier: ^7.2.0
@@ -47,6 +50,11 @@ packages:
 
   '@capacitor/splash-screen@7.0.1':
     resolution: {integrity: sha512-Nbqw9bEIe7uHj/HOT81mf4jT6uK1YykozpQw/uIKQDueMg6RJYaJK2/TMajIOohLk8fJF4TYIc1i9nGjNLnfGg==}
+    peerDependencies:
+      '@capacitor/core': '>=7.0.0'
+
+  '@capawesome/capacitor-android-edge-to-edge-support@7.2.2':
+    resolution: {integrity: sha512-AAqCFswAVlA6WX0iaVbMCEnt/2mNBZGmU3JbbFlqWAg61NCMxm8+JlmiNoG+6wf/6S/BWVRL8Ac3L9csaZH/8w==}
     peerDependencies:
       '@capacitor/core': '>=7.0.0'
 
@@ -484,6 +492,10 @@ snapshots:
       tslib: 2.8.1
 
   '@capacitor/splash-screen@7.0.1(@capacitor/core@7.2.0)':
+    dependencies:
+      '@capacitor/core': 7.2.0
+
+  '@capawesome/capacitor-android-edge-to-edge-support@7.2.2(@capacitor/core@7.2.0)':
     dependencies:
       '@capacitor/core': 7.2.0
 

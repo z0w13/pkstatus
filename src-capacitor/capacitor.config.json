@@ -4,5 +4,10 @@
   "webDir": "www",
   "server": {
     "androidScheme": "https"
+  },
+  "plugins": {
+    "EdgeToEdge": {
+      "backgroundColor": "#1976d2"
+    }
   }
 }
