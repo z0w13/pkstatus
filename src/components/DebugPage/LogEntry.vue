@@ -3,6 +3,9 @@
     <td class="timestamp q-pa-sm" :rowspan="rowSpan" valign="top">
       {{ dayjs(line.time).format('YYYY-MM-DD HH:mm:ss') }}
     </td>
+    <td :class="['q-pa-sm', colorClass()]" :rowspan="rowSpan" valign="top">
+      {{ line.level }}
+    </td>
     <td class="q-pa-sm" valign="top">message</td>
     <td class="q-pa-sm">
       <pre class="q-ma-none">{{ sanitizeLogMessage(line.message) }}</pre>
@@ -27,15 +30,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { sanitizeLogMessage } from 'src/util';
 import { LogEntry } from 'src/lib/Logger';
 import dayjs from 'dayjs';
 
 const props = defineProps<{ line: LogEntry }>();
-const rowSpan = computed(
-  () => 1 + (props.line.error ? 1 : 0) + (props.line.stack ? 1 : 0),
-);
+function colorClass() {
+  switch (props.line.level) {
+    case 'debug':
+      return 'text-positive';
+    case 'info':
+      return 'text-info';
+    case 'warn':
+      return 'text-warning';
+    case 'error':
+      return 'text-negative';
+  }
+}
+const rowSpan = 1 + (props.line.error ? 1 : 0) + (props.line.stack ? 1 : 0);
 </script>
 
 <style lang="scss" scoped>

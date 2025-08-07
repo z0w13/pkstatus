@@ -82,7 +82,7 @@ function generateClipboardText(): string {
 
   for (const logLine of logger.lines.toReversed()) {
     outLines.push(
-      `## ${dayjs(logLine.time).format('YYYY-MM-DD HH:mm:ss')}`,
+      `## ${dayjs(logLine.time).format('YYYY-MM-DD HH:mm:ss')} | ${logLine.level}`,
       '```',
       sanitizeLogMessage(logLine.message),
       '```',

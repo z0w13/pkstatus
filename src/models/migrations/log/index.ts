@@ -1,11 +1,12 @@
 import { getVersion } from 'src/models/migrations/util';
 
-import { LogV1, migrateLegacyToV1 } from './0001';
+import { migrateLegacyToV1 } from './0001';
+import { LogV2, migrateV1ToV2 } from './0002';
 
-const Migrations = [migrateLegacyToV1];
+const Migrations = [migrateLegacyToV1, migrateV1ToV2];
 export const LatestVersion = Migrations.length;
 
-export function migrate(data: unknown): LogV1 {
+export function migrate(data: unknown): LogV2 {
   const version = getVersion(data);
   const toApply = Migrations.slice(version);
 
@@ -14,5 +15,5 @@ export function migrate(data: unknown): LogV1 {
     curData = apply(curData);
   }
 
-  return LogV1.parse(curData);
+  return LogV2.parse(curData);
 }

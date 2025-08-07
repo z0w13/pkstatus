@@ -31,6 +31,7 @@ function maybeStringStack(err: unknown): string | null {
 
 function logPluralKitApiError(err: HTTPError): void {
   useLogger().log(
+    'error',
     `PluralKit API Error: ${err.message ?? err.statusText}`,
     JSON.stringify(err, null, 2),
     maybeStringStack(err),
@@ -45,6 +46,7 @@ function logPluralKitApiError(err: HTTPError): void {
 
 function logError(err: Error): void {
   useLogger().log(
+    'error',
     `${err.name}: ${err.message}`,
     JSON.stringify(err, getCircularReplacer(), 2),
     maybeStringStack(err),
@@ -56,7 +58,7 @@ function logError(err: Error): void {
 }
 
 function logString(err: string): void {
-  useLogger().log(`Error: ${err}`, err, null);
+  useLogger().log('error', `Error: ${err}`, err, null);
   Notify.create({
     type: 'warning',
     message: err,
@@ -65,6 +67,7 @@ function logString(err: string): void {
 
 function logUnknown(err: unknown): void {
   useLogger().log(
+    'error',
     `Error: ${String(err)}`,
     JSON.stringify(err, getCircularReplacer(), 2),
     maybeStringStack(err),
@@ -78,6 +81,7 @@ function logUnknown(err: unknown): void {
 
 export function logErrorWithMessage(message: string, err: unknown) {
   useLogger().log(
+    'error',
     `${message}: ${errorToString(err)}`,
     JSON.stringify(err, getCircularReplacer(), 2),
     maybeStringStack(err),
@@ -123,6 +127,7 @@ function setupAppHandlers() {
 
   app.config.errorHandler = (error, _instance, info) => {
     useLogger().log(
+      'error',
       `Vue Error: ${String(error)}`,
       JSON.stringify({ error, info }, getCircularReplacer(), 2),
       maybeStringStack(error),
@@ -137,6 +142,7 @@ function setupAppHandlers() {
 
   app.config.warnHandler = (warning, _instance, info) => {
     useLogger().log(
+      'warn',
       `Vue Warning: ${warning}`,
       JSON.stringify({ warning, info }, getCircularReplacer(), 2),
       null,
@@ -178,7 +184,12 @@ function setupConsoleHandlers() {
         });
       }
 
-      useLogger().log(`console.${method}: ${argString}`, null, null);
+      useLogger().log(
+        method == 'trace' ? 'debug' : method,
+        `console.${method}: ${argString}`,
+        null,
+        null,
+      );
     };
   }
 }

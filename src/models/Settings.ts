@@ -57,6 +57,12 @@ export const Settings = z.object({
       caps: z.boolean().default(false),
     })
     .default({}),
+  log: z
+    .object({
+      level: z.enum(['debug', 'info', 'warn', 'error']).default('warn'),
+      lines: z.number().min(10).max(500).default(100),
+    })
+    .default({}),
   systemUpdateInterval: z.number().default(3600),
   fronterUpdateInterval: z.number().default(300),
   detectPronouns: z.boolean().default(true),

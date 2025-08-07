@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { LatestVersion, migrate } from 'src/models/migrations/log';
 
 const LogEntry = z.object({
+  level: z.enum(['debug', 'info', 'warn', 'error']),
   message: z.string(),
   error: z.nullable(z.string()),
   stack: z.nullable(z.string()),
@@ -16,22 +17,48 @@ const SerializedState = z.object({
 });
 type SerializedState = z.infer<typeof LogEntry>;
 
+const LEVEL_MAP: Record<LogLevel, number> = {
+  debug: 4,
+  info: 3,
+  warn: 2,
+  error: 1,
+};
+
+type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+
 export class Logger {
   public lines: Array<LogEntry>;
   protected limit: number;
+  protected level: LogLevel;
 
-  constructor(lines: Array<LogEntry> = [], limit = 50) {
+  constructor(
+    lines: Array<LogEntry> = [],
+    level: LogLevel = 'warn',
+    limit = 50,
+  ) {
     this.lines = lines;
+    this.level = level;
     this.limit = limit;
   }
 
-  public log(message: string, error: string | null, stack: string | null) {
+  public log(
+    level: LogLevel,
+    message: string,
+    error: string | null,
+    stack: string | null,
+  ) {
+    // don't log messages of a more verbose log level
+    if (LEVEL_MAP[level] > LEVEL_MAP[this.level]) {
+      return;
+    }
+
     // TODO: Log trimming without shift
     while (this.lines.length > 50) {
       this.lines.shift();
     }
 
     this.lines.push({
+      level,
       message,
       error,
       stack,
