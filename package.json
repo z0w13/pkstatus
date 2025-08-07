@@ -30,7 +30,6 @@
   "dependencies": {
     "@lumenpink/vue3-fitty": "^0.1.4",
     "axios": "^1.11.0",
-    "bottleneck": "^2.19.5",
     "dayjs": "^1.11.13",
     "markdown-it": "^14.1.0",
     "pinia": "^3.0.3",
