@@ -102,6 +102,10 @@ export default defineConfig((/* ctx */) => {
     devServer: {
       // https: true
       open: true, // opens browser window automatically
+      watch: {
+        // ignore devenv and dist folders
+        ignored: ['**/.devenv/**', '**/dist/**'],
+      },
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
