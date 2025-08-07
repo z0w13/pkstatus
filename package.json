@@ -29,8 +29,6 @@
   },
   "dependencies": {
     "@lumenpink/vue3-fitty": "^0.1.4",
-    "@types/markdown-it": "^14.1.2",
-    "@types/semver": "^7.7.0",
     "axios": "^1.11.0",
     "bottleneck": "^2.19.5",
     "dayjs": "^1.11.13",
@@ -54,7 +52,9 @@
     "@quasar/extras": "^1.17.0",
     "@quasar/icongenie": "^4.0.0",
     "@quasar/quasar-app-extension-testing-unit-vitest": "^1.2.3",
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.10.10",
+    "@types/semver": "^7.7.0",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "@vue/eslint-config-prettier": "^10.2.0",
