@@ -96,7 +96,7 @@ describe('migrateSettings', function () {
     const parsed = Settings.strict().parse(migrated.settings);
 
     expect(migrated.settings.dark).toBe(settingsV0.dark);
-    expect(migrated.version).toBe(16);
+    expect(migrated.version).toBe(17);
     expect(migrated.settings).toStrictEqual(parsed);
   });
 });
