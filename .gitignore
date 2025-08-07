@@ -41,7 +41,13 @@ yarn-error.log*
 # local .env files
 .env.local*
 
-# devenv/nix
-/.devenv
-/.direnv
+# Devenv
+.devenv*
+devenv.local.nix
 /local.properties
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
