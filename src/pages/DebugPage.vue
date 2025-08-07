@@ -31,13 +31,17 @@
               />
             </div>
           </div>
-          <table class="log-entries">
+          <table
+            v-if="!!logger.lines.length"
+            class="log-entries full-width q-mb-lg"
+          >
             <log-entry
               v-for="line in logger.lines.toReversed()"
               :key="line.time"
               :line="line"
             />
           </table>
+          <div v-else class="bg-lighten q-pa-md q-mb-lg">No Entries</div>
         </div>
       </div>
     </div>

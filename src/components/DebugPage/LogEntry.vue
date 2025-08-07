@@ -1,19 +1,24 @@
 <template>
   <tr class="bg-lighten">
-    <td class="timestamp q-pa-sm" :rowspan="rowSpan" valign="top">
+    <td width="1" class="timestamp q-pa-sm" :rowspan="rowSpan" valign="top">
       {{ dayjs(line.time).format('YYYY-MM-DD HH:mm:ss') }}
     </td>
-    <td :class="['q-pa-sm', colorClass()]" :rowspan="rowSpan" valign="top">
+    <td
+      width="1"
+      :class="['q-pa-sm', colorClass()]"
+      :rowspan="rowSpan"
+      valign="top"
+    >
       {{ line.level }}
     </td>
-    <td class="q-pa-sm" valign="top">message</td>
+    <td width="1" class="q-pa-sm" valign="top">message</td>
     <td class="q-pa-sm">
       <pre class="q-ma-none">{{ sanitizeLogMessage(line.message) }}</pre>
     </td>
   </tr>
   <template v-if="line.error">
     <tr class="bg-lighten">
-      <td class="q-pa-sm" valign="top">error</td>
+      <td width="1" class="q-pa-sm" valign="top">error</td>
       <td class="q-pa-sm">
         <pre class="q-ma-none">{{ sanitizeLogMessage(line.error) }}</pre>
       </td>
@@ -21,7 +26,7 @@
   </template>
   <template v-if="line.stack">
     <tr class="bg-lighten">
-      <td class="q-pa-sm" valign="top">stack</td>
+      <td width="1" class="q-pa-sm" valign="top">stack</td>
       <td class="q-pa-sm">
         <pre class="q-ma-none">{{ sanitizeLogMessage(line.stack) }}</pre>
       </td>
