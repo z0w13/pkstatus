@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+export const LOG_MIN_LINES = 0;
+export const LOG_MAX_LINES = 1000;
+
 export const Settings = z.object({
   status: z
     .object({
@@ -60,7 +63,12 @@ export const Settings = z.object({
   log: z
     .object({
       level: z.enum(['debug', 'info', 'warn', 'error']).default('warn'),
-      lines: z.number().min(10).max(500).default(100),
+      lines: z
+        .number()
+        .int()
+        .min(LOG_MIN_LINES)
+        .max(LOG_MAX_LINES)
+        .default(100),
     })
     .default({}),
   systemUpdateInterval: z.number().default(3600),

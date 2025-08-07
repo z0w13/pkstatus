@@ -121,6 +121,7 @@
         </q-item>
         <q-separator spaced />
         <id-section />
+        <log-section />
         <backup-section
           @restore="
             newToken = token;
@@ -144,6 +145,7 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
 import PageTitle from 'src/components/PageTitle.vue';
 import IdSection from 'src/pages/Settings/IdSection.vue';
+import LogSection from 'src/pages/Settings/LogSection.vue';
 import BackupSection from 'src/pages/Settings/BackupSection.vue';
 import { shouldCheckForUpdates } from 'src/lib/updateChecker';
 import { usePluralKit } from 'boot/pluralKit';

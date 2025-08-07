@@ -13,7 +13,8 @@ import { migrateV11ToV12 } from './0012';
 import { migrateV12ToV13 } from './0013';
 import { migrateV13ToV14 } from './0014';
 import { migrateV14ToV15 } from './0015';
-import { migrateV15ToV16, SettingsV16 } from './0016';
+import { migrateV15ToV16 } from './0016';
+import { migrateV16ToV17, SettingsV17 } from './0017';
 import { getVersion } from 'src/models/migrations/util';
 
 const Migrations = [
@@ -33,10 +34,11 @@ const Migrations = [
   migrateV13ToV14,
   migrateV14ToV15,
   migrateV15ToV16,
+  migrateV16ToV17,
 ];
 export const LatestVersion = Migrations.length;
 
-export function migrate(data: unknown): SettingsV16 {
+export function migrate(data: unknown): SettingsV17 {
   const version = getVersion(data);
   const toApply = Migrations.slice(version);
 
@@ -45,5 +47,5 @@ export function migrate(data: unknown): SettingsV16 {
     curData = apply(curData);
   }
 
-  return SettingsV16.parse(curData);
+  return SettingsV17.parse(curData);
 }

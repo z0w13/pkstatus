@@ -33,7 +33,7 @@ const newVersion = ref<UpdateInfo | null>(null);
 const router = useRouter();
 const persister = useCachePersister();
 
-const { dark, ignoreVersion, token } = storeToRefs(settingsStore);
+const { dark, ignoreVersion, token, log } = storeToRefs(settingsStore);
 
 // Force dark/light mode based on URL
 switch (window.location.hash.split('#').at(-1)) {
@@ -76,6 +76,20 @@ watch(
   },
   {
     immediate: true,
+  },
+);
+
+watch(
+  () => log.value.level,
+  (newVal) => {
+    useLogger().setLevel(newVal);
+  },
+);
+
+watch(
+  () => log.value.lines,
+  (newVal) => {
+    useLogger().setLimit(newVal);
   },
 );
 

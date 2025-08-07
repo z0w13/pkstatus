@@ -41,6 +41,14 @@ export class Logger {
     this.limit = limit;
   }
 
+  public setLevel(level: LogLevel) {
+    this.level = level;
+  }
+
+  public setLimit(limit: number) {
+    this.limit = limit;
+  }
+
   public log(
     level: LogLevel,
     message: string,
@@ -88,25 +96,25 @@ export class Logger {
     }
   }
 
-  static restore(): Logger {
+  static restore(maxLines: number, level: LogLevel): Logger {
     const logJson = localStorage.getItem('log');
     if (!logJson) {
       console.debug('no log data found in local storage');
-      return new Logger();
+      return new Logger([], level, maxLines);
     }
 
     try {
       const logDeserialized = JSON.parse(logJson);
       try {
         const logParsed = SerializedState.parse(migrate(logDeserialized));
-        return new Logger(logParsed.lines);
+        return new Logger(logParsed.lines, level, maxLines);
       } catch (e) {
         console.debug('Logger::restore | SerializedState.parse error', e);
-        return new Logger();
+        return new Logger([], level, maxLines);
       }
     } catch (e) {
       console.debug('Logger::restore | JSON.parse error', e);
-      return new Logger();
+      return new Logger([], level, maxLines);
     }
   }
 }
