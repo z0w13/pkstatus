@@ -1,7 +1,7 @@
 import { getCurrentInstance } from 'vue';
 import { Notify } from 'quasar';
 import { HTTPError } from 'pkapi-ts/errors';
-import { useLogStore } from 'src/stores/log-store';
+import { useLogger } from 'boot/logger';
 import { isDev } from 'src/util';
 
 function getCircularReplacer() {
@@ -30,7 +30,7 @@ function maybeStringStack(err: unknown): string | null {
 }
 
 function logPluralKitApiError(err: HTTPError): void {
-  useLogStore().log(
+  useLogger().log(
     `PluralKit API Error: ${err.message ?? err.statusText}`,
     JSON.stringify(err, null, 2),
     maybeStringStack(err),
@@ -44,7 +44,7 @@ function logPluralKitApiError(err: HTTPError): void {
 }
 
 function logError(err: Error): void {
-  useLogStore().log(
+  useLogger().log(
     `${err.name}: ${err.message}`,
     JSON.stringify(err, getCircularReplacer(), 2),
     maybeStringStack(err),
@@ -56,7 +56,7 @@ function logError(err: Error): void {
 }
 
 function logString(err: string): void {
-  useLogStore().log(`Error: ${err}`, err, null);
+  useLogger().log(`Error: ${err}`, err, null);
   Notify.create({
     type: 'warning',
     message: err,
@@ -64,7 +64,7 @@ function logString(err: string): void {
 }
 
 function logUnknown(err: unknown): void {
-  useLogStore().log(
+  useLogger().log(
     `Error: ${String(err)}`,
     JSON.stringify(err, getCircularReplacer(), 2),
     maybeStringStack(err),
@@ -77,7 +77,7 @@ function logUnknown(err: unknown): void {
 }
 
 export function logWithMessage(message: string, err: unknown) {
-  useLogStore().log(
+  useLogger().log(
     `${message}: ${errorToString(err)}`,
     JSON.stringify(err, getCircularReplacer(), 2),
     maybeStringStack(err),
@@ -122,7 +122,7 @@ function setupAppHandlers() {
   }
 
   app.config.errorHandler = (error, _instance, info) => {
-    useLogStore().log(
+    useLogger().log(
       `Vue Error: ${String(error)}`,
       JSON.stringify({ error, info }, getCircularReplacer(), 2),
       maybeStringStack(error),
@@ -136,7 +136,7 @@ function setupAppHandlers() {
   };
 
   app.config.warnHandler = (warning, _instance, info) => {
-    useLogStore().log(
+    useLogger().log(
       `Vue Warning: ${warning}`,
       JSON.stringify({ warning, info }, getCircularReplacer(), 2),
       null,
@@ -178,7 +178,7 @@ function setupConsoleHandlers() {
         });
       }
 
-      useLogStore().log(`console.${method}: ${argString}`, null, null);
+      useLogger().log(`console.${method}: ${argString}`, null, null);
     };
   }
 }

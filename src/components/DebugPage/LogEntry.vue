@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { sanitizeLogMessage } from 'src/util';
-import { LogEntry } from 'src/stores/log-store';
+import { LogEntry } from 'src/lib/Logger';
 import dayjs from 'dayjs';
 
 const props = defineProps<{ line: LogEntry }>();

@@ -33,7 +33,7 @@
           </div>
           <table class="log-entries">
             <log-entry
-              v-for="line in lines.toReversed()"
+              v-for="line in logger.lines.toReversed()"
               :key="line.time"
               :line="line"
             />
@@ -46,19 +46,16 @@
 
 <script setup lang="ts">
 import dayjs from 'dayjs';
-import { storeToRefs } from 'pinia';
 import { copyToClipboard, useQuasar } from 'quasar';
 
-import { useLogStore } from 'src/stores/log-store';
+import { useLogger } from 'src/boot/logger';
+import { getVersion, sanitizeLogMessage } from 'src/util';
 
 import PageTitle from 'src/components/PageTitle.vue';
 import LogEntry from 'src/components/DebugPage/LogEntry.vue';
-import { getVersion, sanitizeLogMessage } from 'src/util';
 
 const $q = useQuasar();
-
-const logStore = useLogStore();
-const { lines } = storeToRefs(logStore);
+const logger = useLogger();
 
 const infoText = `
 App: ${getVersion()}
@@ -83,7 +80,7 @@ function generateClipboardText(): string {
     '',
   ];
 
-  for (const logLine of lines.value.toReversed()) {
+  for (const logLine of logger.lines.toReversed()) {
     outLines.push(
       `## ${dayjs(logLine.time).format('YYYY-MM-DD HH:mm:ss')}`,
       '```',
@@ -141,7 +138,7 @@ function clearLog() {
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    logStore.clear();
+    logger.clear();
   });
 }
 </script>

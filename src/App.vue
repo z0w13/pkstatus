@@ -19,6 +19,7 @@ import {
 import { useRouter } from 'vue-router';
 
 import { usePluralKit } from 'boot/pluralKit';
+import { useLogger } from 'boot/logger';
 
 // set up our custom error handler so errors get logged
 setupErrorHandler();
@@ -93,6 +94,7 @@ async function updateChecker() {
 }
 
 let updateCheckerInterval: ReturnType<typeof setInterval> | null = null;
+let logPersistInterval: ReturnType<typeof setInterval> | null = null;
 onMounted(() => {
   persister.restore();
 
@@ -105,12 +107,18 @@ onMounted(() => {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     updateCheckerInterval = setInterval(updateChecker, 60 * 60 * 1000);
   }
+
+  logPersistInterval = setInterval(() => useLogger().persist(), 60 * 1000);
 });
 
 onUnmounted(() => {
   if (updateCheckerInterval) {
     clearInterval(updateCheckerInterval);
     updateCheckerInterval = null;
+  }
+  if (logPersistInterval) {
+    clearInterval(logPersistInterval);
+    logPersistInterval = null;
   }
 });
 </script>
