@@ -4,6 +4,26 @@ import { HTTPError } from 'pkapi-ts/errors';
 import { useLogStore } from 'src/stores/log-store';
 import { isDev } from 'src/util';
 
+function getCircularReplacer() {
+  const ancestors: Array<object> = [];
+  return function (this: object, _key: string, value: unknown) {
+    if (typeof value !== 'object' || value === null) {
+      return value;
+    }
+
+    // `this` is the object that value is contained in,
+    // i.e., its direct parent.
+    while (ancestors.length > 0 && ancestors.at(-1) !== this) {
+      ancestors.pop();
+    }
+    if (ancestors.includes(value)) {
+      return '[Circular]';
+    }
+    ancestors.push(value);
+    return value;
+  };
+}
+
 function maybeStringStack(err: unknown): string | null {
   const stackErr = err as { stack?: string };
   return typeof stackErr?.stack === 'string' ? stackErr.stack : null;
@@ -26,7 +46,7 @@ function logPluralKitApiError(err: HTTPError): void {
 function logError(err: Error): void {
   useLogStore().log(
     `${err.name}: ${err.message}`,
-    JSON.stringify(err, null, 2),
+    JSON.stringify(err, getCircularReplacer(), 2),
     maybeStringStack(err),
   );
   Notify.create({
@@ -46,7 +66,7 @@ function logString(err: string): void {
 function logUnknown(err: unknown): void {
   useLogStore().log(
     `Error: ${String(err)}`,
-    JSON.stringify(err, null, 2),
+    JSON.stringify(err, getCircularReplacer(), 2),
     maybeStringStack(err),
   );
   Notify.create({
@@ -59,7 +79,7 @@ function logUnknown(err: unknown): void {
 export function logWithMessage(message: string, err: unknown) {
   useLogStore().log(
     `${message}: ${errorToString(err)}`,
-    JSON.stringify(err, null, 2),
+    JSON.stringify(err, getCircularReplacer(), 2),
     maybeStringStack(err),
   );
 
@@ -104,7 +124,7 @@ function setupAppHandlers() {
   app.config.errorHandler = (error, _instance, info) => {
     useLogStore().log(
       `Vue Error: ${String(error)}`,
-      JSON.stringify({ error, info }, null, 2),
+      JSON.stringify({ error, info }, getCircularReplacer(), 2),
       maybeStringStack(error),
     );
 
@@ -118,7 +138,7 @@ function setupAppHandlers() {
   app.config.warnHandler = (warning, _instance, info) => {
     useLogStore().log(
       `Vue Warning: ${warning}`,
-      JSON.stringify({ warning, info }, null, 2),
+      JSON.stringify({ warning, info }, getCircularReplacer(), 2),
       null,
     );
   };
@@ -138,7 +158,7 @@ function stringifyArgs(args: Array<unknown>): Array<string> {
     } else if (arg === null || arg === undefined) {
       return typeof arg;
     } else {
-      return JSON.stringify(arg);
+      return JSON.stringify(arg, getCircularReplacer());
     }
   });
 }
