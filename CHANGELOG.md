@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.0-beta.4](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.3...v0.13.0-beta.4) (2025-08-08)
+
+
+### Bug Fixes
+
+* **groups:** don't error on long(er) group descriptions
+* **android:** fix top bar overlapping with android statusbar
+
 ## [0.13.0-beta.3](https://github.com/z0w13/pkstatus/compare/v0.12.2...v0.12.3-beta.3) (2025-08-07)
 
 
