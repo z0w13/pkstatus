@@ -31,7 +31,7 @@ export const SerializedMember = z.object({
   autoproxyEnabled: z.boolean().nullable(),
   messageCount: z.number().nullable(),
 
-  createdAt: z.string().datetime(),
+  createdAt: z.string().datetime().nullable(),
   lastMessageAt: z.string().datetime().nullable(),
   updatedAt: z.string().datetime(),
 });
@@ -59,7 +59,7 @@ export interface IMember {
   autoproxyEnabled: boolean | null;
   messageCount: number | null;
 
-  createdAt: dayjs.Dayjs;
+  createdAt: dayjs.Dayjs | null;
   lastMessageAt: dayjs.Dayjs | null;
 
   updatedAt: dayjs.Dayjs;
@@ -88,7 +88,7 @@ export class Member implements IMember {
     public autoproxyEnabled: boolean | null,
     public messageCount: number | null,
 
-    public createdAt: dayjs.Dayjs,
+    public createdAt: dayjs.Dayjs | null,
     public lastMessageAt: dayjs.Dayjs | null,
 
     public updatedAt: dayjs.Dayjs,
@@ -185,7 +185,7 @@ export class Member implements IMember {
 
       proxyTags: (member.proxyTags || []).map((t) => ProxyTag.fromPKApi(t)),
 
-      createdAt: dayjs(member.created),
+      createdAt: util.dayjsNull(member.created),
       // Need to check for the epoch timestamp because PKAPI.js incorrectly returns
       // new Date(null) when the last_message_timestamp is null
       lastMessageAt:
@@ -204,7 +204,7 @@ export class Member implements IMember {
 
       birthday: this.birthday ? BirthdayToString.parse(this.birthday) : null,
 
-      createdAt: this.createdAt.toJSON(),
+      createdAt: this.createdAt?.toJSON() ?? null,
       lastMessageAt: this.lastMessageAt?.toJSON() || null,
 
       updatedAt: this.updatedAt.toJSON(),

@@ -73,7 +73,7 @@
               &bull;
             </td>
           </tr>
-          <tr>
+          <tr v-if="member.createdAt">
             <td>Created At</td>
             <td>{{ member.createdAt.format('YYYY-MM-DD') }}</td>
           </tr>
