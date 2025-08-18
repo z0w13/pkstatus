@@ -175,24 +175,18 @@ export class Member implements IMember {
 
       // NOTE: Needed because typescript doesn't seem to narrow spread operators
       system: member.system,
-      name: member.name || '',
-      displayName: util.nonEmptyStringOrNull(member.displayName),
-      color: util.nonEmptyStringOrNull(member.color),
-      pronouns: util.nonEmptyStringOrNull(member.pronouns),
-      description: util.nonEmptyStringOrNull(member.description),
+      name: member.name,
+      displayName: member.displayName,
+      color: member.color,
+      pronouns: member.pronouns,
+      description: member.description,
 
-      bannerUrl: util.nonEmptyStringOrNull(member.banner),
+      bannerUrl: member.banner,
 
       proxyTags: (member.proxyTags || []).map((t) => ProxyTag.fromPKApi(t)),
 
       createdAt: util.dayjsNull(member.created),
-      // Need to check for the epoch timestamp because PKAPI.js incorrectly returns
-      // new Date(null) when the last_message_timestamp is null
-      lastMessageAt:
-        member.lastMessageTimestamp &&
-        !util.isEpochDate(member.lastMessageTimestamp)
-          ? dayjs(member.lastMessageTimestamp)
-          : null,
+      lastMessageAt: util.dayjsNull(member.lastMessageTimestamp),
 
       updatedAt: dayjs(),
     });

@@ -103,14 +103,14 @@ export class System implements ISystem {
   static fromPKApi(system: ApiSystem): System {
     return System.fromDict({
       ...system,
-      name: system.name || '',
-      description: system.description || '',
-      tag: system.tag || '',
-      pronouns: system.pronouns || '',
+      name: system.name,
+      description: system.description,
+      tag: system.tag,
+      pronouns: system.pronouns,
 
-      avatarUrl: system.avatarUrl || null,
-      bannerUrl: system.banner || null,
-      color: system.color || null,
+      avatarUrl: system.avatarUrl,
+      bannerUrl: system.banner,
+      color: system.color,
 
       createdAt: dayjs(system.created),
       updatedAt: dayjs(),
