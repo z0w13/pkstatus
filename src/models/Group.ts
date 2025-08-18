@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { GroupWithMembers } from 'pkapi-ts/models/Group';
 
-import { formatId, FormatIdOpts } from 'src/util';
+import { dayjsNull, formatId, FormatIdOpts } from 'src/util';
 
 export interface IGroup {
   id: string;
@@ -14,7 +14,7 @@ export interface IGroup {
   banner: string | null;
   color: string | null;
   members: Array<string>;
-  createdAt: dayjs.Dayjs;
+  createdAt: dayjs.Dayjs | null;
 }
 
 export class Group implements IGroup {
@@ -29,7 +29,7 @@ export class Group implements IGroup {
     public banner: string | null,
     public color: string | null,
     public members: Array<string>,
-    public createdAt: dayjs.Dayjs,
+    public createdAt: dayjs.Dayjs | null,
   ) {
     if (system.length === 0) {
       throw new Error("Group.system shouldn't be an empty string");
@@ -67,7 +67,7 @@ export class Group implements IGroup {
     return Group.fromDict({
       ...group,
 
-      createdAt: dayjs(group.created),
+      createdAt: dayjsNull(group.created),
 
       // NOTE: Needed because typescript doesn't seem to narrow spread operators
       system: group.system,
