@@ -60,9 +60,7 @@
               <q-avatar :color="props.row.avatarUrl ? '' : 'primary'">
                 <img v-if="props.row.avatarUrl" :src="props.row.avatarUrl" />
                 <template v-else>
-                  {{
-                    (props.row.displayName || props.row.name).substring(0, 1)
-                  }}
+                  {{ (props.row.name ?? props.row.id).substring(0, 1) }}
                 </template>
               </q-avatar>
             </q-item-section>
