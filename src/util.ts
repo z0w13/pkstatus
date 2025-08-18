@@ -26,8 +26,17 @@ export function nonEmptyStringOrNull(input: unknown): string | null {
   return null;
 }
 
-export function dayjsNull(input: string | null): dayjs.Dayjs | null {
-  return input !== null ? dayjs(input) : null;
+export function dayjsNull(input: string | Date | null): dayjs.Dayjs | null {
+  if (input === null) {
+    return null;
+  }
+
+  const parsed = dayjs(input);
+  if (!parsed.isValid()) {
+    throw new Error(`Invalid date '${String(input)}'`);
+  }
+
+  return parsed;
 }
 
 export function isEpochDate(date: Date | dayjs.Dayjs): boolean {

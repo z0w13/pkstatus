@@ -1,9 +1,11 @@
+import dayjs from 'dayjs';
 import {
   nonEmptyStringOrNull,
   containsPronouns,
   getPronouns,
   stripPronouns,
   formatId,
+  dayjsNull,
 } from 'src/util';
 import { describe, expect, it, test } from 'vitest';
 
@@ -20,6 +22,23 @@ describe('Test nonEmptyStringOrNull', function () {
     test.each([' ', '   ', ' \t ', '\t'])('%j == null', (input) =>
       expect(nonEmptyStringOrNull(input)).toBeNull(),
     );
+  });
+});
+
+describe('nonEmptyStringOrNull', function () {
+  it('returns null when passed null', () => {
+    expect(dayjsNull(null)).toBeNull();
+  });
+  it('throws an error on invalid dates', () => {
+    expect(() => dayjsNull('foo')).toThrowError('Invalid date');
+  });
+
+  it('returns a dayjs object representing the parsed date string', () => {
+    expect(dayjsNull('2000-01-01')).toEqual(dayjs('2000-01-01'));
+  });
+
+  it('returns a dayjs object with same date as passed a Date object', () => {
+    expect(dayjsNull(new Date(2000, 0, 1))).toEqual(dayjs('2000-01-01'));
   });
 });
 
