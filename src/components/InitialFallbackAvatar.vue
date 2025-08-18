@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { matBrokenImage } from '@quasar/extras/material-icons';
-import { toRef } from 'vue';
+import { ref } from 'vue';
 
 const props = withDefaults(
   defineProps<{
@@ -39,7 +39,7 @@ const props = withDefaults(
   },
 );
 
-const bgColor = toRef(props.color);
+const bgColor = ref(props.color);
 
 function onLoad() {
   bgColor.value = '';
