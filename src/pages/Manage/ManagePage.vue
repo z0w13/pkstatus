@@ -23,7 +23,7 @@
             <initial-fallback-avatar
               v-if="props.value !== undefined"
               :url="props.value"
-              :name="props.row.name"
+              :name="props.row.name ?? formatId(props.row.id, idOpts)"
               size="24px"
             />
             <q-skeleton v-else type="circle" size="24px" />
@@ -60,13 +60,19 @@
               <q-avatar :color="props.row.avatarUrl ? '' : 'primary'">
                 <img v-if="props.row.avatarUrl" :src="props.row.avatarUrl" />
                 <template v-else>
-                  {{ (props.row.name ?? props.row.id).substring(0, 1) }}
+                  {{
+                    (
+                      props.row.name ?? formatId(props.row.id, idOpts)
+                    ).substring(0, 1)
+                  }}
                 </template>
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ props.row.name }}</q-item-label>
-              <q-item-label caption>{{
+              <q-item-label>{{
+                props.row.name ?? formatId(props.row.id, idOpts)
+              }}</q-item-label>
+              <q-item-label v-if="props.row.name" caption>{{
                 formatId(props.row.id, idOpts)
               }}</q-item-label>
             </q-item-section>
