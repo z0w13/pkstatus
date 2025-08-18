@@ -57,7 +57,7 @@ export default function useStatusUpdater() {
 
         return $q.notify({
           type: 'negative',
-          message: `Error updating fronters for '${pluralKit.systemCache.get(system)?.name || system}'`,
+          message: `Error updating fronters for '${pluralKit.systemCache.get(system)?.name ?? system}'`,
           caption: `${e.status}: ${e.message} (${e.code})`,
         });
       }
@@ -100,7 +100,7 @@ export default function useStatusUpdater() {
 
           return $q.notify({
             type: 'negative',
-            message: `Error updating fronters for '${pluralKit.systemCache.get(fronters.system)?.name || fronters.system}'`,
+            message: `Error updating fronters for '${pluralKit.systemCache.get(fronters.system)?.name ?? fronters.system}'`,
             caption: `${e.status}: ${e.message} (${e.code})`,
           });
         }

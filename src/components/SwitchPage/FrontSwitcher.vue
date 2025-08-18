@@ -171,7 +171,7 @@ const sortMethods: Record<
     value: 'by-last-message',
     label: 'Last Message',
     func: (a, b) =>
-      (b.lastMessageAt?.valueOf() || 0) - (a.lastMessageAt?.valueOf() || 0),
+      (b.lastMessageAt?.valueOf() ?? 0) - (a.lastMessageAt?.valueOf() ?? 0),
   },
 };
 
@@ -209,9 +209,10 @@ const filteredMembers = computed(() =>
   props.members
     .filter(
       (m) =>
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- false positive
         (m.name && caseInsensitiveIncludes(m.name, searchText.value)) ||
         (m.displayName &&
-          caseInsensitiveIncludes(m.displayName || '', searchText.value)),
+          caseInsensitiveIncludes(m.displayName, searchText.value)),
     )
     .filter((m) => !excludedMemberIds.value.includes(m.uuid))
     .toSorted(sortMethods[switcher.value.lastSortMethod].func),

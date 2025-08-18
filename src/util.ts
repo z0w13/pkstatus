@@ -51,7 +51,7 @@ export function containsPronouns(input: string): boolean {
 }
 
 export function getPronouns(input: string): string | null {
-  return PronounRegex.exec(input)?.groups?.pronouns || null;
+  return PronounRegex.exec(input)?.groups?.pronouns ?? null;
 }
 
 export function stripPronouns(input: string, delimiter = ''): string {

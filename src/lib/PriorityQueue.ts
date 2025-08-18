@@ -60,10 +60,7 @@ export default class PriorityQueue<T> {
       return;
     }
 
-    if (!this.waitPromise) {
-      this.waitPromise = new Promise((resolve) => (this.waitResolve = resolve));
-    }
-
+    this.waitPromise ??= new Promise((resolve) => (this.waitResolve = resolve));
     return this.waitPromise;
   }
 

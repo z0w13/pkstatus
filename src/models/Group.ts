@@ -41,7 +41,7 @@ export class Group implements IGroup {
   }
 
   public getName() {
-    return this.displayName || this.name;
+    return this.displayName ?? this.name;
   }
 
   static fromDict(group: IGroup): Group {

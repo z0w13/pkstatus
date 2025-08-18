@@ -42,8 +42,8 @@ const emit = defineEmits(['restore']);
 
 function createBackupFile(): File {
   const backupData = {
-    settings: JSON.parse(localStorage.getItem('settings') || '{}'),
-    systems: JSON.parse(localStorage.getItem('systems') || '{}'),
+    settings: JSON.parse(localStorage.getItem('settings') ?? '{}'),
+    systems: JSON.parse(localStorage.getItem('systems') ?? '{}'),
   };
   backupData.settings.settings.token = null;
 
@@ -89,9 +89,7 @@ async function handleRestore() {
         color: 'primary',
       },
     }).onOk(() => {
-      if (!settings.settings.token) {
-        settings.settings.token = settingsStore.token;
-      }
+      settings.settings.token ??= settingsStore.token;
 
       localStorage.setItem('settings', JSON.stringify(settings));
       localStorage.setItem('systems', JSON.stringify(systems));

@@ -97,6 +97,8 @@ const config: ReturnType<typeof defineConfigWithVueTs> = defineConfigWithVueTs(
       '@typescript-eslint/no-floating-promises': 'off', // TODO: Enable and fix
       '@typescript-eslint/consistent-type-imports': 'off', // TODO: Enable and fix
 
+      '@typescript-eslint/prefer-nullish-coalescing': 'error',
+
       quotes: [
         'warn',
         'single',

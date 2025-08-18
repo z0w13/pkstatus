@@ -329,13 +329,10 @@ export default class PluralKit {
       return null;
     }
 
-    if (!this.ownSystem) {
-      this.ownSystem = await this.getSystem('@me', {
-        priority: 1,
-        skipCache: options.skipCache,
-      });
-    }
-
+    this.ownSystem ??= await this.getSystem('@me', {
+      priority: 1,
+      skipCache: options.skipCache,
+    });
     return this.ownSystem;
   }
 

@@ -14,6 +14,6 @@ export class ProxyTag implements IProxyTag {
   ) {}
 
   static fromPKApi(apiTag: ApiProxyTag): ProxyTag {
-    return new ProxyTag(apiTag.prefix || null, apiTag.suffix || null);
+    return new ProxyTag(apiTag.prefix, apiTag.suffix);
   }
 }

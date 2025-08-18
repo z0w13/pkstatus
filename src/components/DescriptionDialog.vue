@@ -43,9 +43,9 @@ const member = ref<Member | null>(null);
 const system = ref<System | null>(null);
 
 function show(opts: { system?: System; member?: Member; group?: Group }) {
-  group.value = opts.group || null;
-  member.value = opts.member || null;
-  system.value = opts.system || null;
+  group.value = opts.group ?? null;
+  member.value = opts.member ?? null;
+  system.value = opts.system ?? null;
 
   visible.value = true;
 }

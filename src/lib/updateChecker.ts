@@ -45,10 +45,10 @@ export class UpdateInfo {
     return new UpdateInfo(newVersion, changelog, release.html_url, {
       android:
         release.assets.find((a: ReleaseAsset) => a.name.endsWith('.apk'))
-          ?.browser_download_url || null,
+          ?.browser_download_url ?? null,
       windows:
         release.assets.find((a: ReleaseAsset) => a.name.endsWith('.exe'))
-          ?.browser_download_url || null,
+          ?.browser_download_url ?? null,
     });
   }
 }

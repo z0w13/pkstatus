@@ -183,7 +183,7 @@ export class Member implements IMember {
 
       bannerUrl: member.banner,
 
-      proxyTags: (member.proxyTags || []).map((t) => ProxyTag.fromPKApi(t)),
+      proxyTags: (member.proxyTags ?? []).map((t) => ProxyTag.fromPKApi(t)),
 
       createdAt: util.dayjsNull(member.created),
       lastMessageAt: util.dayjsNull(member.lastMessageTimestamp),
@@ -199,7 +199,7 @@ export class Member implements IMember {
       birthday: this.birthday ? BirthdayToString.parse(this.birthday) : null,
 
       createdAt: this.createdAt?.toJSON() ?? null,
-      lastMessageAt: this.lastMessageAt?.toJSON() || null,
+      lastMessageAt: this.lastMessageAt?.toJSON() ?? null,
 
       updatedAt: this.updatedAt.toJSON(),
     };

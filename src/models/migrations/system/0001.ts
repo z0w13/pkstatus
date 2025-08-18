@@ -35,14 +35,14 @@ export function migrateLegacyToV1(data: unknown): SystemsV1 {
         id: sys.id,
         uuid: sys.uuid,
 
-        name: sys.name || '',
-        description: sys.description || '',
-        tag: sys.tag || '',
-        pronouns: sys.pronouns || '',
+        name: sys.name ?? '',
+        description: sys.description ?? '',
+        tag: sys.tag ?? '',
+        pronouns: sys.pronouns ?? '',
 
-        avatarUrl: sys.avatar_url || null,
-        bannerUrl: sys.banner || null,
-        color: sys.color || null,
+        avatarUrl: sys.avatar_url ?? null,
+        bannerUrl: sys.banner ?? null,
+        color: sys.color ?? null,
 
         createdAt: dayjs(sys.created).toISOString(),
         updatedAt: dayjs(sys.lastUpdated).toISOString(),

@@ -39,7 +39,7 @@ export class Fronters {
       ...this,
 
       members: this.members.map((m) => m.id),
-      lastSwitch: this.lastSwitch?.toJSON() || null,
+      lastSwitch: this.lastSwitch?.toJSON() ?? null,
       lastUpdated: this.lastUpdated.toJSON(),
     };
   }

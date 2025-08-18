@@ -146,7 +146,7 @@ onMounted(async () => {
       if (is404(e)) {
         $q.notify({
           type: 'negative',
-          message: `Error fetching ${pluralKit.systemCache.get(id)?.name || formatId(id, idOpts.value)}`,
+          message: `Error fetching ${pluralKit.systemCache.get(id)?.name ?? formatId(id, idOpts.value)}`,
           caption: `${e.status}: ${e.message} (${e.code})`,
         });
       }
