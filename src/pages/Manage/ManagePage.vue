@@ -36,8 +36,9 @@
         </template>
         <template #body-cell-name="props">
           <q-td :props="props">
-            <template v-if="props.value">{{ props.value }}</template>
-            <q-skeleton v-else type="rect" />
+            <q-skeleton v-if="props.value === undefined" type="rect" />
+            <span v-else-if="props.value === null" class="text-grey">None</span>
+            <template v-else>{{ props.value }}</template>
           </q-td>
         </template>
         <template #body-cell-buttons="props">
