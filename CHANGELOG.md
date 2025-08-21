@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0-beta.6](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.5...v0.13.0-beta.6) (2025-08-21)
+
+
+### Bug Fixes
+
+* **manage:** don't show loading graphic when system has no name
+
 ## [0.13.0-beta.5](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.4...v0.13.0-beta.5) (2025-08-21)
 
 
