@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0-beta.7](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.6...v0.13.0-beta.7) (2025-08-29)
+
+
+### Bug Fixes
+
+* **lookup:** lookup by UUID and discord ID works again
+
 ## [0.13.0-beta.6](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.5...v0.13.0-beta.6) (2025-08-21)
 
 
