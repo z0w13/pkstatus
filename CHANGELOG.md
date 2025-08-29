@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.13.0-beta.8](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.7...v0.13.0-beta.8) (2025-08-29)
+
+### Features
+
+* **manage/add:** better error message with invalid IDs
+
+### Bug Fixes
+
+* **manage/add:** allow capital letters in input
+
 ## [0.13.0-beta.7](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.6...v0.13.0-beta.7) (2025-08-29)
 
 
