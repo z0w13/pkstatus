@@ -62,6 +62,7 @@ import { matGroups } from '@quasar/extras/material-icons';
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
 import PageTitle from 'src/components/PageTitle.vue';
 import { is404 } from 'src/util';
+import { ZodError } from 'zod/v4';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -78,9 +79,12 @@ const onChange = debounce(async function (id: string) {
   try {
     newSys.value = await pluralKit.getSystem(id);
   } catch (e) {
-    if (is404(e)) {
+    if (e instanceof ZodError) {
+      errorMessage.value = `Input is not a PluralKit ID, UUID or Discord ID`;
+    } else if (is404(e)) {
       errorMessage.value = `Couldn't find system ${id}`;
-      return;
+    } else {
+      throw e;
     }
   } finally {
     isLoading.value = false;
