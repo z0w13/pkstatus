@@ -1,7 +1,7 @@
 import { StrictTypedClient } from 'pkapi-ts';
 import { APIError, HTTPError } from 'pkapi-ts/errors';
 
-import SystemID, { SystemRef } from 'pkapi-ts/models/SystemID';
+import { SystemRef } from 'pkapi-ts/models/SystemID';
 import MemberID from 'pkapi-ts/models/MemberID';
 import GroupID from 'pkapi-ts/models/GroupID';
 
@@ -154,7 +154,7 @@ export default class PluralKit {
     return this.systemCache.getOrInsert(
       id,
       async (id) =>
-        System.fromPKApi(await this.client.getSystem(SystemID.parse(id))),
+        System.fromPKApi(await this.client.getSystem(SystemRef.parse(id))),
       options.skipCache,
     );
   }
@@ -167,9 +167,9 @@ export default class PluralKit {
         system,
         async (id) => ({
           system,
-          members: (await this.client.getSystemMembers(SystemID.parse(id))).map(
-            (m) => Member.fromPKApi(m),
-          ),
+          members: (
+            await this.client.getSystemMembers(SystemRef.parse(id))
+          ).map((m) => Member.fromPKApi(m)),
         }),
         options.skipCache,
       )
@@ -236,7 +236,7 @@ export default class PluralKit {
         system,
         async (id) => ({
           system,
-          groups: (await this.client.getGroups(SystemID.parse(id), true)).map(
+          groups: (await this.client.getGroups(SystemRef.parse(id), true)).map(
             (g) => Group.fromPKApi(g),
           ),
         }),
@@ -255,7 +255,7 @@ export default class PluralKit {
       async (system) => {
         try {
           const fronters = await this.client.getFronters(
-            SystemID.parse(system),
+            SystemRef.parse(system),
           );
 
           return {
