@@ -34,7 +34,7 @@
                 v-model.trim="searchValue"
                 filled
                 :autofocus="route.name == 'lookup'"
-                :label="`Enter ${searchType} ID`"
+                :label="labels[searchType]"
               />
             </div>
             <div class="col-auto q-ml-md self-center">
@@ -72,7 +72,13 @@ const settingsStore = useSettingsStore();
 
 const { lookup } = storeToRefs(settingsStore);
 
-const searchType = ref('system');
+const labels = {
+  system: 'Enter system ID/UUID or Discord ID',
+  member: 'Enter member ID/UUID',
+  group: 'Enter group ID/UUID',
+};
+
+const searchType = ref<'system' | 'member' | 'group'>('system');
 const searchValue = ref('');
 const searchInput = ref();
 
