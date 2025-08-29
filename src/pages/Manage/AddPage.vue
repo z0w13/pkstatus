@@ -4,10 +4,11 @@
       <page-title icon="group_add" text="Add System" />
       <q-card-section class="q-pt-none">
         <q-input
-          v-model.trim="newId"
+          v-model.trim="idInput"
           filled
           autofocus
           label="System or Discord ID *"
+          input-style="text-transform: lowercase"
           :loading="isLoading"
           bottom-slots
           :error="!!errorMessage"
@@ -51,7 +52,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { debounce, useQuasar } from 'quasar';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import { useSystemStore } from 'src/stores/system-store';
 import { usePluralKit } from 'boot/pluralKit';
@@ -67,7 +68,8 @@ const router = useRouter();
 const systemStore = useSystemStore();
 const pluralKit = usePluralKit();
 
-const newId = ref('');
+const idInput = ref('');
+const newId = computed(() => idInput.value.toLowerCase());
 const newSys = ref<System | null>(null);
 const errorMessage = ref('');
 const isLoading = ref(false);
