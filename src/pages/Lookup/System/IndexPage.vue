@@ -130,8 +130,13 @@ watch(
         } else if (e.status == 403) {
           // Forbidden
           status.value = 'forbidden';
+        } else {
+          throw e; // Rethrow if we shouldn't handle the error
         }
+      } else {
+        throw e; // Rethrow if we shouldn't handle the error
       }
+
       return;
     }
 
