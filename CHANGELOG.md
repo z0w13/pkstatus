@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0-beta.9](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.8...v0.13.0-beta.9) (2025-09-18)
+
+
+### Bug Fixes
+
+* **cache:** fixed issue that caused slow startup in some situations
+
 ## [0.13.0-beta.8](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.7...v0.13.0-beta.8) (2025-08-29)
 
 ### Features
