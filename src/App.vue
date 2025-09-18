@@ -49,10 +49,8 @@ watch(dark, (newVal) => $q.dark.set(newVal), {
   immediate: true,
 });
 
-// restore the caches from local storage
-const persister = useCachePersister();
-persister.restore();
-persister.track();
+// start cache persistence mechanism
+useCachePersister().start();
 
 // Watch for changes to the pluralkit token and update the PluralKit API wrapper with it
 watch(
@@ -111,8 +109,6 @@ async function updateChecker() {
 let updateCheckerInterval: ReturnType<typeof setInterval> | null = null;
 let logPersistInterval: ReturnType<typeof setInterval> | null = null;
 onMounted(() => {
-  persister.restore();
-
   if (
     !updateCheckerInterval &&
     // Don't even check for updates if this is a web-based version

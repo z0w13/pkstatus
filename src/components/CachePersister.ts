@@ -11,27 +11,50 @@ export default function useCachePersister() {
     pluralKit.fronterCache,
   );
 
+  let persisterInterval: ReturnType<typeof setInterval> | null = null;
   return {
-    restore: () => persister.restore(),
-    track: () => {
+    start: () => {
+      if (persisterInterval) {
+        console.warn('cache persister already started, doing nothing');
+      }
+      persister.restore();
+
+      let cacheDirty = false;
       pluralKit.systemCache.on('change', (system) => {
         console.debug('useCachePersister::change', { system });
         if (systemStore.ids.includes(system.id)) {
-          persister.persist(systemStore.ids);
+          cacheDirty = true;
         }
       });
       pluralKit.memberCache.on('change', (member) => {
         console.debug('useCachePersister::change', { member });
         if (systemStore.ids.includes(member.system)) {
-          persister.persist(systemStore.ids);
+          cacheDirty = true;
         }
       });
       pluralKit.fronterCache.on('change', (fronter) => {
         console.debug('useCachePersister::change', { fronter });
         if (systemStore.ids.includes(fronter.system)) {
-          persister.persist(systemStore.ids);
+          cacheDirty = true;
         }
       });
+
+      // only persist every 10 seconds and only if something changed
+      persisterInterval = setInterval(() => {
+        console.debug('useCachePersister::check', { cacheDirty });
+        if (!cacheDirty) {
+          return;
+        }
+
+        persister.persist(systemStore.ids);
+        cacheDirty = false;
+      }, 10_000);
+    },
+    stop: () => {
+      if (persisterInterval) {
+        clearInterval(persisterInterval);
+        persisterInterval = null;
+      }
     },
     persister,
   };
