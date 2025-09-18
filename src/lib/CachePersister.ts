@@ -33,6 +33,7 @@ export class CachePersister {
   ) {}
 
   public persist(sysIds: Array<string>) {
+    console.debug('CachePersister::persist', sysIds);
     const cacheData: PersistedCache = {
       systems: this.systemCache
         .persist((s) => sysIds.includes(s.id))
@@ -85,6 +86,11 @@ export class CachePersister {
           Fronters.fromStorage(obj, this.memberCache.getMulti(obj.members)),
         ),
       );
+      console.info('restored from persisted cache', {
+        systems: parsedCache.systems.length,
+        members: parsedCache.members.length,
+        fronters: parsedCache.fronters.length,
+      });
     } catch (e) {
       if (e instanceof ZodError) {
         localStorage.removeItem('persisted-cache');

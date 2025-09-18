@@ -31,7 +31,6 @@ const settingsStore = useSettingsStore();
 
 const newVersion = ref<UpdateInfo | null>(null);
 const router = useRouter();
-const persister = useCachePersister();
 
 const { dark, ignoreVersion, token, log } = storeToRefs(settingsStore);
 
@@ -51,7 +50,9 @@ watch(dark, (newVal) => $q.dark.set(newVal), {
 });
 
 // restore the caches from local storage
-useCachePersister().restore();
+const persister = useCachePersister();
+persister.restore();
+persister.track();
 
 // Watch for changes to the pluralkit token and update the PluralKit API wrapper with it
 watch(
