@@ -9,7 +9,7 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { APIError } from 'pkapi-ts/errors';
-import useCachePersister from 'src/components/CachePersister';
+import useCachePersister from 'src/lib/CachePersister';
 import setupErrorHandler, { logErrorWithMessage } from 'src/errorHandler';
 import {
   UpdateInfo,
@@ -50,7 +50,9 @@ watch(dark, (newVal) => $q.dark.set(newVal), {
 });
 
 // start cache persistence mechanism
-useCachePersister().start();
+const persister = useCachePersister();
+persister.restore();
+persister.start();
 
 // Watch for changes to the pluralkit token and update the PluralKit API wrapper with it
 watch(
