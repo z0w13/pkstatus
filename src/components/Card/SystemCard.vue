@@ -85,7 +85,12 @@
     </q-card-section>
     <q-separator />
     <q-card-section v-if="system.description && system.description.length > 0">
-      <pre class="description">{{ system.description }}</pre>
+      <!-- eslint-disable vue/no-v-html -- needed for rendering -->
+      <div
+        class="description"
+        v-html="renderPkDescription(system.description)"
+      />
+      <!-- eslint-enable vue/no-v-html -->
     </q-card-section>
     <avatar-dialog
       v-if="system.avatarUrl"
@@ -105,7 +110,7 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import { useSystemStore } from 'src/stores/system-store';
 import { ref } from 'vue';
 import AvatarDialog from 'src/components/Card/AvatarDialog.vue';
-import { is404 } from 'src/util';
+import { is404, renderPkDescription } from 'src/util';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { prerelease } from 'semver';
+import markdownit from 'markdown-it';
 
 // eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import { version } from '../package.json';
@@ -120,4 +121,11 @@ export function is404(e: unknown): e is APIError {
 export function sanitizeLogMessage(message: string): string {
   const tokenRegex = /[\w+/]{64}/g;
   return message.replaceAll(tokenRegex, '****PLURALKIT_API_TOKEN****');
+}
+
+export function renderPkDescription(description: string): string {
+  return markdownit({
+    html: false,
+    breaks: true,
+  }).render(description);
 }

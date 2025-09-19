@@ -81,7 +81,12 @@
       </q-markup-table>
     </q-card-section>
     <q-card-section v-if="!!member.description?.length">
-      <pre class="description">{{ member.description }}</pre>
+      <!-- eslint-disable vue/no-v-html -- needed for rendering -->
+      <div
+        class="description"
+        v-html="renderPkDescription(member.description)"
+      />
+      <!-- eslint-enable vue/no-v-html -->
     </q-card-section>
     <avatar-dialog
       v-if="member.avatarUrl"
@@ -103,6 +108,7 @@ import AvatarDialog from 'src/components/Card/AvatarDialog.vue';
 import { Member } from 'src/models/Member';
 import { System } from 'src/models/System';
 import { useSettingsStore } from 'src/stores/settings-store';
+import { renderPkDescription } from 'src/util';
 import { useRoute } from 'vue-router';
 
 const settings = useSettingsStore();

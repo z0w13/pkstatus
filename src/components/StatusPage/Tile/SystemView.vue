@@ -37,10 +37,17 @@
           </q-item>
         </q-card-section>
 
-        <q-separator v-if="showDescription && showStats" />
+        <q-separator
+          v-if="showDescription && showStats && !!system.description?.length"
+        />
 
-        <q-card-section v-if="showDescription">
-          <pre class="description">{{ system.description }}</pre>
+        <q-card-section v-if="showDescription && !!system.description?.length">
+          <!-- eslint-disable vue/no-v-html -- needed for rendering -->
+          <div
+            class="description"
+            v-html="renderPkDescription(system.description)"
+          />
+          <!-- eslint-enable vue/no-v-html -->
         </q-card-section>
       </labeled-tile>
     </q-card>
@@ -72,7 +79,12 @@
               <q-card-section
                 v-if="fronter.description && showFronterDescription"
               >
-                <pre class="description">{{ fronter.description }}</pre>
+                <!-- eslint-disable vue/no-v-html -- needed for rendering -->
+                <div
+                  class="description"
+                  v-html="renderPkDescription(fronter.description)"
+                />
+                <!-- eslint-enable vue/no-v-html -->
               </q-card-section>
             </labeled-tile>
           </div>
@@ -116,6 +128,7 @@ import { Fronters } from 'src/models/Fronters';
 import { System } from 'src/models/System';
 import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
 import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
+import { renderPkDescription } from 'src/util';
 import { computed } from 'vue';
 import { matGroups } from '@quasar/extras/material-icons';
 

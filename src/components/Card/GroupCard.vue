@@ -74,7 +74,12 @@
       </q-markup-table>
     </q-card-section>
     <q-card-section v-if="!!group.description?.length">
-      <pre class="description">{{ group.description }}</pre>
+      <!-- eslint-disable vue/no-v-html -- needed for rendering -->
+      <div
+        class="description"
+        v-html="renderPkDescription(group.description)"
+      />
+      <!-- eslint-enable vue/no-v-html -->
     </q-card-section>
     <avatar-dialog
       v-if="group.icon"
@@ -94,6 +99,7 @@ import AvatarDialog from 'src/components/Card/AvatarDialog.vue';
 
 import { Group } from 'src/models/Group';
 import { System } from 'src/models/System';
+import { renderPkDescription } from 'src/util';
 
 import { useSettingsStore } from 'src/stores/settings-store';
 import { useRoute } from 'vue-router';

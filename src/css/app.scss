@@ -1,7 +1,8 @@
 // app global css in SCSS form
 .description {
-  font-family: inherit;
-  white-space: pre-wrap;
+  ul {
+    padding-left: 1em;
+  }
 }
 
 .body--dark .bg-lighten {
