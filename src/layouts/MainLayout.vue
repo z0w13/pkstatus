@@ -231,11 +231,16 @@ function skipUpdate(newVersion: UpdateInfo) {
 }
 
 function downloadUpdate(newVersion: UpdateInfo) {
-  if ($q.platform.is.electron && $q.platform.is.win) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).PKStatusApi.openUrl(
-      newVersion.assets.windows ?? newVersion.url,
-    );
+  if ($q.platform.is.electron) {
+    if ($q.platform.is.win) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).PKStatusApi.openUrl(
+        newVersion.assets.windows ?? newVersion.url,
+      );
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).PKStatusApi.openUrl(newVersion.url);
+    }
   } else if ($q.platform.is.android) {
     open(newVersion.assets.android ?? newVersion.url, '_blank');
   } else {

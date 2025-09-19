@@ -29,6 +29,8 @@ export class UpdateInfo {
     public assets: {
       android: string | null;
       windows: string | null;
+      appimage: string | null;
+      snap: string | null;
     },
   ) {}
 
@@ -48,6 +50,12 @@ export class UpdateInfo {
           ?.browser_download_url ?? null,
       windows:
         release.assets.find((a: ReleaseAsset) => a.name.endsWith('.exe'))
+          ?.browser_download_url ?? null,
+      appimage:
+        release.assets.find((a: ReleaseAsset) => a.name.endsWith('.AppImage'))
+          ?.browser_download_url ?? null,
+      snap:
+        release.assets.find((a: ReleaseAsset) => a.name.endsWith('.snap'))
           ?.browser_download_url ?? null,
     });
   }
