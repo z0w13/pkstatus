@@ -148,7 +148,7 @@
               label="download"
               color="positive"
               flat
-              @click="downloadUpdate"
+              @click="downloadUpdate(newVersion)"
             />
             <q-btn
               icon="do_not_disturb_on"
@@ -156,7 +156,7 @@
               color="primary"
               square
               flat
-              @click="skipUpdate"
+              @click="skipUpdate(newVersion)"
             />
             <q-btn
               icon="close"
@@ -225,29 +225,21 @@ function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 
-function skipUpdate() {
-  if (!props.newVersion) {
-    return;
-  }
-
-  ignoreVersion.value = props.newVersion.version;
+function skipUpdate(newVersion: UpdateInfo) {
+  ignoreVersion.value = newVersion.version;
   updateDialogOpen.value = false;
 }
 
-function downloadUpdate() {
-  if (!props.newVersion) {
-    return;
-  }
-
-  if ($q.platform.is.electron) {
+function downloadUpdate(newVersion: UpdateInfo) {
+  if ($q.platform.is.electron && $q.platform.is.win) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).PKStatusApi.openUrl(
-      props.newVersion.assets.windows ?? props.newVersion.url,
+      newVersion.assets.windows ?? newVersion.url,
     );
   } else if ($q.platform.is.android) {
-    open(props.newVersion.assets.android ?? props.newVersion.url, '_blank');
+    open(newVersion.assets.android ?? newVersion.url, '_blank');
   } else {
-    open(props.newVersion.url, '_blank');
+    open(newVersion.url, '_blank');
   }
 }
 
@@ -267,18 +259,22 @@ function openProjectPage() {
   font-size: 48px !important;
   line-height: 1;
 }
+
 .changelog h2 {
   font-size: 36px !important;
   line-height: 1;
 }
+
 .changelog h3 {
   font-size: 24px !important;
   line-height: 1;
   margin-bottom: 0px;
 }
+
 .changelog ul {
   padding-left: 16px;
 }
+
 .changelog {
   font-size: 16px;
 }
