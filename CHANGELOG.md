@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.0-beta.10](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.9...v0.13.0-beta.10) (2025-09-19)
+
+
+### Bug Fixes
+
+* **updater:** don't link to windows installer on non-windows systems
+* **cards:** render markdown in descriptions
+
 ## [0.13.0-beta.9](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.8...v0.13.0-beta.9) (2025-09-18)
 
 
