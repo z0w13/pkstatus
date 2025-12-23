@@ -1,10 +1,7 @@
 import dayjs from 'dayjs';
 import { z } from 'zod';
 import ApiMember from 'pkapi-ts/models/Member';
-import Birthday, {
-  BirthdayFromString,
-  BirthdayToString,
-} from 'pkapi-ts/models/Birthday';
+import Birthday from 'pkapi-ts/models/Birthday';
 
 import { IProxyTag, ProxyTag } from 'src/models/ProxyTag';
 import * as util from 'src/util';
@@ -196,7 +193,7 @@ export class Member implements IMember {
     return {
       ...this,
 
-      birthday: this.birthday ? BirthdayToString.parse(this.birthday) : null,
+      birthday: this.birthday ? Birthday.encode(this.birthday) : null,
 
       createdAt: this.createdAt?.toJSON() ?? null,
       lastMessageAt: this.lastMessageAt?.toJSON() ?? null,
@@ -210,7 +207,7 @@ export class Member implements IMember {
       ...serialized,
 
       birthday: serialized.birthday
-        ? BirthdayFromString.parse(serialized.birthday)
+        ? Birthday.decode(serialized.birthday)
         : null,
 
       createdAt: dayjs(serialized.createdAt),
