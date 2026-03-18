@@ -42,8 +42,10 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     }
 
     if (Array.isArray(to.params.id)) {
-      console.error("params.id is an array somehow, this shouldn't happen wtf");
-      return false;
+      console.error(
+        `params.id is an array somehow, this shouldn't happen ${to.fullPath}`,
+      );
+      return;
     }
 
     if (!to.name) {
