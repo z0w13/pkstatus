@@ -92,7 +92,8 @@ onMounted(() => {
 
 async function doLookup() {
   await router.push({
-    path: `/lookup/${searchType.value}/${searchValue.value}`,
+    name: `lookup-${searchType.value}`,
+    params: { id: searchValue.value },
   });
   searchValue.value = '';
 }

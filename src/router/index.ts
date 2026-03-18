@@ -46,10 +46,17 @@ export default defineRouter(function (/* { store, ssrContext } */) {
       return false;
     }
 
+    if (!to.name) {
+      console.warn(
+        `route with an \`id\` param has no name, this is required for ID normalisation to work: ${to.fullPath}`,
+      );
+      return;
+    }
+
     const normalisedId = normaliseId(to.params.id);
     if (to.params.id !== normalisedId) {
       return {
-        ...to,
+        name: to.name,
         params: {
           ...to.params,
           id: normalisedId,
