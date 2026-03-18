@@ -1,73 +1,28 @@
 # Changelog
 
-## [0.13.0-beta.10](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.9...v0.13.0-beta.10) (2025-09-19)
-
-
-### Bug Fixes
-
-* **updater:** don't link to windows installer on non-windows systems
-* **cards:** render markdown in descriptions
-
-## [0.13.0-beta.9](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.8...v0.13.0-beta.9) (2025-09-18)
-
-
-### Bug Fixes
-
-* **cache:** fixed issue that caused slow startup in some situations
-
-## [0.13.0-beta.8](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.7...v0.13.0-beta.8) (2025-08-29)
-
-### Features
-
-* **manage/add:** better error message with invalid IDs
-
-### Bug Fixes
-
-* **manage/add:** allow capital letters in input
-
-## [0.13.0-beta.7](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.6...v0.13.0-beta.7) (2025-08-29)
-
-
-### Bug Fixes
-
-* **lookup:** lookup by UUID and discord ID works again
-
-## [0.13.0-beta.6](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.5...v0.13.0-beta.6) (2025-08-21)
-
-
-### Bug Fixes
-
-* **manage:** don't show loading graphic when system has no name
-
-## [0.13.0-beta.5](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.4...v0.13.0-beta.5) (2025-08-21)
-
-
-### Bug Fixes
-
-* **manage:** don't error on systems without name
-
-## [0.13.0-beta.4](https://github.com/z0w13/pkstatus/compare/v0.13.0-beta.3...v0.13.0-beta.4) (2025-08-08)
-
-
-### Bug Fixes
-
-* **groups:** don't error on long(er) group descriptions
-* **android:** fix top bar overlapping with android statusbar
-
-## [0.13.0-beta.3](https://github.com/z0w13/pkstatus/compare/v0.12.2...v0.12.3-beta.3) (2025-08-07)
+## [0.13.0](https://github.com/z0w13/pkstatus/compare/v0.12.2...v0.13.0) (2026-03-18)
 
 
 ### Features
-
-* **updater:** better update checking that should work correctly in more circumstances
 * **backend:** switched to a different PluralKit API library, should be unnoticable
-* **troubleshooting:** better error handling, logging and feedback
 * **logging:** added configurable log levels and retention
 * **logging:** reworked logging UI
+* **manage/add:** better error message with invalid IDs
+* **troubleshooting:** better error handling, logging and feedback
+* **updater:** better update checking that should work correctly in more circumstances
 
 ### Bug Fixes
-
+* **android:** fix top bar overlapping with android statusbar
+* **cache:** fixed issue that caused slow startup in some situations
+* **cards:** render markdown in descriptions
+* **groups:** don't error on long(er) group descriptions
+* **lookup:** fix infinite loop when an ID is entered containing an uppercase character
+* **lookup:** lookup by UUID and discord ID works again
+* **manage/add:** allow capital letters in input
+* **manage:** don't error on systems without name
+* **manage:** don't show loading graphic when system has no name
 * **switcher:** completely rewritten from the ground up, hopefully fixes an infinite loop
+* **updater:** don't link to windows installer on non-windows systems
 * always show names/pronouns in tile layout and switcher, even when avatars are loading
 
 ### Misc
