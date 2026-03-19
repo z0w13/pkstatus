@@ -4,6 +4,13 @@ import { HTTPError } from 'pkapi-ts/errors';
 import { useLogger } from 'boot/logger';
 import { isDev } from 'src/util';
 
+const MAX_ERROR_LENGTH = 200;
+function ellipsize(error: string): string {
+  return error.length > MAX_ERROR_LENGTH
+    ? `${error.substring(0, MAX_ERROR_LENGTH)}... (ommited ${error.length - MAX_ERROR_LENGTH} characters)`
+    : error;
+}
+
 function getCircularReplacer() {
   const ancestors: Array<object> = [];
   return function (this: object, _key: string, value: unknown) {
@@ -47,43 +54,43 @@ function logPluralKitApiError(err: HTTPError): void {
 function logError(err: Error): void {
   useLogger().log(
     'error',
-    `${err.name}: ${err.message}`,
-    JSON.stringify(err, getCircularReplacer(), 2),
+    ellipsize(`${err.name}: ${err.message}`),
+    ellipsize(JSON.stringify(err, getCircularReplacer(), 2)),
     maybeStringStack(err),
   );
   Notify.create({
     type: 'warning',
-    message: `${err.name}: ${err.message}`,
+    message: ellipsize(`${err.name}: ${err.message}`),
   });
 }
 
 function logString(err: string): void {
-  useLogger().log('error', `Error: ${err}`, err, null);
+  useLogger().log('error', ellipsize(err), err, null);
   Notify.create({
     type: 'warning',
-    message: err,
+    message: ellipsize(err),
   });
 }
 
 function logUnknown(err: unknown): void {
   useLogger().log(
     'error',
-    `Error: ${String(err)}`,
-    JSON.stringify(err, getCircularReplacer(), 2),
+    ellipsize(`Error: ${String(err)}`),
+    ellipsize(JSON.stringify(err, getCircularReplacer(), 2)),
     maybeStringStack(err),
   );
   Notify.create({
     type: 'warning',
     message: 'Unknown error',
-    caption: String(err),
+    caption: ellipsize(String(err)),
   });
 }
 
 export function logErrorWithMessage(message: string, err: unknown) {
   useLogger().log(
     'error',
-    `${message}: ${errorToString(err)}`,
-    JSON.stringify(err, getCircularReplacer(), 2),
+    ellipsize(`${message}: ${errorToString(err)}`),
+    ellipsize(JSON.stringify(err, getCircularReplacer(), 2)),
     maybeStringStack(err),
   );
 
@@ -128,23 +135,23 @@ function setupAppHandlers() {
   app.config.errorHandler = (error, _instance, info) => {
     useLogger().log(
       'error',
-      `Vue Error: ${String(error)}`,
-      JSON.stringify({ error, info }, getCircularReplacer(), 2),
+      ellipsize(`Vue Error (${info}): ${String(error)}`),
+      ellipsize(JSON.stringify(error, getCircularReplacer(), 2)),
       maybeStringStack(error),
     );
 
     Notify.create({
       type: 'error',
-      message: 'Vue Error',
-      caption: String(error),
+      message: `Vue Error (${info})`,
+      caption: ellipsize(String(error)),
     });
   };
 
-  app.config.warnHandler = (warning, _instance, info) => {
+  app.config.warnHandler = (warning, _instance, trace) => {
     useLogger().log(
       'warn',
-      `Vue Warning: ${warning}`,
-      JSON.stringify({ warning, info }, getCircularReplacer(), 2),
+      ellipsize(`Vue Warning: ${warning}`),
+      ellipsize(JSON.stringify({ warning, trace }, getCircularReplacer(), 2)),
       null,
     );
   };
