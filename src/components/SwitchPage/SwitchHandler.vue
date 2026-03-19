@@ -42,6 +42,7 @@ import MemberID from 'pkapi-ts/models/MemberID';
 
 import { useSettingsStore } from 'src/stores/settings-store';
 import { usePluralKit } from 'src/boot/pluralKit';
+import { ellipsize } from 'src/util';
 
 import { System } from 'src/models/System';
 import { Group } from 'src/models/Group';
@@ -111,9 +112,36 @@ async function loadState() {
   }
 
   // load all data
-  members.value = (await pluralKit.getOwnMembers()) ?? [];
-  groups.value = (await pluralKit.getOwnGroups()) ?? [];
-  fronters.value = (await pluralKit.getOwnFronters())?.members ?? [];
+  try {
+    members.value = (await pluralKit.getOwnMembers()) ?? [];
+  } catch (e) {
+    $q.notify({
+      type: 'negative',
+      message: "Switcher: couldn't retrieve system members",
+      caption: ellipsize(String(e)),
+    });
+    return;
+  }
+  try {
+    groups.value = (await pluralKit.getOwnGroups()) ?? [];
+  } catch (e) {
+    $q.notify({
+      type: 'negative',
+      message: "Switcher: couldn't retrieve system groups",
+      caption: ellipsize(String(e)),
+    });
+    return;
+  }
+  try {
+    fronters.value = (await pluralKit.getOwnFronters())?.members ?? [];
+  } catch (e) {
+    $q.notify({
+      type: 'negative',
+      message: "Switcher: couldn't retrieve system fronters",
+      caption: ellipsize(String(e)),
+    });
+    return;
+  }
 
   // finish loading
   loading.value = false;

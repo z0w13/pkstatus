@@ -13,10 +13,13 @@
 
 <script setup lang="ts">
 import { usePluralKit } from 'boot/pluralKit';
+import { useQuasar } from 'quasar';
 import { Group } from 'src/models/Group';
+import { ellipsize } from 'src/util';
 import { computed, onMounted, ref } from 'vue';
 
 const pluralKit = usePluralKit();
+const $q = useQuasar();
 
 const model = defineModel<string | Array<string>>();
 
@@ -45,7 +48,18 @@ function filterFunc(val: string, update: (cb: () => void) => void) {
 }
 
 onMounted(async () => {
-  const groupResult = await pluralKit.getOwnGroups();
+  let groupResult;
+  try {
+    groupResult = await pluralKit.getOwnGroups();
+  } catch (e) {
+    $q.notify({
+      type: 'negative',
+      message: "GroupSelect: couldn't retrieve system groups",
+      caption: ellipsize(String(e)),
+    });
+    return;
+  }
+
   if (!groupResult) {
     throw new Error(
       "couldn't get own groups despite in GroupSelect but we shouldn't get here without a token",
