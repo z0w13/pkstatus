@@ -129,3 +129,9 @@ export function renderPkDescription(description: string): string {
     breaks: true,
   }).render(description);
 }
+
+export function ellipsize(text: string, length = 200): string {
+  return text.length > length
+    ? `${text.substring(0, length)}... (ommited ${text.length - length} characters)`
+    : text;
+}

@@ -2,14 +2,7 @@ import { getCurrentInstance } from 'vue';
 import { Notify } from 'quasar';
 import { HTTPError } from 'pkapi-ts/errors';
 import { useLogger } from 'boot/logger';
-import { isDev } from 'src/util';
-
-const MAX_ERROR_LENGTH = 200;
-function ellipsize(error: string): string {
-  return error.length > MAX_ERROR_LENGTH
-    ? `${error.substring(0, MAX_ERROR_LENGTH)}... (ommited ${error.length - MAX_ERROR_LENGTH} characters)`
-    : error;
-}
+import { isDev, ellipsize } from 'src/util';
 
 function getCircularReplacer() {
   const ancestors: Array<object> = [];

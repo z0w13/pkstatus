@@ -1,23 +1,24 @@
 <template>
-  <tr class="bg-lighten">
-    <td width="1" class="timestamp q-pa-sm" :rowspan="rowSpan" valign="top">
+  <tr :class="idx % 2 == 0 ? 'row-even' : 'row-odd'">
+    <td width="1" class="q-pa-sm text-bold" valign="top">date</td>
+    <td width="1" class="timestamp q-pa-sm text-bold">
       {{ dayjs(line.time).format('YYYY-MM-DD HH:mm:ss') }}
     </td>
-    <td
-      width="1"
-      :class="['q-pa-sm', colorClass()]"
-      :rowspan="rowSpan"
-      valign="top"
-    >
+  </tr>
+  <tr :class="idx % 2 == 0 ? 'row-even' : 'row-odd'">
+    <td width="1" class="q-pa-sm" valign="top">type</td>
+    <td width="1" :class="['q-pa-sm', colorClass()]">
       {{ line.level }}
     </td>
+  </tr>
+  <tr :class="idx % 2 == 0 ? 'row-even' : 'row-odd'">
     <td width="1" class="q-pa-sm" valign="top">message</td>
     <td class="q-pa-sm">
       <pre class="q-ma-none">{{ sanitizeLogMessage(line.message) }}</pre>
     </td>
   </tr>
   <template v-if="line.error">
-    <tr class="bg-lighten">
+    <tr :class="idx % 2 == 0 ? 'row-even' : 'row-odd'">
       <td width="1" class="q-pa-sm" valign="top">error</td>
       <td class="q-pa-sm">
         <pre class="q-ma-none">{{ sanitizeLogMessage(line.error) }}</pre>
@@ -25,7 +26,7 @@
     </tr>
   </template>
   <template v-if="line.stack">
-    <tr class="bg-lighten">
+    <tr :class="idx % 2 == 0 ? 'row-even' : 'row-odd'">
       <td width="1" class="q-pa-sm" valign="top">stack</td>
       <td class="q-pa-sm">
         <pre class="q-ma-none">{{ sanitizeLogMessage(line.stack) }}</pre>
@@ -39,7 +40,7 @@ import { sanitizeLogMessage } from 'src/util';
 import { LogEntry } from 'src/lib/Logger';
 import dayjs from 'dayjs';
 
-const props = defineProps<{ line: LogEntry }>();
+const props = defineProps<{ line: LogEntry; idx: number }>();
 function colorClass() {
   switch (props.line.level) {
     case 'debug':
@@ -52,7 +53,6 @@ function colorClass() {
       return 'text-negative';
   }
 }
-const rowSpan = 1 + (props.line.error ? 1 : 0) + (props.line.stack ? 1 : 0);
 </script>
 
 <style lang="scss" scoped>

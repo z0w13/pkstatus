@@ -18,6 +18,23 @@
   }
 }
 
+.body--light {
+  .row-even {
+    background: $grey-3;
+  }
+  .row-odd {
+    background: $grey-4;
+  }
+}
+.body--dark {
+  .row-even {
+    background: $grey-10;
+  }
+  .row-odd {
+    background: $grey-9;
+  }
+}
+
 .color-accent {
   border-left-style: solid !important;
   border-left-width: 3px !important;
