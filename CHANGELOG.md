@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.1](https://github.com/z0w13/pkstatus/compare/v0.13.0...v0.13.1) (2026-03-21)
+
+
+### Bug Fixes
+
+* **switcher:** fixed an error occuring on older iOS devices with Safari < 17
+
 ## [0.13.0](https://github.com/z0w13/pkstatus/compare/v0.12.2...v0.13.0) (2026-03-18)
 
 
