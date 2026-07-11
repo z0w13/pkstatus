@@ -8,8 +8,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "lint": "eslint --cache --max-warnings 0 -c ./eslint.config.ts \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
-    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\"",
+    "lint": "oxfmt --check && oxlint",
+    "typecheck": "vue-tsc --noEmit",
+    "format": "oxfmt",
     "dev": "quasar dev",
     "check": "vue-tsc --noEmit",
     "release": "vite-node contrib/release.ts",
@@ -21,10 +22,10 @@
   },
   "lint-staged": {
     "src/**/*": [
-      "prettier --list-different"
+      "oxfmt --check"
     ],
     "src/**/*.{ts,js,cjs,mjs,vue}": [
-      "eslint"
+      "oxlint"
     ]
   },
   "dependencies": {
@@ -46,7 +47,6 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@commitlint/types": "^19.8.1",
-    "@eslint/js": "^9.32.0",
     "@quasar/app-vite": "^3.0.1",
     "@quasar/cli": "^5.0.2",
     "@quasar/extras": "^1.17.0",
@@ -55,24 +55,19 @@
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.10.10",
     "@types/semver": "^7.7.0",
-    "@typescript-eslint/eslint-plugin": "^8.49.0",
-    "@typescript-eslint/parser": "^8.49.0",
     "@vitejs/plugin-vue": "^5.2.3",
-    "@vue/eslint-config-prettier": "^10.2.0",
-    "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.21",
     "axios-mock-adapter": "^2.1.0",
     "chalk": "^5.5.0",
     "commander": "^14.0.0",
-    "eslint": "^9.32.0",
-    "eslint-plugin-no-relative-import-paths": "^1.6.1",
-    "eslint-plugin-vue": "^10.4.0",
     "globals": "^17.7.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.4",
+    "oxfmt": "^0.58.0",
+    "oxlint": "^1.73.0",
+    "oxlint-tsgolint": "^0.24.0",
     "postcss-load-config": "^6.0.1",
-    "prettier": "^3.6.2",
     "tmp-promise": "^3.0.3",
     "typescript": "^5.9.2",
     "vite-bundle-analyzer": "^1.1.0",
