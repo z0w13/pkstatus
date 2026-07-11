@@ -32,7 +32,7 @@ export class CacheInfo {
 
   public toStorage(): SerializedCacheInfo {
     return {
-      ...this,
+      ...this, // oxlint-disable-line no-misused-spread
       createdAt: this.createdAt.toJSON(),
     };
   }

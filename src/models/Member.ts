@@ -191,7 +191,7 @@ export class Member implements IMember {
 
   toStorage(): SerializedMember {
     return {
-      ...this,
+      ...this, // oxlint-disable-line no-misused-spread
 
       birthday: this.birthday ? Birthday.encode(this.birthday) : null,
 

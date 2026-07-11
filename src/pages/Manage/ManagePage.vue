@@ -130,7 +130,7 @@ const columns: QTableProps['columns'] = [
 ];
 
 const tableData = computed(() =>
-  systemStore.ids.map((id) => pluralKit.systemCache.objects[id] || { id }),
+  systemStore.ids.map((id) => pluralKit.systemCache.objects[id] ?? { id }),
 );
 
 function deleteSystem(id: string) {

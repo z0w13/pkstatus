@@ -103,6 +103,7 @@ export class System implements ISystem {
   static fromPKApi(system: ApiSystem): System {
     return System.fromDict({
       ...system,
+
       name: system.name,
       description: system.description,
       tag: system.tag,
@@ -119,7 +120,7 @@ export class System implements ISystem {
 
   toStorage(): SerializedSystem {
     return {
-      ...this,
+      ...this, // oxlint-disable-line no-misused-spread
 
       createdAt: this.createdAt.toJSON(),
       updatedAt: this.updatedAt.toJSON(),

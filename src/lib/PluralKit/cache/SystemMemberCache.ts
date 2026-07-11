@@ -30,6 +30,7 @@ export default class SystemMemberCache extends BaseCache<
     return new SystemMembers(
       system,
       members.map(
+        // oxlint-disable-next-line no-misused-spread
         (m) => this.memberCache.set(Member.fromDict({ ...m, system })).id,
       ),
     );

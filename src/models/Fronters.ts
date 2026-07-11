@@ -36,7 +36,7 @@ export class Fronters {
 
   toStorage(): SerializedFronters {
     return {
-      ...this,
+      ...this, // oxlint-disable-line no-misused-spread
 
       members: this.members.map((m) => m.id),
       lastSwitch: this.lastSwitch?.toJSON() ?? null,

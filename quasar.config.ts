@@ -47,7 +47,7 @@ export default defineConfig((/* ctx */) => {
           tsconfig.compilerOptions.paths = {
             test: ['./../test'],
             'test/*': ['./../test/*'],
-            ...(tsconfig.compilerOptions.paths ?? {}),
+            ...tsconfig.compilerOptions.paths,
           };
           tsconfig.exclude = [
             ...(tsconfig.exclude ?? []),
@@ -170,7 +170,7 @@ export default defineConfig((/* ctx */) => {
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova
-    cordova: { },
+    cordova: {},
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor
     capacitor: {
