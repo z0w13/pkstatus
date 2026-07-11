@@ -1,0 +1,11 @@
+allowBuilds:
+  core-js: false
+  electron: false
+  electron-winstaller: false
+  esbuild: false
+  pngquant-bin: false
+  sharp: false
+overrides:
+  "vite": "^6.3.0"
+  "immutable": "4.3.7"
+  "@babel/types": "7.27.0"
