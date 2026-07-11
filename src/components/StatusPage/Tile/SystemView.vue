@@ -124,11 +124,11 @@
 </template>
 
 <script setup lang="ts">
-import { Fronters } from 'src/models/Fronters';
-import { System } from 'src/models/System';
-import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
-import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
-import { renderPkDescription } from 'src/util';
+import { Fronters } from '@/models/Fronters';
+import { System } from '@/models/System';
+import RelativeTimeDisplay from '@/components/RelativeTimeDisplay.vue';
+import LabeledTile from '@/components/StatusPage/Tile/LabeledTile.vue';
+import { renderPkDescription } from '@/util';
 import { computed } from 'vue';
 import { matGroups } from '@quasar/extras/material-icons';
 

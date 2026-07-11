@@ -11,7 +11,10 @@ export function isPrerelease(version: string): boolean {
 }
 
 export function isDev(): boolean {
-  return (process.env.DEV as unknown as boolean) || version.includes('-dev');
+  return (
+    (import.meta.env.QUASAR_DEV as unknown as boolean) ||
+    version.includes('-dev')
+  );
 }
 
 export function getVersion(): string {

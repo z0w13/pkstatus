@@ -1,7 +1,10 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
-import path from 'path';
-import os from 'os';
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import os from 'node:os';
+import {
+  registerQuasarRuntime,
+  resolveElectronAssetsPath,
+} from '#q-app/electron/main';
 
 //eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import { homepage } from '../package.json';
@@ -9,65 +12,54 @@ import { homepage } from '../package.json';
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
 
-const currentDir = fileURLToPath(new URL('.', import.meta.url));
-
-let mainWindow: BrowserWindow | undefined;
-
-function createWindow() {
+async function createWindow() {
   /**
    * Initial window options
    */
-  mainWindow = new BrowserWindow({
-    icon: path.resolve(currentDir, 'icons/icon.png'), // tray icon
+  const mainWindow = new BrowserWindow({
+    icon: resolveElectronAssetsPath('icons/icon.png'), // tray icon
     width: 1000,
     height: 600,
     useContentSize: true,
     webPreferences: {
       contextIsolation: true,
-      // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
-      preload: path.resolve(
-        currentDir,
-        path.join(
-          process.env.QUASAR_ELECTRON_PRELOAD_FOLDER,
-          'electron-preload' + process.env.QUASAR_ELECTRON_PRELOAD_EXTENSION,
-        ),
-      ),
+      // https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
+      preload: path.join(import.meta.dirname, 'electron-preload.cjs'),
     },
   });
 
-  if (process.env.DEV) {
-    mainWindow.loadURL(process.env.APP_URL);
+  if (import.meta.env.QUASAR_DEV) {
+    await mainWindow.loadURL(import.meta.env.QUASAR_APP_URL);
   } else {
-    mainWindow.loadFile('index.html');
+    await mainWindow.loadFile('index.html');
   }
-
-  mainWindow.on('closed', () => {
-    mainWindow = undefined;
-  });
 }
 
-app.whenReady().then(createWindow);
+void app.whenReady().then(async () => {
+  await registerQuasarRuntime();
+  void createWindow();
 
-app.on('window-all-closed', () => {
-  if (platform !== 'darwin') {
-    app.quit();
-  }
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      void createWindow();
+    }
+  });
+
+  app.on('window-all-closed', () => {
+    if (platform !== 'darwin') {
+      app.quit();
+    }
+  });
 });
 
-app.on('activate', () => {
-  if (mainWindow === undefined) {
-    createWindow();
-  }
+ipcMain.handle('PKStatusApi:openProjectPage', async () => {
+  await shell.openExternal(homepage);
 });
-
-ipcMain.handle('PKStatusApi:openProjectPage', () => {
-  shell.openExternal(homepage);
-});
-ipcMain.handle('PKStatusApi:openUrl', (_, url: string) => {
+ipcMain.handle('PKStatusApi:openUrl', async (_, url: string) => {
   const urlObj = new URL(url);
   if (!['http:', 'https:'].includes(urlObj.protocol)) {
     return;
   }
 
-  shell.openExternal(url);
+  await shell.openExternal(url);
 });

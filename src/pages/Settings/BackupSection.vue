@@ -26,11 +26,11 @@
 import dayjs from 'dayjs';
 import { computed, ref } from 'vue';
 
-import { useSystemStore } from 'src/stores/system-store';
+import { useSystemStore } from '@/stores/system-store';
 
-import { migrate as migrateSettings } from 'src/models/migrations/settings';
-import { migrate as migrateSystems } from 'src/models/migrations/system';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { migrate as migrateSettings } from '@/models/migrations/settings';
+import { migrate as migrateSystems } from '@/models/migrations/system';
+import { useSettingsStore } from '@/stores/settings-store';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();

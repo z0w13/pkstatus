@@ -1,15 +1,15 @@
 import { RouteRecordRaw } from 'vue-router';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useSettingsStore } from '@/stores/settings-store';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('@/layouts/MainLayout.vue'),
     children: [
       { path: '', redirect: '/status' },
       {
         path: '/status',
-        component: () => import('pages/StatusPage.vue'),
+        component: () => import('@/pages/StatusPage.vue'),
         children: [
           {
             path: '/status',
@@ -21,27 +21,27 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: '/status/tile',
-            component: () => import('pages/status/TileLayout.vue'),
+            component: () => import('@/pages/status/TileLayout.vue'),
           },
           {
             path: '/status/list',
-            component: () => import('pages/status/ListLayout.vue'),
+            component: () => import('@/pages/status/ListLayout.vue'),
           },
           {
             path: '/status/table',
-            component: () => import('pages/status/TableLayout.vue'),
+            component: () => import('@/pages/status/TableLayout.vue'),
           },
         ],
       },
-      { path: '/switch', component: () => import('pages/SwitchPage.vue') },
+      { path: '/switch', component: () => import('@/pages/SwitchPage.vue') },
       {
         path: '/lookup',
         name: 'lookup',
-        component: () => import('pages/Lookup/IndexPage.vue'),
+        component: () => import('@/pages/Lookup/IndexPage.vue'),
         children: [
           {
             path: '/lookup/system/:id',
-            component: () => import('pages/Lookup/System/IndexPage.vue'),
+            component: () => import('@/pages/Lookup/System/IndexPage.vue'),
             name: 'lookup-system',
             children: [
               {
@@ -54,19 +54,19 @@ const routes: RouteRecordRaw[] = [
               {
                 path: '/lookup/system/:id/fronters',
                 component: () =>
-                  import('pages/Lookup/System/View/FronterView.vue'),
+                  import('@/pages/Lookup/System/View/FronterView.vue'),
                 name: 'lookup-system-fronters',
               },
               {
                 path: '/lookup/system/:id/members',
                 component: () =>
-                  import('pages/Lookup/System/View/MemberView.vue'),
+                  import('@/pages/Lookup/System/View/MemberView.vue'),
                 name: 'lookup-system-members',
               },
               {
                 path: '/lookup/system/:id/groups',
                 component: () =>
-                  import('pages/Lookup/System/View/GroupView.vue'),
+                  import('@/pages/Lookup/System/View/GroupView.vue'),
                 name: 'lookup-system-groups',
               },
             ],
@@ -74,12 +74,12 @@ const routes: RouteRecordRaw[] = [
           {
             path: '/lookup/member/:id',
             name: 'lookup-member',
-            component: () => import('pages/Lookup/MemberPage.vue'),
+            component: () => import('@/pages/Lookup/MemberPage.vue'),
           },
           {
             path: '/lookup/group/:id',
             name: 'lookup-group',
-            component: () => import('pages/Lookup/GroupPage.vue'),
+            component: () => import('@/pages/Lookup/GroupPage.vue'),
           },
         ],
       },
@@ -88,16 +88,19 @@ const routes: RouteRecordRaw[] = [
         children: [
           {
             path: '',
-            component: () => import('pages/Manage/ManagePage.vue'),
+            component: () => import('@/pages/Manage/ManagePage.vue'),
           },
           {
             path: '/manage/add',
-            component: () => import('pages/Manage/AddPage.vue'),
+            component: () => import('@/pages/Manage/AddPage.vue'),
           },
         ],
       },
-      { path: '/settings', component: () => import('pages/SettingsPage.vue') },
-      { path: '/debug', component: () => import('pages/DebugPage.vue') },
+      {
+        path: '/settings',
+        component: () => import('@/pages/SettingsPage.vue'),
+      },
+      { path: '/debug', component: () => import('@/pages/DebugPage.vue') },
     ],
   },
 
@@ -105,7 +108,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    component: () => import('@/pages/ErrorNotFound.vue'),
   },
 ];
 

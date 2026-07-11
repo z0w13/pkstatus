@@ -3,8 +3,8 @@ import { z } from 'zod';
 import ApiMember from 'pkapi-ts/models/Member';
 import Birthday from 'pkapi-ts/models/Birthday';
 
-import { IProxyTag, ProxyTag } from 'src/models/ProxyTag';
-import * as util from 'src/util';
+import { IProxyTag, ProxyTag } from '@/models/ProxyTag';
+import * as util from '@/util';
 
 export const SerializedMember = z.object({
   id: z.string(),

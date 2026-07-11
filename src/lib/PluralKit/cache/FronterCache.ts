@@ -1,6 +1,6 @@
-import BaseCache from 'src/lib/PluralKit/cache/BaseCache';
-import MemberCache from 'src/lib/PluralKit/cache/MemberCache';
-import { Fronters } from 'src/models/Fronters';
+import BaseCache from '@/lib/PluralKit/cache/BaseCache';
+import MemberCache from '@/lib/PluralKit/cache/MemberCache';
+import { Fronters } from '@/models/Fronters';
 
 interface FronterInput {
   system: string;

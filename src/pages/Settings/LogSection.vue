@@ -42,8 +42,8 @@
 import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 
-import { useSettingsStore } from 'src/stores/settings-store';
-import { LOG_MAX_LINES, LOG_MIN_LINES } from 'src/models/Settings';
+import { useSettingsStore } from '@/stores/settings-store';
+import { LOG_MAX_LINES, LOG_MIN_LINES } from '@/models/Settings';
 
 const settings = useSettingsStore();
 const { log } = storeToRefs(settings);

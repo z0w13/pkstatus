@@ -2,13 +2,12 @@
 blockExoticSubdeps: false
 
 allowBuilds:
-  core-js: false
-  electron: false
-  electron-winstaller: false
-  esbuild: false
+  '@parcel/watcher': true
+  core-js: true
+  electron-winstaller: true
+  esbuild: true
+  lightningcss: true
   pngquant-bin: false
+  rolldown: true
   sharp: false
-overrides:
-  "vite": "^6.3.0"
-  "immutable": "4.3.7"
-  "@babel/types": "7.27.0"
+  unrs-resolver: true

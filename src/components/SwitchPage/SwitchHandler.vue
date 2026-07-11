@@ -40,18 +40,18 @@ import { useQuasar } from 'quasar';
 import { APIError } from 'pkapi-ts/errors';
 import MemberID from 'pkapi-ts/models/MemberID';
 
-import { useSettingsStore } from 'src/stores/settings-store';
-import { usePluralKit } from 'src/boot/pluralKit';
+import { useSettingsStore } from '@/stores/settings-store';
+import { usePluralKit } from '@/boot/pluralKit';
 
-import { System } from 'src/models/System';
-import { Group } from 'src/models/Group';
-import { Member } from 'src/models/Member';
-import { Fronters } from 'src/models/Fronters';
+import { System } from '@/models/System';
+import { Group } from '@/models/Group';
+import { Member } from '@/models/Member';
+import { Fronters } from '@/models/Fronters';
 
-import PageTitle from 'src/components/PageTitle.vue';
-import TokenRequiredBanner from 'src/components/TokenRequiredBanner.vue';
-import FrontSwitcher from 'src/components/SwitchPage/FrontSwitcher.vue';
-import FrontSwitcherSkeleton from 'src/components/SwitchPage/FrontSwitcherSkeleton.vue';
+import PageTitle from '@/components/PageTitle.vue';
+import TokenRequiredBanner from '@/components/TokenRequiredBanner.vue';
+import FrontSwitcher from '@/components/SwitchPage/FrontSwitcher.vue';
+import FrontSwitcherSkeleton from '@/components/SwitchPage/FrontSwitcherSkeleton.vue';
 
 const $q = useQuasar();
 const pluralKit = usePluralKit();

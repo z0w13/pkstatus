@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { GroupWithMembers } from 'pkapi-ts/models/Group';
 
-import { dayjsNull, formatId, FormatIdOpts } from 'src/util';
+import { dayjsNull, formatId, FormatIdOpts } from '@/util';
 
 export interface IGroup {
   id: string;

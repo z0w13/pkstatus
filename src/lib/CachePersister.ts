@@ -1,19 +1,19 @@
 import { ZodError, z } from 'zod';
 
-import { System, SerializedSystem } from 'src/models/System';
-import { Fronters, SerializedFronters } from 'src/models/Fronters';
-import { Member, SerializedMember } from 'src/models/Member';
+import { System, SerializedSystem } from '@/models/System';
+import { Fronters, SerializedFronters } from '@/models/Fronters';
+import { Member, SerializedMember } from '@/models/Member';
 import {
   CacheInfo,
   SerializedCacheInfo,
-} from 'src/lib/PluralKit/cache/BaseCache';
+} from '@/lib/PluralKit/cache/BaseCache';
 
-import SystemCache from 'src/lib/PluralKit/cache/SystemCache';
-import MemberCache from 'src/lib/PluralKit/cache/MemberCache';
-import FronterCache from 'src/lib/PluralKit/cache/FronterCache';
+import SystemCache from '@/lib/PluralKit/cache/SystemCache';
+import MemberCache from '@/lib/PluralKit/cache/MemberCache';
+import FronterCache from '@/lib/PluralKit/cache/FronterCache';
 
-import { usePluralKit } from 'boot/pluralKit';
-import { useSystemStore } from 'src/stores/system-store';
+import { usePluralKit } from '@/boot/pluralKit';
+import { useSystemStore } from '@/stores/system-store';
 
 const PersistedCache = z.object({
   systems: z.array(

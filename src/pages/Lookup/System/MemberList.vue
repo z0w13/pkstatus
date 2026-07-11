@@ -29,10 +29,10 @@
 </template>
 
 <script setup lang="ts">
-import { Member } from 'src/models/Member';
-import { System } from 'src/models/System';
+import { Member } from '@/models/Member';
+import { System } from '@/models/System';
 
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
+import InitialFallbackAvatar from '@/components/InitialFallbackAvatar.vue';
 
 const emit = defineEmits<{
   (e: 'memberClick', member: Member): void;

@@ -12,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import { usePluralKit } from 'boot/pluralKit';
-import { Group } from 'src/models/Group';
+import { usePluralKit } from '@/boot/pluralKit';
+import { Group } from '@/models/Group';
 import { computed, onMounted, ref } from 'vue';
 
 const pluralKit = usePluralKit();

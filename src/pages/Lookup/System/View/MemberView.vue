@@ -50,14 +50,14 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 
-import { System } from 'src/models/System';
-import { Member } from 'src/models/Member';
+import { System } from '@/models/System';
+import { Member } from '@/models/Member';
 
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useSettingsStore } from '@/stores/settings-store';
 
-import DescriptionDialog from 'src/components/DescriptionDialog.vue';
-import MemberTable from 'src/pages/Lookup/System/MemberTable.vue';
-import MemberList from 'src/pages/Lookup/System/MemberList.vue';
+import DescriptionDialog from '@/components/DescriptionDialog.vue';
+import MemberTable from '@/pages/Lookup/System/MemberTable.vue';
+import MemberList from '@/pages/Lookup/System/MemberList.vue';
 
 const settingsStore = useSettingsStore();
 const { detectPronouns, lookup } = storeToRefs(settingsStore);

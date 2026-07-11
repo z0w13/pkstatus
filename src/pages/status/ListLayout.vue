@@ -111,13 +111,13 @@
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
-import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
-import DescriptionDialog from 'src/components/DescriptionDialog.vue';
+import RelativeTimeDisplay from '@/components/RelativeTimeDisplay.vue';
+import InitialFallbackAvatar from '@/components/InitialFallbackAvatar.vue';
+import DescriptionDialog from '@/components/DescriptionDialog.vue';
 
-import { System } from 'src/models/System';
-import { Fronters } from 'src/models/Fronters';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { System } from '@/models/System';
+import { Fronters } from '@/models/Fronters';
+import { useSettingsStore } from '@/stores/settings-store';
 
 const settingsStore = useSettingsStore();
 const { detectPronouns } = storeToRefs(settingsStore);

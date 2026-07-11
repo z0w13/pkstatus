@@ -3,7 +3,7 @@ import { vi, it, describe, expect } from 'vitest';
 import { StrictTypedClient } from 'pkapi-ts';
 import SystemID from 'pkapi-ts/models/SystemID';
 
-import PluralKit from 'src/lib/PluralKit/PluralKit';
+import PluralKit from '@/lib/PluralKit/PluralKit';
 
 import {
   mockedApi,

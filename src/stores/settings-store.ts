@@ -1,6 +1,6 @@
 import { StateTree, defineStore } from 'pinia';
-import { Settings, defaultSettings } from 'src/models/Settings';
-import { LatestVersion, migrate } from 'src/models/migrations/settings';
+import { Settings, defaultSettings } from '@/models/Settings';
+import { LatestVersion, migrate } from '@/models/migrations/settings';
 
 const STORE_NAME = 'settings';
 

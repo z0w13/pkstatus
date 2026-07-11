@@ -176,16 +176,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-import { Fronters } from 'src/models/Fronters';
-import { useSettingsStore } from 'src/stores/settings-store';
-import { System } from 'src/models/System';
+import { Fronters } from '@/models/Fronters';
+import { useSettingsStore } from '@/stores/settings-store';
+import { System } from '@/models/System';
 import { useQuasar } from 'quasar';
 import { storeToRefs } from 'pinia';
 
-import DescriptionDialog from 'src/components/DescriptionDialog.vue';
-import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
-import TableEntity from 'src/pages/status/Table/TableEntity.vue';
-import { usePluralKit } from 'boot/pluralKit';
+import DescriptionDialog from '@/components/DescriptionDialog.vue';
+import RelativeTimeDisplay from '@/components/RelativeTimeDisplay.vue';
+import TableEntity from '@/pages/status/Table/TableEntity.vue';
+import { usePluralKit } from '@/boot/pluralKit';
 
 const $q = useQuasar();
 

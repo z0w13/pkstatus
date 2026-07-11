@@ -48,13 +48,13 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 
-import { System } from 'src/models/System';
-import { Group } from 'src/models/Group';
+import { System } from '@/models/System';
+import { Group } from '@/models/Group';
 
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useSettingsStore } from '@/stores/settings-store';
 
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
-import DescriptionDialog from 'src/components/DescriptionDialog.vue';
+import InitialFallbackAvatar from '@/components/InitialFallbackAvatar.vue';
+import DescriptionDialog from '@/components/DescriptionDialog.vue';
 
 const settingsStore = useSettingsStore();
 const { lookup } = storeToRefs(settingsStore);

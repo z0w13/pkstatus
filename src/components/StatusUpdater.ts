@@ -1,8 +1,8 @@
 import { APIError } from 'pkapi-ts/errors';
 import { useQuasar } from 'quasar';
-import { usePluralKit } from 'boot/pluralKit';
-import { useSettingsStore } from 'src/stores/settings-store';
-import { useSystemStore } from 'src/stores/system-store';
+import { usePluralKit } from '@/boot/pluralKit';
+import { useSettingsStore } from '@/stores/settings-store';
+import { useSystemStore } from '@/stores/system-store';
 
 export default function useStatusUpdater() {
   let updateInterval: ReturnType<typeof setInterval> | null = null;
@@ -15,7 +15,7 @@ export default function useStatusUpdater() {
 
   function start() {
     if (!updateInterval) {
-      updateSystemInfo();
+      void updateSystemInfo();
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       updateInterval = setInterval(updateSystemInfo, 1000);
     }

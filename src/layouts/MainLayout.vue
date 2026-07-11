@@ -181,11 +181,11 @@ import markdownit from 'markdown-it';
 // eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import { homepage } from '../../package.json';
 
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useSettingsStore } from '@/stores/settings-store';
 import { storeToRefs } from 'pinia';
 import { scroll, useQuasar } from 'quasar';
-import { UpdateInfo } from 'src/lib/updateChecker';
-import { getVersion, isDev } from 'src/util';
+import { UpdateInfo } from '@/lib/updateChecker';
+import { getVersion, isDev } from '@/util';
 
 const settings = useSettingsStore();
 const $q = useQuasar();

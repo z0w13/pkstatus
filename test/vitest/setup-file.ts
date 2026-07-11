@@ -8,7 +8,7 @@ expect.extend({
     const timeBefore = Date.now();
     let resolvedAt: number | null = null;
 
-    received.then(() => (resolvedAt = Date.now()));
+    void received.then(() => (resolvedAt = Date.now()));
     await vi.advanceTimersToNextTimerAsync();
 
     if (resolvedAt === null) {

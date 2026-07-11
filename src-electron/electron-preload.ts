@@ -29,12 +29,14 @@
  */
 
 import { contextBridge, ipcRenderer } from 'electron';
+import { quasarRuntime } from '#q-app/electron/preload';
 
+contextBridge.exposeInMainWorld('quasarRuntime', quasarRuntime);
 contextBridge.exposeInMainWorld('PKStatusApi', {
-  openProjectPage() {
-    ipcRenderer.invoke('PKStatusApi:openProjectPage');
+  async openProjectPage() {
+    await ipcRenderer.invoke('PKStatusApi:openProjectPage');
   },
-  openUrl(url: string) {
-    ipcRenderer.invoke('PKStatusApi:openUrl', url);
+  async openUrl(url: string) {
+    await ipcRenderer.invoke('PKStatusApi:openUrl', url);
   },
 });

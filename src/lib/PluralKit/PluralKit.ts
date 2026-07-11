@@ -5,18 +5,18 @@ import { SystemRef } from 'pkapi-ts/models/SystemID';
 import MemberID from 'pkapi-ts/models/MemberID';
 import GroupID from 'pkapi-ts/models/GroupID';
 
-import FronterCache from 'src/lib/PluralKit/cache/FronterCache';
-import SystemCache from 'src/lib/PluralKit/cache/SystemCache';
-import SystemGroupCache from 'src/lib/PluralKit/cache/SystemGroupCache';
-import SystemMemberCache from 'src/lib/PluralKit/cache/SystemMemberCache';
-import GroupCache from 'src/lib/PluralKit/cache/GroupCache';
-import MemberCache from 'src/lib/PluralKit/cache/MemberCache';
-import GroupMemberCache from 'src/lib/PluralKit/cache/GroupMemberCache';
+import FronterCache from '@/lib/PluralKit/cache/FronterCache';
+import SystemCache from '@/lib/PluralKit/cache/SystemCache';
+import SystemGroupCache from '@/lib/PluralKit/cache/SystemGroupCache';
+import SystemMemberCache from '@/lib/PluralKit/cache/SystemMemberCache';
+import GroupCache from '@/lib/PluralKit/cache/GroupCache';
+import MemberCache from '@/lib/PluralKit/cache/MemberCache';
+import GroupMemberCache from '@/lib/PluralKit/cache/GroupMemberCache';
 
-import { System } from 'src/models/System';
-import { Group } from 'src/models/Group';
-import { Member } from 'src/models/Member';
-import { Fronters } from 'src/models/Fronters';
+import { System } from '@/models/System';
+import { Group } from '@/models/Group';
+import { Member } from '@/models/Member';
+import { Fronters } from '@/models/Fronters';
 import dayjs from 'dayjs';
 
 interface RequestOptions {

@@ -5,21 +5,21 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useSettingsStore } from '@/stores/settings-store';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { APIError } from 'pkapi-ts/errors';
-import useCachePersister from 'src/lib/CachePersister';
-import setupErrorHandler, { logErrorWithMessage } from 'src/errorHandler';
+import useCachePersister from '@/lib/CachePersister';
+import setupErrorHandler, { logErrorWithMessage } from '@/errorHandler';
 import {
   UpdateInfo,
   checkForUpdate,
   shouldCheckForUpdates,
-} from 'src/lib/updateChecker';
+} from '@/lib/updateChecker';
 import { useRouter } from 'vue-router';
 
-import { usePluralKit } from 'boot/pluralKit';
-import { useLogger } from 'boot/logger';
+import { usePluralKit } from '@/boot/pluralKit';
+import { useLogger } from '@/boot/logger';
 
 // set up our custom error handler so errors get logged
 setupErrorHandler();

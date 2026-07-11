@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import BaseCache from 'src/lib/PluralKit/cache/BaseCache';
+import BaseCache from '@/lib/PluralKit/cache/BaseCache';
 import { describe, expect, it } from 'vitest';
 
 class TestCacheObject {

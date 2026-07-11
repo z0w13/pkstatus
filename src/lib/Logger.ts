@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { LatestVersion, migrate } from 'src/models/migrations/log';
+import { LatestVersion, migrate } from '@/models/migrations/log';
 
 const LogEntry = z.object({
   level: z.enum(['debug', 'info', 'warn', 'error']),

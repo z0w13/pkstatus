@@ -139,16 +139,16 @@ import { debounce, useQuasar } from 'quasar';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
-import { System } from 'src/models/System';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { System } from '@/models/System';
+import { useSettingsStore } from '@/stores/settings-store';
 
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
-import PageTitle from 'src/components/PageTitle.vue';
-import IdSection from 'src/pages/Settings/IdSection.vue';
-import LogSection from 'src/pages/Settings/LogSection.vue';
-import BackupSection from 'src/pages/Settings/BackupSection.vue';
-import { shouldCheckForUpdates } from 'src/lib/updateChecker';
-import { usePluralKit } from 'boot/pluralKit';
+import InitialFallbackAvatar from '@/components/InitialFallbackAvatar.vue';
+import PageTitle from '@/components/PageTitle.vue';
+import IdSection from '@/pages/Settings/IdSection.vue';
+import LogSection from '@/pages/Settings/LogSection.vue';
+import BackupSection from '@/pages/Settings/BackupSection.vue';
+import { shouldCheckForUpdates } from '@/lib/updateChecker';
+import { usePluralKit } from '@/boot/pluralKit';
 
 const $q = useQuasar();
 const pluralKit = usePluralKit();

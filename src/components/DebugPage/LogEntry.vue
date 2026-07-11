@@ -35,8 +35,8 @@
 </template>
 
 <script setup lang="ts">
-import { sanitizeLogMessage } from 'src/util';
-import { LogEntry } from 'src/lib/Logger';
+import { sanitizeLogMessage } from '@/util';
+import { LogEntry } from '@/lib/Logger';
 import dayjs from 'dayjs';
 
 const props = defineProps<{ line: LogEntry }>();

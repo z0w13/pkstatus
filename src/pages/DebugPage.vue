@@ -49,11 +49,11 @@
 import dayjs from 'dayjs';
 import { copyToClipboard, useQuasar } from 'quasar';
 
-import { useLogger } from 'src/boot/logger';
-import { getVersion, sanitizeLogMessage } from 'src/util';
+import { useLogger } from '@/boot/logger';
+import { getVersion, sanitizeLogMessage } from '@/util';
 
-import PageTitle from 'src/components/PageTitle.vue';
-import LogEntry from 'src/components/DebugPage/LogEntry.vue';
+import PageTitle from '@/components/PageTitle.vue';
+import LogEntry from '@/components/DebugPage/LogEntry.vue';
 import { ref } from 'vue';
 
 const $q = useQuasar();

@@ -101,13 +101,13 @@ import { computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { QTableProps, useQuasar } from 'quasar';
 
-import { useSystemStore } from 'src/stores/system-store';
-import { useSettingsStore } from 'src/stores/settings-store';
-import { usePluralKit } from 'boot/pluralKit';
+import { useSystemStore } from '@/stores/system-store';
+import { useSettingsStore } from '@/stores/settings-store';
+import { usePluralKit } from '@/boot/pluralKit';
 
-import PageTitle from 'src/components/PageTitle.vue';
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
-import { formatId, is404 } from 'src/util';
+import PageTitle from '@/components/PageTitle.vue';
+import InitialFallbackAvatar from '@/components/InitialFallbackAvatar.vue';
+import { formatId, is404 } from '@/util';
 
 const $q = useQuasar();
 const systemStore = useSystemStore();

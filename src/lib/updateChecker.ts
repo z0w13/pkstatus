@@ -2,7 +2,7 @@ import axios from 'axios';
 import { z } from 'zod';
 import { QVueGlobals } from 'quasar';
 
-import { getVersion, isPrerelease } from 'src/util';
+import { getVersion, isPrerelease } from '@/util';
 import { compareBuild, gt, valid } from 'semver';
 
 const ReleaseAsset = z.object({

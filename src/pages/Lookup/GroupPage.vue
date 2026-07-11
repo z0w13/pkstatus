@@ -24,15 +24,15 @@ import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { HTTPError } from 'pkapi-ts/errors';
 
-import { System } from 'src/models/System';
-import { Member } from 'src/models/Member';
-import { Group } from 'src/models/Group';
+import { System } from '@/models/System';
+import { Member } from '@/models/Member';
+import { Group } from '@/models/Group';
 
-import { usePluralKit } from 'boot/pluralKit';
+import { usePluralKit } from '@/boot/pluralKit';
 
-import DescriptionDialog from 'src/components/DescriptionDialog.vue';
-import GroupCard from 'src/components/Card/GroupCard.vue';
-import MemberView from 'src/pages/Lookup/System/View/MemberView.vue';
+import DescriptionDialog from '@/components/DescriptionDialog.vue';
+import GroupCard from '@/components/Card/GroupCard.vue';
+import MemberView from '@/pages/Lookup/System/View/MemberView.vue';
 
 const route = useRoute();
 

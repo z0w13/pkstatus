@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
+import InitialFallbackAvatar from '@/components/InitialFallbackAvatar.vue';
 
 withDefaults(
   defineProps<{

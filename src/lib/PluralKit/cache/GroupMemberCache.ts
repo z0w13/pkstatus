@@ -1,7 +1,7 @@
-import BaseCache from 'src/lib/PluralKit/cache/BaseCache';
-import MemberCache from 'src/lib/PluralKit/cache/MemberCache';
+import BaseCache from '@/lib/PluralKit/cache/BaseCache';
+import MemberCache from '@/lib/PluralKit/cache/MemberCache';
 
-import { Member } from 'src/models/Member';
+import { Member } from '@/models/Member';
 
 class GroupMembers {
   constructor(

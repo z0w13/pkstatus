@@ -1,6 +1,6 @@
-import BaseCache from 'src/lib/PluralKit/cache/BaseCache';
+import BaseCache from '@/lib/PluralKit/cache/BaseCache';
 
-import { Member } from 'src/models/Member';
+import { Member } from '@/models/Member';
 
 export default class MemberCache extends BaseCache<Member, Member> {
   public parse(member: Member): Member {

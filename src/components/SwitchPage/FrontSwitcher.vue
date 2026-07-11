@@ -135,15 +135,15 @@
 import { watch, computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
-import { useSettingsStore } from 'src/stores/settings-store';
-import { caseInsensitiveIncludes, getNameSort, notEmpty } from 'src/util';
+import { useSettingsStore } from '@/stores/settings-store';
+import { caseInsensitiveIncludes, getNameSort, notEmpty } from '@/util';
 
-import { Group } from 'src/models/Group';
-import { Member } from 'src/models/Member';
+import { Group } from '@/models/Group';
+import { Member } from '@/models/Member';
 
-import GroupSelect from 'src/components/GroupSelect.vue';
-import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
+import GroupSelect from '@/components/GroupSelect.vue';
+import LabeledTile from '@/components/StatusPage/Tile/LabeledTile.vue';
+import InitialFallbackAvatar from '@/components/InitialFallbackAvatar.vue';
 
 // props/static
 const { detectPronouns, switcher } = storeToRefs(useSettingsStore());

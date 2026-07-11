@@ -1,9 +1,9 @@
-import { defineStore } from '#q-app/wrappers';
+import { defineStore } from '#q-app';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
-import { usePluralKit } from 'src/boot/pluralKit';
-import PluralKit from 'src/lib/PluralKit/PluralKit';
+import { usePluralKit } from '@/boot/pluralKit';
+import PluralKit from '@/lib/PluralKit/PluralKit';
 
 /*
  * When adding new properties to stores, you should also

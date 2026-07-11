@@ -1,7 +1,7 @@
-import { defineBoot } from '@quasar/app-vite/wrappers';
+import { defineBoot } from '#q-app';
 import { StrictTypedClient } from 'pkapi-ts';
 
-import PluralKit from 'src/lib/PluralKit/PluralKit';
+import PluralKit from '@/lib/PluralKit/PluralKit';
 
 let pluralKitInstance: PluralKit | undefined;
 

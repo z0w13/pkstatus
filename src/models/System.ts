@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import ApiSystem from 'pkapi-ts/models/System';
 import { z } from 'zod';
-import * as util from 'src/util';
+import * as util from '@/util';
 import SystemID, { SystemUUID } from 'pkapi-ts/models/SystemID';
 
 export const SerializedSystem = z.object({

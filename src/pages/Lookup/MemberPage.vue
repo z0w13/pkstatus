@@ -22,11 +22,11 @@ import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { HTTPError } from 'pkapi-ts/errors';
 
-import { System } from 'src/models/System';
-import { Member } from 'src/models/Member';
+import { System } from '@/models/System';
+import { Member } from '@/models/Member';
 
-import MemberCard from 'src/components/Card/MemberCard.vue';
-import { usePluralKit } from 'boot/pluralKit';
+import MemberCard from '@/components/Card/MemberCard.vue';
+import { usePluralKit } from '@/boot/pluralKit';
 
 const route = useRoute();
 

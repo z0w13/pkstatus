@@ -24,16 +24,16 @@
 </template>
 
 <script setup lang="ts">
-import { Member } from 'src/models/Member';
-import { System } from 'src/models/System';
+import { Member } from '@/models/Member';
+import { System } from '@/models/System';
 import { ref } from 'vue';
 
-import GroupCard from 'src/components/Card/GroupCard.vue';
-import MemberCard from 'src/components/Card/MemberCard.vue';
-import SystemCard from 'src/components/Card/SystemCard.vue';
+import GroupCard from '@/components/Card/GroupCard.vue';
+import MemberCard from '@/components/Card/MemberCard.vue';
+import SystemCard from '@/components/Card/SystemCard.vue';
 import { storeToRefs } from 'pinia';
-import { useSettingsStore } from 'src/stores/settings-store';
-import { Group } from 'src/models/Group';
+import { useSettingsStore } from '@/stores/settings-store';
+import { Group } from '@/models/Group';
 
 const { showCardDetails } = storeToRefs(useSettingsStore());
 

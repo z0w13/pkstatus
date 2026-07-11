@@ -59,12 +59,12 @@
 </template>
 
 <script setup lang="ts">
-import PageTitle from 'src/components/PageTitle.vue';
+import PageTitle from '@/components/PageTitle.vue';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useSettingsStore } from '@/stores/settings-store';
 
 const router = useRouter();
 const route = useRoute();

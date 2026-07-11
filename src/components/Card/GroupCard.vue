@@ -94,14 +94,14 @@ import { Fitty } from '@lumenpink/vue3-fitty';
 import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
-import AvatarDialog from 'src/components/Card/AvatarDialog.vue';
+import InitialFallbackAvatar from '@/components/InitialFallbackAvatar.vue';
+import AvatarDialog from '@/components/Card/AvatarDialog.vue';
 
-import { Group } from 'src/models/Group';
-import { System } from 'src/models/System';
-import { renderPkDescription } from 'src/util';
+import { Group } from '@/models/Group';
+import { System } from '@/models/System';
+import { renderPkDescription } from '@/util';
 
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useSettingsStore } from '@/stores/settings-store';
 import { useRoute } from 'vue-router';
 
 const settings = useSettingsStore();

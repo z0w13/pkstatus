@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { isValidUpdateTarget } from 'src/lib/updateChecker';
+import { isValidUpdateTarget } from '@/lib/updateChecker';
 
 describe('isValidUpdateTarget', function () {
   it('considers release -> release a valid update target', function () {

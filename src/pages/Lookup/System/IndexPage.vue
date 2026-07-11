@@ -63,17 +63,17 @@ import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { HTTPError } from 'pkapi-ts/errors';
 
-import { Member } from 'src/models/Member';
-import { System } from 'src/models/System';
-import { Fronters } from 'src/models/Fronters';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { Member } from '@/models/Member';
+import { System } from '@/models/System';
+import { Fronters } from '@/models/Fronters';
+import { useSettingsStore } from '@/stores/settings-store';
 
-import DescriptionDialog from 'src/components/DescriptionDialog.vue';
-import SystemCard from 'src/components/Card/SystemCard.vue';
+import DescriptionDialog from '@/components/DescriptionDialog.vue';
+import SystemCard from '@/components/Card/SystemCard.vue';
 
-import { getNameSort } from 'src/util';
-import { usePluralKit } from 'boot/pluralKit';
-import { Group } from 'src/models/Group';
+import { getNameSort } from '@/util';
+import { usePluralKit } from '@/boot/pluralKit';
+import { Group } from '@/models/Group';
 
 const route = useRoute();
 const settingsStore = useSettingsStore();

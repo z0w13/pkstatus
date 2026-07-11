@@ -1,7 +1,7 @@
-import BaseCache from 'src/lib/PluralKit/cache/BaseCache';
-import GroupCache from 'src/lib/PluralKit/cache/GroupCache';
+import BaseCache from '@/lib/PluralKit/cache/BaseCache';
+import GroupCache from '@/lib/PluralKit/cache/GroupCache';
 
-import { Group } from 'src/models/Group';
+import { Group } from '@/models/Group';
 
 class SystemGroups {
   constructor(

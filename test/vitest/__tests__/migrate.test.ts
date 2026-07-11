@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { migrate as migrateSystems } from 'src/models/migrations/system/index';
-import { migrate as migrateSettings } from 'src/models/migrations/settings/index';
-import { Settings } from 'src/models/Settings';
+import { migrate as migrateSystems } from '@/models/migrations/system/index';
+import { migrate as migrateSettings } from '@/models/migrations/settings/index';
+import { Settings } from '@/models/Settings';
 import { z, ZodError } from 'zod';
-import { getVersion } from 'src/models/migrations/util';
+import { getVersion } from '@/models/migrations/util';
 
 const settingsV0 = {
   status: {

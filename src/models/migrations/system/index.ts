@@ -1,4 +1,4 @@
-import { getVersion } from 'src/models/migrations/util';
+import { getVersion } from '@/models/migrations/util';
 import { migrateLegacyToV1 } from './0001';
 import { migrateV1ToV2, SystemsV2 } from './0002';
 

@@ -101,14 +101,14 @@ import { Fitty } from '@lumenpink/vue3-fitty';
 import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
-import RelativeTimeDisplay from 'src/components/RelativeTimeDisplay.vue';
-import AvatarDialog from 'src/components/Card/AvatarDialog.vue';
+import InitialFallbackAvatar from '@/components/InitialFallbackAvatar.vue';
+import RelativeTimeDisplay from '@/components/RelativeTimeDisplay.vue';
+import AvatarDialog from '@/components/Card/AvatarDialog.vue';
 
-import { Member } from 'src/models/Member';
-import { System } from 'src/models/System';
-import { useSettingsStore } from 'src/stores/settings-store';
-import { renderPkDescription } from 'src/util';
+import { Member } from '@/models/Member';
+import { System } from '@/models/System';
+import { useSettingsStore } from '@/stores/settings-store';
+import { renderPkDescription } from '@/util';
 import { useRoute } from 'vue-router';
 
 const settings = useSettingsStore();

@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { z } from 'zod';
 
-import { Member } from 'src/models/Member';
-import { dayjsNull } from 'src/util';
+import { Member } from '@/models/Member';
+import { dayjsNull } from '@/util';
 
 export const SerializedFronters = z.object({
   system: z.string(),

@@ -54,14 +54,14 @@ import { useRouter } from 'vue-router';
 import { debounce, useQuasar } from 'quasar';
 import { computed, ref, watch } from 'vue';
 
-import { useSystemStore } from 'src/stores/system-store';
-import { usePluralKit } from 'boot/pluralKit';
-import { System } from 'src/models/System';
+import { useSystemStore } from '@/stores/system-store';
+import { usePluralKit } from '@/boot/pluralKit';
+import { System } from '@/models/System';
 
 import { matGroups } from '@quasar/extras/material-icons';
-import LabeledTile from 'src/components/StatusPage/Tile/LabeledTile.vue';
-import PageTitle from 'src/components/PageTitle.vue';
-import { is404 } from 'src/util';
+import LabeledTile from '@/components/StatusPage/Tile/LabeledTile.vue';
+import PageTitle from '@/components/PageTitle.vue';
+import { is404 } from '@/util';
 import { ZodError } from 'zod/v4';
 
 const $q = useQuasar();

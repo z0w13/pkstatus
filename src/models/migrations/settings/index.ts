@@ -15,7 +15,7 @@ import { migrateV13ToV14 } from './0014';
 import { migrateV14ToV15 } from './0015';
 import { migrateV15ToV16 } from './0016';
 import { migrateV16ToV17, SettingsV17 } from './0017';
-import { getVersion } from 'src/models/migrations/util';
+import { getVersion } from '@/models/migrations/util';
 
 const Migrations = [
   migrateLegacyToV1,

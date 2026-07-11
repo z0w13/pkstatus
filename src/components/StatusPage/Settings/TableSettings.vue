@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useSettingsStore } from '@/stores/settings-store';
 
 const settings = useSettingsStore().status.table;
 </script>

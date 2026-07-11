@@ -42,15 +42,15 @@
 import { storeToRefs } from 'pinia';
 import { onMounted, onUnmounted } from 'vue';
 
-import { useSystemStore } from 'src/stores/system-store';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useSystemStore } from '@/stores/system-store';
+import { useSettingsStore } from '@/stores/settings-store';
 
-import TableSettings from 'src/components/StatusPage/Settings/TableSettings.vue';
-import ListSettings from 'src/components/StatusPage/Settings/ListSettings.vue';
-import TileSettings from 'src/components/StatusPage/Settings/TileSettings.vue';
-import InstructionsPage from 'src/pages/status/InstructionsPage.vue';
-import useStatusUpdater from 'src/components/StatusUpdater';
-import { usePluralKit } from 'boot/pluralKit';
+import TableSettings from '@/components/StatusPage/Settings/TableSettings.vue';
+import ListSettings from '@/components/StatusPage/Settings/ListSettings.vue';
+import TileSettings from '@/components/StatusPage/Settings/TileSettings.vue';
+import InstructionsPage from '@/pages/status/InstructionsPage.vue';
+import useStatusUpdater from '@/components/StatusUpdater';
+import { usePluralKit } from '@/boot/pluralKit';
 
 const pluralKit = usePluralKit();
 const systemStore = useSystemStore();

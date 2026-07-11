@@ -103,14 +103,14 @@
 <script setup lang="ts">
 import { Fitty } from '@lumenpink/vue3-fitty';
 import { storeToRefs } from 'pinia';
-import InitialFallbackAvatar from 'src/components/InitialFallbackAvatar.vue';
+import InitialFallbackAvatar from '@/components/InitialFallbackAvatar.vue';
 
-import { System } from 'src/models/System';
-import { useSettingsStore } from 'src/stores/settings-store';
-import { useSystemStore } from 'src/stores/system-store';
+import { System } from '@/models/System';
+import { useSettingsStore } from '@/stores/settings-store';
+import { useSystemStore } from '@/stores/system-store';
 import { ref } from 'vue';
-import AvatarDialog from 'src/components/Card/AvatarDialog.vue';
-import { is404, renderPkDescription } from 'src/util';
+import AvatarDialog from '@/components/Card/AvatarDialog.vue';
+import { is404, renderPkDescription } from '@/util';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();

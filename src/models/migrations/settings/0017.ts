@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { SettingsV16 } from './0016';
-import { LOG_MAX_LINES, LOG_MIN_LINES } from 'src/models/Settings';
+import { LOG_MAX_LINES, LOG_MIN_LINES } from '@/models/Settings';
 
 export const SettingsV17 = SettingsV16.extend({
   settings: SettingsV16.shape.settings.extend({

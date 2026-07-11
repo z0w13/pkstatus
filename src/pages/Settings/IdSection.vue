@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useSettingsStore } from '@/stores/settings-store';
 
 const settings = useSettingsStore();
 const { id } = storeToRefs(settings);

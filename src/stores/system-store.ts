@@ -1,8 +1,8 @@
 import { StateTree, defineStore } from 'pinia';
 
-import { LatestVersion, migrate } from 'src/models/migrations/system/index';
-import { System } from 'src/models/System';
-import { Fronters } from 'src/models/Fronters';
+import { LatestVersion, migrate } from '@/models/migrations/system/index';
+import { System } from '@/models/System';
+import { Fronters } from '@/models/Fronters';
 
 const STORE_NAME = 'systems';
 

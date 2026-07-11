@@ -41,7 +41,7 @@
   languages.java = {
     enable = true;
     gradle.enable = true;
-    jdk.package = pkgs.jetbrains.jdk-no-jcef;
+    jdk.package = pkgs.jdk21;
   };
 
   android = {
@@ -93,6 +93,8 @@
       }
 
       _devenv-local-pnpm-install "src-capacitor"
+      _devenv-local-pnpm-install "src-electron"
+      _devenv-local-pnpm-install "src-pwa"
     '';
 
   # https://devenv.sh/tasks/

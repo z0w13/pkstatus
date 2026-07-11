@@ -1,4 +1,4 @@
-import { defineRouter } from '#q-app/wrappers';
+import { defineRouter } from '#q-app';
 import {
   createMemoryHistory,
   createRouter,
@@ -6,8 +6,8 @@ import {
   createWebHistory,
 } from 'vue-router';
 
-import routes from 'src/router/routes';
-import { normaliseId } from 'src/util';
+import routes from '@/router/routes';
+import { normaliseId } from '@/util';
 
 /*
  * If not building with SSR mode, you can
@@ -19,9 +19,9 @@ import { normaliseId } from 'src/util';
  */
 
 export default defineRouter(function (/* { store, ssrContext } */) {
-  const createHistory = process.env.SERVER
+  const createHistory = import.meta.env.QUASAR_SERVER
     ? createMemoryHistory
-    : process.env.VUE_ROUTER_MODE === 'history'
+    : import.meta.env.VUE_ROUTER_MODE === 'history'
       ? createWebHistory
       : createWebHashHistory;
 
@@ -32,7 +32,7 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE),
+    history: createHistory(import.meta.env.VUE_ROUTER_BASE),
   });
 
   // Normalise system IDs

@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { z } from 'zod';
 
 import { EventBus } from 'quasar';
-import { notEmpty } from 'src/util';
+import { notEmpty } from '@/util';
 
 interface HasId {
   id: string;

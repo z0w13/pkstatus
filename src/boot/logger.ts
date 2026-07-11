@@ -1,6 +1,6 @@
-import { defineBoot } from '@quasar/app-vite/wrappers';
-import { Logger } from 'src/lib/Logger';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { defineBoot } from '#q-app';
+import { Logger } from '@/lib/Logger';
+import { useSettingsStore } from '@/stores/settings-store';
 
 let loggerInstance: Logger | undefined;
 

@@ -6,7 +6,7 @@ import {
   stripPronouns,
   formatId,
   dayjsNull,
-} from 'src/util';
+} from '@/util';
 import { describe, expect, it, test } from 'vitest';
 
 describe('Test nonEmptyStringOrNull', function () {

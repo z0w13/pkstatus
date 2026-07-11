@@ -18,12 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import { Fronters } from 'src/models/Fronters';
-import { System } from 'src/models/System';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { Fronters } from '@/models/Fronters';
+import { System } from '@/models/System';
+import { useSettingsStore } from '@/stores/settings-store';
 import { storeToRefs } from 'pinia';
 
-import SystemView from 'src/components/StatusPage/Tile/SystemView.vue';
+import SystemView from '@/components/StatusPage/Tile/SystemView.vue';
 
 const settingsStore = useSettingsStore();
 const { detectPronouns } = storeToRefs(settingsStore);
