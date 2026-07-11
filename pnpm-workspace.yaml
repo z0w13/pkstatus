@@ -11,3 +11,6 @@ allowBuilds:
   rolldown: true
   sharp: false
   unrs-resolver: true
+
+minimumReleaseAgeExclude:
+  - pkapi-ts@0.3.2
