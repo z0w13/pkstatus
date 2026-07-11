@@ -1,3 +1,6 @@
+# NOTE: electron-builder uses a git version of node-gyp
+blockExoticSubdeps: false
+
 allowBuilds:
   core-js: false
   electron: false
